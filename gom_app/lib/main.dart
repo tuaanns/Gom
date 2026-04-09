@@ -11,7 +11,18 @@ import 'google_btn.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-void main() {
+import 'package:flutter/foundation.dart' show kIsWeb;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await FacebookAuth.i.webAndDesktopInitialize(
+      appId: "34850681257911333",
+      cookie: true,
+      xfbml: true,
+      version: "v18.0",
+    );
+  }
   runApp(const MultiAgentGomApp());
 }
 
@@ -376,24 +387,55 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildSocialBtn(String provider, Color color, String letter) {
+    final isGoogle = provider == 'Google';
+    final isFacebook = provider == 'Facebook';
+
     return InkWell(
       onTap: () => _handleSocialLogin(provider),
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(24),
+      splashColor: color.withOpacity(0.1),
+      highlightColor: color.withOpacity(0.05),
       child: Container(
-        width: 140,
-        height: 50,
+        width: 145,
+        height: 52,
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: Colors.grey.shade300),
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 4, offset: const Offset(0, 2))],
+          border: Border.all(color: Colors.grey.shade200, width: 1.5),
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4)),
+          ],
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(letter, style: TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold, fontFamily: letter == 'f' ? 'serif' : 'sans-serif')),
-            const SizedBox(width: 10),
-            Text(provider, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15)),
+            if (isGoogle)
+              ShaderMask(
+                shaderCallback: (bounds) => const LinearGradient(
+                  colors: [Colors.blue, Colors.red, Colors.yellow, Colors.green],
+                  stops: [0.25, 0.5, 0.75, 1.0],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ).createShader(bounds),
+                child: const Text(
+                  'G',
+                  style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900),
+                ),
+              )
+            else if (isFacebook)
+              Icon(Icons.facebook, color: color, size: 28)
+            else
+              Text(letter, style: TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold)),
+            const SizedBox(width: 8),
+            Text(
+              provider,
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                fontSize: 15,
+                color: Colors.grey.shade800,
+                letterSpacing: 0.3,
+              ),
+            ),
           ],
         ),
       ),
@@ -436,8 +478,9 @@ class _LoginScreenState extends State<LoginScreen> {
         }
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => isLoading = false);
-      showGomNotification(context, "Cấu hình $provider chưa hoàn thiện hoặc bị hủy ($e). Cần bổ sung App ID/Client ID trên hệ thống.", type: GomNotificationType.error);
+      showGomNotification(context, "Cấu hình $provider chưa hoàn thiện hoặc bị hủy ($e).", type: GomNotificationType.error);
     }
   }
 
@@ -459,7 +502,8 @@ class _LoginScreenState extends State<LoginScreen> {
         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => MainGate()));
       } else {
         if (!mounted) return;
-        showGomNotification(context, "Bạn cần tạo tài khoản App/Cấu hình Backend cho API $provider trước. Lỗi: ${res.statusCode}", type: GomNotificationType.info);
+        final actualEMsg = _parseErrorMessage(res.body, res.statusCode);
+        showGomNotification(context, actualEMsg, type: GomNotificationType.error);
       }
     } catch (e) {
       if (!mounted) return;

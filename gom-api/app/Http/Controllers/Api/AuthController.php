@@ -86,7 +86,9 @@ class AuthController extends Controller
             $name = $data['name'] ?? null;
         }
 
-        if (!$email) {
+        if (!$email && $provider === 'facebook') {
+            $email = $data['id'] . '@facebook.com';
+        } else if (!$email) {
             return response(['message' => 'Không thể lấy được địa chỉ email (Public Profile) từ ' . ucfirst($provider) . '. Vui lòng kiểm tra lại quyền truy cập.'], 400);
         }
 
