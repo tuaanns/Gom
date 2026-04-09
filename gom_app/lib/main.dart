@@ -931,34 +931,74 @@ class _DebateScreenState extends State<DebateScreen> {
 
   Widget _buildDebateLogSection() {
     final List<dynamic> agents = debateData?['agent_predictions'] ?? [];
-    // Kiểm tra xem có agent nào có debate_details không
     final hasDebate = agents.any((a) => a is Map && a['debate_details'] != null);
     if (!hasDebate) return const SizedBox();
+
+    final agentColorMap = {
+      'GPT': const Color(0xFF3F51B5),
+      'Grok': const Color(0xFF009688),
+      'Gemini': const Color(0xFF7B1FA2),
+    };
+    Color _getColor(String name) => agentColorMap.entries
+        .firstWhere((e) => name.toLowerCase().contains(e.key.toLowerCase()), orElse: () => const MapEntry('', Color(0xFF607D8B)))
+        .value;
+
+    final agentIcons = {
+      'GPT': Icons.auto_stories,
+      'Grok': Icons.biotech,
+      'Gemini': Icons.public,
+    };
+    IconData _getIcon(String name) => agentIcons.entries
+        .firstWhere((e) => name.toLowerCase().contains(e.key.toLowerCase()), orElse: () => const MapEntry('', Icons.psychology))
+        .value;
 
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        // Header
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Colors.deepPurple.shade50, Colors.indigo.shade50]),
-            borderRadius: BorderRadius.circular(16),
+            gradient: const LinearGradient(colors: [Color(0xFF1A237E), Color(0xFF283593)], begin: Alignment.topLeft, end: Alignment.bottomRight),
+            borderRadius: BorderRadius.circular(20),
+            boxShadow: [BoxShadow(color: const Color(0xFF1A237E).withOpacity(0.3), blurRadius: 12, offset: const Offset(0, 6))],
           ),
           child: Row(children: [
             Container(
-              width: 44, height: 44,
-              decoration: BoxDecoration(color: Colors.deepPurple.withOpacity(0.15), shape: BoxShape.circle),
-              child: const Icon(Icons.forum, color: Colors.deepPurple, size: 22),
+              width: 50, height: 50,
+              decoration: BoxDecoration(color: Colors.white.withOpacity(0.15), borderRadius: BorderRadius.circular(14)),
+              child: const Icon(Icons.forum_rounded, color: Colors.white, size: 26),
             ),
-            const SizedBox(width: 14),
-            const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text('🏛️ PHÒNG TRANH LUẬN', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A237E))),
-              Text('Các chuyên gia AI trao đổi & phản biện', style: TextStyle(fontSize: 12, color: Colors.grey)),
-            ]),
+            const SizedBox(width: 16),
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              const Text('Phòng Tranh Luận', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white, letterSpacing: 0.5)),
+              Text('${agents.where((a) => a is Map && a['debate_details'] != null).length} chuyên gia AI đang trao đổi', style: const TextStyle(fontSize: 12, color: Colors.white70)),
+            ])),
+            // Avatars overlap
+            SizedBox(
+              width: 80, height: 36,
+              child: Stack(
+                children: List.generate(agents.length.clamp(0, 3), (i) {
+                  final name = (agents[i] as Map?)?['agent_name']?.toString() ?? '';
+                  return Positioned(
+                    left: i * 22.0,
+                    child: Container(
+                      width: 36, height: 36,
+                      decoration: BoxDecoration(shape: BoxShape.circle, color: _getColor(name), border: Border.all(color: Colors.white, width: 2)),
+                      child: Icon(_getIcon(name), color: Colors.white, size: 16),
+                    ),
+                  );
+                }),
+              ),
+            ),
           ]),
         ),
-        const SizedBox(height: 12),
-        ...agents.map((agentData) {
+        const SizedBox(height: 20),
+
+        // Debate timeline
+        ...agents.asMap().entries.map((entry) {
+          final i = entry.key;
+          final agentData = entry.value;
           if (agentData is! Map) return const SizedBox();
           final agent = agentData as Map<String, dynamic>;
           final agentName = agent['agent_name']?.toString() ?? 'Agent';
@@ -970,97 +1010,128 @@ class _DebateScreenState extends State<DebateScreen> {
           final defense = debate['defense']?.toString() ?? '';
           final attacks = (debate['attacks'] is List) ? (debate['attacks'] as List) : [];
           final confAdj = debate['confidence_adjustment']?.toString() ?? '';
+          final color = _getColor(agentName);
+          final icon = _getIcon(agentName);
+          final isLast = i == agents.length - 1;
 
-          final agentColors = {
-            'GPT': Colors.indigo,
-            'Grok': Colors.teal,
-            'Gemini': Colors.deepPurple,
-          };
-          final color = agentColors.entries
-              .firstWhere((e) => agentName.toLowerCase().contains(e.key.toLowerCase()), orElse: () => MapEntry('', Colors.blueGrey))
-              .value;
-
-          return Container(
-            margin: const EdgeInsets.only(bottom: 16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: color.withOpacity(0.2)),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2))],
-            ),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // Header
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: color.withOpacity(0.08),
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-                ),
-                child: Row(children: [
+          return IntrinsicHeight(
+            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              // Timeline bar
+              SizedBox(
+                width: 48,
+                child: Column(children: [
                   Container(
-                    width: 32, height: 32,
-                    decoration: BoxDecoration(color: color.withOpacity(0.15), shape: BoxShape.circle),
-                    child: Icon(Icons.psychology, color: color, size: 18),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(child: Text(agentName, style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 15))),
-                  if (confAdj.isNotEmpty)
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(8)),
-                      child: Text('Điều chỉnh: $confAdj', style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.bold)),
+                    width: 40, height: 40,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
+                      shape: BoxShape.circle,
+                      boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3))],
                     ),
+                    child: Icon(icon, color: Colors.white, size: 20),
+                  ),
+                  if (!isLast) Expanded(child: Container(width: 2, color: color.withOpacity(0.15))),
                 ]),
               ),
-
-              // Argument (Lập luận)
-              if (argument.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(10)),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      const Text('💡 Lập luận:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.blueGrey)),
-                      const SizedBox(height: 4),
-                      Text(argument, style: const TextStyle(fontSize: 13, height: 1.4)),
-                    ]),
+              const SizedBox(width: 12),
+              // Card content
+              Expanded(
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 12, offset: const Offset(0, 4))],
                   ),
-                ),
-
-              // Attacks (Phản bác)
-              if (attacks.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    const Text('⚔️ Phản bác đối thủ:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.redAccent)),
-                    const SizedBox(height: 4),
-                    ...attacks.map((atk) => Container(
-                      margin: const EdgeInsets.only(bottom: 4),
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(8)),
-                      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        const Text('• ', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
-                        Expanded(child: Text(atk.toString(), style: const TextStyle(fontSize: 12, height: 1.3))),
+                    // Agent name header
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(colors: [color.withOpacity(0.08), color.withOpacity(0.02)]),
+                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                      ),
+                      child: Row(children: [
+                        Text(agentName, style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 15)),
+                        const Spacer(),
+                        if (confAdj.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 ? Colors.green.shade50 : Colors.red.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Row(mainAxisSize: MainAxisSize.min, children: [
+                              Icon(double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 ? Icons.trending_up : Icons.trending_down, size: 14, color: double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 ? Colors.green : Colors.red),
+                              const SizedBox(width: 4),
+                              Text(confAdj, style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 ? Colors.green : Colors.red)),
+                            ]),
+                          ),
                       ]),
-                    )),
+                    ),
+
+                    Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        // Argument
+                        if (argument.isNotEmpty) ...[
+                          Row(children: [
+                            Icon(Icons.lightbulb_outline, size: 16, color: color),
+                            const SizedBox(width: 6),
+                            Text('Lập luận chính', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: color)),
+                          ]),
+                          const SizedBox(height: 6),
+                          Text(argument, style: const TextStyle(fontSize: 13, height: 1.5, color: Color(0xFF37474F))),
+                          const SizedBox(height: 14),
+                        ],
+
+                        // Attacks
+                        if (attacks.isNotEmpty) ...[
+                          Row(children: [
+                            Icon(Icons.gavel, size: 16, color: Colors.red.shade400),
+                            const SizedBox(width: 6),
+                            Text('Phản bác đối thủ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.red.shade400)),
+                          ]),
+                          const SizedBox(height: 6),
+                          ...attacks.map((atk) => Container(
+                            margin: const EdgeInsets.only(bottom: 6),
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.red.shade100),
+                            ),
+                            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                              Container(width: 6, height: 6, margin: const EdgeInsets.only(top: 5), decoration: BoxDecoration(color: Colors.red.shade300, shape: BoxShape.circle)),
+                              const SizedBox(width: 10),
+                              Expanded(child: Text(atk.toString(), style: const TextStyle(fontSize: 12, height: 1.4))),
+                            ]),
+                          )),
+                          const SizedBox(height: 14),
+                        ],
+
+                        // Defense
+                        if (defense.isNotEmpty) ...[
+                          Row(children: [
+                            Icon(Icons.shield_outlined, size: 16, color: Colors.green.shade600),
+                            const SizedBox(width: 6),
+                            Text('Bảo vệ quan điểm', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.green.shade600)),
+                          ]),
+                          const SizedBox(height: 6),
+                          Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.green.shade50,
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.green.shade100),
+                            ),
+                            child: Text(defense, style: const TextStyle(fontSize: 13, height: 1.5, color: Color(0xFF2E7D32))),
+                          ),
+                        ],
+                      ]),
+                    ),
                   ]),
                 ),
-
-              // Defense (Bảo vệ quan điểm)
-              if (defense.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(10)),
-                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                      const Text('🛡️ Bảo vệ quan điểm:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.green)),
-                      const SizedBox(height: 4),
-                      Text(defense, style: const TextStyle(fontSize: 13, height: 1.4)),
-                    ]),
-                  ),
-                ),
+              ),
             ]),
           );
         }),
@@ -1193,7 +1264,6 @@ class HistoryDetailScreen extends StatelessWidget {
               ),
             ),
           const SizedBox(height: 20),
-          // Final result
           Card(
             elevation: 4, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
             child: Container(
@@ -1202,33 +1272,36 @@ class HistoryDetailScreen extends StatelessWidget {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 const Text('🏆 KẾT LUẬN CUỐI CÙNG', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A237E))),
                 const Divider(height: 20),
-                Text(finalReport['final_prediction'] ?? 'Chưa xác định', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.blueAccent)),
+                Text(finalReport['final_prediction']?.toString() ?? 'Chưa xác định', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.blueAccent)),
                 const SizedBox(height: 8),
-                Text('Quốc gia: ${finalReport['final_country'] ?? 'N/A'} | Niên đại: ${finalReport['final_era'] ?? 'N/A'}', style: const TextStyle(fontWeight: FontWeight.w600)),
+                Text('Quốc gia: ${finalReport['final_country']?.toString() ?? 'N/A'} | Niên đại: ${finalReport['final_era']?.toString() ?? 'N/A'}', style: const TextStyle(fontWeight: FontWeight.w600)),
                 const SizedBox(height: 12),
-                Text(finalReport['reasoning'] ?? '', style: const TextStyle(height: 1.5)),
+                Text(finalReport['reasoning']?.toString() ?? '', style: const TextStyle(height: 1.5)),
               ]),
             ),
           ),
           const SizedBox(height: 20),
-          // Agents
           if (agents.isNotEmpty) ...[
             const Text('GÓC NHÌN CHUYÊN GIA', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
             const SizedBox(height: 8),
             ...agents.map((agent) {
               final a = agent as Map<String, dynamic>? ?? {};
+              final pred = a['prediction'];
+              final name = pred is Map ? pred['ceramic_line']?.toString() ?? '' : pred?.toString() ?? '';
+              final country = pred is Map ? pred['country']?.toString() ?? '' : a['country']?.toString() ?? '';
+              final era = pred is Map ? pred['era']?.toString() ?? '' : a['era']?.toString() ?? '';
               return Card(
                 margin: const EdgeInsets.only(bottom: 8),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                 child: Padding(
                   padding: const EdgeInsets.all(14),
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(a['agent_name'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
+                    Text(a['agent_name']?.toString() ?? '', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
                     const SizedBox(height: 4),
-                    Text('${a['prediction'] ?? ''} | ${a['country'] ?? ''} | ${a['era'] ?? ''}', style: const TextStyle(fontSize: 13)),
-                    if (a['reasoning'] != null) ...[
+                    Text('$name | $country | $era', style: const TextStyle(fontSize: 13)),
+                    if (a['evidence'] != null) ...[
                       const SizedBox(height: 6),
-                      Text(a['reasoning'], style: const TextStyle(fontSize: 12, color: Colors.grey, height: 1.4)),
+                      Text(a['evidence'].toString(), style: const TextStyle(fontSize: 12, color: Colors.grey, height: 1.4)),
                     ],
                   ]),
                 ),
@@ -1241,21 +1314,235 @@ class HistoryDetailScreen extends StatelessWidget {
   }
 }
 
-// --- PROFILE SCREEN ---
-class ProfileScreen extends StatefulWidget {
+// --- PROFILE SCREEN (Read-Only Info + Menu) ---
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
+
+
+  void _logout(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Xác nhận đăng xuất'),
+        content: const Text('Bạn có chắc chắn muốn đăng xuất?'),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Hủy')),
+          ElevatedButton(
+            onPressed: () {
+              AuthState.clear();
+              Navigator.of(ctx).pop();
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (_) => MainGate()),
+                (route) => false,
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
+            child: const Text('Đăng xuất'),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  Widget build(BuildContext context) {
+    final userName = AuthState.user?['name']?.toString() ?? 'Người dùng';
+    final userEmail = AuthState.user?['email']?.toString() ?? '';
+    final initial = userName.isNotEmpty ? userName[0].toUpperCase() : 'U';
+
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F7),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 220,
+            pinned: true,
+            backgroundColor: const Color(0xFF1A237E),
+            iconTheme: const IconThemeData(color: Colors.white),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(colors: [Color(0xFF0D1442), Color(0xFF1A237E), Color(0xFF3949AB)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                ),
+                child: SafeArea(
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    const SizedBox(height: 30),
+                    Container(
+                      width: 88, height: 88,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: const LinearGradient(colors: [Color(0xFF3949AB), Color(0xFF5C6BC0)]),
+                        border: Border.all(color: Colors.white.withOpacity(0.5), width: 3),
+                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8))],
+                      ),
+                      child: Center(child: Text(initial, style: const TextStyle(color: Colors.white, fontSize: 38, fontWeight: FontWeight.bold))),
+                    ),
+                    const SizedBox(height: 14),
+                    Text(userName, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold, letterSpacing: 0.3)),
+                    const SizedBox(height: 4),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
+                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
+                      child: Text(userEmail, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 13)),
+                    ),
+                  ]),
+                ),
+              ),
+            ),
+          ),
+
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
+              child: Column(children: [
+                // Stats row
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
+                  ),
+                  child: Row(children: [
+                    _statItem(Icons.analytics_outlined, 'Đã giám định', '${AuthState.user?['free_predictions_used'] ?? 0}', const Color(0xFF1A237E)),
+                    _divider(),
+                    _statItem(Icons.account_balance_wallet_outlined, 'Số dư lượt', '${AuthState.user?['token_balance'] ?? 0}', Colors.green),
+                    _divider(),
+                    _statItem(Icons.calendar_today_outlined, 'Tham gia', _fmtDate(AuthState.user?['created_at']?.toString()), Colors.orange),
+                  ]),
+                ),
+                const SizedBox(height: 24),
+
+                // Menu section
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
+                  ),
+                  child: Column(children: [
+                    _menuItem(
+                      icon: Icons.edit_outlined,
+                      color: const Color(0xFF1A237E),
+                      title: 'Cập nhật thông tin',
+                      subtitle: 'Thay đổi tên, email',
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const EditProfileScreen())),
+                    ),
+                    _menuDivider(),
+                    _menuItem(
+                      icon: Icons.vpn_key_outlined,
+                      color: Colors.orange.shade700,
+                      title: 'Đổi mật khẩu',
+                      subtitle: 'Thay đổi mật khẩu bảo mật',
+                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen())),
+                    ),
+                    _menuDivider(),
+                    _menuItem(
+                      icon: Icons.add_shopping_cart_outlined,
+                      color: Colors.green.shade700,
+                      title: 'Nạp lượt phân tích',
+                      subtitle: 'Mua thêm lượt giám định AI',
+                      onTap: () {
+                        Navigator.pop(context);
+                        mainGateKey.currentState?.switchTab(2);
+                      },
+                    ),
+                  ]),
+                ),
+                const SizedBox(height: 24),
+
+                // Logout
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(18),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
+                  ),
+                  child: _menuItem(
+                    icon: Icons.logout,
+                    color: Colors.red,
+                    title: 'Đăng xuất',
+                    subtitle: 'Thoát khỏi tài khoản',
+                    onTap: () => _logout(context),
+                    isDestructive: true,
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statItem(IconData icon, String label, String value, Color color) {
+    return Expanded(
+      child: Column(children: [
+        Container(
+          width: 40, height: 40,
+          decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle),
+          child: Icon(icon, color: color, size: 20),
+        ),
+        const SizedBox(height: 8),
+        Text(value, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: color)),
+        const SizedBox(height: 2),
+        Text(label, style: TextStyle(fontSize: 11, color: Colors.grey.shade600)),
+      ]),
+    );
+  }
+
+  Widget _divider() => Container(width: 1, height: 44, color: Colors.grey.shade200);
+
+  Widget _menuItem({required IconData icon, required Color color, required String title, required String subtitle, required VoidCallback onTap, bool isDestructive = false}) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
+          child: Row(children: [
+            Container(
+              width: 42, height: 42,
+              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+              child: Icon(icon, color: color, size: 22),
+            ),
+            const SizedBox(width: 16),
+            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: isDestructive ? Colors.red : Colors.black87)),
+              const SizedBox(height: 2),
+              Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
+            ])),
+            Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 22),
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Widget _menuDivider() => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 18),
+    child: Divider(height: 1, color: Colors.grey.shade100),
+  );
+
+  String _fmtDate(String? s) {
+    if (s == null || s.isEmpty) return 'N/A';
+    try { final d = DateTime.parse(s); return '${d.day}/${d.month}/${d.year}'; } catch (_) { return s.length >= 10 ? s.substring(0, 10) : s; }
+  }
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+// --- EDIT PROFILE SCREEN ---
+class EditProfileScreen extends StatefulWidget {
+  const EditProfileScreen({Key? key}) : super(key: key);
+  @override
+  State<EditProfileScreen> createState() => _EditProfileScreenState();
+}
+
+class _EditProfileScreenState extends State<EditProfileScreen> {
   late TextEditingController _nameCtrl;
   late TextEditingController _emailCtrl;
-  final _oldPassCtrl = TextEditingController();
-  final _newPassCtrl = TextEditingController();
-  final _confirmPassCtrl = TextEditingController();
   bool isUpdating = false;
-  bool isChangingPass = false;
 
   @override
   void initState() {
@@ -1277,6 +1564,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         AuthState.user = data['user'];
         if (!mounted) return;
         showGomNotification(context, "Cập nhật hồ sơ thành công!", type: GomNotificationType.success);
+        Navigator.pop(context);
       } else {
         if (!mounted) return;
         showGomNotification(context, _parseErrorMessage(res.body, res.statusCode), type: GomNotificationType.error);
@@ -1288,6 +1576,96 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (mounted) setState(() => isUpdating = false);
     }
   }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F5F7),
+      appBar: AppBar(
+        title: const Text('Cập nhật thông tin', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        backgroundColor: const Color(0xFF1A237E),
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
+            ),
+            child: Column(children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1A237E).withOpacity(0.04),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                ),
+                child: Row(children: [
+                  Icon(Icons.person_outline, color: const Color(0xFF1A237E).withOpacity(0.7)),
+                  const SizedBox(width: 10),
+                  const Text('Chỉnh sửa hồ sơ', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A237E))),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(children: [
+                  TextField(
+                    controller: _nameCtrl,
+                    decoration: InputDecoration(
+                      labelText: 'Họ tên', prefixIcon: const Icon(Icons.person_outline),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+                      filled: true, fillColor: Colors.grey.shade50,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _emailCtrl,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: InputDecoration(
+                      labelText: 'Email', prefixIcon: const Icon(Icons.email_outlined),
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)),
+                      filled: true, fillColor: Colors.grey.shade50,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity, height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: isUpdating ? null : _updateProfile,
+                      icon: isUpdating ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) : const Icon(Icons.save_outlined),
+                      label: Text(isUpdating ? 'Đang lưu...' : 'Lưu thay đổi', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1A237E), foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        elevation: 2,
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// --- CHANGE PASSWORD SCREEN ---
+class ChangePasswordScreen extends StatefulWidget {
+  const ChangePasswordScreen({Key? key}) : super(key: key);
+  @override
+  State<ChangePasswordScreen> createState() => _ChangePasswordScreenState();
+}
+
+class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
+  final _oldPassCtrl = TextEditingController();
+  final _newPassCtrl = TextEditingController();
+  final _confirmPassCtrl = TextEditingController();
+  bool isChangingPass = false;
 
   Future<void> _changePassword() async {
     if (_newPassCtrl.text.length < 6) {
@@ -1312,7 +1690,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (res.statusCode == 200) {
         if (!mounted) return;
         showGomNotification(context, "Đổi mật khẩu thành công!", type: GomNotificationType.success);
-        _oldPassCtrl.clear(); _newPassCtrl.clear(); _confirmPassCtrl.clear();
+        Navigator.pop(context);
       } else {
         if (!mounted) return;
         showGomNotification(context, _parseErrorMessage(res.body, res.statusCode), type: GomNotificationType.error);
@@ -1330,73 +1708,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F7),
       appBar: AppBar(
-        title: const Text('Hồ sơ cá nhân', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+        title: const Text('Đổi mật khẩu', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF1A237E),
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
-        child: Column(children: [
-          // Avatar
-          CircleAvatar(
-            radius: 40,
-            backgroundColor: const Color(0xFF1A237E),
-            child: Text(
-              AuthState.user?['name']?.toString().isNotEmpty == true ? AuthState.user!['name'][0].toUpperCase() : 'U',
-              style: const TextStyle(color: Colors.white, fontSize: 32, fontWeight: FontWeight.bold),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 500),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
             ),
-          ),
-          const SizedBox(height: 24),
-          // Profile info
-          Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Thông tin cá nhân', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A237E))),
-                const SizedBox(height: 16),
-                TextField(controller: _nameCtrl, decoration: InputDecoration(labelText: 'Họ tên', prefixIcon: const Icon(Icons.person_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
-                const SizedBox(height: 12),
-                TextField(controller: _emailCtrl, decoration: InputDecoration(labelText: 'Email', prefixIcon: const Icon(Icons.email_outlined), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity, height: 45,
-                  child: ElevatedButton(
-                    onPressed: isUpdating ? null : _updateProfile,
-                    style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1A237E), foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                    child: isUpdating ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) : const Text('Lưu thay đổi', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ),
+            child: Column(children: [
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: Colors.orange.shade50,
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
                 ),
-              ]),
-            ),
-          ),
-          const SizedBox(height: 16),
-          // Change password
-          Card(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-            child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('Đổi mật khẩu', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A237E))),
-                const SizedBox(height: 16),
-                TextField(controller: _oldPassCtrl, obscureText: true, decoration: InputDecoration(labelText: 'Mật khẩu cũ', prefixIcon: const Icon(Icons.lock_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
-                const SizedBox(height: 12),
-                TextField(controller: _newPassCtrl, obscureText: true, decoration: InputDecoration(labelText: 'Mật khẩu mới', prefixIcon: const Icon(Icons.lock_open), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
-                const SizedBox(height: 12),
-                TextField(controller: _confirmPassCtrl, obscureText: true, decoration: InputDecoration(labelText: 'Xác nhận mật khẩu mới', prefixIcon: const Icon(Icons.check_circle_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)))),
-                const SizedBox(height: 16),
-                SizedBox(
-                  width: double.infinity, height: 45,
-                  child: ElevatedButton(
-                    onPressed: isChangingPass ? null : _changePassword,
-                    style: ElevatedButton.styleFrom(backgroundColor: Colors.orange.shade700, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
-                    child: isChangingPass ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) : const Text('Đổi mật khẩu', style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Row(children: [
+                  Icon(Icons.lock_outline, color: Colors.orange.shade700),
+                  const SizedBox(width: 10),
+                  Text('Thay đổi mật khẩu', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.orange.shade800)),
+                ]),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(children: [
+                  Container(
+                    padding: const EdgeInsets.all(14),
+                    margin: const EdgeInsets.only(bottom: 20),
+                    decoration: BoxDecoration(color: Colors.amber.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.amber.shade200)),
+                    child: const Row(children: [
+                      Icon(Icons.info_outline, color: Colors.amber, size: 20),
+                      SizedBox(width: 10),
+                      Expanded(child: Text('Mật khẩu mới phải có ít nhất 6 ký tự và khác mật khẩu cũ.', style: TextStyle(fontSize: 12, color: Colors.black87))),
+                    ]),
                   ),
-                ),
-              ]),
-            ),
+                  TextField(
+                    controller: _oldPassCtrl, obscureText: true,
+                    decoration: InputDecoration(labelText: 'Mật khẩu hiện tại', prefixIcon: const Icon(Icons.lock_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)), filled: true, fillColor: Colors.grey.shade50),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _newPassCtrl, obscureText: true,
+                    decoration: InputDecoration(labelText: 'Mật khẩu mới (≥6 ký tự)', prefixIcon: const Icon(Icons.lock_open_outlined), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)), filled: true, fillColor: Colors.grey.shade50),
+                  ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    controller: _confirmPassCtrl, obscureText: true,
+                    decoration: InputDecoration(labelText: 'Xác nhận mật khẩu mới', prefixIcon: const Icon(Icons.check_circle_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)), filled: true, fillColor: Colors.grey.shade50),
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity, height: 50,
+                    child: ElevatedButton.icon(
+                      onPressed: isChangingPass ? null : _changePassword,
+                      icon: isChangingPass ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) : const Icon(Icons.vpn_key_outlined),
+                      label: Text(isChangingPass ? 'Đang xử lý...' : 'Đổi mật khẩu', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.orange.shade700, foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        elevation: 2,
+                      ),
+                    ),
+                  ),
+                ]),
+              ),
+            ]),
           ),
-        ]),
+        ),
       ),
     );
   }
