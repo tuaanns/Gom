@@ -7,8 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Pottery extends Model
 {
     protected $fillable = [
+        'user_id',
         'image_path',
         'predicted_label',
-        'confidence'
+        'country',
+        'era',
+        'confidence',
+        'debate_data',
     ];
 }

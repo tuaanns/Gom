@@ -1,0 +1,30 @@
+
+UNEXPECTED ERROR: 'gbk' codec can't encode character '\u0111' in position 18: illegal multibyte sequence
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\Gom\gom-ai\main.py", line 102, in predict_debate
+    f.write(f"Debate Error: {result['error']}\n")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u0111' in position 18: illegal multibyte sequence
+
+UNEXPECTED ERROR: 'gbk' codec can't encode character '\u0111' in position 18: illegal multibyte sequence
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\Gom\gom-ai\main.py", line 102, in predict_debate
+    f.write(f"Debate Error: {result['error']}\n")
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'gbk' codec can't encode character '\u0111' in position 18: illegal multibyte sequence
+
+Debate Error: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
+UNEXPECTED ERROR: 500: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\Gom\gom-ai\main.py", line 103, in predict_debate
+    raise HTTPException(status_code=500, detail=result["error"])
+fastapi.exceptions.HTTPException: 500: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
+
+Debate Error: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
+UNEXPECTED ERROR: 500: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
+Traceback (most recent call last):
+  File "C:\Users\Admin\Desktop\Gom\gom-ai\main.py", line 103, in predict_debate
+    raise HTTPException(status_code=500, detail=result["error"])
+fastapi.exceptions.HTTPException: 500: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
+
+Debate Error: API đã hết quota. Vui lòng thử lại sau vài phút.
