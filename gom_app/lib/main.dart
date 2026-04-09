@@ -818,21 +818,59 @@ class _DebateScreenState extends State<DebateScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(10)),
-                child: Text('Độ tin cậy: ${finalApp['certainty'] ?? 'N/A'}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                child: Text('Độ tin cậy: ${finalApp['certainty']?.toString() ?? 'N/A'}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
               ),
             ]),
             const Divider(height: 30),
-            Text(finalApp['final_prediction'] ?? 'Chưa xác định', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.blueAccent)),
+            Text(finalApp['final_prediction']?.toString() ?? 'Chưa xác định', style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: Colors.blueAccent)),
             const SizedBox(height: 10),
-            Text('Quốc gia: ${finalApp['final_country'] ?? 'N/A'} | Niên đại: ${finalApp['final_era'] ?? 'N/A'}', style: const TextStyle(fontWeight: FontWeight.w600)),
+            Text('Quốc gia: ${finalApp['final_country']?.toString() ?? 'N/A'} | Niên đại: ${finalApp['final_era']?.toString() ?? 'N/A'}', style: const TextStyle(fontWeight: FontWeight.w600)),
             const SizedBox(height: 20),
             const Text('Lập luận tóm tắt:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
             const SizedBox(height: 8),
-            Text(finalApp['reasoning'] ?? '', style: const TextStyle(height: 1.5)),
+            Text(finalApp['reasoning']?.toString() ?? '', style: const TextStyle(height: 1.5)),
           ]),
         ),
       ),
     );
+  }
+
+  // Helper: trích xuất giá trị String từ field có thể là Map hoặc String
+  String _extractField(dynamic value, [String? mapKey]) {
+    if (value == null) return '';
+    if (value is String) return value;
+    if (value is Map) {
+      if (mapKey != null && value.containsKey(mapKey)) return value[mapKey]?.toString() ?? '';
+      // Nếu không có key cụ thể, lấy giá trị đầu tiên hoặc toString
+      return value.values.first?.toString() ?? '';
+    }
+    return value.toString();
+  }
+
+  // Trích xuất prediction name từ agent data
+  String _getAgentPrediction(Map<String, dynamic> agent) {
+    final pred = agent['prediction'];
+    if (pred is String) return pred;
+    if (pred is Map) return pred['ceramic_line']?.toString() ?? pred.values.first?.toString() ?? '';
+    return agent['ceramic_line']?.toString() ?? '';
+  }
+
+  String _getAgentCountry(Map<String, dynamic> agent) {
+    final pred = agent['prediction'];
+    if (pred is Map && pred['country'] != null) return pred['country'].toString();
+    return agent['country']?.toString() ?? '';
+  }
+
+  String _getAgentEra(Map<String, dynamic> agent) {
+    final pred = agent['prediction'];
+    if (pred is Map && pred['era'] != null) return pred['era'].toString();
+    return agent['era']?.toString() ?? '';
+  }
+
+  String _getAgentStyle(Map<String, dynamic> agent) {
+    final pred = agent['prediction'];
+    if (pred is Map && pred['style'] != null) return pred['style'].toString();
+    return agent['style']?.toString() ?? '';
   }
 
   Widget _buildSpecialistSection() {
@@ -841,7 +879,7 @@ class _DebateScreenState extends State<DebateScreen> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const Padding(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), child: Text('GÓC NHÌN CHUYÊN GIA', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
       SizedBox(
-        height: 240,
+        height: 280,
         child: ListView.builder(
           scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 12),
           itemCount: agents.length,
@@ -849,6 +887,10 @@ class _DebateScreenState extends State<DebateScreen> {
             final agent = agents[i] as Map<String, dynamic>? ?? {};
             final colors = [Colors.indigo, Colors.teal, Colors.deepPurple, Colors.orange];
             final color = colors[i % colors.length];
+            final predName = _getAgentPrediction(agent);
+            final country = _getAgentCountry(agent);
+            final era = _getAgentEra(agent);
+            final style = _getAgentStyle(agent);
             return Container(
               width: 280,
               margin: const EdgeInsets.symmetric(horizontal: 6),
@@ -860,17 +902,22 @@ class _DebateScreenState extends State<DebateScreen> {
                     Row(children: [
                       Container(width: 36, height: 36, decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle), child: Icon(Icons.psychology, color: color, size: 20)),
                       const SizedBox(width: 10),
-                      Expanded(child: Text(agent['agent_name'] ?? 'Agent ${i + 1}', style: TextStyle(fontWeight: FontWeight.bold, color: color))),
+                      Expanded(child: Text(agent['agent_name']?.toString() ?? 'Agent ${i + 1}', style: TextStyle(fontWeight: FontWeight.bold, color: color))),
                     ]),
                     const SizedBox(height: 10),
-                    Text(agent['prediction'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                    Text(predName.isNotEmpty ? predName : 'Chưa xác định', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
                     const SizedBox(height: 4),
-                    Text('${agent['country'] ?? ''} - ${agent['era'] ?? ''}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    if (country.isNotEmpty || era.isNotEmpty)
+                      Text('${country.isNotEmpty ? country : "N/A"} - ${era.isNotEmpty ? era : "N/A"}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                    if (style.isNotEmpty) ...[
+                      const SizedBox(height: 4),
+                      Text('Phong cách: $style', style: TextStyle(color: Colors.grey.shade600, fontSize: 11, fontStyle: FontStyle.italic)),
+                    ],
                     const Spacer(),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
-                      child: Text('Tin cậy: ${agent['certainty'] ?? 'N/A'}', style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold)),
+                      child: Text('Tin cậy: ${agent['certainty']?.toString() ?? 'N/A'}', style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold)),
                     ),
                   ]),
                 ),
@@ -883,33 +930,139 @@ class _DebateScreenState extends State<DebateScreen> {
   }
 
   Widget _buildDebateLogSection() {
-    final List<dynamic> debateLog = debateData?['debate_log'] ?? [];
-    if (debateLog.isEmpty) return const SizedBox();
+    final List<dynamic> agents = debateData?['agent_predictions'] ?? [];
+    // Kiểm tra xem có agent nào có debate_details không
+    final hasDebate = agents.any((a) => a is Map && a['debate_details'] != null);
+    if (!hasDebate) return const SizedBox();
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const Text('📋 TRANH BIỆN CHI TIẾT', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-        const SizedBox(height: 8),
-        ...debateLog.map((round) {
-          final details = round as Map<String, dynamic>? ?? {};
-          final attacks = (details['attacks'] as List?) ?? [];
-          return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            gradient: LinearGradient(colors: [Colors.deepPurple.shade50, Colors.indigo.shade50]),
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Row(children: [
             Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(10)),
-              child: Text('🎙️ ${details['agent'] ?? 'Agent'} - Lập luận: ${details['argument'] ?? ''}', style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600)),
+              width: 44, height: 44,
+              decoration: BoxDecoration(color: Colors.deepPurple.withOpacity(0.15), shape: BoxShape.circle),
+              child: const Icon(Icons.forum, color: Colors.deepPurple, size: 22),
             ),
-            ...attacks.map((atk) => Container(
-              margin: const EdgeInsets.only(left: 12, top: 8), padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(8)),
-              child: Text('⚔️ $atk', style: const TextStyle(fontSize: 12)),
-            )),
-            Container(
-              margin: const EdgeInsets.only(left: 12, top: 8, bottom: 16), padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(8)),
-              child: Text('🛡️ Phản biện: ${details['defense'] ?? "Tôi tin vào dữ liệu của mình"}', style: const TextStyle(fontSize: 12)),
+            const SizedBox(width: 14),
+            const Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('🏛️ PHÒNG TRANH LUẬN', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF1A237E))),
+              Text('Các chuyên gia AI trao đổi & phản biện', style: TextStyle(fontSize: 12, color: Colors.grey)),
+            ]),
+          ]),
+        ),
+        const SizedBox(height: 12),
+        ...agents.map((agentData) {
+          if (agentData is! Map) return const SizedBox();
+          final agent = agentData as Map<String, dynamic>;
+          final agentName = agent['agent_name']?.toString() ?? 'Agent';
+          final debateDetails = agent['debate_details'];
+          if (debateDetails == null || debateDetails is! Map) return const SizedBox();
+
+          final debate = debateDetails as Map<String, dynamic>;
+          final argument = debate['argument']?.toString() ?? '';
+          final defense = debate['defense']?.toString() ?? '';
+          final attacks = (debate['attacks'] is List) ? (debate['attacks'] as List) : [];
+          final confAdj = debate['confidence_adjustment']?.toString() ?? '';
+
+          final agentColors = {
+            'GPT': Colors.indigo,
+            'Grok': Colors.teal,
+            'Gemini': Colors.deepPurple,
+          };
+          final color = agentColors.entries
+              .firstWhere((e) => agentName.toLowerCase().contains(e.key.toLowerCase()), orElse: () => MapEntry('', Colors.blueGrey))
+              .value;
+
+          return Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: color.withOpacity(0.2)),
+              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 8, offset: const Offset(0, 2))],
             ),
-          ]);
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              // Header
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                decoration: BoxDecoration(
+                  color: color.withOpacity(0.08),
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                ),
+                child: Row(children: [
+                  Container(
+                    width: 32, height: 32,
+                    decoration: BoxDecoration(color: color.withOpacity(0.15), shape: BoxShape.circle),
+                    child: Icon(Icons.psychology, color: color, size: 18),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(child: Text(agentName, style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 15))),
+                  if (confAdj.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      decoration: BoxDecoration(color: color.withOpacity(0.12), borderRadius: BorderRadius.circular(8)),
+                      child: Text('Điều chỉnh: $confAdj', style: TextStyle(color: color, fontSize: 10, fontWeight: FontWeight.bold)),
+                    ),
+                ]),
+              ),
+
+              // Argument (Lập luận)
+              if (argument.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(color: Colors.blue.shade50, borderRadius: BorderRadius.circular(10)),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const Text('💡 Lập luận:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.blueGrey)),
+                      const SizedBox(height: 4),
+                      Text(argument, style: const TextStyle(fontSize: 13, height: 1.4)),
+                    ]),
+                  ),
+                ),
+
+              // Attacks (Phản bác)
+              if (attacks.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                    const Text('⚔️ Phản bác đối thủ:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.redAccent)),
+                    const SizedBox(height: 4),
+                    ...attacks.map((atk) => Container(
+                      margin: const EdgeInsets.only(bottom: 4),
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(color: Colors.red.shade50, borderRadius: BorderRadius.circular(8)),
+                      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        const Text('• ', style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold)),
+                        Expanded(child: Text(atk.toString(), style: const TextStyle(fontSize: 12, height: 1.3))),
+                      ]),
+                    )),
+                  ]),
+                ),
+
+              // Defense (Bảo vệ quan điểm)
+              if (defense.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(color: Colors.green.shade50, borderRadius: BorderRadius.circular(10)),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const Text('🛡️ Bảo vệ quan điểm:', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.green)),
+                      const SizedBox(height: 4),
+                      Text(defense, style: const TextStyle(fontSize: 13, height: 1.4)),
+                    ]),
+                  ),
+                ),
+            ]),
+          );
         }),
       ]),
     );
