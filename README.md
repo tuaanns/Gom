@@ -86,3 +86,8 @@ Vận hành **4 Terminal** cùng lúc:
 
 ---
 test: flutter run -d chrome --web-port=63126
+## github
+git status
+git add.
+git commit -m "Update full system"
+git push origin main
