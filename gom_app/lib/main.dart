@@ -818,7 +818,7 @@ class _DebateScreenState extends State<DebateScreen> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                 decoration: BoxDecoration(color: Colors.green, borderRadius: BorderRadius.circular(10)),
-                child: Text('Độ tin cậy: ${finalApp['certainty']?.toString() ?? 'N/A'}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
+                child: Text('Độ tin cậy: ${finalApp['certainty']?.toString() ?? finalApp['confidence']?.toString() ?? 'N/A'}', style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold)),
               ),
             ]),
             const Divider(height: 30),
@@ -833,6 +833,16 @@ class _DebateScreenState extends State<DebateScreen> {
         ),
       ),
     );
+  }
+
+  // Helper: format confidence (float 0-1 → percentage, int → as-is)
+  String _formatConfidence(dynamic value) {
+    if (value == null) return 'N/A';
+    if (value is num) {
+      if (value <= 1) return '${(value * 100).toStringAsFixed(0)}%';
+      return '${value.toStringAsFixed(0)}%';
+    }
+    return value.toString();
   }
 
   // Helper: trích xuất giá trị String từ field có thể là Map hoặc String
@@ -917,7 +927,7 @@ class _DebateScreenState extends State<DebateScreen> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
-                      child: Text('Tin cậy: ${agent['certainty']?.toString() ?? 'N/A'}', style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold)),
+                      child: Text('Tin cậy: ${_formatConfidence(agent['certainty'] ?? agent['confidence'])}', style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold)),
                     ),
                   ]),
                 ),

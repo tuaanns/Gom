@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'auth_state.dart';
+import 'main.dart';
 
 const String _baseUrl = 'http://127.0.0.1:8000';
 
@@ -91,7 +92,9 @@ class _PaymentScreenState extends State<PaymentScreen> with SingleTickerProvider
             backgroundColor: const Color(0xFF1A237E),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
-              onPressed: () => Navigator.of(context).maybePop(),
+              onPressed: () {
+                mainGateKey.currentState?.switchTab(0);
+              },
             ),
             title: innerBoxIsScrolled ? const Text('Nạp Lượt', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : null,
             flexibleSpace: FlexibleSpaceBar(
