@@ -392,48 +392,36 @@ class _LoginScreenState extends State<LoginScreen> {
 
     return InkWell(
       onTap: () => _handleSocialLogin(provider),
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(20),
       splashColor: color.withOpacity(0.1),
       highlightColor: color.withOpacity(0.05),
       child: Container(
-        width: 145,
-        height: 52,
+        width: 130, // Chiều rộng tương tự nút Google "Đăng nhập"
+        height: 40, // Chuẩn chiều cao Google Button
         decoration: BoxDecoration(
           color: Colors.white,
-          border: Border.all(color: Colors.grey.shade200, width: 1.5),
-          borderRadius: BorderRadius.circular(24),
-          boxShadow: [
-            BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10, offset: const Offset(0, 4)),
-          ],
+          border: Border.all(color: Colors.grey.shade300, width: 1.0),
+          borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (isGoogle)
-              ShaderMask(
-                shaderCallback: (bounds) => const LinearGradient(
-                  colors: [Colors.blue, Colors.red, Colors.yellow, Colors.green],
-                  stops: [0.25, 0.5, 0.75, 1.0],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ).createShader(bounds),
-                child: const Text(
-                  'G',
-                  style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.w900),
-                ),
-              )
-            else if (isFacebook)
-              Icon(Icons.facebook, color: color, size: 28)
-            else
-              Text(letter, style: TextStyle(color: color, fontSize: 22, fontWeight: FontWeight.bold)),
             const SizedBox(width: 8),
+            if (isGoogle)
+              Image.network('google_logo.png', width: 18, height: 18)
+            else if (isFacebook)
+              Icon(Icons.facebook, color: color, size: 20)
+            else
+              Text(letter, style: TextStyle(color: color, fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(width: 14),
             Text(
-              provider,
+              "Facebook", // Text rút gọn cho đồng bộ với "Đăng nhập"
               style: TextStyle(
-                fontWeight: FontWeight.w700,
-                fontSize: 15,
+                fontWeight: FontWeight.w500,
+                fontSize: 14,
                 color: Colors.grey.shade800,
-                letterSpacing: 0.3,
+                letterSpacing: 0.2,
+                fontFamily: 'Roboto',
               ),
             ),
           ],
@@ -454,7 +442,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
         late final GoogleSignInAccount account;
         try {
-          account = await GoogleSignIn.instance.authenticate();
+          final acc = await GoogleSignIn.instance.authenticate();
+          if (acc == null) {
+            setState(() => isLoading = false);
+            return;
+          }
+          account = acc;
         } catch (e) {
           setState(() => isLoading = false);
           print("GOOGLE LOGIN ERROR: $e");
