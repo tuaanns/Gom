@@ -1229,7 +1229,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
       appBar: AppBar(
         title: const Text('Lịch sử giám định', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         backgroundColor: const Color(0xFF1A237E),
-        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () {
+            mainGateKey.currentState?.switchTab(0);
+          },
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: _fetchHistory,
