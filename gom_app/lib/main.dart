@@ -674,13 +674,46 @@ class _DebateScreenState extends State<DebateScreen> {
     );
   }
 
-  Future<void> _pickAndAnalyze() async {
+  void _showImageSourceDialog() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Chọn nguồn ảnh', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.camera_alt, color: Colors.blue),
+              title: const Text('Chụp ảnh từ Camera'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _pickAndAnalyze(ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library, color: Colors.purple),
+              title: const Text('Chọn ảnh từ Thư viện'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _pickAndAnalyze(ImageSource.gallery);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Future<void> _pickAndAnalyze(ImageSource source) async {
     if (freeUsed >= freeLimit && tokenBalance <= 0) {
       final shouldNavigate = await PaymentGate.checkAndShowGate(context, freeUsed: freeUsed, freeLimit: freeLimit, tokenBalance: tokenBalance);
       if (!shouldNavigate) return;
     }
 
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery, maxWidth: 1920, maxHeight: 1920, imageQuality: 85);
+    final XFile? image = await _picker.pickImage(source: source, maxWidth: 1920, maxHeight: 1920, imageQuality: 85);
     if (image == null) return;
 
     final bytes = await image.readAsBytes();
@@ -819,9 +852,9 @@ class _DebateScreenState extends State<DebateScreen> {
       ),
       const SizedBox(height: 8),
       ElevatedButton.icon(
-        onPressed: isAnalyzing ? null : _pickAndAnalyze,
-        icon: const Icon(Icons.add_a_photo),
-        label: const Text('Tải ảnh gốm sứ lên'),
+        onPressed: isAnalyzing ? null : _showImageSourceDialog,
+        icon: const Icon(Icons.add_a_photo, size: 22),
+        label: const Text('Tải ảnh gốm sứ lên', style: TextStyle(fontSize: 16)),
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.amber, foregroundColor: Colors.black,
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
