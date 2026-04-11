@@ -156,9 +156,14 @@ class _MainGateState extends State<MainGate> {
     super.dispose();
   }
 
+  final GlobalKey<_DebateScreenState> debateScreenKey = GlobalKey<_DebateScreenState>();
+
   void switchTab(int index) {
     if (mounted) {
       setState(() => _currentIndex = index);
+      if (index == 0) {
+        debateScreenKey.currentState?.loadQuota();
+      }
     }
   }
 
@@ -168,7 +173,7 @@ class _MainGateState extends State<MainGate> {
       return const LoginScreen();
     }
 
-    final debateScreen = const DebateScreen();
+    final debateScreen = DebateScreen(key: debateScreenKey);
     final screens = [
       debateScreen,
       const CeramicLinesListScreen(), // New Tab 1: Dòng Gốm Trứ Danh
@@ -305,7 +310,7 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => isLoading = true);
     try {
       final res = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/login'),
+        Uri.parse('http://localhost:8000/api/login'),
         body: {'email': _email.text.trim(), 'password': _pass.text},
       );
       if (res.statusCode == 200) {
@@ -629,7 +634,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _sendSocialTokenToBackend(String provider, String token) async {
     try {
       final res = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/login/social'),
+        Uri.parse('http://localhost:8000/api/login/social'),
         body: {
           'provider': provider.toLowerCase(),
           'token': token,
@@ -785,7 +790,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() => isLoading = true);
     try {
       final res = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/register'),
+        Uri.parse('http://localhost:8000/api/register'),
         body: {
           'name': _name.text.trim(),
           'email': _email.text.trim(),
@@ -1074,7 +1079,7 @@ class DebateScreen extends StatefulWidget {
 }
 
 class _DebateScreenState extends State<DebateScreen> {
-  static const String _baseUrl = 'http://127.0.0.1:8000';
+  static const String _baseUrl = 'http://localhost:8000';
   final ImagePicker _picker = ImagePicker();
 
   Map<String, dynamic>? debateData;
@@ -1089,7 +1094,7 @@ class _DebateScreenState extends State<DebateScreen> {
   @override
   void initState() {
     super.initState();
-    _loadQuota();
+    loadQuota();
     _loadCeramicLines();
   }
 
@@ -1108,7 +1113,7 @@ class _DebateScreenState extends State<DebateScreen> {
     }
   }
 
-  Future<void> _loadQuota() async {
+  Future<void> loadQuota() async {
     try {
       final res = await http.get(
         Uri.parse('$_baseUrl/api/payment/status'),
@@ -1580,14 +1585,58 @@ class _DebateScreenState extends State<DebateScreen> {
               children: _ceramicLines.take(2).toList().asMap().entries.map((entry) {
                 final i = entry.key;
                 final c = entry.value;
-                final colors = [
-                  const Color(0xFF1A2344),
-                  const Color(0xFF2E5339),
-                  const Color(0xFF5C3D2E),
-                  const Color(0xFF3D2E5C),
-                  const Color(0xFF4A3728),
-                ];
-                final bgColor = colors[i % colors.length];
+                final imgUrl = c['image_url'] as String?;
+                final name = c['name'] ?? '';
+                final era = c['era'] ?? '';
+                final desc = c['description'] ?? '';
+                final style = c['style'] as String?;
+                final tags = style != null ? style.split(',').map((s) => s.trim()).take(2).toList() : <String>[];
+                final isEven = i % 2 == 0;
+
+                final imageWidget = ClipRRect(
+                  borderRadius: BorderRadius.circular(14),
+                  child: imgUrl != null && imgUrl.isNotEmpty
+                    ? Image.network(imgUrl, width: 120, height: 110, fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => Container(
+                          width: 120, height: 110,
+                          decoration: BoxDecoration(color: const Color(0xFFE8E4D5), borderRadius: BorderRadius.circular(14)),
+                          child: const Icon(Icons.image_outlined, color: Colors.grey, size: 36),
+                        ),
+                      )
+                    : Container(
+                        width: 120, height: 110,
+                        decoration: BoxDecoration(color: const Color(0xFFE8E4D5), borderRadius: BorderRadius.circular(14)),
+                        child: const Icon(Icons.image_outlined, color: Colors.grey, size: 36),
+                      ),
+                );
+
+                final textWidget = Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(era.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: Color(0xFF0F265C), letterSpacing: 0.8)),
+                      const SizedBox(height: 4),
+                      Text(name, style: const TextStyle(fontFamily: 'Serif', fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+                      const SizedBox(height: 6),
+                      Text(desc, style: TextStyle(fontSize: 11, color: Colors.grey.shade600, height: 1.4), maxLines: 3, overflow: TextOverflow.ellipsis),
+                      if (tags.isNotEmpty) ...[
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 6, runSpacing: 4,
+                          children: tags.map((t) => Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: const Color(0xFF0F265C).withOpacity(0.3)),
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                            child: Text(t, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.w600, color: Color(0xFF0F265C))),
+                          )).toList(),
+                        ),
+                      ],
+                    ],
+                  ),
+                );
+
                 return GestureDetector(
                   onTap: () {
                     showModalBottomSheet(
@@ -1599,58 +1648,18 @@ class _DebateScreenState extends State<DebateScreen> {
                   },
                   child: Container(
                     width: double.infinity,
-                    margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.all(18),
+                    margin: const EdgeInsets.only(bottom: 14),
+                    padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(18),
-                      border: Border.all(color: Colors.grey.shade200, width: 0.5),
                       boxShadow: [
-                        BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 4)),
+                        BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 12, offset: const Offset(0, 4)),
                       ],
                     ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          c['name'] ?? '',
-                          style: TextStyle(
-                            fontFamily: 'Serif',
-                            fontSize: 18,
-                            fontWeight: FontWeight.w800,
-                            color: bgColor,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        const SizedBox(height: 6),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              '${c['origin'] ?? ''}, ${c['country'] ?? ''}'.toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w700,
-                                color: bgColor.withOpacity(0.5),
-                                letterSpacing: 0.8,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                              decoration: BoxDecoration(
-                                color: bgColor.withOpacity(0.08),
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                c['era'] ?? '',
-                                style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: bgColor),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                    child: isEven
+                      ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [textWidget, const SizedBox(width: 12), imageWidget])
+                      : Row(crossAxisAlignment: CrossAxisAlignment.start, children: [imageWidget, const SizedBox(width: 12), textWidget]),
                   ),
                 );
               }).toList(),
@@ -2101,7 +2110,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
-        Uri.parse('http://127.0.0.1:8000/api/history'),
+        Uri.parse('http://localhost:8000/api/history'),
         headers: {'Authorization': 'Bearer ${AuthState.token}'},
       );
       if (res.statusCode == 200) {
@@ -2199,7 +2208,7 @@ class HistoryDetailScreen extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  imageUrl.startsWith('http') ? imageUrl : 'http://127.0.0.1:8000$imageUrl',
+                  imageUrl.startsWith('http') ? imageUrl : 'http://localhost:8000$imageUrl',
                   fit: BoxFit.contain,
                   errorBuilder: (_, __, ___) => Container(
                     height: 150, color: Colors.grey.shade200,
@@ -2294,189 +2303,182 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final userName = AuthState.user?['name']?.toString() ?? 'Người dùng';
     final userEmail = AuthState.user?['email']?.toString() ?? '';
-    final avatarUrl = AuthState.user?['avatar']?.toString();
+    final tokenBalance = AuthState.user?['token_balance'] ?? 0;
+    String? avatarUrl = AuthState.user?['avatar']?.toString();
+    if (kIsWeb && avatarUrl != null) {
+      avatarUrl = avatarUrl.replaceAll('http://localhost/', 'http://localhost:8000/');
+    }
     final initial = userName.isNotEmpty ? userName[0].toUpperCase() : 'U';
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E8),
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 220,
-            pinned: true,
-            backgroundColor: const Color(0xFF1A2344),
-            iconTheme: const IconThemeData(color: Colors.white),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: [Color(0xFF0D1525), Color(0xFF1A2344), Color(0xFF2C3A5E)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
-                ),
-                child: SafeArea(
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    const SizedBox(height: 30),
-                    Container(
-                      width: 88, height: 88,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        gradient: const LinearGradient(colors: [Color(0xFF3949AB), Color(0xFF5C6BC0)]),
-                        border: Border.all(color: Colors.white.withOpacity(0.5), width: 3),
-                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.3), blurRadius: 20, offset: const Offset(0, 8))],
-                        image: avatarUrl != null && avatarUrl.isNotEmpty
-                            ? DecorationImage(image: NetworkImage(avatarUrl), fit: BoxFit.cover)
-                            : null,
-                      ),
-                      child: (avatarUrl == null || avatarUrl.isEmpty) 
-                          ? Center(child: Text(initial, style: const TextStyle(color: Colors.white, fontSize: 38, fontWeight: FontWeight.bold)))
-                          : null,
-                    ),
-                    const SizedBox(height: 14),
-                    Text(userName, style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold, letterSpacing: 0.3)),
-                    const SizedBox(height: 4),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.12), borderRadius: BorderRadius.circular(20)),
-                      child: Text(userEmail, style: TextStyle(color: Colors.white.withOpacity(0.8), fontSize: 13)),
-                    ),
-                  ]),
-                ),
-              ),
-            ),
-          ),
-
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 30),
-              child: Column(children: [
-                // Stats row
-                Container(
-                  padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
-                  ),
-                  child: Row(children: [
-                    _statItem(Icons.analytics_outlined, 'Đã giám định', '${AuthState.user?['free_predictions_used'] ?? 0}', const Color(0xFF1A237E)),
-                    _divider(),
-                    _statItem(Icons.account_balance_wallet_outlined, 'Số dư lượt', '${AuthState.user?['token_balance'] ?? 0}', Colors.green),
-                    _divider(),
-                    _statItem(Icons.calendar_today_outlined, 'Tham gia', _fmtDate(AuthState.user?['created_at']?.toString()), Colors.orange),
-                  ]),
-                ),
-                const SizedBox(height: 24),
-
-                // Menu section
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
-                  ),
-                  child: Column(children: [
-                    _menuItem(
-                      icon: Icons.edit_outlined,
-                      color: const Color(0xFF1A237E),
-                      title: 'Cập nhật thông tin',
-                      subtitle: 'Thay đổi tên, email',
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const EditProfileScreen())),
-                    ),
-                    _menuDivider(),
-                    _menuItem(
-                      icon: Icons.vpn_key_outlined,
-                      color: Colors.orange.shade700,
-                      title: 'Đổi mật khẩu',
-                      subtitle: 'Thay đổi mật khẩu bảo mật',
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen())),
-                    ),
-                    _menuDivider(),
-                    _menuItem(
-                      icon: Icons.add_shopping_cart_outlined,
-                      color: Colors.green.shade700,
-                      title: 'Nạp lượt phân tích',
-                      subtitle: 'Mua thêm lượt giám định AI',
-                      onTap: () => MainGate.currentInstance?.switchTab(3),
-                    ),
-                  ]),
-                ),
-                const SizedBox(height: 24),
-
-                // Logout
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(18),
-                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
-                  ),
-                  child: _menuItem(
-                    icon: Icons.logout,
-                    color: Colors.red,
-                    title: 'Đăng xuất',
-                    subtitle: 'Thoát khỏi tài khoản',
-                    onTap: () => _logout(context),
-                    isDestructive: true,
-                  ),
-                ),
-              ]),
-            ),
-          ),
+      backgroundColor: const Color(0xFFFAF9F4),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: false,
+        title: const Text('Artifact Archivist', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold, letterSpacing: 1.0, fontSize: 18, fontFamily: 'Serif')),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_outlined, color: Color(0xFF0F265C)),
+            onPressed: () {},
+          )
         ],
       ),
-    );
-  }
-
-  Widget _statItem(IconData icon, String label, String value, Color color) {
-    return Expanded(
-      child: Column(children: [
-        Container(
-          width: 40, height: 40,
-          decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle),
-          child: Icon(icon, color: color, size: 20),
-        ),
-        const SizedBox(height: 8),
-        Text(value, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: color)),
-        const SizedBox(height: 2),
-        Text(label, style: TextStyle(fontSize: 11, color: Colors.grey.shade600)),
-      ]),
-    );
-  }
-
-  Widget _divider() => Container(width: 1, height: 44, color: Colors.grey.shade200);
-
-  Widget _menuItem({required IconData icon, required Color color, required String title, required String subtitle, required VoidCallback onTap, bool isDestructive = false}) {
-    return Material(
-      color: Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        borderRadius: BorderRadius.circular(18),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-          child: Row(children: [
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // TOP BOX - User Profile
             Container(
-              width: 42, height: 42,
-              decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-              child: Icon(icon, color: color, size: 22),
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 8))],
+              ),
+              child: Row(
+                children: [
+                  // Avatar with check badge
+                  Stack(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 2),
+                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 8, offset: const Offset(0, 4))],
+                        ),
+                        child: CircleAvatar(
+                          radius: 34,
+                          backgroundColor: Colors.grey.shade200,
+                          backgroundImage: avatarUrl != null && avatarUrl.isNotEmpty ? NetworkImage(avatarUrl) : null,
+                          child: (avatarUrl == null || avatarUrl.isEmpty) ? Text(initial, style: const TextStyle(fontSize: 24, color: Color(0xFF0F265C))) : null,
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 0, right: 0,
+                        child: Container(
+                          padding: const EdgeInsets.all(1),
+                          decoration: const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                          child: const Icon(Icons.check_circle, color: Color(0xFF0F265C), size: 22),
+                        ),
+                      )
+                    ],
+                  ),
+                  const SizedBox(width: 20),
+                  // Name and Email
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(userName, style: const TextStyle(fontFamily: 'Serif', fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+                        const SizedBox(height: 8),
+                        Row(
+                          children: [
+                            Container(width: 8, height: 8, decoration: const BoxDecoration(color: Color(0xFFDCC8A9), shape: BoxShape.circle)),
+                            const SizedBox(width: 8),
+                            Expanded(child: Text('Email: $userEmail', style: TextStyle(color: Colors.grey.shade600, fontSize: 13), overflow: TextOverflow.ellipsis)),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-            const SizedBox(width: 16),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(title, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 15, color: isDestructive ? Colors.red : Colors.black87)),
-              const SizedBox(height: 2),
-              Text(subtitle, style: TextStyle(fontSize: 12, color: Colors.grey.shade500)),
-            ])),
-            Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 22),
-          ]),
+            const SizedBox(height: 20),
+
+            // SỐ DƯ HIỆN TẠI (navy blue box)
+            Container(
+              padding: const EdgeInsets.all(28),
+              decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: const Color(0xFF0F265C).withOpacity(0.3), blurRadius: 15, offset: const Offset(0, 8))]),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text('SỐ DƯ HIỆN TẠI', style: TextStyle(color: Colors.white70, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 1)),
+                      Icon(Icons.inventory_2_outlined, color: Colors.white.withOpacity(0.1), size: 40),
+                    ],
+                  ),
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text('${double.tryParse(tokenBalance.toString())?.toInt() ?? 0}', style: const TextStyle(fontFamily: 'Serif', color: Colors.white, fontSize: 44, fontWeight: FontWeight.bold)),
+                      const SizedBox(width: 8),
+                      const Padding(
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text('lượt', style: TextStyle(color: Colors.white70, fontSize: 16)),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  SizedBox(
+                    width: double.infinity, height: 48,
+                    child: ElevatedButton.icon(
+                      onPressed: () => MainGate.currentInstance?.switchTab(3),
+                      icon: const Icon(Icons.add_circle_outline, color: Color(0xFF0F265C), size: 18),
+                      label: const Text('Nạp lượt phân tích', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold)),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.white, elevation: 0, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 36),
+
+            const Text('Quản lý tài khoản', style: TextStyle(fontFamily: 'Serif', fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+            const SizedBox(height: 16),
+
+            _buildMenuItem(Icons.edit_outlined, 'Cập nhật thông tin', 'Thay đổi thông tin liên lạc và tiểu sử', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const EditProfileScreen()))),
+            _buildMenuItem(Icons.lock_outline, 'Đổi mật khẩu', 'Bảo mật tài khoản của bạn', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen()))),
+            _buildMenuItem(Icons.receipt_long_outlined, 'Lịch sử giao dịch', 'Xem lại các lượt đã nạp và sử dụng', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TransactionHistoryScreen()))),
+            _buildMenuItem(Icons.logout, 'Đăng xuất', 'Thoát khỏi tài khoản hiện tại', () => _logout(context), isDestructive: true),
+            
+            const SizedBox(height: 40),
+          ],
         ),
       ),
     );
   }
 
-  Widget _menuDivider() => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 18),
-    child: Divider(height: 1, color: Colors.grey.shade100),
-  );
-
-  String _fmtDate(String? s) {
-    if (s == null || s.isEmpty) return 'N/A';
-    try { final d = DateTime.parse(s); return '${d.day}/${d.month}/${d.year}'; } catch (_) { return s.length >= 10 ? s.substring(0, 10) : s; }
+  Widget _buildMenuItem(IconData icon, String title, String subtitle, VoidCallback onTap, {bool isDestructive = false}) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(color: const Color(0xFFF0EEDB), borderRadius: BorderRadius.circular(16)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(16),
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 4, offset: const Offset(0, 2))]),
+                  child: Icon(icon, color: isDestructive ? Colors.red : const Color(0xFF0F265C), size: 20),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(title, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: isDestructive ? Colors.red : const Color(0xFF0F265C))),
+                      const SizedBox(height: 2),
+                      Text(subtitle, style: TextStyle(fontSize: 11, color: isDestructive ? Colors.red.shade300 : Colors.grey.shade600)),
+                    ],
+                  ),
+                ),
+                Icon(Icons.chevron_right, color: Colors.grey.shade400, size: 20),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -2513,7 +2515,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Future<void> _updateProfile() async {
     setState(() => isUpdating = true);
     try {
-      final uri = Uri.parse('http://127.0.0.1:8000/api/profile/update');
+      final uri = Uri.parse('http://localhost:8000/api/profile/update');
       final request = http.MultipartRequest('POST', uri);
       request.headers['Authorization'] = 'Bearer ${AuthState.token}';
       request.fields['name'] = _nameCtrl.text.trim();
@@ -2528,7 +2530,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             !originalName.toLowerCase().endsWith('.jpeg')) {
           originalName += '.jpg'; // Fallback so Laravel passes mime validation
         }
-        request.files.add(http.MultipartFile.fromBytes('avatar', bytes, filename: originalName));
+        request.files.add(http.MultipartFile.fromBytes(
+          'avatar', 
+          bytes, 
+          filename: originalName,
+          contentType: MediaType('image', 'jpeg')
+        ));
       }
 
       final streamedResponse = await request.send();
@@ -2545,8 +2552,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         showGomNotification(context, _parseErrorMessage(res.body, res.statusCode), type: GomNotificationType.error);
       }
     } catch (e) {
+      print("Lỗi upload: $e");
       if (!mounted) return;
-      showGomNotification(context, "Lỗi kết nối máy chủ", type: GomNotificationType.error);
+      showGomNotification(context, "Lỗi kết nối máy chủ: ${e.toString().split(':').first}", type: GomNotificationType.error);
     } finally {
       if (mounted) setState(() => isUpdating = false);
     }
@@ -2554,8 +2562,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final currentAvatarUrl = AuthState.user?['avatar'] as String?;
-    
+    String? currentAvatarUrl = AuthState.user?['avatar'] as String?;
+    if (kIsWeb && currentAvatarUrl != null) {
+      currentAvatarUrl = currentAvatarUrl.replaceAll('http://localhost/', 'http://localhost:8000/');
+      currentAvatarUrl = currentAvatarUrl.replaceAll('http://localhost:8000/', 'http://localhost:8000/');
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F4),
       appBar: AppBar(
@@ -2770,7 +2782,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     setState(() => isChangingPass = true);
     try {
       final res = await http.post(
-        Uri.parse('http://127.0.0.1:8000/api/profile/password'),
+        Uri.parse('http://localhost:8000/api/profile/password'),
         headers: {'Authorization': 'Bearer ${AuthState.token}'},
         body: {
           'old_password': _oldPassCtrl.text,
@@ -2794,82 +2806,208 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     }
   }
 
+  Widget _buildTextField(String label, String hint, TextEditingController controller, IconData icon) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: const TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+            color: Color(0xFF5A6682),
+          ),
+        ),
+        const SizedBox(height: 10),
+        Container(
+          height: 56,
+          decoration: BoxDecoration(
+            color: const Color(0xFFF3F0E6),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: TextField(
+            controller: controller,
+            obscureText: true,
+            style: const TextStyle(color: Color(0xFF0F265C), fontSize: 15),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: const TextStyle(color: Color(0xFFB0B7C6), fontSize: 15),
+              border: InputBorder.none,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+              suffixIcon: Icon(icon, color: const Color(0xFFB0B7C6), size: 20),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    String? currentAvatarUrl = AuthState.user?['avatar'] as String?;
+    if (kIsWeb && currentAvatarUrl != null) {
+      currentAvatarUrl = currentAvatarUrl.replaceAll('http://localhost/', 'http://localhost:8000/');
+    }
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E8),
+      backgroundColor: const Color(0xFFFAF9F4),
       appBar: AppBar(
-        title: const Text('Đổi mật khẩu', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF1A2344),
-        iconTheme: const IconThemeData(color: Colors.white),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        titleSpacing: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF0F265C)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text(
+          'Đổi mật khẩu',
+          style: TextStyle(fontFamily: 'Serif', color: Color(0xFF0F265C), fontWeight: FontWeight.bold, fontSize: 18),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: CircleAvatar(
+              radius: 14,
+              backgroundColor: Colors.grey.shade300,
+              backgroundImage: currentAvatarUrl != null ? NetworkImage(currentAvatarUrl) : null,
+              child: currentAvatarUrl == null ? const Icon(Icons.person, size: 18, color: Colors.white) : null,
+            ),
+          )
+        ],
       ),
       body: Center(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 500),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.06), blurRadius: 14, offset: const Offset(0, 5))],
-            ),
-            child: Column(children: [
-              Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade50,
-                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+          padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 20),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 10),
+                const Text(
+                  'An toàn & Bảo\nmật',
+                  style: TextStyle(
+                    fontFamily: 'Serif',
+                    fontSize: 38,
+                    height: 1.15,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF0F265C),
+                  ),
                 ),
-                child: Row(children: [
-                  Icon(Icons.lock_outline, color: Colors.orange.shade700),
-                  const SizedBox(width: 10),
-                  Text('Thay đổi mật khẩu', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.orange.shade800)),
-                ]),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(24),
-                child: Column(children: [
-                  Container(
-                    padding: const EdgeInsets.all(14),
-                    margin: const EdgeInsets.only(bottom: 20),
-                    decoration: BoxDecoration(color: Colors.amber.shade50, borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.amber.shade200)),
-                    child: const Row(children: [
-                      Icon(Icons.info_outline, color: Colors.amber, size: 20),
-                      SizedBox(width: 10),
-                      Expanded(child: Text('Mật khẩu mới phải có ít nhất 6 ký tự và khác mật khẩu cũ.', style: TextStyle(fontSize: 12, color: Colors.black87))),
-                    ]),
+                const SizedBox(height: 16),
+                const Text(
+                  'Cập nhật mật khẩu thường xuyên để bảo vệ\ntài khoản của bạn.',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF5A6682),
+                    height: 1.5,
                   ),
-                  TextField(
-                    controller: _oldPassCtrl, obscureText: true,
-                    decoration: InputDecoration(labelText: 'Mật khẩu hiện tại', prefixIcon: const Icon(Icons.lock_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)), filled: true, fillColor: Colors.grey.shade50),
+                ),
+                const SizedBox(height: 48),
+                
+                _buildTextField('Mật khẩu hiện tại', '••••••••', _oldPassCtrl, Icons.visibility_outlined),
+                const SizedBox(height: 24),
+                
+                _buildTextField('Mật khẩu mới', 'Tối thiểu 8 ký tự', _newPassCtrl, Icons.lock_outline),
+                const SizedBox(height: 12),
+                
+                // Password strength indicator
+                Row(
+                  children: [
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(2)))),
+                    const SizedBox(width: 4),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(2)))),
+                    const SizedBox(width: 4),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(2)))),
+                    const SizedBox(width: 4),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFFDFDBCF), borderRadius: BorderRadius.circular(2)))),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                const Row(
+                  children: [
+                    Icon(Icons.check_circle, color: Color(0xFF0F265C), size: 14),
+                    SizedBox(width: 6),
+                    Text('MẬT KHẨU MẠNH', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF0F265C), letterSpacing: 0.5)),
+                  ],
+                ),
+                const SizedBox(height: 32),
+                
+                _buildTextField('Xác nhận mật khẩu mới', 'Nhập lại mật khẩu mới', _confirmPassCtrl, Icons.verified_user_outlined),
+                const SizedBox(height: 48),
+                
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE8E4D5),
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _newPassCtrl, obscureText: true,
-                    decoration: InputDecoration(labelText: 'Mật khẩu mới (≥6 ký tự)', prefixIcon: const Icon(Icons.lock_open_outlined), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)), filled: true, fillColor: Colors.grey.shade50),
-                  ),
-                  const SizedBox(height: 16),
-                  TextField(
-                    controller: _confirmPassCtrl, obscureText: true,
-                    decoration: InputDecoration(labelText: 'Xác nhận mật khẩu mới', prefixIcon: const Icon(Icons.check_circle_outline), border: OutlineInputBorder(borderRadius: BorderRadius.circular(14)), filled: true, fillColor: Colors.grey.shade50),
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity, height: 50,
-                    child: ElevatedButton.icon(
-                      onPressed: isChangingPass ? null : _changePassword,
-                      icon: isChangingPass ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2)) : const Icon(Icons.vpn_key_outlined),
-                      label: Text(isChangingPass ? 'Đang xử lý...' : 'Đổi mật khẩu', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange.shade700, foregroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                        elevation: 2,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFC0A57C),
+                          shape: BoxShape.rectangle,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: const Icon(Icons.lightbulb_outline, color: Color(0xFF514C3D), size: 22),
                       ),
+                      const SizedBox(width: 16),
+                      const Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Gợi ý bảo mật', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF514C3D))),
+                            SizedBox(height: 6),
+                            Text('Sử dụng tổ hợp chữ hoa, chữ thường, số và ký hiệu đặc biệt để tăng tính bảo mật cho tài khoản của bạn.', style: TextStyle(fontSize: 11, color: Color(0xFF514C3D), height: 1.5)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 42),
+                
+                SizedBox(
+                  width: double.infinity,
+                  height: 56,
+                  child: ElevatedButton(
+                    onPressed: isChangingPass ? null : _changePassword,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0F265C),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      elevation: 0,
+                    ),
+                    child: isChangingPass 
+                        ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+                        : const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text('Cập nhật mật khẩu', style: TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold)),
+                              SizedBox(width: 8),
+                              Icon(Icons.arrow_forward, color: Colors.white, size: 18),
+                            ],
+                          )
+                  ),
+                ),
+                const SizedBox(height: 24),
+                Center(
+                  child: RichText(
+                    text: const TextSpan(
+                      style: TextStyle(color: Color(0xFF8B8B8B), fontSize: 13),
+                      children: [
+                        TextSpan(text: 'Bạn quên mật khẩu hiện tại? '),
+                        TextSpan(text: 'Nhấn vào đây', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold)),
+                      ],
                     ),
                   ),
-                ]),
-              ),
-            ]),
+                ),
+                const SizedBox(height: 60),
+              ],
+            ),
           ),
         ),
       ),
@@ -2885,7 +3023,7 @@ class CeramicLinesListScreen extends StatefulWidget {
 }
 
 class _CeramicLinesListScreenState extends State<CeramicLinesListScreen> {
-  static const String _baseUrl = 'http://127.0.0.1:8000';
+  static const String _baseUrl = 'http://localhost:8000';
   List<dynamic> _allLines = [];
   List<dynamic> _filteredLines = [];
   bool _isLoading = true;
@@ -2929,204 +3067,333 @@ class _CeramicLinesListScreenState extends State<CeramicLinesListScreen> {
     });
   }
 
-  // Group by country
-  Map<String, List<dynamic>> _groupByCountry() {
-    final map = <String, List<dynamic>>{};
-    for (final c in _filteredLines) {
-      final country = c['country'] ?? 'Khác';
-      map.putIfAbsent(country, () => []);
-      map[country]!.add(c);
-    }
-    return map;
-  }
-
   @override
   Widget build(BuildContext context) {
-    final grouped = _groupByCountry();
-
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E8),
-      appBar: AppBar(
-        title: const Text('Dòng Gốm Trứ Danh', style: TextStyle(fontFamily: 'Serif', color: Colors.white, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF1A2344),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
+      backgroundColor: const Color(0xFFFAF9F4),
       body: _isLoading
-        ? const Center(child: CircularProgressIndicator(color: Color(0xFF1A2344)))
-        : Column(
-            children: [
-              // Search
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEDE8DF),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.search, color: Colors.grey.shade500, size: 22),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: TextField(
-                          controller: _searchCtrl,
-                          onChanged: _onSearch,
-                          decoration: InputDecoration(
-                            hintText: 'Tìm dòng gốm...',
-                            hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
-                            border: InputBorder.none,
-                            contentPadding: const EdgeInsets.symmetric(vertical: 12),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              // Count
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    '${_filteredLines.length} dòng gốm trên toàn thế giới',
-                    style: TextStyle(fontSize: 12, color: Colors.grey.shade600, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 8),
-              // List
-              Expanded(
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  children: grouped.entries.map((entry) {
-                    return Column(
+        ? const Center(child: CircularProgressIndicator(color: Color(0xFF0F265C)))
+        : CustomScrollView(
+            slivers: [
+              // Header
+              SliverToBoxAdapter(
+                child: SafeArea(
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 16, bottom: 8, left: 4),
+                        const Text(
+                          'Các Dòng Gốm Trứ Danh',
+                          style: TextStyle(fontFamily: 'Serif', fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF0F265C)),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          'Một thư viện kỹ thuật số lưu giữ những kiệt tác gốm sứ qua các triều đại lừng lẫy.',
+                          style: TextStyle(fontSize: 14, color: Colors.grey.shade600, height: 1.5),
+                        ),
+                        const SizedBox(height: 20),
+                        // Search
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF0EEDB),
+                            borderRadius: BorderRadius.circular(14),
+                          ),
                           child: Row(
                             children: [
-                              const Icon(Icons.flag_outlined, size: 16, color: Color(0xFF1A2344)),
-                              const SizedBox(width: 6),
-                              Text(
-                                entry.key.toUpperCase(),
-                                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w800, color: Color(0xFF1A2344), letterSpacing: 1),
+                              Icon(Icons.search, color: Colors.grey.shade500, size: 22),
+                              const SizedBox(width: 10),
+                              Expanded(
+                                child: TextField(
+                                  controller: _searchCtrl,
+                                  onChanged: _onSearch,
+                                  decoration: InputDecoration(
+                                    hintText: 'Tìm kiếm triều đại hoặc phong cách...',
+                                    hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
+                                    border: InputBorder.none,
+                                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                                  ),
+                                ),
                               ),
-                              const SizedBox(width: 6),
-                              Text('(${entry.value.length})', style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
                             ],
                           ),
                         ),
-                        ...entry.value.map((c) => _buildCeramicListItem(c)),
+                        const SizedBox(height: 24),
                       ],
-                    );
-                  }).toList(),
+                    ),
+                  ),
                 ),
               ),
+              // Cards
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (ctx, i) {
+                      final c = _filteredLines[i];
+                      final isEven = i % 2 == 0;
+                      return _buildCeramicCard(c, isEven);
+                    },
+                    childCount: _filteredLines.length,
+                  ),
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
             ],
           ),
     );
   }
 
-  Widget _buildCeramicListItem(dynamic c) => Container(
-    margin: const EdgeInsets.only(bottom: 10),
-    child: Material(
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
-      elevation: 1,
-      shadowColor: Colors.black12,
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-            builder: (ctx) => DraggableScrollableSheet(
-              initialChildSize: 0.6,
-              maxChildSize: 0.85,
-              minChildSize: 0.4,
-              expand: false,
-              builder: (context, sc) => SingleChildScrollView(
-                controller: sc,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Center(child: Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2)))),
-                      const SizedBox(height: 24),
-                      Text(c['name'] ?? '', style: const TextStyle(fontFamily: 'Serif', fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF1A2344))),
-                      const SizedBox(height: 6),
-                      Text('${c['origin'] ?? ''}, ${c['country'] ?? ''}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
-                      if (c['era'] != null) ...[
-                        const SizedBox(height: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          decoration: BoxDecoration(color: const Color(0xFF1A2344).withOpacity(0.08), borderRadius: BorderRadius.circular(8)),
-                          child: Text(c['era'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF1A2344))),
-                        ),
-                      ],
-                      const SizedBox(height: 20),
-                      const Divider(),
-                      const SizedBox(height: 12),
-                      if (c['style'] != null) ...[
-                        const Text('PHONG CÁCH', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.grey, letterSpacing: 1)),
-                        const SizedBox(height: 6),
-                        Wrap(
-                          spacing: 8, runSpacing: 6,
-                          children: (c['style'] as String).split(',').map((s) => Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(color: const Color(0xFFF5F0E8), borderRadius: BorderRadius.circular(20)),
-                            child: Text(s.trim(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF1A2344))),
-                          )).toList(),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                      if (c['description'] != null) ...[
-                        const Text('MÔ TẢ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.grey, letterSpacing: 1)),
-                        const SizedBox(height: 8),
-                        Text(c['description'], style: const TextStyle(fontSize: 15, height: 1.6, color: Color(0xFF333333))),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
+  Widget _buildCeramicCard(dynamic c, bool imageOnRight) {
+    final imgUrl = c['image_url'] as String?;
+    final name = c['name'] ?? '';
+    final era = c['era'] ?? '';
+    final desc = c['description'] ?? '';
+    final style = c['style'] as String?;
+    final tags = style != null ? style.split(',').map((s) => s.trim()).take(3).toList() : <String>[];
+
+    final imageWidget = ClipRRect(
+      borderRadius: BorderRadius.circular(14),
+      child: imgUrl != null && imgUrl.isNotEmpty
+        ? Image.network(imgUrl, width: 130, height: 120, fit: BoxFit.cover,
+            errorBuilder: (_, __, ___) => Container(
+              width: 130, height: 120,
+              decoration: BoxDecoration(color: const Color(0xFFE8E4D5), borderRadius: BorderRadius.circular(14)),
+              child: const Icon(Icons.image_outlined, color: Colors.grey, size: 40),
             ),
-          );
-        },
+          )
+        : Container(
+            width: 130, height: 120,
+            decoration: BoxDecoration(color: const Color(0xFFE8E4D5), borderRadius: BorderRadius.circular(14)),
+            child: const Icon(Icons.image_outlined, color: Colors.grey, size: 40),
+          ),
+    );
+
+    final textWidget = Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(era.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w800, color: Color(0xFF0F265C), letterSpacing: 0.8)),
+          const SizedBox(height: 6),
+          Text(name, style: const TextStyle(fontFamily: 'Serif', fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+          const SizedBox(height: 8),
+          Text(desc, style: TextStyle(fontSize: 12, color: Colors.grey.shade600, height: 1.4), maxLines: 4, overflow: TextOverflow.ellipsis),
+          if (tags.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 6, runSpacing: 4,
+              children: tags.map((t) => Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xFF0F265C).withOpacity(0.3)),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Text(t, style: const TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: Color(0xFF0F265C))),
+              )).toList(),
+            ),
+          ],
+        ],
+      ),
+    );
+
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+          builder: (ctx) => _buildDetailSheet(c),
+        );
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 6))],
+        ),
+        child: imageOnRight
+          ? Row(crossAxisAlignment: CrossAxisAlignment.start, children: [textWidget, const SizedBox(width: 14), imageWidget])
+          : Row(crossAxisAlignment: CrossAxisAlignment.start, children: [imageWidget, const SizedBox(width: 14), textWidget]),
+      ),
+    );
+  }
+
+  Widget _buildDetailSheet(dynamic c) {
+    final imgUrl = c['image_url'] as String?;
+    return DraggableScrollableSheet(
+      initialChildSize: 0.7,
+      maxChildSize: 0.9,
+      minChildSize: 0.4,
+      expand: false,
+      builder: (context, sc) => SingleChildScrollView(
+        controller: sc,
         child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 40),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(c['name'] ?? '', style: const TextStyle(fontFamily: 'Serif', fontSize: 16, fontWeight: FontWeight.w800, color: Color(0xFF1A2344))),
-                    const SizedBox(height: 4),
-                    Text('${c['origin'] ?? ''} • ${c['era'] ?? ''}', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
-                    if (c['style'] != null) ...[
-                      const SizedBox(height: 6),
-                      Text(c['style'], style: TextStyle(fontSize: 11, color: Colors.grey.shade500, fontStyle: FontStyle.italic), maxLines: 1, overflow: TextOverflow.ellipsis),
-                    ],
-                  ],
+              Center(child: Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2)))),
+              const SizedBox(height: 24),
+              if (imgUrl != null && imgUrl.isNotEmpty)
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.network(imgUrl, width: double.infinity, height: 200, fit: BoxFit.cover),
                 ),
-              ),
-              if (c['is_featured'] == true)
+              if (imgUrl != null && imgUrl.isNotEmpty) const SizedBox(height: 20),
+              Text(c['name'] ?? '', style: const TextStyle(fontFamily: 'Serif', fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF0F265C))),
+              const SizedBox(height: 6),
+              Text('${c['origin'] ?? ''}, ${c['country'] ?? ''}', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
+              if (c['era'] != null) ...[
+                const SizedBox(height: 8),
                 Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(color: Colors.amber.shade50, borderRadius: BorderRadius.circular(6)),
-                  child: const Text('Nổi bật', style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Colors.amber)),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(color: const Color(0xFF0F265C).withOpacity(0.08), borderRadius: BorderRadius.circular(8)),
+                  child: Text(c['era'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: Color(0xFF0F265C))),
                 ),
-              const SizedBox(width: 8),
-              const Icon(Icons.chevron_right, color: Colors.grey, size: 20),
+              ],
+              const SizedBox(height: 20),
+              const Divider(),
+              const SizedBox(height: 12),
+              if (c['style'] != null) ...[
+                const Text('PHONG CÁCH', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.grey, letterSpacing: 1)),
+                const SizedBox(height: 6),
+                Wrap(
+                  spacing: 8, runSpacing: 6,
+                  children: (c['style'] as String).split(',').map((s) => Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(color: const Color(0xFFF0EEDB), borderRadius: BorderRadius.circular(20)),
+                    child: Text(s.trim(), style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: Color(0xFF0F265C))),
+                  )).toList(),
+                ),
+                const SizedBox(height: 20),
+              ],
+              if (c['description'] != null) ...[
+                const Text('MÔ TẢ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Colors.grey, letterSpacing: 1)),
+                const SizedBox(height: 8),
+                Text(c['description'], style: const TextStyle(fontSize: 15, height: 1.6, color: Color(0xFF333333))),
+              ],
             ],
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
+}
+
+// --- TRANSACTION HISTORY SCREEN ---
+class TransactionHistoryScreen extends StatefulWidget {
+  const TransactionHistoryScreen({Key? key}) : super(key: key);
+  @override
+  State<TransactionHistoryScreen> createState() => _TransactionHistoryScreenState();
+}
+
+class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
+  static const String _baseUrl = 'http://localhost:8000';
+  bool _isLoading = true;
+  List<dynamic> _transactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchTransactions();
+  }
+
+  Future<void> _fetchTransactions() async {
+    try {
+      final res = await http.get(
+        Uri.parse('$_baseUrl/api/payment/history'),
+        headers: {'Authorization': 'Bearer ${AuthState.token}'},
+      );
+      if (res.statusCode == 200) {
+        final body = jsonDecode(res.body);
+        if (mounted) {
+          setState(() {
+            _transactions = body['data'] ?? [];
+            _isLoading = false;
+          });
+        }
+      }
+    } catch (_) {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  String _fmtDate(String? raw) {
+    if (raw == null) return '';
+    try {
+      final d = DateTime.parse(raw);
+      return '${d.day}/${d.month}/${d.year} ${d.hour}:${d.minute.toString().padLeft(2, '0')}';
+    } catch (_) {
+      return raw;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFFFAF9F4),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Color(0xFF0F265C)),
+        title: const Text('Lịch sử giao dịch', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold, fontFamily: 'Serif', fontSize: 18)),
+      ),
+      body: _isLoading 
+        ? const Center(child: CircularProgressIndicator())
+        : _transactions.isEmpty
+          ? const Center(child: Text('Chưa có giao dịch nào', style: TextStyle(color: Colors.grey)))
+          : ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+              itemCount: _transactions.length,
+              itemBuilder: (ctx, i) {
+                final tx = _transactions[i];
+                final isAdd = tx['type'] == 'in';
+                final amount = tx['amount'] ?? 0;
+                final desc = tx['description'] ?? 'Giao dịch';
+                final date = _fmtDate(tx['created_at']);
+                
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 12),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 10, offset: const Offset(0, 4))],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(color: isAdd ? Colors.green.withOpacity(0.1) : Colors.orange.withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
+                        child: Icon(isAdd ? Icons.arrow_downward : Icons.arrow_upward, color: isAdd ? Colors.green : Colors.orange, size: 20),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(desc, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F265C)), maxLines: 2, overflow: TextOverflow.ellipsis),
+                            const SizedBox(height: 4),
+                            Text(date, style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Text(
+                        '${isAdd ? '+' : '-'}${double.tryParse(amount.toString())?.toInt() ?? amount}',
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: isAdd ? Colors.green : Colors.orange),
+                      ),
+                      const SizedBox(width: 4),
+                      Text('lượt', style: TextStyle(fontSize: 12, color: Colors.grey.shade600)),
+                    ],
+                  ),
+                );
+              },
+            ),
+    );
+  }
 }

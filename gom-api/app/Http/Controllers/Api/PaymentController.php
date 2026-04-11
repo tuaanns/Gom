@@ -12,9 +12,9 @@ class PaymentController extends Controller
     const SECRET_XOR_KEY = 0x5EAFB;
     const FREE_LIMIT = 5;
     const PACKAGES = [
-        1 => ['name'=>'Goi Co Ban',    'amount_vnd'=>20000,  'credit'=>10],
-        2 => ['name'=>'Goi Tieu Chuan','amount_vnd'=>50000,  'credit'=>30],
-        3 => ['name'=>'Goi Cao Cap',   'amount_vnd'=>100000, 'credit'=>70],
+        1 => ['name'=>'Goi Co Ban',    'amount_vnd'=>150000,  'credit'=>10],
+        2 => ['name'=>'Goi Pho Bien',  'amount_vnd'=>600000,  'credit'=>50],
+        3 => ['name'=>'Goi Chuyen Gia','amount_vnd'=>2000000, 'credit'=>200],
     ];
 
     private function encodeId(int $id): string {
@@ -94,7 +94,6 @@ class PaymentController extends Controller
                                 $user = auth()->user();
                                 $user->increment('token_balance', $payment->credit_amount);
                                 TokenHistory::create(['user_id'=>$user->id,'type'=>'in','amount'=>$payment->credit_amount,'description'=>'Nap tien: '.$payment->package_name]);
-                                return response()->json(['status'=>'completed','credit_amount'=>$payment->credit_amount]);
                             }
                         }
                     }
@@ -102,6 +101,17 @@ class PaymentController extends Controller
             } catch (\Exception $e) {}
         }
         return response()->json(['status'=>'pending']);
+    }
+
+    public function testCompletePayment(Request $request, $paymentId) {
+        $payment = Payment::where('id', $paymentId)->where('user_id', auth()->id())->firstOrFail();
+        if ($payment->status !== 'completed') {
+            $payment->update(['status'=>'completed']);
+            $user = auth()->user();
+            $user->increment('token_balance', $payment->credit_amount);
+            TokenHistory::create(['user_id'=>$user->id,'type'=>'in','amount'=>$payment->credit_amount,'description'=>'Nap tien (TEST): '.$payment->package_name]);
+        }
+        return response()->json(['status'=>'completed','credit_amount'=>$payment->credit_amount]);
     }
 }
 

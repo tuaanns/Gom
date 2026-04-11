@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/payment/history', [PaymentController::class, 'getHistory']);
     Route::post('/payment/create', [PaymentController::class, 'createPayment']);
     Route::get('/payment/check/{paymentId}', [PaymentController::class, 'checkStatus']);
+    Route::post('/payment/test-complete/{paymentId}', [PaymentController::class, 'testCompletePayment']);
 });
 
 Route::get('/img/{path}', function (string $path) {
