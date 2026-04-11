@@ -150,4 +150,56 @@ class AuthController extends Controller
         $user->update(['password' => Hash::make($request->password)]);
         return response(['message' => 'Đổi mật khẩu thành công'], 200);
     }
+    public function forgotPassword(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $code = str_pad(rand(0, 999999), 6, '0', STR_PAD_LEFT);
+
+        // Save to password_reset_tokens
+        \Illuminate\Support\Facades\DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $fields['email']],
+            ['token' => $code, 'created_at' => now()]
+        );
+
+        // Send email
+        \Illuminate\Support\Facades\Mail::raw("Mã khôi phục mật khẩu của bạn là: $code\n\nMã này có hiệu lực trong 15 phút.", function ($message) use ($fields) {
+            $message->to($fields['email'])->subject('Mã Khôi Phục Mật Khẩu - Gom AI');
+        });
+
+        return response(['message' => 'Mã khôi phục đã được gửi vào email của bạn (Vui lòng kiểm tra hộp thư đến hoặc hộp thư rác)'], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $fields = $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'code' => 'required|string',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $resetRecord = \Illuminate\Support\Facades\DB::table('password_reset_tokens')
+            ->where('email', $fields['email'])
+            ->where('token', $fields['code'])
+            ->first();
+
+        if (!$resetRecord) {
+            return response(['message' => 'Mã xác nhận không hợp lệ hoặc đã hết hạn.'], 400);
+        }
+
+        // Check if token is older than 15 minutes
+        if (\Carbon\Carbon::parse($resetRecord->created_at)->addMinutes(15)->isPast()) {
+            return response(['message' => 'Mã xác nhận đã hết hạn.'], 400);
+        }
+
+        $user = User::where('email', $fields['email'])->first();
+        $user->update(['password' => Hash::make($fields['password'])]);
+
+        // Delete the token
+        \Illuminate\Support\Facades\DB::table('password_reset_tokens')->where('email', $fields['email'])->delete();
+
+        return response(['message' => 'Mật khẩu đã được cập nhật thành công.'], 200);
+    }
 }

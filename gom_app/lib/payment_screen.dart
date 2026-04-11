@@ -232,32 +232,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final avatarUrl = AuthState.user?['avatar'] as String?;
-    
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F4),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu, color: Color(0xFF0F265C)),
-            onPressed: () => Scaffold.of(context).openDrawer(),
-          ),
-        ),
         title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              radius: 14,
-              backgroundColor: Colors.grey.shade300,
-              backgroundImage: avatarUrl != null ? NetworkImage(avatarUrl.replaceAll('http://localhost/', 'http://localhost:8000/')) : null,
-              child: avatarUrl == null ? const Icon(Icons.person, size: 18, color: Colors.white) : null,
-            ),
-          )
-        ],
       ),
       body: CustomScrollView(
         slivers: [

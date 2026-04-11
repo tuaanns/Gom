@@ -1243,9 +1243,6 @@ class _DebateScreenState extends State<DebateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userName = AuthState.user?['name']?.toString() ?? 'Người dùng';
-    final initial = userName.isNotEmpty ? userName[0].toUpperCase() : 'U';
-
     return Scaffold(
       backgroundColor: const Color(0xFFF5F0E8),
       body: SafeArea(
@@ -1256,75 +1253,17 @@ class _DebateScreenState extends State<DebateScreen> {
               // --- Custom Top Bar ---
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Open drawer-style menu
-                        showModalBottomSheet(
-                          context: context,
-                          shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                          builder: (ctx) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 24),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Text('Menu', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-                                const SizedBox(height: 16),
-                                ListTile(
-                                  leading: const Icon(Icons.person_outline, color: Color(0xFF1A2344)),
-                                  title: const Text('Hồ sơ của tôi'),
-                                  onTap: () { Navigator.pop(ctx); Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen())); },
-                                ),
-                                ListTile(
-                                  leading: const Icon(Icons.history, color: Color(0xFF1A2344)),
-                                  title: const Text('Lịch sử giám định'),
-                                  onTap: () { Navigator.pop(ctx); MainGate.currentInstance?.switchTab(2); },
-                                ),
-                                ListTile(
-                                  leading: const Icon(Icons.account_balance_wallet_outlined, color: Color(0xFF1A2344)),
-                                  title: const Text('Nạp lượt'),
-                                  onTap: () { Navigator.pop(ctx); MainGate.currentInstance?.switchTab(3); },
-                                ),
-                                const Divider(),
-                                ListTile(
-                                  leading: const Icon(Icons.logout, color: Colors.red),
-                                  title: const Text('Đăng xuất', style: TextStyle(color: Colors.red)),
-                                  onTap: () { Navigator.pop(ctx); _logout(); },
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                      child: const Icon(Icons.menu, color: Color(0xFF1A2344), size: 26),
+                child: Center(
+                  child: const Text(
+                    'THE ARCHIVIST',
+                    style: TextStyle(
+                      fontFamily: 'Serif',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF1A2344),
+                      letterSpacing: 2.5,
                     ),
-                    const Text(
-                      'THE ARCHIVIST',
-                      style: TextStyle(
-                        fontFamily: 'Serif',
-                        fontSize: 16,
-                        fontWeight: FontWeight.w800,
-                        color: Color(0xFF1A2344),
-                        letterSpacing: 2.5,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ProfileScreen())),
-                      child: Container(
-                        width: 36,
-                        height: 36,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          gradient: const LinearGradient(colors: [Color(0xFF3949AB), Color(0xFF5C6BC0)]),
-                          border: Border.all(color: Colors.white, width: 2),
-                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 6, offset: const Offset(0, 2))],
-                        ),
-                        child: Center(child: Text(initial, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold))),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ),
 
@@ -2124,57 +2063,119 @@ class _HistoryScreenState extends State<HistoryScreen> {
     }
   }
 
+  String _fmtDate(String? raw) {
+    if (raw == null) return '';
+    try {
+      final d = DateTime.parse(raw);
+      return '${d.day}/${d.month}/${d.year}';
+    } catch (_) {
+      return raw;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E8),
+      backgroundColor: const Color(0xFFFAF9F4),
       appBar: AppBar(
-        title: const Text('Lịch sử giám định', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF1A2344),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.white),
-          onPressed: () {
-            MainGate.currentInstance?.switchTab(0);
-          },
-        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
       ),
       body: RefreshIndicator(
         onRefresh: _fetchHistory,
-        child: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : history.isEmpty
-            ? ListView(children: const [
-                SizedBox(height: 200),
-                Center(child: Icon(Icons.history_toggle_off, size: 70, color: Colors.grey)),
-                Center(child: Padding(padding: EdgeInsets.all(16), child: Text('Chưa có lịch sử giám định nào', style: TextStyle(color: Colors.grey, fontSize: 16)))),
-              ])
-            : ListView.separated(
-                padding: const EdgeInsets.all(12),
-                itemCount: history.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 8),
-                itemBuilder: (context, i) {
-                  final item = history[i] as Map<String, dynamic>? ?? {};
-                  return Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      leading: Container(
-                        width: 48, height: 48,
-                        decoration: BoxDecoration(color: const Color(0xFF1A237E).withOpacity(0.1), borderRadius: BorderRadius.circular(12)),
-                        child: const Icon(Icons.analytics, color: Color(0xFF1A237E)),
-                      ),
-                      title: Text(item['prediction']?.toString() ?? 'Chưa xác định', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
-                      subtitle: Text('${item['country'] ?? ''} - ${item['era'] ?? ''}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
-                      trailing: const Icon(Icons.chevron_right, color: Color(0xFF1A237E)),
-                      onTap: () {
-                        if (item['data'] != null) {
-                          Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryDetailScreen(data: item['data'] as Map<String, dynamic>? ?? {}, imageUrl: item['image_url']?.toString() ?? '')));
-                        }
-                      },
-                    ),
-                  );
-                },
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(24, 16, 24, 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Lịch Sử Giám Định', style: TextStyle(fontFamily: 'Serif', fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+                    const SizedBox(height: 8),
+                    Text('Xem lại các hiện vật đã được AI phân tích và nhận dạng.', style: TextStyle(fontSize: 14, color: Colors.grey.shade600, height: 1.5)),
+                    const SizedBox(height: 20),
+                  ],
+                ),
               ),
+            ),
+            if (isLoading)
+              const SliverFillRemaining(child: Center(child: CircularProgressIndicator(color: Color(0xFF0F265C))))
+            else if (history.isEmpty)
+              SliverFillRemaining(
+                child: Center(
+                  child: Column(mainAxisSize: MainAxisSize.min, children: [
+                    Icon(Icons.history_toggle_off, size: 70, color: Colors.grey.shade300),
+                    const SizedBox(height: 16),
+                    Text('Chưa có lịch sử giám định nào', style: TextStyle(color: Colors.grey.shade500, fontSize: 16)),
+                    const SizedBox(height: 8),
+                    Text('Hãy chụp ảnh hiện vật để bắt đầu!', style: TextStyle(color: Colors.grey.shade400, fontSize: 13)),
+                  ]),
+                ),
+              )
+            else
+              SliverPadding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                sliver: SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (ctx, i) => _buildHistoryCard(history[i] as Map<String, dynamic>? ?? {}),
+                    childCount: history.length,
+                  ),
+                ),
+              ),
+            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHistoryCard(Map<String, dynamic> item) {
+    final prediction = item['prediction']?.toString() ?? 'Chưa xác định';
+    final country = item['country']?.toString() ?? '';
+    final era = item['era']?.toString() ?? '';
+    final date = _fmtDate(item['created_at']?.toString());
+    String imgUrl = item['image_url']?.toString() ?? '';
+    if (imgUrl.isNotEmpty && !imgUrl.startsWith('http')) imgUrl = 'http://localhost:8000$imgUrl';
+    final data = item['data'] as Map<String, dynamic>?;
+    final finalReport = data?['final_report'] as Map<String, dynamic>?;
+    final confidence = finalReport?['confidence']?.toString() ?? finalReport?['final_confidence']?.toString();
+
+    return GestureDetector(
+      onTap: () {
+        if (data != null) Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryDetailScreen(data: data, imageUrl: imgUrl)));
+      },
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 20),
+        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(20), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 15, offset: const Offset(0, 6))]),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Stack(children: [
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+              child: imgUrl.isNotEmpty
+                ? Image.network(imgUrl, width: double.infinity, height: 200, fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(height: 200, width: double.infinity, decoration: const BoxDecoration(color: Color(0xFF1A2344), borderRadius: BorderRadius.vertical(top: Radius.circular(20))), child: const Center(child: Icon(Icons.image_outlined, color: Colors.white38, size: 60))))
+                : Container(height: 200, width: double.infinity, decoration: const BoxDecoration(color: Color(0xFF1A2344), borderRadius: BorderRadius.vertical(top: Radius.circular(20))), child: const Center(child: Icon(Icons.image_outlined, color: Colors.white38, size: 60))),
+            ),
+            if (era.isNotEmpty) Positioned(top: 12, right: 12, child: Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6), decoration: BoxDecoration(color: Colors.black.withOpacity(0.6), borderRadius: BorderRadius.circular(8)), child: Text(era.toUpperCase(), style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold, letterSpacing: 0.5)))),
+          ]),
+          Padding(padding: const EdgeInsets.all(18), child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            if (confidence != null)
+              Row(children: [
+                Container(padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5), decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+                  child: Row(mainAxisSize: MainAxisSize.min, children: [const Icon(Icons.verified, size: 14, color: Colors.green), const SizedBox(width: 4), Text('CHÍNH XÁC $confidence%', style: const TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.green))])),
+                const Spacer(),
+                Text(date, style: TextStyle(fontSize: 11, color: Colors.grey.shade500)),
+              ])
+            else
+              Align(alignment: Alignment.centerRight, child: Text(date, style: TextStyle(fontSize: 11, color: Colors.grey.shade500))),
+            const SizedBox(height: 12),
+            Text(prediction, style: const TextStyle(fontFamily: 'Serif', fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+            if (country.isNotEmpty) ...[const SizedBox(height: 8), Text('Phát hiện các đặc điểm đặc trưng thuộc dòng gốm $prediction, $country.', style: TextStyle(fontSize: 13, color: Colors.grey.shade600, height: 1.5), maxLines: 3, overflow: TextOverflow.ellipsis)],
+          ])),
+        ]),
       ),
     );
   }
@@ -2190,88 +2191,100 @@ class HistoryDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final finalReport = data['final_report'] as Map<String, dynamic>? ?? {};
     final agents = (data['agent_predictions'] as List?) ?? [];
+    final prediction = finalReport['final_prediction']?.toString() ?? 'Chưa xác định';
+    final country = finalReport['final_country']?.toString() ?? 'N/A';
+    final era = finalReport['final_era']?.toString() ?? 'N/A';
+    final reasoning = finalReport['reasoning']?.toString() ?? '';
+    final confidence = finalReport['confidence']?.toString() ?? finalReport['final_confidence']?.toString();
+
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F0E8),
-      appBar: AppBar(
-        title: const Text('Chi tiết giám định', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-        backgroundColor: const Color(0xFF1A2344),
-        iconTheme: const IconThemeData(color: Colors.white),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          if (imageUrl.isNotEmpty)
-            Container(
-              width: double.infinity,
-              constraints: const BoxConstraints(maxHeight: 250),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10)]),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  imageUrl.startsWith('http') ? imageUrl : 'http://localhost:8000$imageUrl',
-                  fit: BoxFit.contain,
-                  errorBuilder: (_, __, ___) => Container(
-                    height: 150, color: Colors.grey.shade200,
-                    child: const Center(child: Icon(Icons.broken_image, size: 50, color: Colors.grey)),
-                  ),
-                ),
-              ),
-            ),
-          const SizedBox(height: 20),
-          Card(
-            elevation: 4, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), gradient: LinearGradient(colors: [Colors.blue.shade50, Colors.white], begin: Alignment.topCenter)),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                const Text('🏆 KẾT LUẬN CUỐI CÙNG', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1A237E))),
-                const Divider(height: 20),
-                Text(finalReport['final_prediction']?.toString() ?? 'Chưa xác định', style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: Colors.blueAccent)),
-                const SizedBox(height: 8),
-                Text('Quốc gia: ${finalReport['final_country']?.toString() ?? 'N/A'} | Niên đại: ${finalReport['final_era']?.toString() ?? 'N/A'}', style: const TextStyle(fontWeight: FontWeight.w600)),
-                const SizedBox(height: 12),
-                Text(finalReport['reasoning']?.toString() ?? '', style: const TextStyle(height: 1.5)),
+      backgroundColor: const Color(0xFFFAF9F4),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 300,
+            pinned: true,
+            backgroundColor: const Color(0xFF0F265C),
+            iconTheme: const IconThemeData(color: Colors.white),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Stack(fit: StackFit.expand, children: [
+                if (imageUrl.isNotEmpty)
+                  Image.network(imageUrl, fit: BoxFit.cover, errorBuilder: (_, __, ___) => Container(color: const Color(0xFF1A2344)))
+                else
+                  Container(color: const Color(0xFF1A2344)),
+                Container(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, Colors.black.withOpacity(0.6)]))),
+                if (era != 'N/A')
+                  Positioned(top: 100, right: 16, child: Container(padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7), decoration: BoxDecoration(color: Colors.black.withOpacity(0.5), borderRadius: BorderRadius.circular(8)), child: Text(era.toUpperCase(), style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold, letterSpacing: 0.5)))),
               ]),
             ),
           ),
-          const SizedBox(height: 20),
-          if (agents.isNotEmpty) ...[
-            const Text('GÓC NHÌN CHUYÊN GIA', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-            const SizedBox(height: 8),
-            ...agents.map((agent) {
-              final a = agent as Map<String, dynamic>? ?? {};
-              final pred = a['prediction'];
-              final name = pred is Map ? pred['ceramic_line']?.toString() ?? '' : pred?.toString() ?? '';
-              final country = pred is Map ? pred['country']?.toString() ?? '' : a['country']?.toString() ?? '';
-              final era = pred is Map ? pred['era']?.toString() ?? '' : a['era']?.toString() ?? '';
-              return Card(
-                margin: const EdgeInsets.only(bottom: 8),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                child: Padding(
-                  padding: const EdgeInsets.all(14),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(a['agent_name']?.toString() ?? '', style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.indigo)),
-                    const SizedBox(height: 4),
-                    Text('$name | $country | $era', style: const TextStyle(fontSize: 13)),
-                    if (a['evidence'] != null) ...[
-                      const SizedBox(height: 6),
-                      Text(a['evidence'].toString(), style: const TextStyle(fontSize: 12, color: Colors.grey, height: 1.4)),
-                    ],
-                  ]),
-                ),
-              );
-            }),
-          ],
-        ]),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                if (confidence != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                    decoration: BoxDecoration(color: Colors.green.withOpacity(0.1), borderRadius: BorderRadius.circular(20)),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [const Icon(Icons.verified, size: 16, color: Colors.green), const SizedBox(width: 6), Text('CHÍNH XÁC $confidence%', style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.green))]),
+                  ),
+                const SizedBox(height: 16),
+                Text(prediction, style: const TextStyle(fontFamily: 'Serif', fontSize: 28, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+                const SizedBox(height: 8),
+                Text('$country • $era', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.grey.shade600)),
+                const SizedBox(height: 20),
+                if (reasoning.isNotEmpty) ...[
+                  Container(
+                    width: double.infinity, padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(18), boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 10)]),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      const Text('PHÂN TÍCH CHI TIẾT', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF0F265C), letterSpacing: 1)),
+                      const SizedBox(height: 12),
+                      Text(reasoning, style: const TextStyle(fontSize: 14, height: 1.7, color: Color(0xFF333333))),
+                    ]),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+                if (agents.isNotEmpty) ...[
+                  const Text('GÓC NHÌN CHUYÊN GIA', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF0F265C), letterSpacing: 1)),
+                  const SizedBox(height: 12),
+                  ...agents.map((agent) {
+                    final a = agent as Map<String, dynamic>? ?? {};
+                    final pred = a['prediction'];
+                    final name = pred is Map ? pred['ceramic_line']?.toString() ?? '' : pred?.toString() ?? '';
+                    final agentCountry = pred is Map ? pred['country']?.toString() ?? '' : a['country']?.toString() ?? '';
+                    final agentEra = pred is Map ? pred['era']?.toString() ?? '' : a['era']?.toString() ?? '';
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 12), padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(color: const Color(0xFFF0EEDB), borderRadius: BorderRadius.circular(16)),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Text(a['agent_name']?.toString() ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: Color(0xFF0F265C))),
+                        const SizedBox(height: 6),
+                        Text('$name • $agentCountry • $agentEra', style: TextStyle(fontSize: 13, color: Colors.grey.shade700)),
+                        if (a['evidence'] != null) ...[const SizedBox(height: 8), Text(a['evidence'].toString(), style: TextStyle(fontSize: 12, color: Colors.grey.shade600, height: 1.5))],
+                      ]),
+                    );
+                  }),
+                ],
+                const SizedBox(height: 40),
+              ]),
+            ),
+          ),
+        ],
       ),
     );
   }
 }
 
 // --- PROFILE SCREEN (Read-Only Info + Menu) ---
-class ProfileScreen extends StatelessWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
 
   void _logout(BuildContext context) {
     showDialog(
@@ -2315,14 +2328,8 @@ class ProfileScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        centerTitle: false,
-        title: const Text('Artifact Archivist', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold, letterSpacing: 1.0, fontSize: 18, fontFamily: 'Serif')),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings_outlined, color: Color(0xFF0F265C)),
-            onPressed: () {},
-          )
-        ],
+        centerTitle: true,
+        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
@@ -2431,7 +2438,10 @@ class ProfileScreen extends StatelessWidget {
             const Text('Quản lý tài khoản', style: TextStyle(fontFamily: 'Serif', fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
             const SizedBox(height: 16),
 
-            _buildMenuItem(Icons.edit_outlined, 'Cập nhật thông tin', 'Thay đổi thông tin liên lạc và tiểu sử', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const EditProfileScreen()))),
+            _buildMenuItem(Icons.edit_outlined, 'Cập nhật thông tin', 'Thay đổi thông tin liên lạc và tiểu sử', () async {
+              await Navigator.push(context, MaterialPageRoute(builder: (_) => const EditProfileScreen()));
+              if (mounted) setState(() {});
+            }),
             _buildMenuItem(Icons.lock_outline, 'Đổi mật khẩu', 'Bảo mật tài khoản của bạn', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen()))),
             _buildMenuItem(Icons.receipt_long_outlined, 'Lịch sử giao dịch', 'Xem lại các lượt đã nạp và sử dụng', () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TransactionHistoryScreen()))),
             _buildMenuItem(Icons.logout, 'Đăng xuất', 'Thoát khỏi tài khoản hiện tại', () => _logout(context), isDestructive: true),
@@ -2769,6 +2779,34 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   final _newPassCtrl = TextEditingController();
   final _confirmPassCtrl = TextEditingController();
   bool isChangingPass = false;
+  bool _obscureOldPass = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _newPassCtrl.addListener(() {
+      setState(() {});
+    });
+  }
+
+  @override
+  void dispose() {
+    _oldPassCtrl.dispose();
+    _newPassCtrl.dispose();
+    _confirmPassCtrl.dispose();
+    super.dispose();
+  }
+
+  int get _passwordStrength {
+    final p = _newPassCtrl.text;
+    if (p.isEmpty) return 0;
+    if (p.length < 6) return 1;
+    int score = 1;
+    if (p.length >= 8) score++;
+    if (p.contains(RegExp(r'[A-Za-z]')) && p.contains(RegExp(r'[0-9]'))) score++;
+    if (p.contains(RegExp(r'[!@#\$%^&*(),.?":{}|<>]'))) score++;
+    return score.clamp(1, 4);
+  }
 
   Future<void> _changePassword() async {
     if (_newPassCtrl.text.length < 6) {
@@ -2806,7 +2844,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     }
   }
 
-  Widget _buildTextField(String label, String hint, TextEditingController controller, IconData icon) {
+  Widget _buildTextField(String label, String hint, TextEditingController controller, IconData icon, {bool obscure = true, VoidCallback? onIconTap}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -2828,14 +2866,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           ),
           child: TextField(
             controller: controller,
-            obscureText: true,
+            obscureText: obscure,
             style: const TextStyle(color: Color(0xFF0F265C), fontSize: 15),
             decoration: InputDecoration(
               hintText: hint,
               hintStyle: const TextStyle(color: Color(0xFFB0B7C6), fontSize: 15),
               border: InputBorder.none,
               contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
-              suffixIcon: Icon(icon, color: const Color(0xFFB0B7C6), size: 20),
+              suffixIcon: GestureDetector(
+                onTap: onIconTap,
+                child: Icon(icon, color: const Color(0xFFB0B7C6), size: 20),
+              ),
             ),
           ),
         ),
@@ -2845,10 +2886,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String? currentAvatarUrl = AuthState.user?['avatar'] as String?;
-    if (kIsWeb && currentAvatarUrl != null) {
-      currentAvatarUrl = currentAvatarUrl.replaceAll('http://localhost/', 'http://localhost:8000/');
-    }
+    final strength = _passwordStrength;
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F4),
@@ -2864,17 +2902,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           'Đổi mật khẩu',
           style: TextStyle(fontFamily: 'Serif', color: Color(0xFF0F265C), fontWeight: FontWeight.bold, fontSize: 18),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: CircleAvatar(
-              radius: 14,
-              backgroundColor: Colors.grey.shade300,
-              backgroundImage: currentAvatarUrl != null ? NetworkImage(currentAvatarUrl) : null,
-              child: currentAvatarUrl == null ? const Icon(Icons.person, size: 18, color: Colors.white) : null,
-            ),
-          )
-        ],
       ),
       body: Center(
         child: SingleChildScrollView(
@@ -2906,7 +2933,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 const SizedBox(height: 48),
                 
-                _buildTextField('Mật khẩu hiện tại', '••••••••', _oldPassCtrl, Icons.visibility_outlined),
+                _buildTextField(
+                  'Mật khẩu hiện tại', 
+                  '••••••••', 
+                  _oldPassCtrl, 
+                  _obscureOldPass ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                  obscure: _obscureOldPass,
+                  onIconTap: () => setState(() => _obscureOldPass = !_obscureOldPass),
+                ),
                 const SizedBox(height: 24),
                 
                 _buildTextField('Mật khẩu mới', 'Tối thiểu 8 ký tự', _newPassCtrl, Icons.lock_outline),
@@ -2915,21 +2949,24 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 // Password strength indicator
                 Row(
                   children: [
-                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(2)))),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: strength >= 1 ? const Color(0xFF0F265C) : const Color(0xFFDFDBCF), borderRadius: BorderRadius.circular(2)))),
                     const SizedBox(width: 4),
-                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(2)))),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: strength >= 2 ? const Color(0xFF0F265C) : const Color(0xFFDFDBCF), borderRadius: BorderRadius.circular(2)))),
                     const SizedBox(width: 4),
-                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFF0F265C), borderRadius: BorderRadius.circular(2)))),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: strength >= 3 ? const Color(0xFF0F265C) : const Color(0xFFDFDBCF), borderRadius: BorderRadius.circular(2)))),
                     const SizedBox(width: 4),
-                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: const Color(0xFFDFDBCF), borderRadius: BorderRadius.circular(2)))),
+                    Expanded(child: Container(height: 4, decoration: BoxDecoration(color: strength >= 4 ? const Color(0xFF0F265C) : const Color(0xFFDFDBCF), borderRadius: BorderRadius.circular(2)))),
                   ],
                 ),
                 const SizedBox(height: 10),
-                const Row(
+                Row(
                   children: [
-                    Icon(Icons.check_circle, color: Color(0xFF0F265C), size: 14),
-                    SizedBox(width: 6),
-                    Text('MẬT KHẨU MẠNH', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: Color(0xFF0F265C), letterSpacing: 0.5)),
+                    Icon(strength >= 3 ? Icons.check_circle : Icons.info_outline, color: strength >= 3 ? const Color(0xFF0F265C) : Colors.grey, size: 14),
+                    const SizedBox(width: 6),
+                    Text(
+                      strength < 2 ? 'MẬT KHẨU YẾU' : (strength < 3 ? 'MẬT KHẨU TRUNG BÌNH' : 'MẬT KHẨU MẠNH'), 
+                      style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: strength >= 3 ? const Color(0xFF0F265C) : Colors.grey, letterSpacing: 0.5)
+                    ),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -2995,13 +3032,16 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 ),
                 const SizedBox(height: 24),
                 Center(
-                  child: RichText(
-                    text: const TextSpan(
-                      style: TextStyle(color: Color(0xFF8B8B8B), fontSize: 13),
-                      children: [
-                        TextSpan(text: 'Bạn quên mật khẩu hiện tại? '),
-                        TextSpan(text: 'Nhấn vào đây', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold)),
-                      ],
+                  child: GestureDetector(
+                    onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ForgotPasswordScreen())),
+                    child: RichText(
+                      text: const TextSpan(
+                        style: TextStyle(color: Color(0xFF8B8B8B), fontSize: 13),
+                        children: [
+                          TextSpan(text: 'Bạn quên mật khẩu hiện tại? '),
+                          TextSpan(text: 'Nhấn vào đây', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold)),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -3071,6 +3111,12 @@ class _CeramicLinesListScreenState extends State<CeramicLinesListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F4),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        centerTitle: true,
+        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
+      ),
       body: _isLoading
         ? const Center(child: CircularProgressIndicator(color: Color(0xFF0F265C)))
         : CustomScrollView(
