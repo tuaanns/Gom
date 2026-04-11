@@ -675,11 +675,26 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Future<void> _reset() async {
     if (_email.text.trim().isEmpty) return;
     setState(() => isLoading = true);
-    await Future.delayed(const Duration(seconds: 1)); // Mock API call
-    if (!mounted) return;
-    setState(() => isLoading = false);
-    showGomNotification(context, "Mã phục hồi đã được gửi về email của bạn.", type: GomNotificationType.success);
-    Navigator.pop(context);
+    
+    try {
+      final res = await http.post(
+        Uri.parse('http://localhost:8000/api/forgot-password'),
+        body: {'email': _email.text.trim()},
+      );
+      if (res.statusCode == 200) {
+        if (!mounted) return;
+        showGomNotification(context, "Mã phục hồi đã được gửi về email của bạn.", type: GomNotificationType.success);
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => ResetPasswordScreen(email: _email.text.trim())));
+      } else {
+        if (!mounted) return;
+        showGomNotification(context, _parseErrorMessage(res.body, res.statusCode), type: GomNotificationType.error);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showGomNotification(context, "Lỗi kết nối máy chủ", type: GomNotificationType.error);
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
   }
 
   @override
@@ -749,6 +764,148 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     child: isLoading
                         ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
                         : const Text('Gửi Yêu Cầu', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// --- RESET PASSWORD SCREEN ---
+class ResetPasswordScreen extends StatefulWidget {
+  final String email;
+  const ResetPasswordScreen({Key? key, required this.email}) : super(key: key);
+  @override
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+}
+
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  final _code = TextEditingController();
+  final _pass = TextEditingController();
+  bool isLoading = false;
+
+  Future<void> _submitReset() async {
+    if (_code.text.trim().isEmpty || _pass.text.trim().isEmpty) {
+      showGomNotification(context, "Vui lòng nhập mã xác nhận và mật khẩu mới", type: GomNotificationType.error);
+      return;
+    }
+    setState(() => isLoading = true);
+    
+    try {
+      final res = await http.post(
+        Uri.parse('http://localhost:8000/api/reset-password'),
+        body: {
+          'email': widget.email,
+          'code': _code.text.trim(),
+          'password': _pass.text.trim(),
+        },
+      );
+      if (res.statusCode == 200) {
+        if (!mounted) return;
+        showGomNotification(context, "Đổi mật khẩu thành công! Vui lòng đăng nhập lại.", type: GomNotificationType.success);
+        Navigator.pop(context); // Go back to login
+      } else {
+        if (!mounted) return;
+        showGomNotification(context, _parseErrorMessage(res.body, res.statusCode), type: GomNotificationType.error);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showGomNotification(context, "Lỗi kết nối máy chủ", type: GomNotificationType.error);
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF1E1E1E),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
+      ),
+      body: Center(
+        child: SingleChildScrollView(
+          child: Container(
+            constraints: const BoxConstraints(maxWidth: 420),
+            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 48),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFAF9F4),
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(color: Colors.black.withOpacity(0.2), blurRadius: 30, offset: const Offset(0, 10)),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  'KHÔI PHỤC MẬT KHẨU',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: 'Serif',
+                    fontSize: 22,
+                    fontWeight: FontWeight.w900,
+                    color: Color(0xFF0F265C),
+                    letterSpacing: 1.5,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Mã xác nhận đã được gửi đến ${widget.email}',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 14, color: Color(0xFF666666), height: 1.4),
+                ),
+                const SizedBox(height: 32),
+                
+                const Text('MÃ XÁC NHẬN (6 SỐ)', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF666666), letterSpacing: 0.5)),
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(color: const Color(0xFFF0EFE9), borderRadius: BorderRadius.circular(8)),
+                  child: TextField(
+                    controller: _code,
+                    keyboardType: TextInputType.number,
+                    decoration: const InputDecoration(
+                      hintText: 'Nhập mã gồm 6 chữ số...',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 24),
+                
+                const Text('MẬT KHẨU MỚI', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800, color: Color(0xFF666666), letterSpacing: 0.5)),
+                const SizedBox(height: 8),
+                Container(
+                  decoration: BoxDecoration(color: const Color(0xFFF0EFE9), borderRadius: BorderRadius.circular(8)),
+                  child: TextField(
+                    controller: _pass,
+                    obscureText: true,
+                    decoration: const InputDecoration(
+                      hintText: 'Nhập mật khẩu mới...',
+                      border: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 32),
+                
+                SizedBox(
+                  height: 52,
+                  child: ElevatedButton(
+                    onPressed: isLoading ? null : _submitReset,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF0F265C),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    ),
+                    child: isLoading
+                        ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2.5))
+                        : const Text('Xác Nhận Đổi Mật Khẩu', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white)),
                   ),
                 ),
               ],
