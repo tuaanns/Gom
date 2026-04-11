@@ -8,7 +8,7 @@ Widget buildWebGoogleButton({required VoidCallback onPressed, required Widget cu
       configuration: web_only.GSIButtonConfiguration(
         text: web_only.GSIButtonText.signin,
         theme: web_only.GSIButtonTheme.outline,
-        shape: web_only.GSIButtonShape.pill,
+        shape: web_only.GSIButtonShape.rectangular,
       )
     ),
   );

@@ -121,8 +121,15 @@ class AuthController extends Controller
         $user = auth()->user();
         $fields = $request->validate([
             'name' => 'required|string',
+            'phone' => 'nullable|string',
             'email' => 'required|string|unique:users,email,' . $user->id,
+            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
+
+        if ($request->hasFile('avatar')) {
+            $path = $request->file('avatar')->store('avatars', 'public');
+            $fields['avatar'] = $request->getSchemeAndHttpHost() . '/api/img/' . $path;
+        }
 
         $user->update($fields);
         return response(['user' => $user, 'message' => 'Cập nhật thành công'], 200);

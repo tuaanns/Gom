@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./index.css";
-import "./App.css";
 
 // --- API CONFIG ---
 const API_BASE = "http://127.0.0.1:8000/api";
@@ -10,6 +9,7 @@ function App() {
   const [view, setView] = useState("auth"); 
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [quota, setQuota] = useState({ free_used: 0, free_limit: 5, token_balance: 0 });
   const [selectedHistory, setSelectedHistory] = useState(null);
   const [notification, setNotification] = useState(null);
 
@@ -18,9 +18,27 @@ function App() {
     setTimeout(() => setNotification(null), 4000);
   };
 
+  const fetchUser = async () => {
+    if (!token) return;
+    try {
+      const res = await axios.get(API_BASE + "/user", { headers: { Authorization: "Bearer " + token }});
+      setUser(res.data);
+      localStorage.setItem("user", JSON.stringify(res.data));
+      setQuota({
+        free_used: res.data.free_predictions_used || 0,
+        free_limit: res.data.free_limit || 5,
+        token_balance: res.data.token_balance || 0
+      });
+    } catch (err) {
+      if(err.response?.status === 401) logout();
+    }
+  };
+
   useEffect(() => {
-    if (token) setView("debate");
-    else setView("auth");
+    if (token) {
+      setView("debate");
+      fetchUser();
+    } else setView("auth");
   }, [token]);
 
   const logout = () => {
@@ -31,42 +49,33 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-smoke flex flex-col items-center">
-      {token && <Navbar user={user} setView={setView} logout={logout} view={view} />}
+    <div className="app-container">
+      {token && <Navbar user={user} quota={quota} setView={setView} logout={logout} view={view} />}
       
-      <main className="w-full max-w-[1400px] flex-1 px-6 pb-20">
-        {view === "auth" && <AuthScreen setToken={setToken} setUser={setUser} notify={notify} />}
-        {view === "debate" && <DebateScreen token={token} notify={notify} />}
+      <main className="main-content">
+        {view === "auth" && <AuthScreen setToken={setToken} setUser={setUser} notify={notify} fetchUser={fetchUser} />}
+        {view === "debate" && <DebateScreen token={token} notify={notify} quota={quota} setQuota={setQuota} setView={setView} user={user} />}
         {view === "history" && <HistoryScreen token={token} setSelectedHistory={setSelectedHistory} />}
-        {view === "profile" && <ProfileScreen token={token} user={user} setUser={setUser} notify={notify} />}
         {view === "dashboard" && <DashboardScreen token={token} />}
+        {view === "payment" && <PaymentScreen token={token} quota={quota} fetchUser={fetchUser} notify={notify} />}
       </main>
 
       {notification && (
-        <div className="fixed bottom-10 right-10 z-[999999] animate-bounce-in">
-          <div className={`flex items-center gap-4 px-6 py-4 rounded-[24px] shadow-2xl border ${
-            notification.type === 'error' ? 'bg-red-500 border-red-400' : 
-            notification.type === 'success' ? 'bg-emerald-500 border-emerald-400' : 'bg-navy border-slate/20'
-          } text-white min-w-[320px]`}>
-            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-              {notification.type === 'error' ? '✕' : notification.type === 'success' ? '✓' : 'ℹ'}
-            </div>
-            <div>
-              <p className="text-[10px] font-black uppercase tracking-widest opacity-70">
-                {notification.type === 'error' ? 'Lỗi hệ thống' : notification.type === 'success' ? 'Thành công' : 'Thông báo'}
-              </p>
-              <p className="font-bold text-sm">{notification.message}</p>
-            </div>
+        <div className={`toast ${notification.type} fade-in`}>
+          <span>{notification.type === 'error' ? '✕' : notification.type === 'success' ? '✓' : 'ℹ'}</span>
+          <div>
+            <div style={{fontSize: '0.65rem', textTransform: 'uppercase', opacity: 0.8}}>Thông báo hệ thống</div>
+            <div>{notification.message}</div>
           </div>
         </div>
       )}
 
       {selectedHistory && (
-        <HistoryDetailModal item={selectedHistory} onClose={() => setSelectedHistory(null)} />
+        <HistoryDetailModal item={selectedHistory} onClose={() => setSelectedHistory(null)} token={token} />
       )}
       
-      <footer className="w-full py-12 text-center text-slate/40 text-sm">
-        <p>&copy; 2025 GOM AI - Professional Pottery Recognition Portal</p>
+      <footer>
+        <p>&copy; 2026 GOM AI - Professional Pottery Recognition Portal</p>
       </footer>
     </div>
   );
@@ -74,43 +83,42 @@ function App() {
 
 // --- COMPONENTS ---
 
-function Navbar({ user, setView, logout, view }) {
+function Navbar({ user, quota, setView, logout, view }) {
   const navBtn = (v, label) => (
     <button 
       onClick={() => setView(v)}
-      className={`mx-4 font-extrabold uppercase text-xs tracking-widest transition-all duration-300 ${view === v ? 'text-gold border-b-2 border-gold pb-1' : 'text-navy opacity-50 hover:opacity-100'}`}
+      className={`nav-link ${view === v ? 'active' : ''}`}
     >
       {label}
     </button>
   );
 
   return (
-    <nav className="w-full max-w-[1400px] mt-6 mb-12 bg-white rounded-[30px] shadow-sm flex items-center justify-between px-10 py-5">
-      <div className="font-display font-black text-3xl cursor-pointer text-navy" onClick={() => setView("debate")}>
-        🏺 GOM AI <span className="text-gold text-xs font-extrabold align-super ml-1">WEB</span>
+    <nav className="navbar fade-in">
+      <div className="nav-brand" onClick={() => setView("debate")}>
+        🏺 GOM AI <span>WEB</span>
       </div>
       
-      <div className="flex items-center">
+      <div className="nav-links">
         {navBtn("dashboard", "Bảng điều khiển")}
         {navBtn("debate", "Giám định")}
         {navBtn("history", "Lịch sử")}
+        {navBtn("payment", "Nạp lượt")}
       </div>
 
-      <div className="flex items-center gap-4">
-        <div 
-          className="bg-slate/5 px-5 py-2.5 rounded-full flex items-center gap-3 cursor-pointer hover:bg-slate/10 transition-all"
-          onClick={() => setView("profile")}
-        >
-          <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
-          <span className="font-extrabold text-sm text-navy">{user?.name}</span>
+      <div className="nav-actions">
+        <div className="quota-badge" style={{cursor: 'pointer'}} onClick={() => setView("payment")}>
+          {quota.free_used < quota.free_limit 
+            ? <span style={{color: 'var(--success)'}}>Miễn phí: {quota.free_limit - quota.free_used} lượt</span>
+            : quota.token_balance > 0 
+              ? <span style={{color: 'var(--secondary)'}}>Số dư: {quota.token_balance} token</span>
+              : <span style={{color: 'var(--danger)'}}>Đã hết lượt</span>}
         </div>
-        <button 
-          className="text-slate hover:text-navy transition-colors p-2"
-          onClick={logout}
-          title="Đăng xuất"
-        >
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
-        </button>
+        <div className="user-badge" style={{cursor: 'pointer'}}>
+          <span style={{width: 8, height: 8, background: 'var(--success)', borderRadius: '50%'}}></span>
+          {user?.name}
+        </div>
+        <button className="nav-link" onClick={logout} title="Đăng xuất">Đăng Xuất</button>
       </div>
     </nav>
   );
@@ -135,78 +143,60 @@ function AuthScreen({ setToken, setUser, notify }) {
       setUser(res.data.user);
       notify(`Chào mừng nghệ nhân ${res.data.user.name}!`, "success");
     } catch (err) {
-      const msg = err.response?.data?.message || "Lỗi xác thực hạ tầng";
-      setError(msg);
-      notify(msg, "error");
+      setError(err.response?.data?.message || "Lỗi xác thực hạ tầng");
     }
     setLoading(false);
   };
 
   return (
-    <div className="flex items-center justify-center py-20 fade-in">
-      <div className="w-full max-w-[550px] bg-white p-16 rounded-[40px] shadow-2xl shadow-navy/5 text-center">
-        <h2 className="text-3xl font-display font-black text-navy mb-2">{isLogin ? "Đăng Nhập" : "Đăng Ký"}</h2>
-        <p className="text-slate text-sm font-medium mb-10">Cổng thông tin giám định cổ vật chuyên nghiệp</p>
-        
-        {error && (
-          <div className="bg-red-500 text-white p-4 rounded-2xl mb-8 font-extrabold text-sm flex items-center justify-center gap-2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-            {error}
+    <div className="auth-container card fade-in text-center">
+      <h2 className="display-title">{isLogin ? "Đăng Nhập" : "Đăng Ký"}</h2>
+      <p className="subtitle">Cổng thông tin giám định cổ vật chuyên nghiệp</p>
+      
+      {isLogin && (
+        <div style={{display: 'flex', gap: '15px', marginBottom: '20px'}}>
+          <button type="button" className="btn btn-outline" style={{flex: 1}} onClick={() => notify("Kết nối Google Auth đang được cấu hình", "info")}>Google</button>
+          <button type="button" className="btn btn-outline" style={{flex: 1}} onClick={() => notify("Kết nối Facebook Auth đang được cấu hình", "info")}>Facebook</button>
+        </div>
+      )}
+
+      {isLogin && <div className="auth-divider">Hoặc đăng nhập bằng Email</div>}
+
+      {error && <div style={{background: 'var(--danger)', color: 'white', padding: '15px', borderRadius: '12px', marginBottom: '20px', fontSize: '0.9rem', fontWeight: 'bold'}}>{error}</div>}
+
+      <form onSubmit={handleSubmit} style={{textAlign: 'left'}}>
+        {!isLogin && (
+          <div className="input-group">
+            <label className="input-label">Tên nghệ nhân</label>
+            <input className="input-field" required value={form.name} onChange={e => setForm({...form, name: e.target.value})} />
           </div>
         )}
-
-        <form onSubmit={handleSubmit} className="space-y-6 text-left">
-          {!isLogin && (
-            <div className="space-y-2">
-              <label className="text-xs font-black uppercase tracking-widest text-slate ml-2">Tên nghệ nhân</label>
-              <input 
-                className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all font-bold" 
-                required value={form.name} onChange={e => setForm({...form, name: e.target.value})} 
-              />
-            </div>
-          )}
-          <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-slate ml-2">Email liên lạc</label>
-            <input 
-              className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all font-bold" 
-              type="email" required value={form.email} onChange={e => setForm({...form, email: e.target.value})} 
-            />
+        <div className="input-group">
+          <label className="input-label">Email liên lạc</label>
+          <input className="input-field" type="email" required value={form.email} onChange={e => setForm({...form, email: e.target.value})} />
+        </div>
+        <div className="input-group">
+          <label className="input-label">Mật khẩu</label>
+          <input className="input-field" type="password" required value={form.password} onChange={e => setForm({...form, password: e.target.value})} />
+        </div>
+        {!isLogin && (
+          <div className="input-group">
+             <label className="input-label">Xác nhận lại</label>
+             <input className="input-field" type="password" required value={form.password_confirmation} onChange={e => setForm({...form, password_confirmation: e.target.value})} />
           </div>
-          <div className="space-y-2">
-            <label className="text-xs font-black uppercase tracking-widest text-slate ml-2">Mật khẩu</label>
-            <input 
-              className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all font-bold" 
-              type="password" required value={form.password} onChange={e => setForm({...form, password: e.target.value})} 
-            />
-          </div>
-          {!isLogin && (
-            <div className="space-y-2">
-              <label className="text-xs font-black uppercase tracking-widest text-slate ml-2">Xác nhận lại</label>
-              <input 
-                className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 focus:border-gold focus:ring-2 focus:ring-gold/20 outline-none transition-all font-bold" 
-                type="password" required value={form.password_confirmation} onChange={e => setForm({...form, password_confirmation: e.target.value})} 
-              />
-            </div>
-          )}
-          <button 
-            className="w-full bg-navy text-white py-5 rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-navy/20 disabled:opacity-50"
-            type="submit" disabled={loading}
-          >
-            {loading ? "Đang xử lý hồ sơ..." : (isLogin ? "Vào Hệ Thống" : "Gia Nhập GOM AI")}
-          </button>
-        </form>
-        <p 
-          className="mt-8 text-sm font-bold text-slate cursor-pointer hover:text-gold transition-colors underline underline-offset-4"
-          onClick={() => setIsLogin(!isLogin)}
-        >
-          {isLogin ? "Chưa có tài khoản? Đăng ký ngay" : "Đã có tài khoản? Đăng nhập"}
-        </p>
-      </div>
+        )}
+        <button className="btn btn-primary" type="submit" disabled={loading} style={{width: '100%', marginTop: '20px', padding: '18px'}}>
+          {loading ? "Đang xử lý hồ sơ..." : (isLogin ? "Vào Hệ Thống" : "Gia Nhập GOM AI")}
+        </button>
+      </form>
+      <p style={{marginTop: '25px', fontSize: '0.9rem', fontWeight: 'bold', cursor: 'pointer', color: 'var(--text-muted)'}} onClick={() => setIsLogin(!isLogin)}>
+        {isLogin ? "Chưa có tài khoản? Đăng ký ngay" : "Đã có tài khoản? Đăng nhập"}
+      </p>
     </div>
   );
 }
 
-function DebateScreen({ token, notify }) {
+function DebateScreen({ token, notify, quota, setQuota, setView, user }) {
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -224,10 +214,14 @@ function DebateScreen({ token, notify }) {
   };
 
   const analyze = async () => {
+    if (quota.free_used >= quota.free_limit && quota.token_balance <= 0) {
+      notify("Tài khoản của bạn đã hết lượt miễn phí và số dư không đủ. Vui lòng nạp thêm lượt!", "error");
+      setView("payment");
+      return;
+    }
+
     if (!file) {
-      const msg = "Vui lòng tải ảnh cổ vật lên trước khi khởi động giám định!";
-      setError(msg);
-      notify(msg, "error");
+      setError("Vui lòng tải ảnh cổ vật lên trước khi khởi động giám định!");
       return;
     }
     setLoading(true);
@@ -236,63 +230,46 @@ function DebateScreen({ token, notify }) {
     formData.append("image", file);
 
     try {
-      const res = await axios.post(API_BASE + "/predict", formData, {
-        headers: { Authorization: "Bearer " + token }
-      });
+      const res = await axios.post(API_BASE + "/predict", formData, { headers: { Authorization: "Bearer " + token } });
       setResult(res.data.data);
-      notify("Giám định hoàn tất! Hội đồng AI đã ra kết luận.", "success");
+      const q = res.data.quota || {};
+      if (q.free_used !== undefined) setQuota({ free_used: q.free_used, free_limit: q.free_limit || quota.free_limit, token_balance: q.token_balance || quota.token_balance });
+      notify("Giám định hoàn tất!", "success");
     } catch (err) {
-      const msg = err.response?.data?.message || "Lỗi giao tiếp máy chủ trí tuệ nhân tạo";
-      setError(msg);
-      notify(msg, "error");
+      if (err.response?.status === 402) {
+         notify("Đã hết số lượt giám định. Vui lòng nạp thêm lượt!", "error");
+         setView("payment");
+      } else setError(err.response?.data?.message || "Lỗi kết nối máy chủ AI");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full flex flex-col items-center pt-10 fade-in">
+    <div className="fade-in" style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
       {!result ? (
-        <div className="w-full max-w-[1200px] bg-white p-24 rounded-[50px] shadow-2xl shadow-navy/5 text-center border border-slate/5">
-          <h1 className="text-5xl font-display font-black text-navy mb-4">Giám định Cổ vật Đa đại lý</h1>
-          <p className="text-slate text-lg font-medium mb-12">Hệ thống Multi-Agent AI đầu tiên dành cho nghệ thuật gốm sứ</p>
+        <div className="card text-center" style={{width: '100%', maxWidth: '1000px', marginTop: '40px'}}>
+          <h1 className="display-title">Giám định Cổ vật Đa đại lý</h1>
+          <p className="subtitle">Hệ thống Multi-Agent AI đầu tiên dành cho nghệ thuật gốm sứ</p>
           
-          {error && (
-            <div className="bg-red-500 text-white p-4 rounded-2xl mb-8 font-extrabold text-sm flex items-center justify-center gap-2 max-w-md mx-auto">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-              {error}
-            </div>
-          )}
+          {error && <div style={{background: 'var(--danger)', color: 'white', padding: '15px', borderRadius: '12px', marginBottom: '20px', fontWeight: 'bold'}}>{error}</div>}
 
-          <div 
-            className="w-full max-w-[900px] h-[550px] bg-smoke border-4 border-dashed border-slate/20 rounded-[40px] flex items-center justify-center cursor-pointer hover:border-gold hover:bg-white transition-all group overflow-hidden mx-auto mb-12"
-            onClick={() => document.getElementById("fileInput").click()}
-          >
-            {preview ? <img src={preview} alt="preview" className="w-full h-full object-contain p-8" /> : (
-              <div className="text-center group-hover:scale-110 transition-transform">
-                <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-xl mx-auto mb-6 text-gold">
-                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
-                </div>
-                <p className="text-navy font-black text-xl uppercase tracking-widest">Kéo thả hoặc nhấp để tải ảnh</p>
-                <p className="text-slate text-sm font-bold mt-2">Dữ liệu ảnh gốm sứ JPG, PNG, WEBP</p>
-              </div>
+          <div className="upload-area" onClick={() => document.getElementById("fileInput").click()}>
+            {preview ? <img src={preview} alt="preview" /> : (
+              <>
+                <div className="upload-icon">🏺</div>
+                <h3 style={{fontSize: '1.2rem', fontWeight: 800, textTransform: 'uppercase', marginBottom: '10px'}}>Kéo thả hoặc nhấp để tải ảnh</h3>
+                <p style={{color: 'var(--text-muted)'}}>Dữ liệu ảnh gốm sứ JPG, PNG, WEBP</p>
+              </>
             )}
             <input id="fileInput" type="file" hidden onChange={onFileChange} accept="image/*" />
           </div>
 
-          <button 
-            className="bg-navy text-white px-20 py-6 rounded-3xl font-black text-xl uppercase tracking-[0.2em] shadow-2xl shadow-navy/20 hover:scale-[1.05] active:scale-[0.95] transition-all disabled:opacity-50"
-            onClick={analyze} disabled={loading}
-          >
-            {loading ? (
-              <span className="flex items-center gap-4">
-                <div className="w-6 h-6 border-4 border-gold border-t-transparent rounded-full animate-spin"></div>
-                Các Agent đang tranh biện...
-              </span>
-            ) : "Khởi động quy trình phân tích"}
+          <button className="btn btn-primary" onClick={analyze} disabled={loading} style={{padding: '20px 40px', fontSize: '1.1rem'}}>
+            {loading ? "Đang phân tích đa đại lý..." : "Khởi động quy trình phân tích"}
           </button>
         </div>
-      ) : <ResultDashboard result={result} />}
+      ) : <ResultDashboard result={result} token={token} user={user} />}
     </div>
   );
 }
@@ -307,132 +284,78 @@ function DashboardScreen({ token }) {
         const hist = res.data.data;
         setStats({
           total_requests: hist.length,
-          avg_confidence: hist.reduce((acc, curr) => {
-            const cert = curr.data?.final_report?.certainty || 0;
-            return acc + (typeof cert === "number" ? cert : 0);
-          }, 0) / (hist.length || 1),
+          avg_confidence: hist.reduce((acc, curr) => acc + (curr.data?.final_report?.certainty || 0), 0) / (hist.length || 1),
           history: hist
         });
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      }).finally(() => setLoading(false));
   }, [token]);
 
-  if (loading) return (
-    <div className="h-[60vh] flex flex-col items-center justify-center gap-6">
-      <div className="w-12 h-12 border-4 border-navy border-t-gold rounded-full animate-spin"></div>
-      <p className="text-navy font-black uppercase text-xs tracking-widest">Đang tải hạ tầng quản trị...</p>
-    </div>
-  );
+  if (loading) return <div style={{textAlign: 'center', margin: '100px 0'}}>Loading...</div>;
 
   return (
-    <div className="w-full flex flex-col items-center pt-10 fade-in">
-      <div className="w-full max-w-[1300px] grid grid-cols-1 md:grid-cols-3 gap-10 mb-12">
-        <div className="bg-white p-12 rounded-[40px] shadow-sm border border-slate/5">
-          <label className="text-xs font-black uppercase tracking-widest text-slate block mb-4">Tổng lượt giám định</label>
-          <h3 className="text-6xl font-display font-black text-navy">{stats.total_requests}</h3>
-          <p className="text-green-500 font-bold text-xs mt-4">▲ 100% Phân tích AI</p>
+    <div className="fade-in">
+      <div className="stats-grid">
+        <div className="stat-card">
+          <label className="input-label">Tổng lượt giám định</label>
+          <div className="stat-value">{stats.total_requests}</div>
+          <p style={{color: 'var(--success)', fontWeight: 'bold', fontSize: '0.8rem'}}>▲ 100% Phân tích AI</p>
         </div>
-        <div className="bg-white p-12 rounded-[40px] shadow-sm border border-slate/5">
-          <label className="text-xs font-black uppercase tracking-widest text-slate block mb-4">Độ tin cậy hệ thống</label>
-          <h3 className="text-6xl font-display font-black text-navy">{stats.avg_confidence.toFixed(1)}%</h3>
-          <div className="w-full h-2.5 bg-smoke rounded-full mt-6 overflow-hidden">
-            <div className="h-full bg-gold transition-all duration-1000" style={{ width: `${stats.avg_confidence}%` }}></div>
-          </div>
+        <div className="stat-card">
+          <label className="input-label">Độ tin cậy hệ thống</label>
+          <div className="stat-value">{stats.avg_confidence.toFixed(1)}%</div>
         </div>
-        <div className="bg-white p-12 rounded-[40px] shadow-sm border border-slate/5">
-          <label className="text-xs font-black uppercase tracking-widest text-slate block mb-4">Lực lượng phản biện</label>
-          <h3 className="text-6xl font-display font-black text-navy">3</h3>
-          <p className="text-slate font-bold text-xs mt-4 italic">GPT-4, Grok, Gemini PRO</p>
-        </div>
-      </div>
-
-      <div className="w-full max-w-[1300px] bg-white p-16 rounded-[50px] shadow-sm border border-slate/5">
-        <h3 className="text-2xl font-display font-black text-navy mb-8">Biểu đồ Theo dõi Hiệu năng AI</h3>
-        <div className="flex items-end gap-5 h-[300px] bg-smoke p-10 rounded-4xl border-b-4 border-slate/10 overflow-hidden">
-          {stats.history.slice(0, 10).map((h, i) => {
-            const cert = h.data?.final_report?.certainty || 0;
-            return (
-              <div 
-                key={i} 
-                className={`flex-1 ${h.data ? 'bg-navy' : 'bg-slate/20'} rounded-t-xl hover:bg-gold transition-all duration-500 cursor-pointer relative group`}
-                style={{ height: `${cert}%` }}
-              >
-                <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-navy text-white text-[10px] px-2 py-1 rounded hidden group-hover:block whitespace-nowrap z-10">
-                  {cert}% • {h.prediction}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="mt-8 flex justify-between text-xs font-black text-slate uppercase tracking-tighter">
-          <p>Dữ liệu thời gian thực</p>
-          <p>{new Date().toLocaleDateString("vi-VN")}</p>
+        <div className="stat-card">
+          <label className="input-label">Lực lượng phản biện</label>
+          <div className="stat-value">3</div>
+          <p style={{color: 'var(--text-muted)', fontWeight: 'bold', fontSize: '0.8rem'}}>GPT-4, Grok, Gemini PRO</p>
         </div>
       </div>
     </div>
   );
 }
 
-function ResultDashboard({ result, isModal }) {
-  if (!result || !result.final_report) {
-    return (
-      <div className="w-full text-center p-20 bg-smoke rounded-3xl animate-pulse">
-        <p className="text-navy font-black">QUY TRÌNH GIÁM ĐỊNH ĐANG TIẾP TỤC HOẶC BỊ GIÁN ĐOẠN</p>
-        <p className="text-slate text-sm">Vui lòng quay lại sau...</p>
-      </div>
-    );
-  }
+function ResultDashboard({ result, isModal, token, user }) {
+  if (!result || !result.final_report) return <div className="card text-center">Đang tải kết quả...</div>;
   const final = result.final_report;
   const agents = result.agent_predictions || [];
 
   return (
-    <div className={`w-full max-w-[1300px] ${isModal ? 'px-10 pb-10' : 'mt-10'} fade-in`}>
-      <div className="bg-navy text-white p-16 rounded-[50px] shadow-2xl shadow-navy/30 text-center mb-12">
-        <div className="inline-block bg-gold px-6 py-2 rounded-full text-xs font-black tracking-widest mb-8">
-          ĐỘ TIN CẬY: {final.certainty}%
-        </div>
+    <div className="fade-in" style={{width: '100%', maxWidth: '1000px', margin: isModal ? '0' : '40px auto 0'}}>
+      <div className="card" style={{background: 'var(--primary)', color: 'white', textAlign: 'center', marginBottom: '30px'}}>
+        <div style={{display: 'inline-block', background: 'var(--secondary)', color: 'var(--text-main)', padding: '5px 15px', borderRadius: '50px', fontWeight: 900, fontSize: '0.8rem', marginBottom: '20px'}}>ĐỘ TIN CẬY: {final.certainty}%</div>
         {!isModal && (
           <>
-            <h2 className="text-5xl font-display font-black mb-4">Dự đoán Cuối cùng: {final.final_prediction}</h2>
-            <p className="text-gold font-bold tracking-[0.3em] uppercase mb-12">{final.final_country} • {final.final_era}</p>
+            <h2 style={{fontFamily: 'var(--font-heading)', fontSize: '3rem', marginBottom: '10px'}}>{final.final_prediction}</h2>
+            <p style={{color: 'var(--secondary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '30px'}}>{final.final_country} • {final.final_era}</p>
           </>
         )}
-        
-        <div className="w-full max-w-4xl mx-auto bg-white/5 border border-white/10 p-10 rounded-[35px] text-left">
-          <h4 className="text-gold font-black uppercase text-xs tracking-widest mb-4">Biên bản kết luận tổng hợp:</h4>
-          <p className="text-white/80 leading-relaxed font-semibold italic text-lg line-clamp-4 overflow-hidden">
-            "{final.reasoning}"
-          </p>
+        <div style={{background: 'rgba(255,255,255,0.1)', padding: '20px', borderRadius: 'var(--radius-md)', textAlign: 'left'}}>
+          <h4 style={{color: 'var(--secondary)', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: 800, marginBottom: '10px'}}>Biên bản kết luận tổng hợp:</h4>
+          <p style={{fontSize: '1.1rem', fontStyle: 'italic', fontWeight: 500, opacity: 0.9}}>"{final.reasoning}"</p>
         </div>
       </div>
 
-      <div className={`grid grid-cols-1 ${isModal ? 'gap-10' : 'md:grid-cols-2 gap-12'}`}>
+      <div className="stats-grid">
         {agents.map((a, i) => (
-          <div key={i} className="bg-white p-10 rounded-[40px] shadow-sm border border-slate/5 overflow-hidden">
-            <div className="flex items-center gap-6 mb-8 pb-6 border-b border-slate/5">
-              <div className="w-16 h-16 bg-smoke rounded-full flex items-center justify-center text-2xl shadow-inner">🏺</div>
-              <div>
-                <h4 className="text-navy font-black text-xl">{a.agent_name}</h4>
-                <p className="text-gold font-bold text-sm tracking-widest uppercase">{a.prediction?.ceramic_line}</p>
-              </div>
+          <div key={i} className="card">
+            <div style={{display: 'flex', alignItems: 'center', gap: '15px', borderBottom: '1px solid var(--stroke)', paddingBottom: '15px', marginBottom: '20px'}}>
+              <h4 style={{fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary)'}}>{a.agent_name}</h4>
+              <span style={{fontSize: '0.8rem', fontWeight: 700, background: 'var(--bg)', padding: '4px 8px', borderRadius: '6px', color: 'var(--secondary)'}}>{a.prediction?.ceramic_line}</span>
             </div>
-            
-            <div className="space-y-4">
+            <div style={{display: 'flex', flexDirection: 'column', gap: '15px'}}>
               {a.debate_details?.attacks?.map((atk, j) => (
-                <div key={j} className="bg-red-50 p-6 rounded-3xl flex gap-4 border border-red-100">
-                  <span className="text-red-500 font-bold text-xl leading-none mt-1">⚔️</span>
-                  <p className="text-red-900 font-bold text-sm leading-relaxed">{atk}</p>
+                <div key={j} style={{background: '#FEF2F2', border: '1px solid #FECACA', padding: '15px', borderRadius: '12px'}}>
+                  <p style={{color: '#991B1B', fontSize: '0.9rem', fontWeight: 600}}>⚔️ {atk}</p>
                 </div>
               ))}
-              <div className="bg-green-50 p-6 rounded-3xl flex gap-4 border border-green-100">
-                <span className="text-green-500 font-bold text-xl leading-none mt-1">🛡️</span>
-                <p className="text-green-900 font-bold text-sm leading-relaxed italic">{a.debate_details?.defense}</p>
+              <div style={{background: '#ECFDF5', border: '1px solid #A7F3D0', padding: '15px', borderRadius: '12px'}}>
+                <p style={{color: '#065F46', fontSize: '0.9rem', fontWeight: 600}}>🛡️ {a.debate_details?.defense}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
+      {!isModal && token && <AIChatbox token={token} user={user} />}
     </div>
   );
 }
@@ -443,191 +366,154 @@ function HistoryScreen({ token, setSelectedHistory }) {
 
   useEffect(() => {
     axios.get(API_BASE + "/history", { headers: { Authorization: "Bearer " + token }})
-      .then(res => setHistory(res.data.data))
-      .catch(console.error)
-      .finally(() => setLoading(false));
+      .then(res => setHistory(res.data.data)).finally(() => setLoading(false));
   }, [token]);
 
   return (
-    <div className="w-full flex flex-col items-center pt-10 fade-in">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-display font-black text-navy mb-4">Lịch sử giám định nghệ thuật</h2>
-        <p className="text-slate font-bold uppercase text-xs tracking-widest">Lưu trữ 200 bản ghi nghệ thuật cổ điển</p>
+    <div className="fade-in" style={{marginTop: '40px'}}>
+      <div className="text-center" style={{marginBottom: '40px'}}>
+        <h2 className="display-title">Lịch sử giám định nghệ thuật</h2>
+        <p className="subtitle">Lưu trữ các biên bản phân tích AI</p>
       </div>
 
-      {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 w-full max-w-[1300px]">
-          {[1,2,3].map(n => <div key={n} className="h-[450px] bg-slate/5 rounded-[40px] animate-pulse"></div>)}
+      <div className="history-grid">
+        {!loading && history.map((h, i) => (
+          <div key={i} className="history-card" onClick={() => setSelectedHistory(h)}>
+            <img src={h.image_url} alt="pottery" className="history-img" />
+            <div className="history-info">
+              <h4 className="history-title">{h.prediction}</h4>
+              <p style={{fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase'}}>{h.country} • {h.era}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HistoryDetailModal({ item, onClose, token }) {
+  return (
+    <div style={{position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.9)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px'}} onClick={onClose}>
+      <div className="card fade-in" style={{width: '100%', maxWidth: '1200px', height: '90vh', overflowY: 'auto', display: 'flex', flexDirection: 'column', padding: 0}} onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} style={{position: 'absolute', top: '15px', right: '15px', background: 'var(--surface)', border: 'none', width: '40px', height: '40px', borderRadius: '50%', fontSize: '1.5rem', cursor: 'pointer', zIndex: 10}}>×</button>
+        <div style={{padding: '40px', borderBottom: '1px solid var(--stroke)'}}>
+          <h1 className="display-title">{item.prediction}</h1>
+          <p style={{fontWeight: 800, color: 'var(--text-muted)'}}>{item.country} • {item.era}</p>
+        </div>
+        <div style={{padding: '40px', background: 'var(--bg)'}}>
+          <ResultDashboard result={item.data} isModal={true} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AIChatbox({ token, user }) {
+  const [messages, setMessages] = useState([{ text: `Xin chào ${user?.name || 'nghệ nhân'}.\nTôi là Trợ lý AI giám định gốm sứ GOM AI.`, isUser: false }]);
+  const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const sendMessage = async () => {
+    if (!input.trim() || loading) return;
+    const userText = input.trim();
+    setMessages(prev => [...prev, { text: userText, isUser: true }]);
+    setInput("");
+    setLoading(true);
+
+    try {
+      const res = await axios.post(API_BASE + "/ai/chat", { question: userText }, { headers: { Authorization: "Bearer " + token }});
+      setMessages(prev => [...prev, { text: res.data.answer, isUser: false, sources: res.data.sources?.join(', '), tokensCharged: res.data.tokens_charged}]);
+    } catch (err) {
+      setMessages(prev => [...prev, { text: "Có lỗi xảy ra khi kết nối máy chủ AI.", isUser: false }]);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="chat-container">
+      <div className="chat-header"><span>Trợ lý AI Gốm Sứ</span><button onClick={() => setMessages([messages[0]])} className="btn-outline" style={{padding: '5px 15px', color:'white', borderColor:'rgba(255,255,255,0.3)', fontSize: '0.7rem'}}>LÀM MỚI</button></div>
+      <div className="chat-messages">
+        {messages.map((m, i) => (
+          <div key={i} className={`message ${m.isUser ? 'user' : 'bot'}`}>
+             <div className={`avatar ${m.isUser ? 'user' : 'bot'}`}>{m.isUser ? (user?.name?.charAt(0) || 'U') : '🏺'}</div>
+             <div className="message-bubble">
+               <p style={{whiteSpace: 'pre-wrap'}}>{m.text}</p>
+               {m.sources && <p style={{fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '10px', fontStyle: 'italic'}}>Nguồn: {m.sources}</p>}
+             </div>
+          </div>
+        ))}
+        {loading && <div className="message bot"><div className="avatar bot">🏺</div><div className="message-bubble">Đang phân tích...</div></div>}
+      </div>
+      <div className="chat-input-area">
+         <input className="chat-input" placeholder="Nhập câu hỏi..." value={input} onChange={e => setInput(e.target.value)} onKeyPress={e => e.key === 'Enter' && sendMessage()} disabled={loading} />
+         <button className="chat-send" onClick={sendMessage} disabled={loading || !input.trim()}>➜</button>
+      </div>
+    </div>
+  );
+}
+
+function PaymentScreen({ token, quota, fetchUser, notify }) {
+  const [history, setHistory] = useState([]);
+  const [purchasing, setPurchasing] = useState(false);
+  const [qrCodeData, setQrCodeData] = useState(null);
+
+  useEffect(() => {
+    axios.get(API_BASE + '/payment/history', { headers: { Authorization: 'Bearer ' + token } }).then(res => setHistory(res.data.data)).catch(console.error);
+  }, [token]);
+
+  const buyPackage = async (id) => {
+    setPurchasing(true);
+    try {
+      const res = await axios.post(API_BASE + '/payment/create', { package_id: id }, { headers: { Authorization: 'Bearer ' + token } });
+      setQrCodeData(res.data.data);
+      notify('Xin mời thanh toán qua mã QR!', 'success');
+    } catch (err) { notify('Hệ thống thanh toán lỗi', 'error'); }
+    setPurchasing(false);
+  };
+
+  const checkStatus = async () => {
+    if (!qrCodeData) return;
+    try {
+      const res = await axios.get(API_BASE + '/payment/check/' + qrCodeData.id, { headers: { Authorization: 'Bearer ' + token } });
+      if (res.data.data.status === 'success') {
+        notify('Thanh toán thành công!', 'success');
+        setQrCodeData(null);
+        fetchUser(); 
+      } else notify('Chưa nhận được thanh toán', 'info');
+    } catch (err) {}
+  };
+
+  return (
+    <div className='fade-in' style={{marginTop: '40px', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+      <div className='text-center' style={{marginBottom: '40px'}}>
+        <h2 className='display-title'>Hạ tầng Thanh toán & Nạp lượt</h2>
+        <p className='subtitle'>Số dư hiện tại: {quota.token_balance} GOM | Dùng thử: {quota.free_used}/{quota.free_limit}</p>
+      </div>
+
+      {qrCodeData ? (
+        <div className='card' style={{maxWidth: '450px', textAlign: 'center'}}>
+          <h3 className='section-title'>Mã Giao Dịch #{qrCodeData.id}</h3>
+          <img src={qrCodeData.qr_url} alt='QR Code' style={{width: '100%', borderRadius: '15px', marginBottom: '20px'}} />
+          <p style={{fontSize: '1.5rem', fontWeight: 900, color: 'var(--secondary)', marginBottom: '20px'}}>{new Intl.NumberFormat('vi-VN').format(qrCodeData.amount)} VNĐ</p>
+          <button onClick={checkStatus} className='btn btn-primary' style={{width: '100%', marginBottom: '15px'}}>Đóng & Kiểm tra GD</button>
+          <button onClick={() => setQrCodeData(null)} className='btn btn-outline' style={{width: '100%'}}>Huỷ giao dịch</button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 w-full max-w-[1300px]">
-          {history.map((h, i) => (
-            <div 
-              key={i} 
-              className="group bg-white rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl hover:scale-[1.03] transition-all cursor-pointer border border-slate/5"
-              onClick={() => setSelectedHistory(h)}
-            >
-              <div className="h-[380px] overflow-hidden bg-smoke relative">
-                <img src={h.image_url} alt="pottery" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                <div className="absolute inset-0 bg-navy opacity-0 group-hover:opacity-10 transition-opacity"></div>
-                <div className="absolute bottom-6 left-6 bg-white/90 backdrop-blur px-5 py-2 rounded-2xl text-[10px] font-black text-navy tracking-widest uppercase">
-                  {h.prediction}
-                </div>
-              </div>
-              <div className="p-10">
-                <h4 className="text-xl font-display font-black text-navy mb-2 line-clamp-1">{h.prediction}</h4>
-                <p className="text-slate font-bold text-xs uppercase tracking-widest">{h.country} • {h.era}</p>
-              </div>
+        <div className='stats-grid' style={{maxWidth: '1000px', width: '100%'}}>
+          {[
+            { id: 1, name: 'Tân binh', price: 50000, desc: '15 Lượt + Chatbot' },
+            { id: 2, name: 'Chuyên gia', price: 200000, desc: '80 Lượt Cao Cấp' },
+            { id: 3, name: 'Sưu tầm gia', price: 500000, desc: 'Không giới hạn 30 ngày' }
+          ].map(pkg => (
+            <div key={pkg.id} className='card text-center' style={{display: 'flex', flexDirection: 'column'}}>
+              <h4 className='section-title' style={{margin:0}}>{pkg.name}</h4>
+              <p style={{color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '20px', fontWeight: 600}}>{pkg.desc}</p>
+              <h3 style={{fontSize: '2.5rem', fontWeight: 900, color: 'var(--primary)', marginBottom: '30px'}}>{new Intl.NumberFormat('vi-VN').format(pkg.price)}₫</h3>
+              <button disabled={purchasing} onClick={() => buyPackage(pkg.id)} className='btn btn-primary' style={{marginTop: 'auto'}}>Nạp Gói Này</button>
             </div>
           ))}
         </div>
       )}
-    </div>
-  );
-}
-
-function HistoryDetailModal({ item, onClose }) {
-  return (
-    <div 
-      className="fixed inset-0 bg-navy/90 backdrop-blur-3xl z-[99999] flex items-center justify-center p-6 md:p-12 overflow-hidden"
-      onClick={onClose}
-    >
-      <div 
-        className="w-full max-w-[1500px] h-full bg-white rounded-[50px] shadow-2xl flex flex-col md:flex-row overflow-hidden relative fade-in"
-        onClick={e => e.stopPropagation()}
-      >
-        <button 
-          className="absolute top-8 right-10 z-[100] w-14 h-14 bg-white rounded-full flex items-center justify-center text-3xl font-light shadow-xl hover:bg-gold hover:text-white transition-all transform hover:rotate-90" 
-          onClick={onClose}
-        >&times;</button>
-        
-        <div className="w-full md:w-[42%] h-[400px] md:h-full bg-navy relative overflow-hidden flex flex-col">
-          <div className="flex-1 w-full relative">
-            <img src={item.image_url} alt="artifact" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-          </div>
-          <div className="p-12 absolute bottom-0 left-0 w-full">
-            <h3 className="text-gold font-display font-black text-3xl mb-2 italic">Hồ Sơ Cổ Vật #{item.id}</h3>
-            <p className="text-white/50 font-bold uppercase text-[10px] tracking-widest">
-              Lưu trữ ngày: {new Date(item.created_at).toLocaleDateString("vi-VN")}
-            </p>
-          </div>
-        </div>
-
-        <div className="flex-1 h-full overflow-y-auto bg-white">
-          <div className="px-12 pt-16 pb-8 border-b border-slate/5 sticky top-0 bg-white z-10">
-            <div className="text-gold font-black uppercase text-[10px] tracking-[0.4em] mb-4">Biên bản Giám định Chi tiết</div>
-            <h1 className="text-5xl font-display font-black text-navy">{item.prediction}</h1>
-            <div className="flex gap-6 mt-6">
-              <span className="bg-smoke px-5 py-2.5 rounded-2xl text-xs font-black text-slate uppercase tracking-widest">📍 {item.country}</span>
-              <span className="bg-smoke px-5 py-2.5 rounded-2xl text-xs font-black text-slate uppercase tracking-widest">📅 {item.era}</span>
-            </div>
-          </div>
-          
-          <div className="pt-8">
-            <ResultDashboard result={item.data} isModal={true} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function ProfileScreen({ token, user, setUser, notify }) {
-  const [form, setForm] = useState({ name: user?.name, email: user?.email });
-  const [passForm, setPassForm] = useState({ old_password: "", password: "", password_confirmation: "" });
-  const [updating, setUpdating] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
-
-  const update = async () => {
-    setUpdating(true);
-    try {
-      const res = await axios.post(API_BASE + "/profile/update", form, {
-        headers: { Authorization: "Bearer " + token }
-      });
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      setUser(res.data.user);
-      notify("Hệ thống đã lưu lại thay đổi hồ sơ nhân thân!", "success");
-    } catch (err) {
-      notify(err.response?.data?.message || "Đã có lỗi xảy ra trong hạ tầng", "error");
-    }
-    setUpdating(false);
-  };
-
-  return (
-    <div className="w-full flex flex-col items-center pt-10 fade-in">
-      <div className="text-center mb-16">
-        <div className="w-24 h-24 bg-white border-2 border-gold rounded-full flex items-center justify-center text-4xl font-black text-gold shadow-2xl mx-auto mb-8">M</div>
-        <h2 className="text-4xl font-display font-black text-navy mb-4">Hồ Sơ Nghệ Nhân</h2>
-        <p className="text-slate font-bold uppercase text-[10px] tracking-widest">Quản lý mã định danh và hạ tầng bảo mật</p>
-      </div>
-
-      <div className="w-full max-w-[1300px] grid grid-cols-1 md:grid-cols-2 gap-16 mb-20">
-        <div className="bg-white rounded-[50px] shadow-sm border border-slate/5 overflow-hidden">
-          <div className="p-12 border-b border-slate/5 flex justify-between items-center">
-            <h3 className="text-xl font-display font-black text-navy italic">🏷️ Thông Tin Định Danh</h3>
-          </div>
-          <div className="p-16 space-y-10">
-             <div className="space-y-4">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate ml-2">Tên hiển thị công khai</label>
-               <input 
-                className="w-full px-8 py-5 rounded-3xl bg-smoke border border-slate/10 focus:border-gold outline-none transition-all font-bold text-lg" 
-                value={form.name} onChange={e => setForm({...form, name: e.target.value})} 
-               />
-             </div>
-             <div className="space-y-4">
-               <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate ml-2">Địa chỉ Email liên lạc</label>
-               <input 
-                className="w-full px-8 py-5 rounded-3xl bg-smoke border border-slate/10 focus:border-gold outline-none transition-all font-bold text-lg opacity-60" 
-                value={form.email} disabled 
-               />
-             </div>
-             <button 
-              className="bg-navy text-white px-12 py-5 rounded-2xl font-black tracking-widest uppercase hover:scale-105 active:scale-95 transition-all shadow-xl shadow-navy/20"
-              onClick={update} disabled={updating}>Lưu Lại Thay Đổi</button>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-[50px] shadow-sm border border-slate/5 overflow-hidden">
-          <div className="p-12 border-b border-slate/5 flex justify-between items-center">
-            <h3 className="text-xl font-display font-black text-navy italic">🛡️ Hạ Tầng Bảo Mật</h3>
-            {!showPassword && (
-              <button 
-                className="bg-gold text-white px-8 py-3 rounded-full font-black text-[10px] tracking-widest uppercase shadow-lg shadow-gold/20 hover:scale-110 active:scale-90 transition-all" 
-                onClick={() => setShowPassword(true)}>Thay đổi mật mã</button>
-            )}
-          </div>
-          <div className="p-16 flex flex-col justify-center min-h-[400px]">
-            {!showPassword ? (
-              <div className="text-center">
-                <div className="w-16 h-16 bg-navy text-gold rounded-full flex items-center justify-center mx-auto mb-8 shadow-2xl">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                </div>
-                <p className="text-slate font-bold leading-relaxed px-10">Cơ chế bảo vệ cổ vật đang hoạt động. Khởi tạo quy trình nếu bạn muốn cấu hình lại mật mã truy cập.</p>
-              </div>
-            ) : (
-              <div className="space-y-8 fade-in">
-                 <div className="space-y-3">
-                   <label className="text-[10px] font-black uppercase tracking-widest text-slate ml-2">Mật khẩu hiện hành</label>
-                   <input className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 outline-none focus:border-gold font-bold" type="password" value={passForm.old_password} onChange={e => setPassForm({...passForm, old_password: e.target.value})} />
-                 </div>
-                 <div className="space-y-3">
-                   <label className="text-[10px] font-black uppercase tracking-widest text-slate ml-2">Chuỗi ký tự mới</label>
-                   <input className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 outline-none focus:border-gold font-bold" type="password" value={passForm.password} onChange={e => setPassForm({...passForm, password: e.target.value})} />
-                 </div>
-                 <div className="space-y-3">
-                   <label className="text-[10px] font-black uppercase tracking-widest text-slate ml-2">Xác nhận chuỗi mới</label>
-                   <input className="w-full px-6 py-4 rounded-2xl bg-smoke border border-slate/10 outline-none focus:border-gold font-bold" type="password" value={passForm.password_confirmation} onChange={e => setPassForm({...passForm, password_confirmation: e.target.value})} />
-                 </div>
-                 <div className="flex gap-4 pt-4">
-                   <button className="bg-navy text-white px-10 py-5 rounded-2xl font-black text-xs uppercase tracking-widest hover:scale-105 active:scale-95 transition-all shadow-xl" onClick={() => setShowPassword(false)} disabled={updating}>Ghi đè mật mã</button>
-                   <button className="text-slate font-black text-xs uppercase tracking-widest px-8" onClick={() => setShowPassword(false)}>Hủy quy trình</button>
-                 </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

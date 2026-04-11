@@ -5,6 +5,12 @@ use App\Http\Controllers\Api\PredictionController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PaymentController;
 
+use App\Http\Controllers\Api\CeramicLineController;
+
+// Public ceramic lines API
+Route::get('/ceramic-lines', [CeramicLineController::class, 'index']);
+Route::get('/ceramic-lines/{id}', [CeramicLineController::class, 'show']);
+
 Route::get('/potteries', [PotteryController::class, 'index']);
 Route::post('/upload', [PotteryController::class, 'upload']);
 Route::delete('/potteries/{pottery}', [PotteryController::class, 'destroy']);

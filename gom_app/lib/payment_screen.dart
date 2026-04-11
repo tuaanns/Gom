@@ -82,25 +82,25 @@ class _PaymentScreenState extends State<PaymentScreen> with SingleTickerProvider
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F5F7),
+      backgroundColor: const Color(0xFFF5F0E8),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) => [
           SliverAppBar(
             expandedHeight: 240,
             floating: false,
             pinned: true,
-            backgroundColor: const Color(0xFF1A237E),
+            backgroundColor: const Color(0xFF1A2344),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back, color: Colors.white),
               onPressed: () {
-                mainGateKey.currentState?.switchTab(0);
+                MainGate.currentInstance?.switchTab(0);
               },
             ),
             title: innerBoxIsScrolled ? const Text('Nạp Lượt', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)) : null,
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: const BoxDecoration(
-                  gradient: LinearGradient(colors: [Color(0xFF0D1442), Color(0xFF1A237E), Color(0xFF3949AB)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
+                  gradient: LinearGradient(colors: [Color(0xFF0D1525), Color(0xFF1A2344), Color(0xFF2C3A5E)], begin: Alignment.topCenter, end: Alignment.bottomCenter),
                 ),
                 child: SafeArea(
                   child: Padding(
@@ -137,7 +137,7 @@ class _PaymentScreenState extends State<PaymentScreen> with SingleTickerProvider
             bottom: PreferredSize(
               preferredSize: const Size.fromHeight(48),
               child: Container(
-                color: const Color(0xFF1A237E),
+                color: const Color(0xFF1A2344),
                 child: TabBar(
                   controller: _tabController,
                   indicatorColor: Colors.amber,
@@ -191,7 +191,7 @@ class _PaymentScreenState extends State<PaymentScreen> with SingleTickerProvider
             child: Text('CHỌN GÓI NẠP', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey, letterSpacing: 1, fontSize: 13))),
           const SizedBox(height: 14),
           _buildPackageCard(1, 'Gói Cơ Bản',     10, 20000,  const Color(0xFF42A5F5), Icons.star_border, false),
-          _buildPackageCard(2, 'Gói Tiêu Chuẩn',  30, 50000,  const Color(0xFF1A237E), Icons.star_half,   true),
+          _buildPackageCard(2, 'Gói Tiêu Chuẩn',  30, 50000,  const Color(0xFF1A2344), Icons.star_half,   true),
           _buildPackageCard(3, 'Gói Cao Cấp',     70, 100000, const Color(0xFF7B1FA2), Icons.star,        false),
           const SizedBox(height: 20),
           Container(
@@ -662,10 +662,10 @@ class _PaymentGateDialog extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(28),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(width: 80, height: 80, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1A237E), Color(0xFF3949AB)]), shape: BoxShape.circle),
+          Container(width: 80, height: 80, decoration: BoxDecoration(gradient: const LinearGradient(colors: [Color(0xFF1A2344), Color(0xFF2C3A5E)]), shape: BoxShape.circle),
             child: const Icon(Icons.lock_outline, color: Colors.white, size: 40)),
           const SizedBox(height: 20),
-          const Text('Đã hết lượt miễn phí', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1A237E))),
+          const Text('Đã hết lượt miễn phí', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Color(0xFF1A2344))),
           const SizedBox(height: 10),
           Text('Bạn đã sử dụng hết $freeLimit lượt phân tích mien phi.\nNạp thêm lượt để tiếp tục sử dụng hệ thống AI.', textAlign: TextAlign.center, style: const TextStyle(color: Colors.grey, height: 1.5)),
           const SizedBox(height: 24),
@@ -674,7 +674,7 @@ class _PaymentGateDialog extends StatelessWidget {
               onPressed: () { Navigator.pop(context); Navigator.push(context, MaterialPageRoute(builder: (_) => const PaymentScreen())); },
               icon: const Icon(Icons.add_shopping_cart),
               label: const Text('Nạp Lượt Ngay', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1A237E), foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
+              style: ElevatedButton.styleFrom(backgroundColor: const Color(0xFF1A2344), foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))),
             ),
           ),
           const SizedBox(height: 10),

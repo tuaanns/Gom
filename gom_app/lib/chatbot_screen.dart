@@ -127,7 +127,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       backgroundColor: const Color(0xFFF5F6FA),
       appBar: AppBar(
         title: const Text('Trợ lý AI Gốm Sứ', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-        backgroundColor: const Color(0xFF1A237E),
+        backgroundColor: const Color(0xFF1A2344),
         automaticallyImplyLeading: false,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
@@ -174,7 +174,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   Container(
                     width: 32,
                     height: 32,
-                    decoration: const BoxDecoration(color: Color(0xFF1A237E), shape: BoxShape.circle),
+                    decoration: const BoxDecoration(color: Color(0xFF1A2344), shape: BoxShape.circle),
                     child: const Center(child: Icon(Icons.smart_toy, color: Colors.amber, size: 18)),
                   ),
                   const SizedBox(width: 12),
@@ -188,7 +188,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                     child: const Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1A237E))),
+                        SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1A2344))),
                         SizedBox(width: 10),
                         Text('AI đang suy nghĩ...', style: TextStyle(fontSize: 13, color: Colors.grey, fontStyle: FontStyle.italic)),
                       ],
@@ -215,7 +215,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               width: 36,
               height: 36,
               decoration: const BoxDecoration(
-                color: Color(0xFF1A237E),
+                color: Color(0xFF1A2344),
                 shape: BoxShape.circle,
                 boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
               ),
@@ -227,7 +227,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: msg.isUser ? const Color(0xFF1A237E) : Colors.white,
+                color: msg.isUser ? const Color(0xFF1A2344) : Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
                   topRight: const Radius.circular(16),
@@ -330,7 +330,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             ),
             const SizedBox(width: 12),
             Material(
-              color: _controller.text.trim().isEmpty || _isLoading ? Colors.grey.shade300 : const Color(0xFF1A237E),
+              color: _controller.text.trim().isEmpty || _isLoading ? Colors.grey.shade300 : const Color(0xFF1A2344),
               shape: const CircleBorder(),
               child: InkWell(
                 onTap: _isLoading ? null : _sendMessage,
