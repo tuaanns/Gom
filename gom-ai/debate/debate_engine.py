@@ -28,6 +28,9 @@ class DebateEngine:
             return {"error": "API đã hết quota. Vui lòng thử lại sau vài phút."}
         if "error" in visual_features:
             return {"error": visual_features["error"]}
+            
+        if visual_features.get("is_pottery") is False:
+            return {"error": "Rất tiếc, hệ thống không nhận diện được gốm sứ trong bức ảnh này. Vui lòng thử lại với một bức ảnh khác."}
 
         # Phase 1: Independent Predictions
         logger.info("[DebateEngine] Starting Phase 1: Independent Predictions")
@@ -106,10 +109,12 @@ class JudgeAgent(BaseAgent):
             f"You are the 'Final Judge'. Personality: {self.personality}\n"
             f"Visual features: {json.dumps(visual_features, indent=2)}\n\n"
             f"Agent predictions and their debate outputs:\n{json.dumps(predictions, indent=2)}\n\n"
-            "TASK: Synthesize the final prediction in Vietnamese. Weigh each agent's argument and confidence. "
+            "TASK: Synthesize the final prediction in Vietnamese. You must be HIGHLY CRITICAL AND ANALYTICAL.\n"
             "IMPORTANT RULES:\n"
-            "1. Do NOT be biased towards Vietnamese ceramics. The pottery could be from anywhere in the world.\n"
-            "2. If the agents mention 'Wabi-Sabi', dripping glaze, or raw clay aesthetics, the origin is almost certainly Japan (Nhật Bản), NOT Bát Tràng. Reject any agent that illogically claims Wabi-Sabi is Bát Tràng.\n"
+            "1. DO NOT just vote by majority. Cross-examine the 'visual_features' against the agents' claims. If an agent's claim contradicts the visual evidence (e.g., claiming a Victorian European tea set is ancient Asian pottery), you MUST overrule them.\n"
+            "2. You are a global expert. The pottery could originate from ANY country, era, or civilization worldwide (Asia, Europe, Middle East, Americas, Africa).\n"
+            "3. Prioritize concrete visual facts (colors, industrial symmetry vs handmade asymmetry, specific cultural motifs, presence of gold gilding, bone china vs raw clay, etc.) over an agent's self-reported high confidence.\n"
+            "4. In your 'reasoning', explicitly point out WHY you chose the final result and WHY the other agents were incorrect or misled.\n"
             "Write the reasoning and summary in Vietnamese with full diacritics.\n\n"
             "Return ONLY JSON in this format:\n"
             "{\n"

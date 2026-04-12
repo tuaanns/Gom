@@ -157,12 +157,16 @@ class _MainGateState extends State<MainGate> {
   }
 
   final GlobalKey<_DebateScreenState> debateScreenKey = GlobalKey<_DebateScreenState>();
+  final GlobalKey<_HistoryScreenState> historyScreenKey = GlobalKey<_HistoryScreenState>();
 
   void switchTab(int index) {
     if (mounted) {
       setState(() => _currentIndex = index);
       if (index == 0) {
         debateScreenKey.currentState?.loadQuota();
+      }
+      if (index == 2) {
+        historyScreenKey.currentState?.fetchHistory();
       }
     }
   }
@@ -177,7 +181,7 @@ class _MainGateState extends State<MainGate> {
     final screens = [
       debateScreen,
       const CeramicLinesListScreen(), // New Tab 1: Dòng Gốm Trứ Danh
-      const HistoryScreen(),          // Tab 2: Lịch sử
+      HistoryScreen(key: historyScreenKey), // Tab 2: Lịch sử
       const PaymentScreen(),          // Tab 3: Nạp lượt
       const ProfileScreen(),          // Tab 4: Cá nhân
     ];
@@ -246,7 +250,7 @@ class _MainGateState extends State<MainGate> {
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
-          onTap: (idx) => setState(() => _currentIndex = idx),
+          onTap: switchTab,
           selectedItemColor: const Color(0xFF1A2344),
           unselectedItemColor: const Color(0xFF8B8B8B),
           showUnselectedLabels: true,
@@ -1377,6 +1381,10 @@ class _DebateScreenState extends State<DebateScreen> {
             tokenBalance = (body['quota']['token_balance'] ?? tokenBalance).toDouble();
           });
         }
+        
+        // Cập nhật lại lịch sử đồng thời ngầm bên dưới
+        _MainGateState._instance?.historyScreenKey.currentState?.fetchHistory();
+        
         showGomNotification(context, "Giám định hoàn tất!", type: GomNotificationType.success);
       } else if (response.statusCode == 402) {
         final body = jsonDecode(response.body);
@@ -1471,10 +1479,6 @@ class _DebateScreenState extends State<DebateScreen> {
                     height: 52,
                     child: ElevatedButton.icon(
                       onPressed: () {
-                        setState(() {
-                          _previewBytes = null;
-                          debateData = null;
-                        });
                         _showImageSourceDialog();
                       },
                       icon: const Icon(Icons.add_a_photo, color: Colors.white, size: 20),
@@ -1781,6 +1785,19 @@ class _DebateScreenState extends State<DebateScreen> {
               child: Container(width: 40, height: 4, decoration: BoxDecoration(color: Colors.grey.shade300, borderRadius: BorderRadius.circular(2))),
             ),
             const SizedBox(height: 24),
+            if (c['image_url'] != null && c['image_url'].toString().isNotEmpty) ...[
+              ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.network(
+                  c['image_url'].toString().startsWith('http') ? c['image_url'] : 'http://localhost:8000${c['image_url']}',
+                  width: double.infinity,
+                  height: 220,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
             Text(
               c['name'] ?? '',
               style: const TextStyle(fontFamily: 'Serif', fontSize: 26, fontWeight: FontWeight.w900, color: Color(0xFF1A2344)),
@@ -1924,7 +1941,7 @@ class _DebateScreenState extends State<DebateScreen> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       const Padding(padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8), child: Text('GÓC NHÌN CHUYÊN GIA', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey))),
       SizedBox(
-        height: 280,
+        height: 290,
         child: ListView.builder(
           scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 12),
           itemCount: agents.length,
@@ -1936,8 +1953,13 @@ class _DebateScreenState extends State<DebateScreen> {
             final country = _getAgentCountry(agent);
             final era = _getAgentEra(agent);
             final style = _getAgentStyle(agent);
+            
+            // Lấy 75% chiều rộng màn hình cho mỗi card chuyên gia trên mobile
+            double cardWidth = MediaQuery.of(context).size.width * 0.75;
+            if (cardWidth > 320) cardWidth = 320;
+
             return Container(
-              width: 280,
+              width: cardWidth,
               margin: const EdgeInsets.symmetric(horizontal: 6),
               child: Card(
                 elevation: 3, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -1947,16 +1969,16 @@ class _DebateScreenState extends State<DebateScreen> {
                     Row(children: [
                       Container(width: 36, height: 36, decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle), child: Icon(Icons.psychology, color: color, size: 20)),
                       const SizedBox(width: 10),
-                      Expanded(child: Text(agent['agent_name']?.toString() ?? 'Agent ${i + 1}', style: TextStyle(fontWeight: FontWeight.bold, color: color))),
+                      Expanded(child: Text(agent['agent_name']?.toString() ?? 'Agent ${i + 1}', style: TextStyle(fontWeight: FontWeight.bold, color: color), maxLines: 1, overflow: TextOverflow.ellipsis)),
                     ]),
                     const SizedBox(height: 10),
-                    Text(predName.isNotEmpty ? predName : 'Chưa xác định', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+                    Text(predName.isNotEmpty ? predName : 'Chưa xác định', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15), maxLines: 2, overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 4),
                     if (country.isNotEmpty || era.isNotEmpty)
-                      Text('${country.isNotEmpty ? country : "N/A"} - ${era.isNotEmpty ? era : "N/A"}', style: const TextStyle(color: Colors.grey, fontSize: 12)),
+                      Text('${country.isNotEmpty ? country : "N/A"} - ${era.isNotEmpty ? era : "N/A"}', style: const TextStyle(color: Colors.grey, fontSize: 12), maxLines: 2, overflow: TextOverflow.ellipsis),
                     if (style.isNotEmpty) ...[
                       const SizedBox(height: 4),
-                      Text('Phong cách: $style', style: TextStyle(color: Colors.grey.shade600, fontSize: 11, fontStyle: FontStyle.italic)),
+                      Text('Phong cách: $style', style: TextStyle(color: Colors.grey.shade600, fontSize: 11, fontStyle: FontStyle.italic), maxLines: 2, overflow: TextOverflow.ellipsis),
                     ],
                     const Spacer(),
                     Container(
@@ -2059,27 +2081,33 @@ class _DebateScreenState extends State<DebateScreen> {
           final icon = _getIcon(agentName);
           final isLast = i == agents.length - 1;
 
-          return IntrinsicHeight(
-            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              // Timeline bar
-              SizedBox(
-                width: 48,
-                child: Column(children: [
-                  Container(
-                    width: 40, height: 40,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
-                      shape: BoxShape.circle,
-                      boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3))],
-                    ),
-                    child: Icon(icon, color: Colors.white, size: 20),
+          return Stack(
+            children: [
+              // Timeline line
+              if (!isLast)
+                Positioned(
+                  top: 40,
+                  bottom: 0,
+                  left: 19, // Center of the 40x40 circle
+                  child: Container(width: 2, color: color.withOpacity(0.15)),
+                ),
+              // The dot/icon
+              Positioned(
+                top: 0,
+                left: 0,
+                child: Container(
+                  width: 40, height: 40,
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
+                    shape: BoxShape.circle,
+                    boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3))],
                   ),
-                  if (!isLast) Expanded(child: Container(width: 2, color: color.withOpacity(0.15))),
-                ]),
+                  child: Icon(icon, color: Colors.white, size: 20),
+                ),
               ),
-              const SizedBox(width: 12),
               // Card content
-              Expanded(
+              Padding(
+                padding: const EdgeInsets.only(left: 60),
                 child: Container(
                   margin: const EdgeInsets.only(bottom: 20),
                   decoration: BoxDecoration(
@@ -2177,7 +2205,7 @@ class _DebateScreenState extends State<DebateScreen> {
                   ]),
                 ),
               ),
-            ]),
+            ],
           );
         }),
       ]),
@@ -2199,10 +2227,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
   @override
   void initState() {
     super.initState();
-    _fetchHistory();
+    fetchHistory();
   }
 
-  Future<void> _fetchHistory() async {
+  Future<void> fetchHistory() async {
     setState(() => isLoading = true);
     try {
       final res = await http.get(
@@ -2241,7 +2269,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
       ),
       body: RefreshIndicator(
-        onRefresh: _fetchHistory,
+        onRefresh: fetchHistory,
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(

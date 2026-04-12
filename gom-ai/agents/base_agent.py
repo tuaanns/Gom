@@ -78,7 +78,7 @@ class BaseAgent:
                 return response.text or ""
             except Exception as e:
                 logger.error(f"[{self.name}] Gemini Error: {e}")
-                return ""
+                raise e
 
         elif self.provider in ["groq", "openai"]:
             base_url = "https://api.groq.com/openai/v1" if self.provider == "groq" else None
@@ -92,7 +92,7 @@ class BaseAgent:
                     return resp.choices[0].message.content or ""
                 except Exception as e:
                     logger.error(f"[{self.name}] Openai/Groq Error: {e}")
-                    return ""
+                    raise e
 
         return ""
 
@@ -104,10 +104,11 @@ class BaseAgent:
             f"You are the '{self.name}'. Personality: {self.personality}\n"
             f"Based on the following visual evidence:\n{json.dumps(visual_features, indent=2)}\n\n"
             "Predict the ceramic line, country, era, and style. Provide evidence and list visual clues used.\n"
-            "CRITICAL DOMAIN KNOWLEDGE: \n"
-            "- If the item features dripping glaze (men chảy), raw/coarse clay, organic/asymmetrical shapes, or a minimalist aesthetic (Wabi-Sabi), it is HIGHLY LIKELY Japanese (e.g., Hagi ware, Mino ware, Karatsu, Shigaraki). \n"
-            "- Do NOT mistakenly classify Japanese minimalist or Wabi-Sabi pottery as 'Bát Tràng'. Bát Tràng is typically blue-and-white, crackle glaze with elaborate painted motifs or traditional Vietnamese shapes, not raw wabi-sabi.\n"
-            "WARNING: Do not assume the pottery is Vietnamese just because you are communicating in Vietnamese. The pottery may originate from ANY country worldwide.\n"
+            "CRITICAL DOMAIN KNOWLEDGE: You possess comprehensive knowledge of ALL pottery and ceramics worldwide throughout history.\n"
+            "- ASIA: Analyze Chinese dynasties (Ming, Qing, Song), Japanese styles (Mino, Hagi, Imari, Satsuma), Korean celadon, Vietnamese (Bát Tràng, Chu Đậu, Biên Hòa), Thai, etc.\n"
+            "- EUROPE & MIDDLE EAST: Consider Meissen, Wedgwood, Delftware, Sèvres, Iznik, Persian fritware, Islamic lusterware, Majolica.\n"
+            "- AMERICAS & AFRICA: Include Pre-Columbian pottery, Native American Pueblo, Mata Ortiz, African terracotta.\n"
+            "Analyze objectively based strictly on visual traits (clay, glaze, motif, shape), manufacturing technique, and historical evolution. Do not assume context or exhibit regional bias.\n"
             "IMPORTANT: Response must be in Vietnamese with full diacritics.\n\n"
             "Return ONLY JSON in this format:\n"
             "{\n"

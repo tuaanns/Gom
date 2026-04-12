@@ -32,9 +32,12 @@ class VisionAgent:
             return {"error": "GOOGLE_API_KEY missing"}
 
         prompt = (
-            "Bạn là chuyên gia giám định gốm sứ toàn cầu. Hãy phân tích ảnh này và trích xuất bằng chứng thị giác thô. "
-            "TRỌNG TÂM: Sử dụng kiến thức thị giác của bạn để nhận diện trực tiếp quốc gia và dòng gốm cụ thể nếu có thể (VD: Oribe Nhật Bản, Hagi Nhật Bản, Kiến Trản Tống, Bát Tràng...). "
-            "Trả về JSON với các trường: color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và dòng gốm bạn nghi ngờ nhất)."
+            "Bạn là chuyên gia giám định gốm sứ toàn cầu. Hãy phân tích ảnh này và trích xuất bằng chứng thị giác thô.\n"
+            "QUAN TRỌNG: Đầu tiên, hãy xác định xem trong ảnh có thực sự chứa gốm sứ hay không. "
+            "Nếu đó không phải là gốm sứ (ví dụ: ảnh người, động vật, phong cảnh, đồ vật không liên quan), "
+            "hãy trả về JSON chỉ chứa một trường {'is_pottery': false}.\n"
+            "Nếu là gốm sứ, hãy trả về JSON với 'is_pottery': true và các trường: "
+            "color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và dòng gốm bạn nghi ngờ nhất)."
         )
 
         try:

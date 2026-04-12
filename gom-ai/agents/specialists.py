@@ -18,7 +18,7 @@ class GrokAgent(BaseAgent):
             name="Grok Critic",
             personality="A cynical, sharp-tongued critic who loves finding flaws in others' logic. Challenges assumptions and points out small visual discrepancies.",
             provider="groq",
-            model_id="llama-3.1-8b-instant"
+            model_id="llama-3.3-70b-versatile"
         )
 
 class GeminiAgent(BaseAgent):

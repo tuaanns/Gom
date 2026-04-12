@@ -28,3 +28,4 @@ Traceback (most recent call last):
 fastapi.exceptions.HTTPException: 500: API đã hết quota miễn phí. Vui lòng thử lại sau vài phút.
 
 Debate Error: API đã hết quota. Vui lòng thử lại sau vài phút.
+Debate Error: Rất tiếc, hệ thống không nhận diện được gốm sứ trong bức ảnh này. Vui lòng thử lại với một bức ảnh khác.
