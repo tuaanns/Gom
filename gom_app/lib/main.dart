@@ -2223,6 +2223,15 @@ class HistoryScreen extends StatefulWidget {
 class _HistoryScreenState extends State<HistoryScreen> {
   List<dynamic> history = [];
   bool isLoading = true;
+  String searchQuery = '';
+
+  List<dynamic> get filteredHistory {
+    if (searchQuery.isEmpty) return history;
+    return history.where((item) {
+      final str = '${item['prediction']} ${item['country']} ${item['era']}'.toLowerCase();
+      return str.contains(searchQuery.toLowerCase());
+    }).toList();
+  }
 
   @override
   void initState() {
@@ -2282,21 +2291,40 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     const SizedBox(height: 8),
                     Text('Xem lại các hiện vật đã được AI phân tích và nhận dạng.', style: TextStyle(fontSize: 14, color: Colors.grey.shade600, height: 1.5)),
                     const SizedBox(height: 20),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(16),
+                        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 4))],
+                        border: Border.all(color: Colors.grey.shade200),
+                      ),
+                      child: TextField(
+                        onChanged: (val) => setState(() => searchQuery = val),
+                        decoration: InputDecoration(
+                          hintText: 'Tìm kiếm tên, quốc gia, niên đại...',
+                          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                          border: InputBorder.none,
+                          icon: Icon(Icons.search, color: Colors.grey.shade500),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
             if (isLoading)
               const SliverFillRemaining(child: Center(child: CircularProgressIndicator(color: Color(0xFF0F265C))))
-            else if (history.isEmpty)
+            else if (filteredHistory.isEmpty)
               SliverFillRemaining(
                 child: Center(
                   child: Column(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(Icons.history_toggle_off, size: 70, color: Colors.grey.shade300),
+                    Icon(Icons.search_off, size: 70, color: Colors.grey.shade300),
                     const SizedBox(height: 16),
-                    Text('Chưa có lịch sử giám định nào', style: TextStyle(color: Colors.grey.shade500, fontSize: 16)),
+                    Text(searchQuery.isNotEmpty ? 'Không tìm thấy kết quả' : 'Chưa có lịch sử giám định nào', style: TextStyle(color: Colors.grey.shade500, fontSize: 16)),
                     const SizedBox(height: 8),
-                    Text('Hãy chụp ảnh hiện vật để bắt đầu!', style: TextStyle(color: Colors.grey.shade400, fontSize: 13)),
+                    Text(searchQuery.isNotEmpty ? 'Thử tìm với từ khóa khác' : 'Hãy chụp ảnh hiện vật để bắt đầu!', style: TextStyle(color: Colors.grey.shade400, fontSize: 13)),
                   ]),
                 ),
               )
@@ -2305,8 +2333,8 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 sliver: SliverList(
                   delegate: SliverChildBuilderDelegate(
-                    (ctx, i) => _buildHistoryCard(history[i] as Map<String, dynamic>? ?? {}),
-                    childCount: history.length,
+                    (ctx, i) => _buildHistoryCard(filteredHistory[i] as Map<String, dynamic>? ?? {}),
+                    childCount: filteredHistory.length,
                   ),
                 ),
               ),
@@ -2707,6 +2735,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
+  String _formatUpdatedAt(String? raw) {
+    if (raw == null || raw.isEmpty) return 'Hôm nay.';
+    try {
+      final d = DateTime.parse(raw).toLocal();
+      return '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year} ${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')}';
+    } catch (_) {
+      return 'Hôm nay.';
+    }
+  }
+
   Future<void> _updateProfile() async {
     setState(() => isUpdating = true);
     try {
@@ -2917,7 +2955,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                             const SizedBox(height: 8),
                             const Text('Lịch sử', style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF1E1E1E))),
                             const SizedBox(height: 4),
-                            Text('Cập nhật lần cuối vào\nHôm nay.', style: TextStyle(fontSize: 10, color: Colors.grey.shade600, height: 1.3)),
+                            Text('Cập nhật lần cuối vào\n${_formatUpdatedAt(AuthState.user?['updated_at']?.toString())}', style: TextStyle(fontSize: 10, color: Colors.grey.shade600, height: 1.3)),
                           ],
                         ),
                       ),
