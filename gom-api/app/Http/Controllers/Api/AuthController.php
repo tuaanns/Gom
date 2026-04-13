@@ -115,6 +115,11 @@ class AuthController extends Controller
         auth()->user()->tokens()->delete();
         return ['message' => 'Đã đăng xuất'];
     }
+    
+    public function me()
+    {
+        return auth()->user();
+    }
 
     public function updateProfile(Request $request)
     {
@@ -128,11 +133,15 @@ class AuthController extends Controller
 
         if ($request->hasFile('avatar')) {
             $path = $request->file('avatar')->store('avatars', 'public');
-            $fields['avatar'] = $request->getSchemeAndHttpHost() . '/api/img/' . $path;
+            $user->avatar = url('/api/img/' . $path);
         }
 
-        $user->update($fields);
-        return response(['user' => $user, 'message' => 'Cập nhật thành công'], 200);
+        $user->name = $fields['name'];
+        $user->email = $fields['email'];
+        $user->phone = $fields['phone'];
+        $user->save();
+
+        return response(['user' => $user->fresh(), 'message' => 'Cập nhật thành công'], 200);
     }
 
     public function updatePassword(Request $request)

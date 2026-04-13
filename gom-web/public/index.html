@@ -24,20 +24,38 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <title>THE ARCHIVIST WEB</title>
+    <!-- Google Identity Services -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+      function onGoogleLibraryLoad() {
+        google.accounts.id.initialize({
+          client_id: "208231172368-34f26e0l7771ngcqa89j9ufj01gm6mtt.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+      }
+      function handleCredentialResponse(response) {
+        // This will be called by App.js via a custom event
+        const event = new CustomEvent('google-login-success', { detail: response });
+        window.dispatchEvent(event);
+      }
+    </script>
   </head>
   <body>
+    <!-- Facebook SDK -->
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js"></script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : '34850681257911333',
+          cookie     : true,
+          xfbml      : true,
+          version    : 'v18.0'
+        });
+      };
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
 </html>
