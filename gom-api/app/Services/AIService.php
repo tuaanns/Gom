@@ -31,9 +31,15 @@ class AIService
             )->post("{$this->pythonUrl}/predict");
 
             if (!$response->successful()) {
+                $errorMsg = 'AI Server responded with status ' . $response->status();
+                $body = $response->json();
+                if (is_array($body) && isset($body['detail'])) {
+                    $errorMsg = $body['detail'];
+                }
+                
                 Log::error("AI Server response failed: " . $response->body());
                 return [
-                    'error' => 'AI Server responded with status ' . $response->status()
+                    'error' => $errorMsg
                 ];
             }
 

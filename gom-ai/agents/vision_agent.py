@@ -15,7 +15,7 @@ class _RateLimitError(Exception):
 class VisionAgent:
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
-        self.model_id = "gemini-3.1-flash-lite-preview"
+        self.model_id = "gemini-2.5-flash-lite"
 
     @retry(
         retry=retry_if_exception_type(_RateLimitError),
@@ -37,7 +37,8 @@ class VisionAgent:
             "Nếu đó không phải là gốm sứ (ví dụ: ảnh người, động vật, phong cảnh, đồ vật không liên quan), "
             "hãy trả về JSON chỉ chứa một trường {'is_pottery': false}.\n"
             "Nếu là gốm sứ, hãy trả về JSON với 'is_pottery': true và các trường: "
-            "color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và dòng gốm bạn nghi ngờ nhất)."
+            "color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và dòng gốm bạn nghi ngờ nhất).\n"
+            "Hãy phân tích khách quan, mở rộng phạm vi từ gốm sứ cổ truyền Việt Nam (Bát Tràng, Chu Đậu...) đến gốm sứ quốc tế (Trung Quốc, Nhật Bản, Châu Âu...), không được thiên vị."
         )
 
         try:

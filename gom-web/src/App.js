@@ -79,6 +79,10 @@ function App() {
     } else setView("auth");
   }, [token]);
 
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [view]);
+
   const logout = () => {
     localStorage.clear();
     setToken(null);
@@ -110,6 +114,10 @@ function App() {
           {view === "transaction_history" && <TransactionHistoryScreen token={token} notify={notify} />}
           {view === "lines" && <CeramicLinesScreen />}
           {view === "payment" && <PaymentScreen token={token} quota={quota} fetchUser={fetchUser} notify={notify} setView={setView} />}
+          {view === "about" && <AboutScreen />}
+          {view === "contact" && <ContactScreen notify={notify} />}
+          {view === "terms" && <TermsScreen />}
+          {view === "privacy" && <PrivacyScreen />}
         </div>
       </main>
 
@@ -134,7 +142,7 @@ function App() {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
-            <h2>THE ARCHIVIST <b>WEB</b></h2>
+            <h2>THE ARCHIVIST <b></b></h2>
             <p>
               Hệ thống giám định cổ vật ứng dụng trí tuệ nhân tạo đa đại lý,
               mang lại độ chính xác cao trong việc phân định các dòng gốm sứ truyền thống.
@@ -146,7 +154,7 @@ function App() {
             <ul className="footer-links">
               <li><a onClick={() => setView("debate")}>Trang chủ giám định</a></li>
               <li><a onClick={() => setView("lines")}>Thư viện dòng gốm</a></li>
-              <li><a onClick={() => setView("history")}>Nhật ký hệ thống</a></li>
+              <li><a onClick={() => setView("history")}>Lịch sử giám định</a></li>
             </ul>
           </div>
 
@@ -162,16 +170,17 @@ function App() {
           <div className="footer-col">
             <h4>Hỗ trợ</h4>
             <ul className="footer-links">
-              <li><a>Điều khoản sử dụng</a></li>
-              <li><a>Chính sách bảo mật</a></li>
-              <li><a>Liên hệ chuyên gia</a></li>
+              <li><a onClick={() => setView("about")} style={{ cursor: 'pointer' }}>Về chúng tôi</a></li>
+              <li><a onClick={() => setView("terms")} style={{ cursor: 'pointer' }}>Điều khoản sử dụng</a></li>
+              <li><a onClick={() => setView("privacy")} style={{ cursor: 'pointer' }}>Chính sách bảo mật</a></li>
+              <li><a onClick={() => setView("contact")} style={{ cursor: 'pointer' }}>Liên hệ chuyên gia</a></li>
             </ul>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <div>&copy; 2026 THE ARCHIVIST PORTAL. All rights reserved.</div>
-          <div>POWERED BY ANTI-GRAVITY AI MULTI-AGENT SYSTEM</div>
+          <div>&copy; 2026 THE ARCHIVIST. All rights reserved.</div>
+          <div>POWERED BY THE ARCHIVIST AI MULTI-AGENT SYSTEM</div>
         </div>
       </footer>
 
@@ -185,35 +194,35 @@ function App() {
                   <i className="fas fa-robot"></i>
                 </div>
                 <div style={{ textAlign: 'left' }}>
-                  <div style={{ fontWeight: 800, fontSize: '0.85rem' }}>Trợ lý GOM AI</div>
+                  <div style={{ fontWeight: 800, fontSize: '0.85rem' }}>Trợ lý AI hệ thống The Archivist</div>
                   <div style={{ fontSize: '0.65rem', opacity: 0.7 }}>Online • Sẵn sàng hỗ trợ</div>
                 </div>
               </div>
               <button className="chat-close" onClick={() => setShowChat(false)}>✕</button>
             </div>
-            
+
             <div className="chat-messages">
               {messages.map((m, i) => (
                 <div key={i} className={`chat-bubble-container ${m.isUser ? 'user' : 'bot'}`}>
                   {!m.isUser && (
                     <div className="chat-avatar">
-                       <i className="fas fa-robot"></i>
+                      <i className="fas fa-robot"></i>
                     </div>
                   )}
                   <div className="chat-bubble">
                     {m.text}
                     {m.sources && m.sources.length > 0 && (
-                       <div className="chat-sources">
-                          <i className="fas fa-book"></i> Nguồn: {m.sources.join(', ')}
-                       </div>
+                      <div className="chat-sources">
+                        <i className="fas fa-book"></i> Nguồn: {m.sources.join(', ')}
+                      </div>
                     )}
                     {m.tokens && (
-                       <div className="chat-tokens">-{m.tokens} token</div>
+                      <div className="chat-tokens">-{m.tokens} token</div>
                     )}
                   </div>
                   {m.isUser && (
                     <div className="chat-avatar user-avt">
-                       {user?.name?.[0]?.toUpperCase() || 'U'}
+                      {user?.name?.[0]?.toUpperCase() || 'U'}
                     </div>
                   )}
                 </div>
@@ -221,7 +230,7 @@ function App() {
               {chatLoading && (
                 <div className="chat-bubble-container bot">
                   <div className="chat-avatar">
-                     <i className="fas fa-robot"></i>
+                    <i className="fas fa-robot"></i>
                   </div>
                   <div className="chat-bubble loading">
                     <span></span><span></span><span></span>
@@ -232,9 +241,9 @@ function App() {
             </div>
 
             <div className="chat-input-area">
-              <input 
-                type="text" 
-                placeholder="Hỏi AI về gốm sứ..." 
+              <input
+                type="text"
+                placeholder="Hỏi AI về gốm sứ..."
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
@@ -291,13 +300,15 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
     <nav className="navbar fade-in">
       <div className="navbar-inner">
         <div className="nav-brand" onClick={() => setView("debate")}>
-          THE ARCHIVIST <span>WEB</span>
+          THE ARCHIVIST <span></span>
         </div>
 
         <div className="nav-links">
           {navBtn("debate", "TRANG CHỦ")}
           {navBtn("lines", "DÒNG GỐM")}
           {navBtn("history", "LỊCH SỬ")}
+          {navBtn("contact", "LIÊN HỆ")}
+          {navBtn("about", "VỀ CHÚNG TÔI")}
         </div>
 
         <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
@@ -309,14 +320,14 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
                 : <span style={{ color: 'var(--danger)' }}>Đã hết lượt</span>}
           </div>
 
-          <button 
-            className="btn-pay-highlight" 
+          <button
+            className="btn-pay-highlight"
             onClick={() => setView("payment")}
-            style={{ 
-              padding: '8px 24px', 
-              fontSize: '0.7rem', 
-              fontWeight: 900, 
-              letterSpacing: '1px',
+            style={{
+              padding: '10px 26px',
+              fontSize: '0.8rem',
+              fontWeight: 700,
+              letterSpacing: '0.5px',
               borderRadius: '50px',
               border: 'none',
               cursor: 'pointer',
@@ -326,11 +337,10 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              transition: 'all 0.3s ease',
-              textTransform: 'uppercase'
+              transition: 'all 0.3s ease'
             }}
           >
-            <span style={{ fontSize: '1.1rem', fontWeight: 'bold' }}>+</span> NẠP LƯỢT
+            <span style={{ fontSize: '1rem' }}>+</span> Nạp lượt
           </button>
 
           <div
@@ -339,11 +349,11 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
             style={{ cursor: 'pointer', padding: '8px 16px', borderRadius: '50px' }}
             onClick={(e) => { e.stopPropagation(); toggleDropdown(); }}
           >
-            <div style={{ 
-              width: '28px', height: '28px', 
-              borderRadius: '50%', 
-              background: user?.avatar 
-                ? `url(${user.avatar}) center/cover` 
+            <div style={{
+              width: '28px', height: '28px',
+              borderRadius: '50%',
+              background: user?.avatar
+                ? `url(${user.avatar}) center/cover`
                 : 'var(--primary)',
               color: 'white',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -718,10 +728,13 @@ function DebateScreen({ token, notify, quota, setQuota, setView, user }) {
 
   if (result) return (
     <div className="fade-in">
-      <div style={{ textAlign: 'center', margin: '40px 0' }}>
-        <button className="btn btn-outline" onClick={() => setResult(null)} style={{ padding: '10px 30px', borderRadius: '50px' }}>← QUAY LẠI GIÁM ĐỊNH MỚI</button>
-      </div>
-      <ResultDashboard result={result} token={token} user={user} />
+      <ResultDashboard
+        result={result}
+        token={token}
+        user={user}
+        preview={preview}
+        resetPreview={() => { setResult(null); setPreview(null); setFile(null); setError(""); }}
+      />
     </div>
   );
 
@@ -751,12 +764,6 @@ function DebateScreen({ token, notify, quota, setQuota, setView, user }) {
               alt="Pottery Masterpiece"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
-            <div style={{ position: 'absolute', bottom: '30px', right: '30px', background: 'white', padding: '16px 24px', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)', textAlign: 'left', border: '1px solid var(--stroke)' }}>
-              <div style={{ fontSize: '0.65rem', fontWeight: 800, color: 'var(--text-muted)', marginBottom: '4px' }}>CERTIFIED AUTHENTICITY</div>
-              <div style={{ fontSize: '0.8rem', fontWeight: 900, color: 'var(--primary)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ color: 'var(--success)' }}>✓</span> ID: 1029-GOM-AI
-              </div>
-            </div>
           </div>
           {/* Decorative shapes */}
           <div style={{ position: 'absolute', top: '-40px', right: '-20px', width: '150px', height: '150px', background: 'var(--accent)', opacity: 0.1, borderRadius: '50%', zIndex: -1 }}></div>
@@ -773,11 +780,12 @@ function DebateScreen({ token, notify, quota, setQuota, setView, user }) {
 
         <div className="card" style={{ maxWidth: '800px', margin: '0 auto', padding: '60px', borderRadius: '40px', border: 'none', background: 'white', boxShadow: '0 30px 80px rgba(0,0,0,0.06)' }}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <div className="upload-area" onClick={() => document.getElementById("fileInput").click()} style={{ width: '100%', height: '320px', borderRadius: '32px', border: '2px dashed var(--stroke)', background: 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer', marginBottom: '40px', transition: '0.3s' }}>
-              {preview ? <img src={preview} alt="preview" style={{ width: '100%', height: '100%', objectFit: 'cover' }} /> : (
+            <div className="upload-area" onClick={() => document.getElementById("fileInput").click()} style={{ width: '100%', height: preview ? 'auto' : '420px', minHeight: '320px', maxHeight: '640px', borderRadius: '32px', border: preview ? '3px solid var(--accent)' : '2px dashed var(--stroke)', background: preview ? 'linear-gradient(145deg, #f8f6f3 0%, #eae6df 100%)' : 'var(--bg)', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', cursor: 'pointer', marginBottom: '40px', transition: 'all 0.4s ease', boxShadow: preview ? '0 20px 60px rgba(0,0,0,0.08)' : 'none' }}>
+              {preview ? <img src={preview} alt="preview" style={{ width: '100%', maxHeight: '600px', objectFit: 'contain', padding: '16px' }} /> : (
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '3.5rem', marginBottom: '20px' }}>🏺</div>
-                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--primary-dark)', textTransform: 'uppercase', letterSpacing: '2px' }}>Tải ảnh hiện vật lên</div>
+                  <div style={{ fontSize: '4rem', marginBottom: '20px', filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.1))' }}>🏺</div>
+                  <div style={{ fontSize: '0.95rem', fontWeight: 800, color: 'var(--primary-dark)', textTransform: 'uppercase', letterSpacing: '2px', marginBottom: '8px' }}>Tải ảnh hiện vật lên</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: 500 }}>Nhấn vào đây hoặc kéo thả ảnh</div>
                 </div>
               )}
               <input id="fileInput" type="file" hidden onChange={onFileChange} accept="image/*" />
@@ -786,7 +794,7 @@ function DebateScreen({ token, notify, quota, setQuota, setView, user }) {
             {error && <div style={{ color: 'var(--danger)', fontSize: '0.9rem', marginBottom: '24px', fontWeight: 800, background: '#FEF2F2', padding: '12px 24px', borderRadius: '50px' }}>⚠️ {error}</div>}
 
             <button className="btn btn-primary" onClick={analyze} disabled={loading} style={{ padding: '18px 80px', fontSize: '1.1rem', borderRadius: '60px', width: 'auto' }}>
-              {loading ? "Đang truy xuất dữ liệu đa đại lý..." : "PHÂN TÍCH HIỆN VẬT NGAY"}
+              {loading ? "Các chuyên gia đang tranh biện..." : "PHÂN TÍCH HIỆN VẬT NGAY"}
             </button>
           </div>
         </div>
@@ -942,7 +950,7 @@ function CeramicDetailModal({ line, onClose }) {
           </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <button className="btn btn-primary" onClick={onClose} style={{ padding: '16px 60px', borderRadius: '50px', fontSize: '1rem', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>Đóng thông tin</button>
+            <button className="btn btn-primary" onClick={onClose} style={{ padding: '16px 60px', borderRadius: '50px', fontSize: '1rem', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>Đóng</button>
           </div>
         </div>
       </div>
@@ -952,29 +960,38 @@ function CeramicDetailModal({ line, onClose }) {
 }
 
 
-function ResultDashboard({ result, isModal, token, user }) {
+function ResultDashboard({ result, isModal, token, user, preview, resetPreview }) {
   if (!result || !result.final_report) return <div className="card text-center">Đang tải kết quả...</div>;
   const final = result.final_report;
   const agents = result.agent_predictions || [];
 
   return (
-    <div className="fade-in" style={{ width: '100%', maxWidth: '940px', margin: '0 auto' }}>
+    <div className="fade-in" style={{ width: '100%', maxWidth: '940px', margin: '40px auto' }}>
       {/* FINAL REPORT HERO */}
-      <div className="card" style={{ background: 'var(--primary-dark)', color: 'white', textAlign: 'center', marginBottom: '32px', padding: '40px 32px', border: 'none', borderRadius: '32px', boxShadow: '0 15px 35px rgba(0,0,0,0.1)' }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--accent)', color: 'var(--primary-dark)', padding: '6px 16px', borderRadius: '50px', fontWeight: 900, fontSize: '0.7rem', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>
-          <span style={{ fontSize: '1rem' }}>🎯</span> ĐỘ TIN CẬY: {final.certainty}%
-        </div>
+      <div className="card" style={{ background: 'var(--primary-dark)', color: 'white', marginBottom: '32px', padding: '40px', border: 'none', borderRadius: '32px', boxShadow: '0 15px 35px rgba(0,0,0,0.1)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px', alignItems: 'center' }}>
+          {preview && (
+            <div style={{ width: '100%', maxWidth: '380px', minHeight: '350px', maxHeight: '500px', borderRadius: '24px', overflow: 'hidden', boxShadow: '0 20px 60px rgba(0,0,0,0.5)', background: 'linear-gradient(145deg, #f8f6f3 0%, #eae6df 100%)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '3px solid rgba(255,255,255,0.15)' }}>
+              <img src={preview} alt="pottery preview" style={{ width: '100%', height: '100%', objectFit: 'contain', padding: '12px' }} />
+            </div>
+          )}
+          <div style={{ flex: 1, minWidth: '300px', textAlign: preview ? 'left' : 'center' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: 'var(--accent)', color: 'var(--primary-dark)', padding: '6px 16px', borderRadius: '50px', fontWeight: 900, fontSize: '0.7rem', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+              <span style={{ fontSize: '1rem' }}>🎯</span> ĐỘ TIN CẬY: {final.certainty}%
+            </div>
 
-        {!isModal && (
-          <div style={{ marginBottom: '32px' }}>
-            <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.4rem', fontWeight: 900, marginBottom: '4px', textTransform: 'uppercase' }}>{final.final_prediction}</h2>
-            <p style={{ color: 'var(--accent)', fontWeight: 800, fontSize: '0.9rem', letterSpacing: '2px' }}>{final.final_country} • {final.final_era}</p>
+            {!isModal && (
+              <div style={{ marginBottom: '32px' }}>
+                <h2 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.4rem', fontWeight: 900, marginBottom: '4px', textTransform: 'uppercase', lineHeight: 1.2 }}>{final.final_prediction}</h2>
+                <p style={{ color: 'var(--accent)', fontWeight: 800, fontSize: '0.9rem', letterSpacing: '2px' }}>{final.final_country} • {final.final_era}</p>
+              </div>
+            )}
+
+            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '28px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'left' }}>
+              <div style={{ color: 'var(--accent)', fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '12px' }}>Tóm lược giám định:</div>
+              <p style={{ fontSize: '1.1rem', fontStyle: 'italic', opacity: 0.9, lineHeight: 1.7, color: '#F8F9FA', fontWeight: 300 }}>"{final.reasoning}"</p>
+            </div>
           </div>
-        )}
-
-        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '28px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.08)', textAlign: 'left' }}>
-          <div style={{ color: 'var(--accent)', fontSize: '0.65rem', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '1.5px', marginBottom: '12px' }}>Tóm lược giám định:</div>
-          <p style={{ fontSize: '1.1rem', fontStyle: 'italic', opacity: 0.9, lineHeight: 1.7, color: '#F8F9FA', fontWeight: 300 }}>"{final.reasoning}"</p>
         </div>
       </div>
 
@@ -1011,7 +1028,14 @@ function ResultDashboard({ result, isModal, token, user }) {
           </div>
         ))}
       </div>
-      {!isModal && token && <AIChatbox token={token} user={user} />}
+
+      {resetPreview && (
+        <div style={{ textAlign: 'center', marginTop: '50px' }}>
+          <button className="btn btn-primary" onClick={resetPreview} style={{ padding: '16px 40px', borderRadius: '50px', fontSize: '1.1rem', boxShadow: '0 10px 20px rgba(15,38,92,0.2)' }}>
+            <span style={{ marginRight: '8px' }}>🏺</span> GIÁM ĐỊNH HIỆN VẬT KHÁC
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -1090,7 +1114,7 @@ function HistoryDetailModal({ item, onClose, token }) {
         <div style={{ padding: '40px 50px 60px' }}>
           <ResultDashboard result={item.data} isModal={true} />
           <div style={{ display: 'flex', justifyContent: 'center', marginTop: '48px' }}>
-            <button className="btn btn-primary" onClick={onClose} style={{ padding: '16px 60px', borderRadius: '50px', fontSize: '1rem', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>Đóng biên bản</button>
+            <button className="btn btn-primary" onClick={onClose} style={{ padding: '16px 60px', borderRadius: '50px', fontSize: '1rem', boxShadow: '0 10px 20px rgba(0,0,0,0.1)' }}>Đóng</button>
           </div>
         </div>
       </div>
@@ -1149,8 +1173,29 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
   const STORAGE_BASE = API_BASE.replace('/api', '');
   const [activeTab, setActiveTab] = useState("info"); // info, update, password
   const [form, setForm] = useState({ name: user?.name || "", email: user?.email || "", phone: user?.phone || "" });
-  const [passForm, setPassForm] = useState({ current_password: "", password: "", password_confirmation: "" });
+  const [passForm, setPassForm] = useState({ old_password: "", password: "", password_confirmation: "" });
   const [loading, setLoading] = useState(false);
+  const [showCurrentPass, setShowCurrentPass] = useState(false);
+  const [showNewPass, setShowNewPass] = useState(false);
+  const [showConfirmPass, setShowConfirmPass] = useState(false);
+
+  const getPasswordStrength = (pwd) => {
+    if (!pwd) return { level: 0, label: '', color: '', bars: 0 };
+    let score = 0;
+    if (pwd.length >= 8) score++;
+    if (pwd.length >= 12) score++;
+    if (/[A-Z]/.test(pwd)) score++;
+    if (/[a-z]/.test(pwd)) score++;
+    if (/[0-9]/.test(pwd)) score++;
+    if (/[^A-Za-z0-9]/.test(pwd)) score++;
+    if (score <= 2) return { level: 1, label: 'Yếu', color: '#EF4444', bars: 1 };
+    if (score <= 3) return { level: 2, label: 'Trung bình', color: '#F59E0B', bars: 2 };
+    if (score <= 4) return { level: 3, label: 'Mạnh', color: '#10B981', bars: 3 };
+    return { level: 4, label: 'Rất mạnh', color: '#059669', bars: 4 };
+  };
+
+  const passwordStrength = getPasswordStrength(passForm.password);
+  const passwordsMatch = passForm.password && passForm.password_confirmation && passForm.password === passForm.password_confirmation;
   const [avatarFile, setAvatarFile] = useState(null);
   const [avatarPreview, setAvatarPreview] = useState(null);
 
@@ -1179,22 +1224,22 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
       formData.append('name', form.name);
       formData.append('email', form.email);
       formData.append('phone', form.phone);
-      
+
       if (avatarFile) {
         formData.append('avatar', avatarFile);
       }
 
-      const res = await axios.post(API_BASE + "/profile/update", formData, { 
-        headers: { 
+      const res = await axios.post(API_BASE + "/profile/update", formData, {
+        headers: {
           Authorization: "Bearer " + token,
           'Content-Type': 'multipart/form-data'
-        } 
+        }
       });
-      
+
       setAvatarFile(null);
       setAvatarPreview(null);
       await fetchUser(); // Now this should work as we added the route
-      
+
       notify("Cập nhật hồ sơ thành công!", "success");
       setActiveTab("info");
     } catch (err) {
@@ -1208,7 +1253,7 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
     try {
       await axios.post(API_BASE + "/profile/password", passForm, { headers: { Authorization: "Bearer " + token } });
       notify("Đổi mật khẩu thành công!", "success");
-      setPassForm({ current_password: "", password: "", password_confirmation: "" });
+      setPassForm({ old_password: "", password: "", password_confirmation: "" });
       setActiveTab("info");
     } catch (err) {
       notify(err.response?.data?.message || "Lỗi đổi mật khẩu", "error");
@@ -1218,18 +1263,18 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
   return (
     <div className="fade-in" style={{ maxWidth: '1000px', margin: '60px auto', padding: '0 24px' }}>
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: '40px' }}>
-        
+
         {/* Sidebar Mini */}
         <div style={{ flex: '0 0 280px' }}>
           <div className="card" style={{ padding: '32px', textAlign: 'center', position: 'sticky', top: '100px' }}>
-            <div 
-              style={{ 
-                width: '120px', height: '120px', 
-                background: getAvatarUrl() ? `url(${getAvatarUrl()}) center/cover` : 'linear-gradient(135deg, var(--primary-dark), var(--primary))', 
-                color: 'white', borderRadius: '40px', 
-                display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                fontSize: '3rem', fontWeight: 900, margin: '0 auto 16px', 
-                boxShadow: '0 20px 40px rgba(15,38,92,0.2)', 
+            <div
+              style={{
+                width: '120px', height: '120px',
+                background: getAvatarUrl() ? `url(${getAvatarUrl()}) center/cover` : 'linear-gradient(135deg, var(--primary-dark), var(--primary))',
+                color: 'white', borderRadius: '40px',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '3rem', fontWeight: 900, margin: '0 auto 16px',
+                boxShadow: '0 20px 40px rgba(15,38,92,0.2)',
                 overflow: 'hidden', position: 'relative'
               }}
             >
@@ -1238,18 +1283,18 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
             <input type="file" id="avatarInput" hidden accept="image/*" onChange={onAvatarChange} />
             <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--primary-dark)', marginBottom: '4px' }}>{user?.name}</h3>
             <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '24px', fontWeight: 600 }}>Thành viên Hệ thống</p>
-            
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {[
                 { id: 'info', label: 'Hồ sơ cá nhân', icon: '👤' },
                 { id: 'update', label: 'Cập nhật thông tin', icon: '📝' },
                 { id: 'password', label: 'Bảo mật tài khoản', icon: '🛡️' }
               ].map(tab => (
-                <button 
+                <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  style={{ 
-                    display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px', borderRadius: '16px', border: 'none', 
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '12px', padding: '14px 20px', borderRadius: '16px', border: 'none',
                     background: activeTab === tab.id ? 'var(--primary-dark)' : 'transparent',
                     color: activeTab === tab.id ? 'white' : 'var(--text-main)',
                     fontSize: '0.9rem', fontWeight: 700, cursor: 'pointer', transition: '0.3s', textAlign: 'left'
@@ -1275,16 +1320,16 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '48px' }}>
                   <div style={{ padding: '32px', background: 'var(--input-bg)', borderRadius: '24px', border: '1px solid var(--stroke)' }}>
-                     <div style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '16px', letterSpacing: '1px' }}>Số dư tín dụng</div>
-                     <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
-                       <span style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--primary-dark)' }}>{user?.token_balance}</span>
-                       <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--primary)', opacity: 0.7 }}>TOKEN</span>
-                     </div>
+                    <div style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '16px', letterSpacing: '1px' }}>Số dư tín dụng</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '8px' }}>
+                      <span style={{ fontSize: '2.5rem', fontWeight: 900, color: 'var(--primary-dark)' }}>{user?.token_balance}</span>
+                      <span style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--primary)', opacity: 0.7 }}>TOKEN</span>
+                    </div>
                   </div>
                   <div style={{ padding: '32px', background: 'var(--input-bg)', borderRadius: '24px', border: '1px solid var(--stroke)' }}>
-                     <div style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '16px', letterSpacing: '1px' }}>Ngày gia nhập</div>
-                     <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--primary-dark)' }}>{new Date(user?.created_at).toLocaleDateString('vi-VN')}</div>
-                     <div style={{ fontSize: '0.85rem', color: 'var(--success)', fontWeight: 800, marginTop: '8px' }}>✓ Đã xác thực</div>
+                    <div style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '16px', letterSpacing: '1px' }}>Ngày gia nhập</div>
+                    <div style={{ fontSize: '1.6rem', fontWeight: 900, color: 'var(--primary-dark)' }}>{new Date(user?.created_at).toLocaleDateString('vi-VN')}</div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--success)', fontWeight: 800, marginTop: '8px' }}>✓ Đã xác thực</div>
                   </div>
                 </div>
 
@@ -1311,14 +1356,14 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
 
               <form onSubmit={updateProfile}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '24px', marginBottom: '40px', padding: '24px', background: 'var(--input-bg)', borderRadius: '24px', border: '1px solid var(--stroke)' }}>
-                  <div 
+                  <div
                     onClick={() => document.getElementById('avatarInput').click()}
-                    style={{ 
-                      width: '80px', height: '80px', 
-                      background: getAvatarUrl() ? `url(${getAvatarUrl()}) center/cover` : 'linear-gradient(135deg, var(--primary-dark), var(--primary))', 
-                      color: 'white', borderRadius: '24px', 
-                      display: 'flex', alignItems: 'center', justifyContent: 'center', 
-                      fontSize: '2rem', fontWeight: 900, 
+                    style={{
+                      width: '80px', height: '80px',
+                      background: getAvatarUrl() ? `url(${getAvatarUrl()}) center/cover` : 'linear-gradient(135deg, var(--primary-dark), var(--primary))',
+                      color: 'white', borderRadius: '24px',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      fontSize: '2rem', fontWeight: 900,
                       cursor: 'pointer', overflow: 'hidden', position: 'relative'
                     }}
                   >
@@ -1360,24 +1405,93 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
               </div>
 
               <form onSubmit={updatePassword}>
+                {/* Mật khẩu hiện tại */}
                 <div className="input-group">
                   <label className="input-label" style={{ fontSize: '0.7rem' }}>MẬT KHẨU HIỆN TẠI</label>
-                  <input className="input-field" style={{ height: '56px', borderRadius: '16px' }} type="password" value={passForm.current_password} onChange={e => setPassForm({ ...passForm, current_password: e.target.value })} required />
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                  <div className="input-group">
-                    <label className="input-label" style={{ fontSize: '0.7rem' }}>MẬT KHẨU MỚI</label>
-                    <input className="input-field" style={{ height: '56px', borderRadius: '16px' }} type="password" value={passForm.password} onChange={e => setPassForm({ ...passForm, password: e.target.value })} required />
+                  <div style={{ position: 'relative' }}>
+                    <input className="input-field" style={{ height: '56px', borderRadius: '16px', paddingRight: '50px' }} type={showCurrentPass ? 'text' : 'password'} value={passForm.old_password} onChange={e => setPassForm({ ...passForm, old_password: e.target.value })} placeholder="Nhập mật khẩu hiện tại" required />
+                    <span onClick={() => setShowCurrentPass(!showCurrentPass)} style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', opacity: 0.6, fontSize: '1.2rem', display: 'flex', alignItems: 'center' }}>
+                      {showCurrentPass ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      )}
+                    </span>
                   </div>
-                  <div className="input-group">
-                    <label className="input-label" style={{ fontSize: '0.7rem' }}>XÁC NHẬN MẬT KHẨU</label>
-                    <input className="input-field" style={{ height: '56px', borderRadius: '16px' }} type="password" value={passForm.password_confirmation} onChange={e => setPassForm({ ...passForm, password_confirmation: e.target.value })} required />
-                  </div>
                 </div>
-                <button className="btn btn-primary" type="submit" disabled={loading} style={{ width: '100%', height: '60px', borderRadius: '50px', fontSize: '1rem', fontWeight: 800, marginTop: '24px' }}>
-                  {loading ? "Đang xử lý..." : "Cập nhật mật khẩu"}
+
+                {/* Mật khẩu mới */}
+                <div className="input-group">
+                  <label className="input-label" style={{ fontSize: '0.7rem' }}>MẬT KHẨU MỚI</label>
+                  <div style={{ position: 'relative' }}>
+                    <input className="input-field" style={{ height: '56px', borderRadius: '16px', paddingRight: '50px' }} type={showNewPass ? 'text' : 'password'} value={passForm.password} onChange={e => setPassForm({ ...passForm, password: e.target.value })} placeholder="Tối thiểu 8 ký tự" required />
+                    <span onClick={() => setShowNewPass(!showNewPass)} style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', opacity: 0.6, fontSize: '1.2rem', display: 'flex', alignItems: 'center' }}>
+                      {showNewPass ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      )}
+                    </span>
+                  </div>
+                  {/* Password Strength Meter */}
+                  {passForm.password && (
+                    <div style={{ marginTop: '12px' }}>
+                      <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
+                        {[1,2,3,4].map(i => (
+                          <div key={i} style={{ flex: 1, height: '4px', borderRadius: '4px', background: i <= passwordStrength.bars ? passwordStrength.color : '#E5E7EB', transition: 'all 0.3s ease' }} />
+                        ))}
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: passwordStrength.color, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                          {passwordStrength.level <= 1 ? '⚠️' : passwordStrength.level <= 2 ? 'ℹ️' : '✅'} {passwordStrength.label}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Xác nhận mật khẩu */}
+                <div className="input-group">
+                  <label className="input-label" style={{ fontSize: '0.7rem' }}>XÁC NHẬN MẬT KHẨU MỚI</label>
+                  <div style={{ position: 'relative' }}>
+                    <input className="input-field" style={{ height: '56px', borderRadius: '16px', paddingRight: '50px', borderColor: passForm.password_confirmation ? (passwordsMatch ? '#10B981' : '#EF4444') : undefined }} type={showConfirmPass ? 'text' : 'password'} value={passForm.password_confirmation} onChange={e => setPassForm({ ...passForm, password_confirmation: e.target.value })} placeholder="Nhập lại mật khẩu mới" required />
+                    <span onClick={() => setShowConfirmPass(!showConfirmPass)} style={{ position: 'absolute', right: '15px', top: '50%', transform: 'translateY(-50%)', cursor: 'pointer', opacity: 0.6, fontSize: '1.2rem', display: 'flex', alignItems: 'center' }}>
+                      {showConfirmPass ? (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                      ) : (
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                      )}
+                    </span>
+                  </div>
+                  {/* Match indicator */}
+                  {passForm.password_confirmation && (
+                    <div style={{ marginTop: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <span style={{ fontSize: '0.8rem' }}>{passwordsMatch ? '✅' : '❌'}</span>
+                      <span style={{ fontSize: '0.75rem', fontWeight: 700, color: passwordsMatch ? '#10B981' : '#EF4444' }}>
+                        {passwordsMatch ? 'Mật khẩu khớp' : 'Mật khẩu không khớp'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+
+                <button className="btn btn-primary" type="submit" disabled={loading || (passForm.password_confirmation && !passwordsMatch)} style={{ width: '100%', height: '60px', borderRadius: '50px', fontSize: '1rem', fontWeight: 800, marginTop: '24px', opacity: (passForm.password_confirmation && !passwordsMatch) ? 0.5 : 1 }}>
+                  {loading ? "Đang xử lý..." : "🔒 Cập nhật mật khẩu"}
                 </button>
               </form>
+
+              {/* Security Tips */}
+              <div style={{ marginTop: '32px', padding: '28px', background: 'linear-gradient(135deg, #FFF8F0 0%, #FEF3E2 100%)', borderRadius: '20px', border: '1px solid #F5E6D0' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '16px' }}>
+                  <div style={{ width: '40px', height: '40px', background: '#FDE68A', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>💡</div>
+                  <h4 style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--primary-dark)', margin: 0 }}>Gợi ý bảo mật</h4>
+                </div>
+                <ul style={{ margin: 0, paddingLeft: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                  <li style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Sử dụng tổ hợp <strong>chữ hoa, chữ thường, số</strong> và <strong>ký hiệu đặc biệt</strong> (!@#$%)</li>
+                  <li style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Mật khẩu nên dài tối thiểu <strong>8 ký tự</strong>, khuyến nghị từ <strong>12 ký tự</strong> trở lên</li>
+                  <li style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Tránh dùng thông tin cá nhân như ngày sinh, số điện thoại hoặc tên đăng nhập</li>
+                  <li style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>Không nên dùng chung mật khẩu với các trang web khác</li>
+                </ul>
+              </div>
             </div>
           )}
         </div>
@@ -1460,6 +1574,289 @@ function TransactionHistoryScreen({ token, notify }) {
   );
 }
 
+function TermsScreen() {
+  return (
+    <div className="fade-in" style={{ maxWidth: '900px', margin: '40px auto', padding: '0 24px 100px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+        <h2 className="display-title">Điều khoản sử dụng</h2>
+        <p className="subtitle">Vui lòng đọc kỹ các điều khoản trước khi sử dụng hệ thống The Archivist</p>
+      </div>
+
+      <div className="card" style={{ padding: '48px', borderRadius: '32px', border: 'none', boxShadow: '0 30px 80px rgba(0,0,0,0.06)' }}>
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>1. Quyết định giám định của AI</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '32px' }}>
+          Tuy hệ thống sử dụng thuật toán trí tuệ nhân tạo (AI) học sâu đa đại lý với nguồn dữ liệu khổng lồ, mọi thông tin giám định do hệ thống xuất ra mang tính chất tham khảo. Kết quả của AI không thể thay thế cho đánh giá của cơ quan có thẩm quyền hoặc chuyên gia thẩm định trực tiếp trong các vấn đề liên quan tới pháp lý, chứng nhận và thương mại. Chấp nhận sử dụng hệ thống đồng nghĩa với việc bạn hiểu rõ mọi quyết định giao dịch hoàn toàn nằm trong quyền tài phán cá nhân của bạn.
+        </p>
+
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>2. Bản quyền và Dữ liệu</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '32px' }}>
+          Bạn sở hữu độc quyền hình ảnh hiện vật tải lên. Tuy nhiên, bằng việc phân tích mẫu vật, bạn cấp cho chúng tôi quyền sử dụng hình ảnh ở dạng ẩn danh nhằm mục đích huấn luyện hệ thống AI ngày càng hoàn thiện hơn. Chúng tôi không sử dụng dữ liệu của bạn cho bất kì mục đích phân phối nào với bên thứ ba khác.
+        </p>
+
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>3. Tín dụng và Thanh toán</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '32px' }}>
+          Tín dụng (lượt giám định) thuộc tài khoản của bạn không có thời hạn sử dụng. Các gói nạp một khi đã thực hiện thành công và cập nhật số dư cho tài khoản sẽ không được hoàn trả, trừ trường hợp giao dịch bị lỗi từ phía cổng thanh toán.
+        </p>
+
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>4. Trách nhiệm người dùng</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+          Tài khoản chỉ được sử dụng và là tiện ích ưu đãi dành riêng cho cá nhân. Mọi hành vi tự động hóa hoặc thu thập thông tin ngược (API reverse engineering) trên hệ thống sẽ dẫn tới hành động khóa vĩnh viễn quyền truy cập.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function PrivacyScreen() {
+  return (
+    <div className="fade-in" style={{ maxWidth: '900px', margin: '40px auto', padding: '0 24px 100px' }}>
+      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+        <h2 className="display-title">Chính sách bảo mật</h2>
+        <p className="subtitle">Bảo mật thông tin của khách hàng là ưu tiên hàng đầu tại The Archivist</p>
+      </div>
+
+      <div className="card" style={{ padding: '48px', borderRadius: '32px', border: 'none', boxShadow: '0 30px 80px rgba(0,0,0,0.06)' }}>
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Thu thập Thông Tin Cá Nhân</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '32px' }}>
+          Chúng tôi chỉ thu thập họ tên, địa chỉ email, và quá trình sử dụng (lịch sử phân tích hình ảnh) của bạn với mục tiêu xác định tính danh tính nhằm duy trì số lượng bộ tín dụng cho dịch vụ phân tích. Hình ảnh tải lên được mã hóa và bảo mật trên máy chủ biên phòng nội bộ của chúng tôi.
+        </p>
+
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Sử Dụng Dữ Liệu</h3>
+        <ul style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '32px', listStylePosition: 'inside', paddingLeft: 0 }}>
+          <li style={{ marginBottom: '8px' }}>Xử lý các yêu cầu nhận diện và hội chẩn AI đa đại lý cho hiện vật gốm sứ.</li>
+          <li style={{ marginBottom: '8px' }}>Hiển thị nhật ký giám định trực tiếp trên giao diện cá nhân.</li>
+          <li style={{ marginBottom: '8px' }}>Thông báo tiến trình đơn hàng (các gói nạp tiền tín dụng).</li>
+          <li style={{ marginBottom: '8px' }}>Cải tiến trọng số hệ thống AI (bằng hình ảnh ẩn danh phi danh tính).</li>
+        </ul>
+
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Giao Dịch Thanh Toán</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7', marginBottom: '32px' }}>
+          Chúng tôi không lưu trữ thông tin số thẻ hay bảo mật Internet Banking hay thông tin thẻ tín dụng của bạn. Mọi quá trình nạp tín dụng đều được giao dịch trên cổng thanh toán trung gian, tuân thủ tiêu chuẩn mã hoá PCI DSS cao nhất thông qua giao thức ngân hàng điện tử VietQR và MoMo.
+        </p>
+
+        <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Liên hệ & Giải quyết quyền lợi người dùng</h3>
+        <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.7' }}>
+          Để yêu cầu xóa toàn bộ lịch sử tư liệu cá nhân, bao gồm các bài viết trên sổ nhật ký, hãy liên hệ tới The Archivist thông qua phần "Liên hệ chuyên gia" trên hệ thống. Dữ liệu của bạn sẽ bị hủy vĩnh viễn theo đúng yêu cầu bảo mật thông tin chuẩn GDPR của Liên Minh Châu Âu.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function AboutScreen() {
+  const [stats, setStats] = useState({ total_analyzed: '...', accuracy: '...' });
+
+  useEffect(() => {
+    axios.get(`${API_BASE}/stats`)
+      .then(res => {
+        if (res.data) {
+          setStats({
+            total_analyzed: new Intl.NumberFormat('vi-VN').format(res.data.total_analyzed),
+            accuracy: res.data.accuracy + '%'
+          });
+        }
+      })
+      .catch(err => {
+        console.error("Lỗi lấy dữ liệu thống kê", err);
+        setStats({ total_analyzed: '1M+', accuracy: '99.2%' });
+      });
+  }, []);
+
+  return (
+    <div className="fade-in" style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 24px 100px' }}>
+      {/* Hero section */}
+      <div style={{ textAlign: 'center', marginBottom: '80px', paddingTop: '40px' }}>
+        <div style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '2.5px', marginBottom: '16px' }}>VỀ THE ARCHIVIST</div>
+        <h2 className="display-title" style={{ fontSize: '3rem', maxWidth: '800px', margin: '0 auto 24px', lineHeight: 1.2 }}>
+          Lưu giữ Tinh hoa di sản qua Lăng kính Trí tuệ Nhân tạo
+        </h2>
+        <p className="subtitle" style={{ maxWidth: '600px', margin: '0 auto' }}>
+          Chúng tôi tiên phong ứng dụng công nghệ AI đa đại lý học sâu để nhận diện, giám định và số hóa mọi dấu ấn của gốm sứ Việt Nam cùng tinh túy thế giới.
+        </p>
+      </div>
+
+      {/* Grid Features */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px', marginBottom: '80px' }}>
+        <div className="card" style={{ padding: '48px 32px', textAlign: 'center', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+          <div style={{ width: '80px', height: '80px', background: 'var(--input-bg)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', margin: '0 auto 24px' }}>🛡️</div>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Độ chính xác vượt trội</h3>
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            Hệ thống quy tụ 5 hội đồng AI chuyên biệt đóng vai trò tranh biện trực tiếp trong thời gian thực, đảm bảo mọi phán đoán xuất xứ và niên đại đều dựa trên lập luận đa phương diện.
+          </p>
+        </div>
+
+        <div className="card" style={{ padding: '48px 32px', textAlign: 'center', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+          <div style={{ width: '80px', height: '80px', background: 'var(--input-bg)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', margin: '0 auto 24px' }}>📚</div>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Kho tàng Dữ liệu</h3>
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            Lưu trữ hơn 50.000 mẫu vân gốm, kiểu dáng và nước men trải dài từ các triều đại lịch sử phương Đông, giúp tối ưu hóa việc so khớp và định danh mọi hiện vật.
+          </p>
+        </div>
+
+        <div className="card" style={{ padding: '48px 32px', textAlign: 'center', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+          <div style={{ width: '80px', height: '80px', background: 'var(--input-bg)', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '2.5rem', margin: '0 auto 24px' }}>🤝</div>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Cộng đồng Sưu tầm</h3>
+          <p style={{ fontSize: '0.95rem', color: 'var(--text-muted)', lineHeight: '1.6' }}>
+            Xây dựng sân chơi tri thức cho giới mộ điệu, nhà khảo cổ và những chuyên gia gốm sứ. Không chỉ là nền tảng máy học, The Archivist còn là kho tàng sống của văn hóa dân tộc.
+          </p>
+        </div>
+      </div>
+
+      {/* Mission */}
+      <div className="card" style={{ padding: '64px', borderRadius: '40px', background: 'var(--primary-dark)', color: 'white', border: 'none', display: 'flex', flexWrap: 'wrap', gap: '40px', alignItems: 'center' }}>
+        <div style={{ flex: 1, minWidth: '300px' }}>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '2.2rem', fontWeight: 900, marginBottom: '24px', lineHeight: 1.3 }}>
+            Tầm nhìn và <span style={{ color: 'var(--accent)' }}>Sứ mệnh</span>
+          </h3>
+          <p style={{ fontSize: '1rem', lineHeight: '1.8', opacity: 0.8, marginBottom: '20px' }}>
+            Chúng tôi tin rằng, mỗi cổ vật gốm sứ không chỉ đơn thuần là món đồ vô tri, mà ẩn chứa trong nó là cả câu chuyện của dòng thời gian, hồn phách vạn vật và tinh hoa đôi bàn tay nghệ nhân.
+          </p>
+          <p style={{ fontSize: '1rem', lineHeight: '1.8', opacity: 0.8 }}>
+            Sứ mệnh của The Archivist là kéo dài tuổi thọ của ký ức. Biến những câu chuyện ngỡ như đã chìm vào quên lãng trở nên sống động, bằng sự logic, minh bạch và năng lực phi thường của công nghệ.
+          </p>
+        </div>
+        <div style={{ flex: 1, minWidth: '300px', display: 'flex', justifyContent: 'flex-end' }}>
+          <div style={{ width: '100%', maxWidth: '400px', height: '300px', background: 'white', borderRadius: '24px', padding: '30px', color: 'var(--primary-dark)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+            <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '8px', color: 'var(--accent)' }}>{stats.total_analyzed}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '24px', opacity: 0.6 }}>Bức ảnh phân tích</div>
+
+            <div style={{ fontSize: '3rem', fontWeight: 900, marginBottom: '8px', color: 'var(--accent)' }}>{stats.accuracy}</div>
+            <div style={{ fontSize: '1rem', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px', opacity: 0.6 }}>Độ chính xác AI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ContactScreen({ notify }) {
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [sending, setSending] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!form.name || !form.email || !form.message) {
+      notify('Vui lòng nhập đầy đủ thông tin!', 'error');
+      return;
+    }
+    setSending(true);
+    try {
+      await axios.post(`${API_BASE}/contact`, form);
+      setForm({ name: '', email: '', subject: '', message: '' });
+      notify('Tin nhắn đã được gửi thành công! Chúng tôi sẽ phản hồi trong 24h.', 'success');
+    } catch (err) {
+      console.error(err);
+      notify('Gửi tin nhắn thất bại. Vui lòng thử lại sau.', 'error');
+    }
+    setSending(false);
+  };
+
+  return (
+    <div className="fade-in" style={{ maxWidth: '1200px', margin: '40px auto', padding: '0 24px 100px' }}>
+      {/* Hero */}
+      <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+        <h2 className="display-title">Liên hệ với chúng tôi</h2>
+        <p className="subtitle">Đội ngũ chuyên gia luôn sẵn sàng hỗ trợ bạn về mọi vấn đề liên quan đến giám định gốm sứ</p>
+      </div>
+
+      {/* Contact Info Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px', marginBottom: '64px' }}>
+        <div className="card" style={{ textAlign: 'center', padding: '40px 32px', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+          <div style={{ width: '64px', height: '64px', background: 'var(--input-bg)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', margin: '0 auto 20px' }}>📧</div>
+          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '8px' }}>Email</h4>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 500 }}>dongnguyenkh123@gmail.com</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', opacity: 0.7 }}>Phản hồi trong 24 giờ</p>
+        </div>
+        <div className="card" style={{ textAlign: 'center', padding: '40px 32px', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+          <div style={{ width: '64px', height: '64px', background: 'var(--input-bg)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', margin: '0 auto 20px' }}>📞</div>
+          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '8px' }}>Điện thoại</h4>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 500 }}>0949 085 842</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', opacity: 0.7 }}>Thứ 2 - Thứ 7, 8:00 - 17:30</p>
+        </div>
+        <div className="card" style={{ textAlign: 'center', padding: '40px 32px', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+          <div style={{ width: '64px', height: '64px', background: 'var(--input-bg)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.8rem', margin: '0 auto 20px' }}>📍</div>
+          <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '8px' }}>Địa chỉ</h4>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: 500 }}>Cần Thơ</p>
+          <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', opacity: 0.7 }}>Việt Nam</p>
+        </div>
+      </div>
+
+      {/* Contact Form */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start' }}>
+        <div className="card" style={{ padding: '48px', borderRadius: '32px', border: 'none', boxShadow: '0 30px 80px rgba(0,0,0,0.06)' }}>
+          <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.6rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '8px' }}>Gửi tin nhắn</h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '32px' }}>Điền thông tin bên dưới, chúng tôi sẽ liên hệ lại sớm nhất.</p>
+
+          <form onSubmit={handleSubmit}>
+            <div style={{ display: 'flex', gap: '16px', marginBottom: '20px' }}>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '8px' }}>Họ và tên *</label>
+                <input type="text" placeholder="Nguyễn Văn A" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} style={{ width: '100%', padding: '14px 20px', borderRadius: '14px', border: '1px solid var(--stroke)', fontSize: '0.95rem', outline: 'none', background: 'var(--input-bg)' }} />
+              </div>
+              <div style={{ flex: 1 }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '8px' }}>Email *</label>
+                <input type="email" placeholder="email@example.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} style={{ width: '100%', padding: '14px 20px', borderRadius: '14px', border: '1px solid var(--stroke)', fontSize: '0.95rem', outline: 'none', background: 'var(--input-bg)' }} />
+              </div>
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '8px' }}>Chủ đề</label>
+              <input type="text" placeholder="Cần hỗ trợ giám định, hợp tác, góp ý..." value={form.subject} onChange={e => setForm(f => ({ ...f, subject: e.target.value }))} style={{ width: '100%', padding: '14px 20px', borderRadius: '14px', border: '1px solid var(--stroke)', fontSize: '0.95rem', outline: 'none', background: 'var(--input-bg)' }} />
+            </div>
+            <div style={{ marginBottom: '32px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1px', display: 'block', marginBottom: '8px' }}>Nội dung *</label>
+              <textarea placeholder="Mô tả chi tiết yêu cầu hoặc câu hỏi của bạn..." value={form.message} onChange={e => setForm(f => ({ ...f, message: e.target.value }))} rows={5} style={{ width: '100%', padding: '14px 20px', borderRadius: '14px', border: '1px solid var(--stroke)', fontSize: '0.95rem', outline: 'none', resize: 'vertical', fontFamily: 'inherit', background: 'var(--input-bg)' }} />
+            </div>
+            <button type="submit" className="btn btn-primary" disabled={sending} style={{ width: '100%', height: '56px', borderRadius: '50px', fontSize: '1rem', fontWeight: 700 }}>
+              {sending ? 'Đang gửi...' : 'Gửi tin nhắn'}
+            </button>
+          </form>
+        </div>
+
+        {/* Right side info */}
+        <div>
+          <div className="card" style={{ padding: '40px', borderRadius: '32px', marginBottom: '24px', background: 'var(--primary-dark)', color: 'white', border: 'none' }}>
+            <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', fontWeight: 800, marginBottom: '20px' }}>Về hệ thống</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.9rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🤖</span>
+                <span>Hội đồng 3 AI chuyên gia tranh luận</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.9rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🏺</span>
+                <span>Cơ sở dữ liệu nhiều dòng gốm sứ</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.9rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>⚡</span>
+                <span>Kết quả phân tích trong vài giây</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.9rem' }}>
+                <span style={{ fontSize: '1.2rem' }}>🌐</span>
+                <span style={{ fontWeight: 700, color: 'var(--accent)' }}>Hoạt động 24/7 — không giới hạn</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="card" style={{ padding: '40px', borderRadius: '32px', border: '1px solid var(--stroke)', boxShadow: 'none' }}>
+            <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.3rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '16px' }}>Câu hỏi thường gặp</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+              {[
+                { q: 'Kết quả giám định có chính xác không?', a: 'Hệ thống sử dụng 5 AI chuyên gia tranh luận để đạt độ chính xác cao nhất.' },
+                { q: 'Tín dụng có hết hạn không?', a: 'Không, tín dụng của bạn không có thời hạn sử dụng.' },
+                { q: 'Có hỗ trợ giám định trực tiếp không?', a: 'Có, bạn có thể liên hệ để đặt lịch giám định trực tiếp.' }
+              ].map((faq, i) => (
+                <div key={i} style={{ padding: '16px 0', borderBottom: i < 2 ? '1px solid var(--stroke)' : 'none' }}>
+                  <div style={{ fontSize: '0.9rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '6px' }}>{faq.q}</div>
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{faq.a}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
   const [stage, setStage] = useState(0); // 0: Select Package, 1: Select Method, 2: Final Payment
   const [selectedPkg, setSelectedPkg] = useState(null);
@@ -1467,10 +1864,40 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
   const [qrCodeData, setQrCodeData] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [successCredit, setSuccessCredit] = useState(0);
+  const [selectedMethod, setSelectedMethod] = useState(null);
+  const [cardForm, setCardForm] = useState({ number: '', expiry: '', name: '' });
 
   const selectPackage = (pkg) => {
     setSelectedPkg(pkg);
     setStage(1);
+    setSelectedMethod(null);
+  };
+
+  const handleMethodClick = (methodId) => {
+    if (methodId === 'atm') {
+      setSelectedMethod('atm');
+    } else {
+      buyPackage();
+    }
+  };
+
+  const handleCardSubmit = () => {
+    if (!cardForm.number || !cardForm.expiry || !cardForm.name) {
+      notify('Vui lòng nhập đầy đủ thông tin thẻ!', 'error');
+      return;
+    }
+    buyPackage();
+  };
+
+  const formatCardNumber = (v) => {
+    const digits = v.replace(/\D/g, '').slice(0, 16);
+    return digits.replace(/(.{4})/g, '$1 ').trim();
+  };
+
+  const formatExpiry = (v) => {
+    const digits = v.replace(/\D/g, '').slice(0, 4);
+    if (digits.length >= 3) return digits.slice(0, 2) + '/' + digits.slice(2);
+    return digits;
   };
 
   const buyPackage = async () => {
@@ -1479,11 +1906,11 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
     try {
       const res = await axios.post(API_BASE + '/payment/create', { package_id: selectedPkg.id }, { headers: { Authorization: 'Bearer ' + token } });
       const serverData = res.data.data || res.data;
-      
+
       // Constructing robust payment data following SePay pattern
       const amount = serverData.amount || selectedPkg.price;
       const content = serverData.transfer_content || `GOM NAP ${selectedPkg.id}`;
-      
+
       const paymentData = {
         ...serverData,
         amount: amount,
@@ -1581,24 +2008,36 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
       {currentStage === 0 && (
         <div className="stats-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '30px' }}>
           {[
-            { id: 1, name: 'Gói Cơ Bản', price: 150000, desc: '10 Tín dụng khởi đầu', tag: 'TIẾT KIÊM' },
-            { id: 2, name: 'Gói Phổ Biến', price: 600000, desc: '50 Tín dụng chuyên môn', tag: 'KHUYÊN DÙNG', featured: true },
-            { id: 3, name: 'Gói Chuyên Gia', price: 2000000, desc: '200 Tín dụng cao cấp', tag: 'SIÊU ƯU ĐÃI' }
+            { id: 1, name: 'Cơ Bản', credits: 10, pricePerCredit: 15000, price: 150000, discount: null },
+            { id: 2, name: 'Phổ Biến', credits: 50, pricePerCredit: 12000, price: 600000, discount: 'Tiết kiệm 20%', featured: true },
+            { id: 3, name: 'Chuyên Gia', credits: 200, pricePerCredit: 10000, price: 2000000, discount: '-30% off' }
           ].map(pkg => (
-            <div key={pkg.id} className="card" style={{ display: 'flex', flexDirection: 'column', padding: '48px 40px', border: pkg.featured ? '2.5px solid var(--accent)' : '1px solid var(--stroke)', borderRadius: '32px', textAlign: 'center', transition: '0.4s', transform: pkg.featured ? 'scale(1.05)' : 'none', position: 'relative', background: 'white' }}>
-              {pkg.featured && <div style={{ position: 'absolute', top: '-15px', left: '50%', transform: 'translateX(-50%)', background: 'var(--accent)', color: 'var(--primary-dark)', padding: '6px 24px', borderRadius: '50px', fontSize: '0.7rem', fontWeight: 900, whiteSpace: 'nowrap' }}>GIẢI PHÁP TỐI ƯU</div>}
-              <h4 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 800, color: 'var(--primary-dark)', marginBottom: '8px' }}>{pkg.name}</h4>
-              <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: '40px', fontWeight: 500 }}>{pkg.desc}</p>
-              <div style={{ marginBottom: '40px' }}>
-                <span style={{ fontSize: '3rem', fontWeight: 900, color: 'var(--primary-dark)' }}>{new Intl.NumberFormat('vi-VN').format(pkg.price)}</span>
-                <span style={{ fontSize: '1.2rem', fontWeight: 800, color: 'var(--primary-dark)', verticalAlign: 'super', marginLeft: '4px' }}>₫</span>
+            <div key={pkg.id} className="card" style={{ display: 'flex', flexDirection: 'column', padding: '48px 40px', border: pkg.featured ? '2.5px solid var(--accent)' : '1px solid var(--stroke)', borderRadius: '32px', transition: '0.4s', transform: pkg.featured ? 'scale(1.05)' : 'none', position: 'relative', background: 'white' }}>
+
+              {/* Header: Tag + Discount */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 900, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '1.5px' }}>{pkg.name}</span>
+                {pkg.discount && (
+                  <span style={{ background: '#E53935', color: 'white', padding: '3px 10px', borderRadius: '50px', fontSize: '0.65rem', fontWeight: 800 }}>{pkg.discount}</span>
+                )}
               </div>
-              <ul style={{ listStyle: 'none', padding: 0, textAlign: 'left', marginBottom: '48px' }}>
-                <li style={{ marginBottom: '12px', fontSize: '0.9rem', color: 'var(--text-main)' }}>✓ Phân tích AI đa đại lý</li>
-                <li style={{ marginBottom: '12px', fontSize: '0.9rem', color: 'var(--text-main)' }}>✓ Không giới hạn lịch sử</li>
-                <li style={{ marginBottom: '12px', fontSize: '0.9rem', color: 'var(--text-main)' }}>✓ Báo cáo chi tiết nâng cao</li>
-              </ul>
-              <button className="btn btn-primary" onClick={() => selectPackage(pkg)} style={{ marginTop: 'auto', width: '100%', height: '56px', borderRadius: '50px', background: pkg.featured ? 'var(--primary-dark)' : 'var(--primary)' }}>Chọn gói này</button>
+
+              {/* Credits */}
+              <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.8rem', fontWeight: 900, color: 'var(--primary-dark)', marginBottom: '8px' }}>
+                {pkg.credits} Tín dụng
+              </h3>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '32px', fontWeight: 500 }}>
+                {new Intl.NumberFormat('vi-VN').format(pkg.pricePerCredit)}đ / tín dụng
+              </p>
+
+              {/* Price */}
+              <div style={{ marginBottom: '40px' }}>
+                <span style={{ fontSize: '2.8rem', fontWeight: 900, color: 'var(--primary-dark)' }}>{new Intl.NumberFormat('vi-VN').format(pkg.price)}</span>
+                <span style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--primary-dark)', marginLeft: '4px' }}>đ</span>
+              </div>
+
+              {/* CTA Button */}
+              <button className="btn btn-primary" onClick={() => selectPackage(pkg)} style={{ marginTop: 'auto', width: '100%', height: '56px', borderRadius: '50px', background: pkg.featured ? 'var(--primary-dark)' : 'var(--primary)', fontSize: '1rem', fontWeight: 700 }}>Chọn gói</button>
             </div>
           ))}
         </div>
@@ -1610,21 +2049,27 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
             <button onClick={resetPayment} style={{ background: 'var(--input-bg)', border: 'none', width: '44px', height: '44px', borderRadius: '50%', cursor: 'pointer', fontWeight: 900 }}>←</button>
             <div>
               <h3 style={{ fontSize: '1.4rem', fontWeight: 900, color: 'var(--primary-dark)' }}>Phương thức thanh toán</h3>
-              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Đang thanh toán cho {selectedPkg.name}</p>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>Đang thanh toán cho {selectedPkg.name} — {selectedPkg.credits} tín dụng</p>
             </div>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {[
               { id: 'vietqr', name: 'Chuyển khoản Ngân hàng', icon: '🏦', sub: 'Tự động duyệt qua VietQR' },
               { id: 'momo', name: 'Ví điện tử MoMo', icon: '💎', sub: 'Thanh toán tức thì' },
-              { id: 'atm', name: 'Thẻ ATM / Internet Banking', icon: '💳', sub: 'Hỗ trợ tất cả ngân hàng Việt Nam' }
+              { id: 'zalopay', name: 'Ví ZaloPay', icon: '💙', sub: 'Quét mã hoặc chuyển tức thì' }
             ].map(m => (
               <div
                 key={m.id}
                 onClick={buyPackage}
                 className="card"
-                style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px', cursor: 'pointer', border: '1px solid var(--stroke)', boxShadow: 'none', transition: '0.3s', opacity: purchasing ? 0.6 : 1, pointerEvents: purchasing ? 'none' : 'auto' }}
+                style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '24px', cursor: 'pointer',
+                  border: '1px solid var(--stroke)',
+                  boxShadow: 'none', transition: '0.3s',
+                  opacity: purchasing ? 0.6 : 1, pointerEvents: purchasing ? 'none' : 'auto'
+                }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
                   <div style={{ width: '50px', height: '50px', background: 'var(--input-bg)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>{m.icon}</div>
@@ -1712,18 +2157,18 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
                   {purchasing ? "Đang xử lý..." : "Xác nhận đã chuyển khoản"}
                 </button>
                 <button onClick={resetPayment} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem' }}>Huỷ giao dịch</button>
-                
+
                 {/* SIMULATION BUTTON FOR TEST MODE */}
                 <div style={{ marginTop: '20px', borderTop: '1px solid var(--stroke)', paddingTop: '20px' }}>
-                  <button 
+                  <button
                     onClick={simulateSuccess}
-                    style={{ 
-                      background: 'none', 
-                      border: 'none', 
-                      color: 'var(--accent)', 
-                      fontSize: '0.75rem', 
-                      fontWeight: 800, 
-                      textDecoration: 'underline', 
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--accent)',
+                      fontSize: '0.75rem',
+                      fontWeight: 800,
+                      textDecoration: 'underline',
                       cursor: 'pointer',
                       opacity: 0.7
                     }}

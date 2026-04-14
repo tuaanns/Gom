@@ -29,3 +29,9 @@ fastapi.exceptions.HTTPException: 500: API đã hết quota miễn phí. Vui lò
 
 Debate Error: API đã hết quota. Vui lòng thử lại sau vài phút.
 Debate Error: Rất tiếc, hệ thống không nhận diện được gốm sứ trong bức ảnh này. Vui lòng thử lại với một bức ảnh khác.
+Debate Error: AI Server đang quá tải. Vui lòng thử lại sau.
+Debate Error: AI Server đang quá tải. Vui lòng thử lại sau.
+Debate Error: AI Server đang quá tải. Vui lòng thử lại sau.
+Debate Error: AI Server đang quá tải. Vui lòng thử lại sau.
+Debate Error: Lỗi phân tích hình ảnh: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available mo
+Debate Error: Lỗi phân tích hình ảnh: 404 NOT_FOUND. {'error': {'code': 404, 'message': 'models/gemini-1.5-flash is not found for API version v1beta, or is not supported for generateContent. Call ListModels to see the list of available mo

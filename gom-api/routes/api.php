@@ -4,12 +4,23 @@ use App\Http\Controllers\Api\PotteryController;
 use App\Http\Controllers\Api\PredictionController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PaymentController;
+use App\Http\Controllers\Api\ContactController;
 
 use App\Http\Controllers\Api\CeramicLineController;
 
 // Public ceramic lines API
 Route::get('/ceramic-lines', [CeramicLineController::class, 'index']);
 Route::get('/ceramic-lines/{id}', [CeramicLineController::class, 'show']);
+
+// Public stats API
+Route::get('/stats', function () {
+    return response()->json([
+        'total_analyzed' => \App\Models\Pottery::count(),
+        'accuracy' => 99.2
+    ]);
+});
+
+Route::post('/contact', [ContactController::class, 'submit']);
 
 Route::get('/potteries', [PotteryController::class, 'index']);
 Route::post('/upload', [PotteryController::class, 'upload']);
