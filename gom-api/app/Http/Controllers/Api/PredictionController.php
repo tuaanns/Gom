@@ -92,11 +92,16 @@ class PredictionController extends Controller
         $user = auth('sanctum')->user();
         $query = $request->input('question', '');
         
-        if ($user && (float)$user->token_balance < 0.1) {
-            return response()->json([
-                'status' => 'error', 
-                'message' => 'Lỗi: Tài khoản của bạn đã hết lượt. Vui lòng nạp thêm lượt.'
-            ], 402);
+        if ($user) {
+            $freeUsed = (int)$user->free_predictions_used;
+            $balance  = (float)$user->token_balance;
+            // Allow chat if still within free limit or has tokens
+            if ($freeUsed >= self::FREE_LIMIT && $balance < 0.1) {
+                return response()->json([
+                    'status' => 'error', 
+                    'message' => 'Lỗi: Tài khoản của bạn đã hết lượt. Vui lòng nạp thêm lượt.'
+                ], 402);
+            }
         }
 
         try {
@@ -123,7 +128,8 @@ class PredictionController extends Controller
         }
         
         // Deduct exactly 0.1 token per chat exactly as DOCS mentioned float subtraction
-        if ($user) {
+        // Deduct exactly 0.1 token per chat only if user is out of free trial
+        if ($user && $user->free_predictions_used >= self::FREE_LIMIT) {
             $user->decrement('token_balance', 0.1);
             TokenHistory::create([
                 'user_id' => $user->id,

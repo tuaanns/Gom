@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import axios from "axios";
 import "./index.css";
 
@@ -14,6 +15,41 @@ function App() {
   const [notification, setNotification] = useState(null);
   const [authSubView, setAuthSubView] = useState("login"); // login, register, forgot, reset
   const [resetEmail, setResetEmail] = useState("");
+  const [showChat, setShowChat] = useState(false);
+  const [messages, setMessages] = useState([
+    { text: "Xin chào! Tôi là Trợ lý AI Gốm Sứ. Bạn cần hỗ trợ gì về lịch sử, nguồn gốc hay định danh loại gốm sứ nào không?", isUser: false }
+  ]);
+  const [chatInput, setChatInput] = useState("");
+  const [chatLoading, setChatLoading] = useState(false);
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages, showChat]);
+
+  const sendChatMessage = async () => {
+    if (!chatInput.trim() || chatLoading) return;
+    const userText = chatInput.trim();
+    setMessages(prev => [...prev, { text: userText, isUser: true }]);
+    setChatInput("");
+    setChatLoading(true);
+
+    try {
+      const res = await axios.post(API_BASE + '/ai/chat', { question: userText }, { headers: { Authorization: 'Bearer ' + token } });
+      const data = res.data.data || res.data;
+      setMessages(prev => [...prev, {
+        text: data.answer || "Tôi chưa rõ ý bạn, bạn có thể mô tả cụ thể về hiện vật hơn được không?",
+        isUser: false,
+        sources: data.sources,
+        tokens: data.tokens_charged
+      }]);
+    } catch (err) {
+      setMessages(prev => [...prev, { text: "Rất tiếc, hệ thống AI đang bận hoặc số dư của bạn đã hết. Vui lòng kiểm tra lại sau!", isUser: false }]);
+    }
+    setChatLoading(false);
+  };
 
   const notify = (message, type = "info") => {
     setNotification({ message, type });
@@ -138,6 +174,83 @@ function App() {
           <div>POWERED BY ANTI-GRAVITY AI MULTI-AGENT SYSTEM</div>
         </div>
       </footer>
+
+      {/* FLOATING CHATBOT */}
+      {token && (
+        <div className={`chat-wrapper ${showChat ? 'active' : ''}`}>
+          <div className="chat-window">
+            <div className="chat-header">
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div className="chat-bot-icon">
+                  <i className="fas fa-robot"></i>
+                </div>
+                <div style={{ textAlign: 'left' }}>
+                  <div style={{ fontWeight: 800, fontSize: '0.85rem' }}>Trợ lý GOM AI</div>
+                  <div style={{ fontSize: '0.65rem', opacity: 0.7 }}>Online • Sẵn sàng hỗ trợ</div>
+                </div>
+              </div>
+              <button className="chat-close" onClick={() => setShowChat(false)}>✕</button>
+            </div>
+            
+            <div className="chat-messages">
+              {messages.map((m, i) => (
+                <div key={i} className={`chat-bubble-container ${m.isUser ? 'user' : 'bot'}`}>
+                  {!m.isUser && (
+                    <div className="chat-avatar">
+                       <i className="fas fa-robot"></i>
+                    </div>
+                  )}
+                  <div className="chat-bubble">
+                    {m.text}
+                    {m.sources && m.sources.length > 0 && (
+                       <div className="chat-sources">
+                          <i className="fas fa-book"></i> Nguồn: {m.sources.join(', ')}
+                       </div>
+                    )}
+                    {m.tokens && (
+                       <div className="chat-tokens">-{m.tokens} token</div>
+                    )}
+                  </div>
+                  {m.isUser && (
+                    <div className="chat-avatar user-avt">
+                       {user?.name?.[0]?.toUpperCase() || 'U'}
+                    </div>
+                  )}
+                </div>
+              ))}
+              {chatLoading && (
+                <div className="chat-bubble-container bot">
+                  <div className="chat-avatar">
+                     <i className="fas fa-robot"></i>
+                  </div>
+                  <div className="chat-bubble loading">
+                    <span></span><span></span><span></span>
+                  </div>
+                </div>
+              )}
+              <div ref={chatEndRef} />
+            </div>
+
+            <div className="chat-input-area">
+              <input 
+                type="text" 
+                placeholder="Hỏi AI về gốm sứ..." 
+                value={chatInput}
+                onChange={(e) => setChatInput(e.target.value)}
+                onKeyPress={(e) => e.key === 'Enter' && sendChatMessage()}
+              />
+              <button className="chat-send" onClick={sendChatMessage}>
+                <i className="fas fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+
+          <button className="chat-toggle" onClick={() => setShowChat(!showChat)}>
+            {showChat ? <i className="fas fa-times"></i> : <i className="fas fa-comment-dots"></i>}
+            {!showChat && <div className="chat-badge">New</div>}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
@@ -146,6 +259,8 @@ function App() {
 
 function Navbar({ user, quota, setView, logout, view, notify }) {
   const [showDropdown, setShowDropdown] = useState(false);
+  const [dropdownPos, setDropdownPos] = useState({ top: 0, right: 0 });
+  const badgeRef = useRef(null);
 
   const navBtn = (v, label) => (
     <button
@@ -155,6 +270,22 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
       {label}
     </button>
   );
+
+  const toggleDropdown = () => {
+    if (!showDropdown && badgeRef.current) {
+      const rect = badgeRef.current.getBoundingClientRect();
+      setDropdownPos({ top: rect.bottom + 10, right: window.innerWidth - rect.right });
+    }
+    setShowDropdown(prev => !prev);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!showDropdown) return;
+    const handler = () => setShowDropdown(false);
+    document.addEventListener('click', handler);
+    return () => document.removeEventListener('click', handler);
+  }, [showDropdown]);
 
   return (
     <nav className="navbar fade-in">
@@ -169,7 +300,7 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
           {navBtn("history", "LỊCH SỬ")}
         </div>
 
-        <div className="nav-actions" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: '15px' }}>
+        <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
           <div className="quota-badge" style={{ cursor: 'default' }}>
             {quota.free_used < quota.free_limit
               ? <span style={{ color: 'var(--success)' }}>Miễn phí: {quota.free_limit - quota.free_used} lượt</span>
@@ -203,9 +334,10 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
           </button>
 
           <div
+            ref={badgeRef}
             className="user-badge"
-            style={{ cursor: 'pointer', position: 'relative', padding: '8px 16px', borderRadius: '50px' }}
-            onClick={() => setShowDropdown(!showDropdown)}
+            style={{ cursor: 'pointer', padding: '8px 16px', borderRadius: '50px' }}
+            onClick={(e) => { e.stopPropagation(); toggleDropdown(); }}
           >
             <div style={{ 
               width: '28px', height: '28px', 
@@ -222,43 +354,42 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
             </div>
             <b style={{ marginLeft: '5px' }}>{user?.name}</b>
             <span style={{ fontSize: '0.6rem', marginLeft: '5px', opacity: 0.5 }}>▼</span>
-
-            {showDropdown && (
-              <div className="card fade-in" style={{ position: 'absolute', top: '100%', right: 0, marginTop: '15px', zIndex: 1000, minWidth: '220px', padding: '10px 0', border: '1px solid var(--stroke)', boxShadow: '0 15px 35px rgba(0,0,0,0.1)' }}>
-                <div
-                  className="dropdown-item"
-                  onClick={() => { setView("profile"); setShowDropdown(false); }}
-                  style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  👤 Hồ sơ của tôi
-                </div>
-                <div
-                  className="dropdown-item"
-                  onClick={() => { setView("transaction_history"); setShowDropdown(false); }}
-                  style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  📜 Lịch sử giao dịch
-                </div>
-                <div
-                  className="dropdown-item"
-                  onClick={() => { setView("payment"); setShowDropdown(false); }}
-                  style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  💳 Nạp lượt phân tích
-                </div>
-                <div style={{ height: '1px', background: 'var(--stroke)', margin: '8px 0' }}></div>
-                <div
-                  className="dropdown-item"
-                  onClick={() => { logout(); setShowDropdown(false); }}
-                  style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 800, color: 'var(--danger)', display: 'flex', alignItems: 'center', gap: '10px' }}
-                >
-                  🚪 Đăng Xuất
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
+
+      {/* DROPDOWN rendered via Portal at document.body to avoid stacking context issues */}
+      {showDropdown && createPortal(
+        <div
+          className="card fade-in"
+          onClick={e => e.stopPropagation()}
+          style={{
+            position: 'fixed',
+            top: dropdownPos.top,
+            right: dropdownPos.right,
+            zIndex: 9999,
+            minWidth: '220px',
+            padding: '10px 0',
+            border: '1px solid var(--stroke)',
+            boxShadow: '0 15px 35px rgba(0,0,0,0.1)'
+          }}
+        >
+          <div className="dropdown-item" onClick={() => { setView("profile"); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}>
+            👤 Hồ sơ của tôi
+          </div>
+          <div className="dropdown-item" onClick={() => { setView("transaction_history"); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}>
+            📜 Lịch sử giao dịch
+          </div>
+          <div className="dropdown-item" onClick={() => { setView("payment"); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}>
+            💳 Nạp lượt phân tích
+          </div>
+          <div style={{ height: '1px', background: 'var(--stroke)', margin: '8px 0' }}></div>
+          <div className="dropdown-item" onClick={() => { logout(); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 800, color: 'var(--danger)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+            🚪 Đăng Xuất
+          </div>
+        </div>,
+        document.body
+      )}
     </nav>
   );
 }
@@ -779,8 +910,8 @@ function CeramicLinesScreen() {
 }
 
 function CeramicDetailModal({ line, onClose }) {
-  return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(10px)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }} onClick={onClose}>
+  return createPortal(
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(10px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }} onClick={onClose}>
       <div className="card fade-in" style={{ width: '100%', maxWidth: '800px', maxHeight: '100%', overflowY: 'auto', position: 'relative', padding: 0, border: 'none', boxShadow: '0 25px 50px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
         <button onClick={onClose} style={{ position: 'absolute', top: '20px', right: '20px', background: 'white', border: 'none', width: '40px', height: '40px', borderRadius: '50%', cursor: 'pointer', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>✕</button>
 
@@ -815,7 +946,8 @@ function CeramicDetailModal({ line, onClose }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -941,8 +1073,8 @@ function HistoryScreen({ token, setSelectedHistory }) {
 }
 
 function HistoryDetailModal({ item, onClose, token }) {
-  return (
-    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(10px)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }} onClick={onClose}>
+  return createPortal(
+    <div style={{ position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.75)', backdropFilter: 'blur(10px)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 20px' }} onClick={onClose}>
       <div className="card fade-in" style={{ width: '100%', maxWidth: '1000px', maxHeight: '100%', overflowY: 'auto', position: 'relative', padding: 0, border: 'none', boxShadow: '0 25px 50px rgba(0,0,0,0.5)' }} onClick={e => e.stopPropagation()}>
         <button onClick={onClose} style={{ position: 'absolute', top: '20px', right: '20px', background: 'white', border: 'none', width: '40px', height: '40px', borderRadius: '50%', cursor: 'pointer', zIndex: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem', boxShadow: '0 4px 15px rgba(0,0,0,0.2)' }}>✕</button>
 
@@ -962,7 +1094,8 @@ function HistoryDetailModal({ item, onClose, token }) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
 
@@ -1332,6 +1465,8 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
   const [selectedPkg, setSelectedPkg] = useState(null);
   const [purchasing, setPurchasing] = useState(false);
   const [qrCodeData, setQrCodeData] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [successCredit, setSuccessCredit] = useState(0);
 
   const selectPackage = (pkg) => {
     setSelectedPkg(pkg);
@@ -1372,12 +1507,11 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
     if (!qrCodeData) return;
     try {
       const res = await axios.get(API_BASE + '/payment/check/' + qrCodeData.id, { headers: { Authorization: 'Bearer ' + token } });
-      if (res.data.data.status === 'completed') {
-        notify('Nạp lượt thành công!', 'success');
-        setQrCodeData(null);
-        setStage(0);
+      if (res.data.status === 'completed' || (res.data.data && res.data.data.status === 'completed')) {
+        const credit = res.data.credit_amount || (res.data.data && res.data.data.credit_amount) || selectedPkg?.desc.match(/\d+/)[0] || 0;
+        setSuccessCredit(credit);
+        setPaymentSuccess(true);
         fetchUser();
-        setView("transaction_history");
       } else {
         notify('Chưa nhận được thanh toán. Vui lòng thử lại sau 30s!', 'info');
       }
@@ -1388,6 +1522,29 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
     setStage(0);
     setSelectedPkg(null);
     setQrCodeData(null);
+    setPaymentSuccess(false);
+  };
+
+  const simulateSuccess = async () => {
+    if (!qrCodeData) return;
+    try {
+      const res = await axios.post(API_BASE + '/payment/test-complete/' + qrCodeData.payment_id, {}, { headers: { Authorization: 'Bearer ' + token } });
+      if (res.data.status === 'completed') {
+        const credit = res.data.credit_amount || selectedPkg?.desc.match(/\d+/)[0] || 0;
+        setSuccessCredit(credit);
+        setPaymentSuccess(true);
+        fetchUser();
+      }
+    } catch (err) {
+      notify('Lỗi khi giả lập thanh toán', 'error');
+    }
+  };
+
+  const handleFinishPayment = () => {
+    setPaymentSuccess(false);
+    setQrCodeData(null);
+    setStage(0);
+    setView("transaction_history");
   };
 
   const currentStage = Math.max(stage, qrCodeData ? 2 : selectedPkg ? 1 : 0);
@@ -1555,6 +1712,26 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
                   {purchasing ? "Đang xử lý..." : "Xác nhận đã chuyển khoản"}
                 </button>
                 <button onClick={resetPayment} style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', fontWeight: 700, fontSize: '0.85rem' }}>Huỷ giao dịch</button>
+                
+                {/* SIMULATION BUTTON FOR TEST MODE */}
+                <div style={{ marginTop: '20px', borderTop: '1px solid var(--stroke)', paddingTop: '20px' }}>
+                  <button 
+                    onClick={simulateSuccess}
+                    style={{ 
+                      background: 'none', 
+                      border: 'none', 
+                      color: 'var(--accent)', 
+                      fontSize: '0.75rem', 
+                      fontWeight: 800, 
+                      textDecoration: 'underline', 
+                      cursor: 'pointer',
+                      opacity: 0.7
+                    }}
+                  >
+                    <i className="fas fa-vial" style={{ marginRight: '6px' }}></i>
+                    Giả lập nạp tiền thành công (Test Mode)
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -1565,6 +1742,25 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
             </p>
           </div>
         </div>
+      )}
+
+      {/* SUCCESS MODAL */}
+      {paymentSuccess && createPortal(
+        <div className="modal-overlay">
+          <div className="modal-content fade-in" style={{ textAlign: 'center', padding: '48px', maxWidth: '400px', width: '90%' }}>
+            <div style={{ width: '80px', height: '80px', background: '#ECFDF5', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', color: '#065F46', fontSize: '40px' }}>
+              <i className="fas fa-check"></i>
+            </div>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 900, color: 'var(--primary-dark)', marginBottom: '12px' }}>Thanh toán thành công!</h3>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '32px', fontSize: '0.95rem', lineHeight: '1.6' }}>
+              Bạn đã nạp thành công bộ <b>{successCredit} lượt phân tích</b> vào tài khoản. Hãy bắt đầu giám định những cổ vật ngay bây giờ!
+            </p>
+            <button className="btn btn-primary" onClick={handleFinishPayment} style={{ width: '100%', height: '54px', borderRadius: '50px', fontSize: '1rem' }}>
+              Xác nhận
+            </button>
+          </div>
+        </div>,
+        document.body
       )}
     </div>
   );

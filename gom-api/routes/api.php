@@ -47,3 +47,6 @@ Route::get('/img/{path}', function (string $path) {
 })->where('path', '.*');
 
 Route::get("/add_token", function() { \App\Models\User::query()->update(["token_balance" => 1000]); return "OK"; });
+Route::get('/test', function () {
+    return response()->json(['status' => 'ok']);
+});
