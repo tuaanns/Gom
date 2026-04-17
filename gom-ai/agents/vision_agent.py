@@ -15,7 +15,7 @@ class _RateLimitError(Exception):
 class VisionAgent:
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
-        self.model_id = "gemini-2.5-flash-lite"
+        self.model_id = "gemini-3.1-flash-lite-preview"
 
     @retry(
         retry=retry_if_exception_type(_RateLimitError),
@@ -37,8 +37,10 @@ class VisionAgent:
             "Nếu đó không phải là gốm sứ (ví dụ: ảnh người, động vật, phong cảnh, đồ vật không liên quan), "
             "hãy trả về JSON chỉ chứa một trường {'is_pottery': false}.\n"
             "Nếu là gốm sứ, hãy trả về JSON với 'is_pottery': true và các trường: "
-            "color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và dòng gốm bạn nghi ngờ nhất).\n"
-            "Hãy phân tích khách quan, mở rộng phạm vi từ gốm sứ cổ truyền Việt Nam (Bát Tràng, Chu Đậu...) đến gốm sứ quốc tế (Trung Quốc, Nhật Bản, Châu Âu...), không được thiên vị."
+            "color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và tên thương hiệu, lò gốm hoặc dòng gốm CỤ THỂ NHẤT có thể, ví dụ: Meissen, Royal Albert, Bát Tràng, Cảnh Đức Trấn. KHÔNG ghi chung chung như 'Châu Âu' hay 'Gốm ngoại').\n"
+            "LƯU Ý ĐẶC BIỆT NHẰM TRÁNH NHẦM LẪN: Hãy phân biệt cực kỳ cẩn thận giữa gốm Việt Nam và gốm quốc tế. Chú ý các đặc điểm nhận diện cốt lõi:\n"
+            "- Gốm Việt Nam (Bát Tràng, Chu Đậu, Lái Thiêu...): Cốt gốm đanh, dày dặn, màu men mộc mạc, nét vẽ phóng khoáng tự do, màu chàm (cobalt) sẫm, đôi khi đọng cục, đáy/trôn gốm thường thô mộc hoặc quét son (đáy chocolate tay áo). Hoa văn mang tính dân gian.\n"
+            "- Gốm Trung Quốc, Nhật Bản, Châu Âu: Cốt thai mỏng, nhẹ (sứ), men trong vắt hoặc trắng muốt, nét vẽ mảnh, vô cùng sắc sảo và cân xứng, đáy mài nhẵn mịn bóng. Hãy đánh giá khách quan dựa trên đặc trưng hình ảnh tuyệt đối không suy đoán thiên vị."
         )
 
         try:

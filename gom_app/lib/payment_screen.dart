@@ -238,7 +238,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
+        title: Image.asset('assets/logo.png', height: 60),
       ),
       body: CustomScrollView(
         slivers: [
@@ -380,7 +380,6 @@ class _PaymentDialogState extends State<PaymentDialog> {
                   child: ElevatedButton(
                     onPressed: () { 
                       Navigator.pop(context); // Close dialog
-                      MainGate.currentInstance?.switchTab(0); // Go to Home
                     }, 
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.green, foregroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))), 
                     child: const Text('Hoàn Thành', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold))

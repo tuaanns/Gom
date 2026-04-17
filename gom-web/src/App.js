@@ -7,7 +7,10 @@ import "./index.css";
 const API_BASE = "http://127.0.0.1:8000/api";
 
 function App() {
-  const [view, setView] = useState("auth");
+  const [view, setView] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return hash || "auth";
+  });
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   const [quota, setQuota] = useState({ free_used: 0, free_limit: 5, token_balance: 0 });
@@ -74,12 +77,33 @@ function App() {
 
   useEffect(() => {
     if (token) {
-      setView("debate");
+      const currentHash = window.location.hash.replace('#', '');
+      if (!currentHash || currentHash === 'auth') {
+        setView("debate");
+      } else {
+        setView(currentHash);
+      }
       fetchUser();
-    } else setView("auth");
+    } else {
+      setView("auth");
+    }
   }, [token]);
 
   useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (hash) {
+        setView(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (window.location.hash.replace('#', '') !== view) {
+      window.location.hash = view;
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [view]);
 
@@ -142,7 +166,7 @@ function App() {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
-            <h2>THE ARCHIVIST <b></b></h2>
+            <img src="/logo.png" alt="Logo" style={{ height: '100px', marginBottom: '15px' }} />
             <p>
               Hệ thống giám định cổ vật ứng dụng trí tuệ nhân tạo đa đại lý,
               mang lại độ chính xác cao trong việc phân định các dòng gốm sứ truyền thống.
@@ -300,7 +324,7 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
     <nav className="navbar fade-in">
       <div className="navbar-inner">
         <div className="nav-brand" onClick={() => setView("debate")}>
-          THE ARCHIVIST <span></span>
+          <img src="/logo.png" alt="Logo" style={{ height: '80px' }} />
         </div>
 
         <div className="nav-links">
@@ -487,7 +511,7 @@ function AuthScreen({ setToken, setUser, notify, subView, setSubView, resetEmail
   return (
     <div className="auth-container card fade-in">
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 900, color: 'var(--primary-dark)', letterSpacing: '2px', marginBottom: '32px' }}>THE ARCHIVIST</h1>
+        <img src="/logo.png" alt="Logo" style={{ height: '50px', marginBottom: '32px' }} />
         <h2 className="display-title" style={{ fontSize: '1.6rem', color: '#222222' }}>{isLogin ? "Chào mừng trở lại" : "Gia nhập hệ thống"}</h2>
         <p className="subtitle" style={{ marginBottom: 0 }}>{isLogin ? "Đăng nhập để sử dụng hệ thống." : "Đăng ký tài khoản mới ngay."}</p>
       </div>
@@ -599,7 +623,7 @@ function ForgotPasswordScreen({ setSubView, notify, setResetEmail }) {
   return (
     <div className="auth-container card fade-in">
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 900, color: 'var(--primary-dark)', letterSpacing: '2px', marginBottom: '32px' }}>THE ARCHIVIST</h1>
+        <img src="/logo.png" alt="Logo" style={{ height: '50px', marginBottom: '32px' }} />
         <h2 className="display-title" style={{ fontSize: '1.6rem', color: '#222222', textTransform: 'uppercase' }}>Quên mật khẩu</h2>
         <p className="subtitle">Nhập email của bạn và chúng tôi sẽ gửi mã khôi phục tài khoản.</p>
       </div>
@@ -644,7 +668,7 @@ function ResetPasswordScreen({ setSubView, notify, email }) {
   return (
     <div className="auth-container card fade-in">
       <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.4rem', fontWeight: 900, color: 'var(--primary-dark)', letterSpacing: '2px', marginBottom: '32px' }}>THE ARCHIVIST</h1>
+        <img src="/logo.png" alt="Logo" style={{ height: '50px', marginBottom: '32px' }} />
         <h2 className="display-title" style={{ fontSize: '1.6rem', color: '#222222', textTransform: 'uppercase' }}>Đặt lại mật khẩu</h2>
         <p className="subtitle">Nhập mã xác nhận đã được gửi tới email <b>{email}</b></p>
       </div>
@@ -1437,7 +1461,7 @@ function ProfileScreen({ user, token, notify, fetchUser }) {
                   {passForm.password && (
                     <div style={{ marginTop: '12px' }}>
                       <div style={{ display: 'flex', gap: '6px', marginBottom: '8px' }}>
-                        {[1,2,3,4].map(i => (
+                        {[1, 2, 3, 4].map(i => (
                           <div key={i} style={{ flex: 1, height: '4px', borderRadius: '4px', background: i <= passwordStrength.bars ? passwordStrength.color : '#E5E7EB', transition: 'all 0.3s ease' }} />
                         ))}
                       </div>

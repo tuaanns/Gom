@@ -356,18 +356,8 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo Text
-                const Text(
-                  'THE ARCHIVIST',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily: 'Serif',
-                    fontSize: 22,
-                    fontWeight: FontWeight.w900,
-                    color: Color(0xFF0F265C),
-                    letterSpacing: 1.5,
-                  ),
-                ),
+                // Logo
+                Image.asset('assets/logo.png', height: 100),
                 const SizedBox(height: 32),
                 
                 // Welcome Text
@@ -1419,16 +1409,7 @@ class _DebateScreenState extends State<DebateScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                 child: Center(
-                  child: const Text(
-                    'THE ARCHIVIST',
-                    style: TextStyle(
-                      fontFamily: 'Serif',
-                      fontSize: 16,
-                      fontWeight: FontWeight.w800,
-                      color: Color(0xFF1A2344),
-                      letterSpacing: 2.5,
-                    ),
-                  ),
+                  child: Image.asset('assets/logo.png', height: 100),
                 ),
               ),
 
@@ -2275,7 +2256,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
+        title: Image.asset('assets/logo.png', height: 32),
       ),
       body: RefreshIndicator(
         onRefresh: fetchHistory,
@@ -2287,7 +2268,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Lịch Sử Giám Định', style: TextStyle(fontFamily: 'Serif', fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
+                    const Text('Nhật ký Giám Định', style: TextStyle(fontFamily: 'Serif', fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xFF0F265C))),
                     const SizedBox(height: 8),
                     Text('Xem lại các hiện vật đã được AI phân tích và nhận dạng.', style: TextStyle(fontSize: 14, color: Colors.grey.shade600, height: 1.5)),
                     const SizedBox(height: 20),
@@ -2542,7 +2523,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
+        title: Image.asset('assets/logo.png', height: 32),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
@@ -3338,7 +3319,7 @@ class _CeramicLinesListScreenState extends State<CeramicLinesListScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: const Text('THE ARCHIVIST', style: TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.w600, letterSpacing: 1.5, fontSize: 16)),
+        title: Image.asset('assets/logo.png', height: 32),
       ),
       body: _isLoading
         ? const Center(child: CircularProgressIndicator(color: Color(0xFF0F265C)))

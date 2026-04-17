@@ -112,7 +112,7 @@ class JudgeAgent(BaseAgent):
             "TASK: Synthesize the final prediction in Vietnamese. You must be HIGHLY CRITICAL AND ANALYTICAL.\n"
             "IMPORTANT RULES:\n"
             "1. DO NOT just vote by majority. Cross-examine the 'visual_features' against the agents' claims. If an agent's claim contradicts the visual evidence, you MUST overrule them.\n"
-            "2. You are a balanced global expert. You must equally recognize Vietnamese ceramics (Bát Tràng, Chu Đậu, Biên Hòa, v.v.) AND international ceramics (Chinese, Japanese, European, etc.) without bias. Do not lean towards or forget either group.\n"
+            "2. AVOID TYPICAL AI CONFUSION between Vietnamese and Chinese/Global ceramics. Explicitly verify differentiating signs: Is the brushwork precise (Global) or rustic/free (Vietnamese)? Is the body eggshell thin (Chinese porcelain) or thick and robust (Vietnamese)? Does the base show Chinese refinement or Vietnamese craftsmanship (e.g. chocolate bottom)? Base your conclusion strictly on these physical facts, not just agent confidence.\n"
             "3. Prioritize concrete visual facts (colors, industrial symmetry vs handmade asymmetry, specific cultural motifs, presence of gold gilding, bone china vs raw clay, etc.) over an agent's self-reported high confidence.\n"
             "4. In your 'reasoning', explicitly point out WHY you chose the final result and WHY the other agents were incorrect or misled.\n"
             "Write the reasoning and summary in Vietnamese with full diacritics.\n\n"
