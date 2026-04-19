@@ -166,7 +166,7 @@ function App() {
       <footer className="footer">
         <div className="footer-container">
           <div className="footer-brand">
-            <img src="/logo.png" alt="Logo" style={{ height: '100px', marginBottom: '15px' }} />
+            <img src="/logo.png" alt="Logo" style={{ height: '100px', marginBottom: '15px', filter: 'brightness(0) invert(1)' }} />
             <p>
               Hệ thống giám định cổ vật ứng dụng trí tuệ nhân tạo đa đại lý,
               mang lại độ chính xác cao trong việc phân định các dòng gốm sứ truyền thống.
