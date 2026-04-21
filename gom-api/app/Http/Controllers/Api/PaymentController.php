@@ -36,7 +36,7 @@ class PaymentController extends Controller
     }
 
     public function getHistory(Request $request) {
-        $history = TokenHistory::where('user_id', auth()->id())->latest()->take(30)->get();
+        $history = Payment::where('user_id', auth()->id())->latest()->take(30)->get();
         return response()->json(['data' => $history]);
     }
 
