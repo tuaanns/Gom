@@ -2110,7 +2110,7 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {[
               { id: 'vietqr', name: 'Chuyển khoản Ngân hàng', icon: '🏦', sub: 'Tự động duyệt qua VietQR' },
-              { id: 'momo', name: 'Ví điện tử MoMo', icon: 'img:https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png', sub: 'Thanh toán tức thì' },
+              { id: 'momo', name: 'Ví điện tử MoMo', icon: 'img:https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-MoMo-Square.png', sub: 'Thanh toán tức thì' },
               { id: 'zalopay', name: 'Ví ZaloPay', icon: 'img:https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-ZaloPay-Square.png', sub: 'Quét mã hoặc chuyển tức thì' }
             ].map(m => (
               <div
