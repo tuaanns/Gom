@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import axios from "axios";
 import "./index.css";
+import { AdminLayout, AdminDashboard, AdminUsers, AdminCeramics, AdminPayments, AdminPredictions } from "./AdminPanel";
 
 // --- API CONFIG ---
 const API_BASE = "http://127.0.0.1:8000/api";
@@ -142,6 +143,17 @@ function App() {
           {view === "contact" && <ContactScreen notify={notify} />}
           {view === "terms" && <TermsScreen />}
           {view === "privacy" && <PrivacyScreen />}
+
+          {/* ADMIN ROUTES */}
+          {user?.role === 'admin' && view.startsWith("admin_") && (
+            <AdminLayout view={view} setView={setView}>
+              {view === "admin_dashboard" && <AdminDashboard token={token} />}
+              {view === "admin_users" && <AdminUsers token={token} notify={notify} fetchUser={fetchUser} />}
+              {view === "admin_ceramics" && <AdminCeramics token={token} notify={notify} />}
+              {view === "admin_payments" && <AdminPayments token={token} />}
+              {view === "admin_predictions" && <AdminPredictions token={token} />}
+            </AdminLayout>
+          )}
         </div>
       </main>
 
@@ -321,9 +333,9 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
   }, [showDropdown]);
 
   return (
-    <nav className="navbar fade-in">
+    <nav className="navbar">
       <div className="navbar-inner">
-        <div className="nav-brand" onClick={() => setView("debate")}>
+        <div className="nav-brand" onClick={() => { setView("debate"); window.location.hash = "debate"; window.scrollTo({ top: 0, behavior: 'smooth' }); }} style={{ cursor: 'pointer' }}>
           <img src="/logo.png" alt="Logo" style={{ height: '80px' }} />
         </div>
 
@@ -336,12 +348,22 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
         </div>
 
         <div className="nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <div className="quota-badge" style={{ cursor: 'default' }}>
-            {quota.free_used < quota.free_limit
-              ? <span style={{ color: 'var(--success)' }}>Miễn phí: {quota.free_limit - quota.free_used} lượt</span>
-              : quota.token_balance > 0
-                ? <span style={{ color: 'var(--accent)' }}>Số dư: {quota.token_balance} lượt</span>
-                : <span style={{ color: 'var(--danger)' }}>Đã hết lượt</span>}
+          <div className="quota-badge" style={{ cursor: 'default', display: 'flex', gap: '10px', alignItems: 'center' }}>
+            {quota.token_balance > 0 && (
+              <span style={{ color: 'var(--accent)' }}>Số dư: {quota.token_balance} lượt</span>
+            )}
+            {quota.free_used < quota.free_limit && (
+              <span style={{ 
+                color: 'var(--success)', 
+                borderLeft: quota.token_balance > 0 ? '1px solid rgba(0,0,0,0.1)' : 'none', 
+                paddingLeft: quota.token_balance > 0 ? '10px' : '0' 
+              }}>
+                Miễn phí: {quota.free_limit - quota.free_used} lượt
+              </span>
+            )}
+            {quota.free_used >= quota.free_limit && quota.token_balance <= 0 && (
+              <span style={{ color: 'var(--danger)' }}>Đã hết lượt</span>
+            )}
           </div>
 
           <button
@@ -417,6 +439,14 @@ function Navbar({ user, quota, setView, logout, view, notify }) {
           <div className="dropdown-item" onClick={() => { setView("payment"); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '10px' }}>
             💳 Nạp lượt phân tích
           </div>
+          {user?.role === 'admin' && (
+            <>
+              <div style={{ height: '1px', background: 'var(--stroke)', margin: '8px 0' }}></div>
+              <div className="dropdown-item" onClick={() => { setView("admin_dashboard"); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 800, color: 'var(--accent)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <i className="fas fa-shield-alt"></i> Khu vực Admin
+              </div>
+            </>
+          )}
           <div style={{ height: '1px', background: 'var(--stroke)', margin: '8px 0' }}></div>
           <div className="dropdown-item" onClick={() => { logout(); setShowDropdown(false); }} style={{ padding: '12px 20px', cursor: 'pointer', fontSize: '0.9rem', fontWeight: 800, color: 'var(--danger)', display: 'flex', alignItems: 'center', gap: '10px' }}>
             🚪 Đăng Xuất

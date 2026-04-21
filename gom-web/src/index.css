@@ -66,6 +66,7 @@ body {
   width: 100%;
   max-width: 1280px;
   padding: 0 24px;
+  padding-top: 120px;
   flex: 1;
   margin: 0 auto;
 }
@@ -120,16 +121,22 @@ body {
 
 /* Navbar */
 .navbar {
-  width: 100%;
+  width: 100% !important;
   padding: 18px 48px;
-  background: var(--bg);
   border-bottom: 1px solid rgba(139, 69, 19, 0.1);
   display: flex;
   justify-content: center;
   align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 1001;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 1001 !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(245, 240, 232, 0.95) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+  transform: none !important;
+  animation: none !important;
 }
 .navbar-inner {
   width: 100%;

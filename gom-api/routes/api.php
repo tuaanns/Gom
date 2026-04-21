@@ -48,6 +48,26 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/payment/create', [PaymentController::class, 'createPayment']);
     Route::get('/payment/check/{paymentId}', [PaymentController::class, 'checkStatus']);
     Route::post('/payment/test-complete/{paymentId}', [PaymentController::class, 'testCompletePayment']);
+
+    // ================= ADMIN ROUTES =================
+    Route::group(['prefix' => 'admin', 'middleware' => ['admin']], function () {
+        Route::get('/dashboard', [\App\Http\Controllers\Api\AdminController::class, 'dashboard']);
+        
+        // Users
+        Route::get('/users', [\App\Http\Controllers\Api\AdminController::class, 'users']);
+        Route::put('/users/{id}', [\App\Http\Controllers\Api\AdminController::class, 'updateUser']);
+        Route::delete('/users/{id}', [\App\Http\Controllers\Api\AdminController::class, 'deleteUser']);
+        
+        // Ceramic Lines
+        Route::get('/ceramic-lines', [\App\Http\Controllers\Api\AdminController::class, 'ceramicLines']);
+        Route::post('/ceramic-lines', [\App\Http\Controllers\Api\AdminController::class, 'createCeramicLine']);
+        Route::put('/ceramic-lines/{id}', [\App\Http\Controllers\Api\AdminController::class, 'updateCeramicLine']);
+        Route::delete('/ceramic-lines/{id}', [\App\Http\Controllers\Api\AdminController::class, 'deleteCeramicLine']);
+        
+        // Overview
+        Route::get('/payments', [\App\Http\Controllers\Api\AdminController::class, 'payments']);
+        Route::get('/predictions', [\App\Http\Controllers\Api\AdminController::class, 'predictions']);
+    });
 });
 
 Route::get('/img/{path}', function (string $path) {

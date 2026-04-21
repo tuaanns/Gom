@@ -90,4 +90,5 @@ test: flutter run -d chrome --web-port=63126
 git status
 git add.
 git commit -m "Update full system"
-git push origin main
+git push origin main // nhánh 1
+git push secondary main // nhánh 2
