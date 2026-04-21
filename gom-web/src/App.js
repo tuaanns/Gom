@@ -2110,8 +2110,8 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             {[
               { id: 'vietqr', name: 'Chuyển khoản Ngân hàng', icon: '🏦', sub: 'Tự động duyệt qua VietQR' },
-              { id: 'momo', name: 'Ví điện tử MoMo', icon: '💎', sub: 'Thanh toán tức thì' },
-              { id: 'zalopay', name: 'Ví ZaloPay', icon: '💙', sub: 'Quét mã hoặc chuyển tức thì' }
+              { id: 'momo', name: 'Ví điện tử MoMo', icon: 'img:https://upload.wikimedia.org/wikipedia/vi/f/fe/MoMo_Logo.png', sub: 'Thanh toán tức thì' },
+              { id: 'zalopay', name: 'Ví ZaloPay', icon: 'img:https://cdn.haitrieu.com/wp-content/uploads/2022/10/Logo-ZaloPay-Square.png', sub: 'Quét mã hoặc chuyển tức thì' }
             ].map(m => (
               <div
                 key={m.id}
@@ -2126,7 +2126,9 @@ function PaymentScreen({ token, quota, fetchUser, notify, setView }) {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                  <div style={{ width: '50px', height: '50px', background: 'var(--input-bg)', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem' }}>{m.icon}</div>
+                  <div style={{ width: '50px', height: '50px', background: 'white', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.5rem', boxShadow: '0 5px 15px rgba(0,0,0,0.05)' }}>
+                    {m.icon.startsWith('img:') ? <img src={m.icon.replace('img:', '')} alt={m.name} style={{ width: '32px', height: '32px', objectFit: 'contain', borderRadius: '8px' }} /> : m.icon}
+                  </div>
                   <div>
                     <div style={{ fontSize: '1rem', fontWeight: 800, color: 'var(--primary-dark)' }}>{m.name}</div>
                     <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{m.sub}</div>
