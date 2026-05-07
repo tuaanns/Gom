@@ -28,8 +28,15 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
   const label = finalReport.final_prediction || prediction.predicted_label || prediction.label || '—';
   const country = finalReport.final_country || prediction.country || '—';
   const era = finalReport.final_era || prediction.era || '—';
-  const rawConfidence = finalReport.final_confidence ?? prediction.confidence ?? 0;
-  const confidence = Math.round(rawConfidence > 1 ? rawConfidence : rawConfidence * 100);
+  const rawConfidence = finalReport.final_confidence
+    ?? finalReport.confidence
+    ?? finalReport.certainty
+    ?? prediction.confidence
+    ?? prediction.certainty
+    ?? 0;
+  const confidence = typeof rawConfidence === 'string'
+    ? Math.round(parseFloat(rawConfidence) || 0)
+    : Math.round(rawConfidence > 1 ? rawConfidence : rawConfidence * 100);
   
   const agentPredictions = result.agents || result.agent_predictions || [];
   const debate = result.debate || [];
