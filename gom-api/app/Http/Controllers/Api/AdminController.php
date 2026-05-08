@@ -169,12 +169,26 @@ class AdminController extends Controller
 
         $validated = $request->validate([
             'role'          => 'sometimes|in:user,admin',
-            'token_balance' => 'sometimes|integer|min:0',
+            'token_balance' => 'sometimes|numeric|min:0',
             'free_limit'    => 'sometimes|integer|min:0',
             'name'          => 'sometimes|string|max:255',
             'avatar'        => 'sometimes|string|nullable',
             'phone'         => 'sometimes|string|max:20|nullable',
         ]);
+
+        // free_limit is not a real DB column — it's hardcoded as 5.
+        // When admin sets free_limit, we reset free_predictions_used so
+        // the user gets that many free predictions remaining.
+        if (array_key_exists('free_limit', $validated)) {
+            $newLimit = (int) $validated['free_limit'];
+            // Reset used count so remaining = newLimit
+            // e.g. if admin sets free_limit=3, we set used = max(0, 5 - 3) 
+            // so remaining = 5 - used = 3
+            $currentLimit = 5; // hardcoded system limit
+            $newUsed = max(0, $currentLimit - $newLimit);
+            $validated['free_predictions_used'] = $newUsed;
+            unset($validated['free_limit']);
+        }
 
         $user->update($validated);
 
