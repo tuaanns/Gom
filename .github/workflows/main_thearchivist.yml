@@ -1,0 +1,74 @@
+name: Build and deploy PHP app to Azure Web App - TheArchivist
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'gom-api/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: gom-api
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+
+      - name: Install Composer dependencies
+        run: |
+          composer validate --no-check-publish
+          composer install --prefer-dist --no-progress --optimize-autoloader
+
+      - name: Clear Laravel caches before packaging
+        run: |
+          php artisan optimize:clear || true
+          php artisan config:clear || true
+          php artisan route:clear || true
+          php artisan view:clear || true
+          php artisan cache:clear || true
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-app
+          path: gom-api
+          include-hidden-files: true
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: php-app
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_CD7FE32011F347638D80B44A3F322837 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_65F40D03BB1A404B87CDFF5359C3A406 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_856EC42CBB01405DB1F59D460A101911 }}
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
+        with:
+          app-name: 'TheArchivist'
+          slot-name: 'Production'
+          package: .
