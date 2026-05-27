@@ -4,6 +4,17 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+
+	<!-- ── Quyền truy cập Camera & Microphone (cho quay video) ── -->
+	<key>NSCameraUsageDescription</key>
+	<string>Ứng dụng Gom cần truy cập Camera để chụp ảnh và quay video sản phẩm gốm sứ.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Ứng dụng Gom cần truy cập Microphone để ghi âm khi quay video.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Ứng dụng Gom cần truy cập Thư viện ảnh để lưu và chọn ảnh/video sản phẩm.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Ứng dụng Gom cần quyền lưu ảnh/video vào Thư viện ảnh của bạn.</string>
+
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>

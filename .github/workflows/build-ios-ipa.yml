@@ -1,0 +1,80 @@
+name: 🍎 Build Flutter IPA (iOS)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:   # Cho phép chạy thủ công trên GitHub
+
+jobs:
+  build-ios:
+    name: Build IPA (No Codesign)
+    runs-on: macos-latest   # BẮT BUỘC dùng macOS để build iOS
+
+    steps:
+      # ─── 1. Checkout source code ───────────────────────────────────────
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+
+      # ─── 2. Cài Flutter ────────────────────────────────────────────────
+      - name: 🐦 Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.22.0'   # Phiên bản Flutter ổn định
+          channel: 'stable'
+          cache: true
+
+      # ─── 3. Lấy dependencies ───────────────────────────────────────────
+      - name: 📦 Install dependencies
+        working-directory: gom_app
+        run: flutter pub get
+
+      # ─── 4. Kiểm tra lỗi code ──────────────────────────────────────────
+      - name: 🔍 Analyze code
+        working-directory: gom_app
+        run: flutter analyze --no-fatal-infos || true
+
+      # ─── 5. Build IPA không cần ký (AltStore sẽ ký khi sideload) ──────
+      - name: 🔨 Build IPA (no codesign)
+        working-directory: gom_app
+        run: |
+          flutter build ios --release --no-codesign
+          echo "✅ Build iOS hoàn tất!"
+
+      # ─── 6. Đóng gói thành file .IPA ───────────────────────────────────
+      - name: 📦 Package IPA file
+        run: |
+          mkdir -p output
+          # Tạo cấu trúc Payload để đóng gói IPA
+          mkdir -p Payload
+          cp -r gom_app/build/ios/iphoneos/Runner.app Payload/
+          zip -r output/GomApp.ipa Payload/
+          echo "✅ File GomApp.ipa đã được tạo!"
+          ls -lh output/
+
+      # ─── 7. Upload IPA lên GitHub Artifacts ────────────────────────────
+      - name: ⬆️ Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: GomApp-IPA-${{ github.run_number }}
+          path: output/GomApp.ipa
+          retention-days: 30    # Lưu file 30 ngày
+
+      # ─── 8. Tóm tắt kết quả ────────────────────────────────────────────
+      - name: 📊 Build Summary
+        run: |
+          echo "## 🎉 Build Thành Công!" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Thông tin | Giá trị |" >> $GITHUB_STEP_SUMMARY
+          echo "|-----------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| 📱 App | Gom App |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🔢 Build Number | ${{ github.run_number }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| 📅 Thời gian | $(date '+%Y-%m-%d %H:%M:%S') |" >> $GITHUB_STEP_SUMMARY
+          echo "| 🌿 Branch | ${{ github.ref_name }} |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⬇️ Tải file IPA" >> $GITHUB_STEP_SUMMARY
+          echo "Vào tab **Actions** → chọn workflow này → phần **Artifacts** để tải **GomApp.ipa**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📲 Cách sideload lên iPhone" >> $GITHUB_STEP_SUMMARY
+          echo "1. Tải AltServer từ [altstore.io](https://altstore.io)" >> $GITHUB_STEP_SUMMARY
+          echo "2. Cài AltStore lên iPhone qua AltServer" >> $GITHUB_STEP_SUMMARY
+          echo "3. Copy GomApp.ipa vào iPhone → mở AltStore → nhấn **+** → chọn file" >> $GITHUB_STEP_SUMMARY
