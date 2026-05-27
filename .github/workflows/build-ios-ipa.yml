@@ -19,8 +19,7 @@ jobs:
       - name: 🐦 Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.22.0'   # Phiên bản Flutter ổn định
-          channel: 'stable'
+          channel: 'stable'   # Dùng phiên bản stable mới nhất (tránh lỗi version)
           cache: true
 
       # ─── 3. Lấy dependencies ───────────────────────────────────────────
