@@ -124,7 +124,9 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
     setLoading(true);
 
     try {
-      const res = await apiClient.post('/ai/chat', { question: q, lang: lang });
+      const res = await apiClient.post('/ai/chat', { question: q, lang: lang }, {
+        timeout: 300000, // 5 minutes - AI server may cold start on Azure Free tier
+      });
       const data = res.data?.data || res.data;
       const reply = data?.answer || data?.message || '...';
       const newBalance = data?.user_token_balance;

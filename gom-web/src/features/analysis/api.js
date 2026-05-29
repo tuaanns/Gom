@@ -18,6 +18,8 @@ export const analysisApi = {
       lens_results: lensResults,
       lang: lang,
     }, { timeout: 60000 }),
-  chat: (question) => apiClient.post('/ai/chat', { question }),
+  chat: (question, lang) => apiClient.post('/ai/chat', { question, lang }, {
+    timeout: 300000, // 5 minutes - AI server may cold start on Azure Free tier
+  }),
   getStats: () => apiClient.get('/stats'),
 };

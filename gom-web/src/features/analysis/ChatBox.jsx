@@ -31,7 +31,7 @@ export const ChatBox = ({ user, onClose }) => {
     setInput('');
     setLoading(true);
     try {
-      const res = await analysisApi.chat(q);
+      const res = await analysisApi.chat(q, i18n.language);
       const reply = res.data?.answer || res.data?.message || res.data?.data?.answer || '...';
       setMessages((p) => [...p, { isUser: false, text: reply }]);
     } catch (err) {
