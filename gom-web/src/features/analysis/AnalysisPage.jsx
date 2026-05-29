@@ -127,54 +127,6 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
     }
   };
 
-  const analyzeLens = async () => {
-    if ((quota?.free_used ?? 0) >= (quota?.free_limit ?? 0) && (quota?.token_balance ?? 0) <= 0) {
-      notify?.(t('analysis.noQuota'), 'error');
-      setView?.(VIEWS.PAYMENT);
-      return;
-    }
-    if (!file) {
-      setError(t('analysis.needFile'));
-      return;
-    }
-    setLoading(true);
-    setError('');
-
-    const formData = new FormData();
-    formData.append('image', file);
-    formData.append('lang', i18n.language);
-
-    try {
-      notify?.(t('analysis.lens.notifySearching'), 'info');
-      const res = await analysisApi.predictLens(formData);
-      const data = res.data?.data || res.data;
-      const q = res.data?.quota || data?.quota || {};
-      const predictionId = res.data?.db_id || data?.db_id;
-      
-      if (q.free_used !== undefined && setQuota) {
-        setQuota({
-          free_used: q.free_used,
-          free_limit: q.free_limit ?? quota?.free_limit ?? 5,
-          token_balance: q.token_balance ?? quota?.token_balance ?? 0,
-        });
-      }
-      notify?.(t('analysis.lens.notifySuccess'), 'success');
-      
-      // Redirect to history with prediction ID in URL
-      if (predictionId) {
-        window.location.hash = `#/history?openId=${predictionId}`;
-      } else {
-        // Fallback: show result on current page
-        setResult(data);
-      }
-    } catch (err) {
-      const msg = getErrorMessage(err, t('analysis.lens.notifyError'));
-      setError(msg);
-      notify?.(msg, 'error');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const reset = () => {
     setResult(null);
@@ -279,7 +231,6 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
           error={error}
           onFileChange={onFileChange}
           onAnalyze={analyze}
-          onAnalyzeLens={analyzeLens}
           onClear={onClear}
         />
 
