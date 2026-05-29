@@ -28,7 +28,7 @@ class PredictionController extends Controller
 
     public function predict(PredictRequest $request): JsonResponse
     {
-        set_time_limit(200);
+        set_time_limit(600); // Allow enough time for Azure AI cold start + debate
         $user = $request->user();
 
         $freeUsed = (int) ($user->free_predictions_used ?? 0);
@@ -233,6 +233,7 @@ class PredictionController extends Controller
 
     public function chat(ChatRequest $request): JsonResponse
     {
+        set_time_limit(300); // Allow enough time for Azure AI cold start
         $user = $request->user();
         $query = $request->validated()['question'];
         $lang = $request->input('lang', 'vi'); // default to vi
