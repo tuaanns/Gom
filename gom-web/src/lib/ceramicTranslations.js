@@ -198,10 +198,15 @@ const VI_TO_EN = {
   'Gốm truyền thống của người Ndebele với hoa văn hình học đậm màu sắc sặc sỡ đặc trưng châu Phi.': 'Traditional Ndebele pottery featuring vibrant, colorful geometric patterns characteristic of Africa.',
   'Phong trào gốm Raku đương đại kết hợp kỹ thuật Nhật Bản cổ điển với tư duy nghệ thuật hiện đại.': 'Contemporary Raku movement combining classic Japanese techniques with modern artistic concepts.',
 
-  // === Error states ===
+  // === Error & processing states ===
   'Lỗi hệ thống AI': 'AI System Error',
   'Vui lòng thử lại': 'Please try again',
   'Không xác định': 'Unknown',
+  'Đang phân tích...': 'Analyzing...',
+  'Đang phân tích Lens...': 'Analyzing Lens...',
+  'Đang xử lý': 'Processing...',
+  'Lỗi kết nối Google Lens': 'Google Lens connection error',
+  'Ảnh không phải gốm/sứ': 'Image is not ceramics/porcelain',
 
   // === Common descriptors ===
   'Google Lens': 'Google Lens',
