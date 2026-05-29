@@ -20,12 +20,18 @@ import { AboutPage } from '../features/about/AboutPage';
 import { TermsPage } from '../features/legal/TermsPage';
 import { PrivacyPage } from '../features/legal/PrivacyPage';
 import { AdminLayout } from '../features/admin/AdminLayout';
+import { DynamicPageLoader } from '../components/layout/DynamicPageLoader';
 import { DashboardPageWrapper } from '../features/admin/pages/DashboardPageWrapper';
 import { UsersPageWrapper } from '../features/admin/pages/UsersPageWrapper';
 import { CeramicsPageWrapper as AdminCeramicsPageWrapper } from '../features/admin/pages/CeramicsPageWrapper';
 import { PaymentsPageWrapper } from '../features/admin/pages/PaymentsPageWrapper';
 import { PredictionsPageWrapper } from '../features/admin/pages/PredictionsPageWrapper';
 import { TokenHistoryPageWrapper } from '../features/admin/pages/TokenHistoryPageWrapper';
+import { PaymentPackagesPageWrapper } from '../features/admin/pages/PaymentPackagesPageWrapper';
+import { PagesPageWrapper } from '../features/admin/pages/PagesPageWrapper';
+import { PaymentSettingsPageWrapper } from '../features/admin/pages/PaymentSettingsPageWrapper';
+import { ApiSettingsPageWrapper } from '../features/admin/pages/ApiSettingsPageWrapper';
+import { VNPayReturnPageWrapper } from '../features/payment/VNPayReturnPageWrapper';
 
 // Guards
 import { ProtectedRoute } from './ProtectedRoute';
@@ -76,6 +82,14 @@ export const routes = [
             element: <AdminCeramicsPageWrapper />,
           },
           {
+            path: 'pages',
+            element: <PagesPageWrapper />,
+          },
+          {
+            path: 'payment-packages',
+            element: <PaymentPackagesPageWrapper />,
+          },
+          {
             path: 'payments',
             element: <PaymentsPageWrapper />,
           },
@@ -86,6 +100,14 @@ export const routes = [
           {
             path: 'token-history',
             element: <TokenHistoryPageWrapper />,
+          },
+          {
+            path: 'payment-settings',
+            element: <PaymentSettingsPageWrapper />,
+          },
+          {
+            path: 'api-settings',
+            element: <ApiSettingsPageWrapper />,
           },
         ],
       },
@@ -133,6 +155,14 @@ export const routes = [
         ),
       },
       {
+        path: 'payment/vnpay-return',
+        element: (
+          <ProtectedRoute>
+            <VNPayReturnPageWrapper />
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: 'transactions',
         element: (
           <ProtectedRoute>
@@ -161,6 +191,10 @@ export const routes = [
       {
         path: 'privacy',
         element: <PrivacyPage />,
+      },
+      {
+        path: ':slug',
+        element: <DynamicPageLoader />,
       },
 
       // Error pages

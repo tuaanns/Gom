@@ -7,8 +7,10 @@ import { ImageWithFallback } from '../../../components/ui/ImageWithFallback';
 import { adminApi } from '../api';
 import { getErrorMessage } from '../../../lib/utils';
 import { Badge } from '../../../components/ui/Badge';
+import { useTranslation } from 'react-i18next';
 
 export const CeramicsPage = ({ notify }) => {
+  const { t } = useTranslation();
   const [ceramics, setCeramics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCeramic, setSelectedCeramic] = useState(null);
@@ -44,7 +46,7 @@ export const CeramicsPage = ({ notify }) => {
     setDeleting(true);
     try {
       await adminApi.deleteCeramic(ceramicToDelete.id);
-      notify?.('Ceramic line deleted successfully', 'success');
+      notify?.(t('admin.ceramicsPage.deletedSuccess'), 'success');
       setShowDeleteDialog(false);
       setCeramicToDelete(null);
       fetchCeramics();
@@ -59,7 +61,7 @@ export const CeramicsPage = ({ notify }) => {
     try {
       await adminApi.updateCeramic(ceramic.id, { is_featured: !ceramic.is_featured });
       notify?.(
-        ceramic.is_featured ? 'Removed from featured' : 'Marked as featured',
+        ceramic.is_featured ? t('admin.ceramicsPage.removedFeatured') : t('admin.ceramicsPage.markedFeatured'),
         'success'
       );
       fetchCeramics();
@@ -90,7 +92,7 @@ export const CeramicsPage = ({ notify }) => {
   const columns = [
     {
       key: 'id',
-      header: 'ID',
+      header: t('admin.ceramicsPage.table.id'),
       accessor: (row) => row.id,
       cell: (row) => (
         <span className="font-mono text-xs text-gray-600 dark:text-gray-400">
@@ -102,7 +104,7 @@ export const CeramicsPage = ({ notify }) => {
     },
     {
       key: 'image',
-      header: 'Image',
+      header: t('admin.ceramicsPage.table.image'),
       accessor: () => '',
       cell: (row) => (
         <ImageWithFallback
@@ -116,7 +118,7 @@ export const CeramicsPage = ({ notify }) => {
     },
     {
       key: 'name',
-      header: 'Name',
+      header: t('admin.ceramicsPage.table.name'),
       accessor: (row) => row.name,
       cell: (row) => (
         <div>
@@ -129,28 +131,28 @@ export const CeramicsPage = ({ notify }) => {
     },
     {
       key: 'country',
-      header: 'Country',
+      header: t('admin.ceramicsPage.table.country'),
       accessor: (row) => row.country,
       sortable: true,
       searchable: true,
     },
     {
       key: 'era',
-      header: 'Era',
+      header: t('admin.ceramicsPage.table.era'),
       accessor: (row) => row.era || '—',
       sortable: true,
       searchable: true,
     },
     {
       key: 'is_featured',
-      header: 'Featured',
+      header: t('admin.ceramicsPage.table.featured'),
       accessor: (row) => row.is_featured,
       cell: (row) => (
         <button
           type="button"
           onClick={() => handleToggleFeatured(row)}
           className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium transition-colors"
-          title={row.is_featured ? 'Click to unfeature' : 'Click to feature'}
+          title={row.is_featured ? t('admin.ceramicsPage.table.clickToUnfeature') : t('admin.ceramicsPage.table.clickToFeature')}
         >
           {row.is_featured ? (
             <Badge variant="gold">
@@ -167,7 +169,7 @@ export const CeramicsPage = ({ notify }) => {
     },
     {
       key: 'actions',
-      header: 'Actions',
+      header: t('admin.ceramicsPage.table.actions'),
       accessor: () => '',
       cell: (row) => (
         <div className="flex items-center gap-2">
@@ -205,9 +207,9 @@ export const CeramicsPage = ({ notify }) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Ceramic Lines</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('admin.ceramicsPage.title')}</h1>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Manage ceramic lines and collections
+            {t('admin.ceramicsPage.subtitle')}
           </p>
         </div>
         <button
@@ -215,14 +217,14 @@ export const CeramicsPage = ({ notify }) => {
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
           <Plus size={16} />
-          Add Ceramic Line
+          {t('admin.ceramicsPage.addCeramic')}
         </button>
       </div>
 
       <DataTable
         data={ceramics}
         columns={columns}
-        searchPlaceholder="Search by name, country, or era..."
+        searchPlaceholder={t('admin.ceramicsPage.searchPlaceholder')}
         pageSize={10}
       />
 
@@ -238,9 +240,9 @@ export const CeramicsPage = ({ notify }) => {
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleDeleteConfirm}
-        title="Delete Ceramic Line"
-        message={`Are you sure you want to delete "${ceramicToDelete?.name}"? This action cannot be undone.`}
-        confirmText="Delete"
+        title={t('admin.ceramicsPage.deleteTitle')}
+        message={t('admin.ceramicsPage.deleteMessage', { name: ceramicToDelete?.name })}
+        confirmText={t('admin.ceramicsPage.deleteConfirm')}
         variant="danger"
         loading={deleting}
       />

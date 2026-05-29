@@ -28,6 +28,7 @@
     "error": "Đã có lỗi xảy ra",
     "retry": "Thử lại",
     "more": "Thêm",
+    "less": "Thu gọn",
     "select": "Chọn",
     "language": "Ngôn ngữ",
     "theme": "Giao diện",
@@ -50,6 +51,28 @@
     "privacy": "Bảo mật"
   },
   "header": {
+    "navItems": [
+      {
+        "href": "/",
+        "label": "Trang chủ"
+      },
+      {
+        "href": "/ceramics",
+        "label": "Dòng gốm"
+      },
+      {
+        "href": "/history",
+        "label": "Lịch sử"
+      },
+      {
+        "href": "/contact",
+        "label": "Liên hệ"
+      },
+      {
+        "href": "/about",
+        "label": "Về chúng tôi"
+      }
+    ],
     "myProfile": "Hồ sơ của tôi",
     "transactionHistory": "Lịch sử giao dịch",
     "topup": "Nạp lượt phân tích",
@@ -87,7 +110,47 @@
     "codeSent": "Mã xác minh đã được gửi tới email.",
     "resetSuccess": "Đã đặt lại mật khẩu thành công.",
     "passwordMismatch": "Mật khẩu không trùng khớp.",
-    "fillAll": "Vui lòng điền đầy đủ thông tin."
+    "fillAll": "Vui lòng điền đầy đủ thông tin.",
+    "welcomeBack": "Chào mừng trở lại",
+    "joinSystem": "Gia nhập hệ thống",
+    "loginSubtitle": "Đăng nhập để tiếp tục sử dụng hệ thống",
+    "registerSubtitle": "Tạo tài khoản mới để bắt đầu",
+    "nameLabel": "TÊN NGHỆ NHÂN",
+    "namePlaceholder": "Họ và tên đầy đủ...",
+    "emailPlaceholder": "email@example.com",
+    "passwordLabel": "MẬT KHẨU",
+    "confirmPasswordLabel": "XÁC NHẬN MẬT KHẨU",
+    "processing": "Đang xử lý...",
+    "orConnectVia": "HOẶC KẾT NỐI QUA",
+    "loginFacebook": "Đăng nhập bằng Facebook",
+    "terms": "Bằng việc tiếp tục, bạn đồng ý với <b>Điều khoản Dịch vụ</b> và <b>Chính sách Bảo mật</b> của chúng tôi.",
+    "brandSubtitle": "Hệ thống giám định gốm sứ cổ thông minh",
+    "feature1Title": "Trí tuệ nhân tạo đa đại lý",
+    "feature1Desc": "Phân tích chính xác nguồn gốc và niên đại cổ vật",
+    "feature2Title": "Bảo tồn di sản văn hóa",
+    "feature2Desc": "Lưu trữ và bảo vệ kiến thức gốm sứ truyền thống",
+    "feature3Title": "Giám định nhanh chóng",
+    "feature3Desc": "Kết quả chi tiết chỉ trong vài giây",
+    "forgotSubtitle": "Nhập email của bạn và chúng tôi sẽ gửi mã khôi phục tài khoản",
+    "emailContactPlaceholder": "Nhập email liên lạc...",
+    "sendRequest": "Gửi yêu cầu",
+    "goBack": "Quay lại",
+    "resetSubtitle": "Nhập mã xác nhận đã được gửi tới",
+    "codeLabel": "MÃ XÁC NHẬN",
+    "codePlaceholder": "Nhập mã 6 số...",
+    "newPasswordLabel": "MẬT KHẨU MỚI",
+    "confirmReset": "Xác nhận đổi mật khẩu",
+    "loadingGoogle": "Đang tải Google...",
+    "welcomeJoin": "Chào mừng {{name}} đã gia nhập!",
+    "welcomeBackUser": "Chào mừng {{name}} quay trở lại!",
+    "cancelledFacebook": "Đã hủy đăng nhập Facebook",
+    "loadingFacebook": "Đang tải thư viện Facebook...",
+    "authError": "Lỗi xác thực hệ thống",
+    "forgotCodeSent": "Mã phục hồi đã được gửi về email của bạn.",
+    "forgotError": "Lỗi gửi yêu cầu phục hồi",
+    "resetSuccess2": "Đổi mật khẩu thành công! Vui lòng đăng nhập lại.",
+    "resetCodeError": "Mã xác nhận không chính xác",
+    "socialError": "Lỗi kết nối {{provider}}"
   },
   "home": {
     "heroTitle": "Khám phá di sản gốm sứ",
@@ -164,6 +227,19 @@
       "send": "Gửi",
       "thinking": "Đang suy nghĩ...",
       "greeting": "Xin chào {{name}}.\nTôi là Trợ lý AI chuyên môn về gốm sứ. Bạn cần hỗ trợ gì?"
+    },
+    "lens": {
+      "btnLabel": "Google Lens + AI",
+      "sending": "Đang gửi...",
+      "notifySearching": "Đang gửi ảnh lên Google Lens, có thể mất đến 15 giây...",
+      "notifySuccess": "Nhận diện Lens thành công!",
+      "notifyError": "Lỗi kết nối Google Lens",
+      "resultTitle": "Kết luận từ AI (Google Lens)",
+      "noConclusion": "Không thể đưa ra kết luận.",
+      "sourcesTitle": "Các nguồn tham khảo tìm được",
+      "noSources": "Không tìm thấy bài viết liên quan nào.",
+      "noImage": "Không có ảnh",
+      "lensError": "Không tìm thấy kết quả từ Google Lens hoặc có lỗi xảy ra."
     }
   },
   "ceramics": {
@@ -235,6 +311,7 @@
     "credits": "Tín dụng",
     "perCredit": "{{price}}đ / tín dụng",
     "select": "Chọn gói",
+    "popularBadge": "★ Phổ biến",
     "method": {
       "title": "Phương thức thanh toán",
       "vietqr": "Chuyển khoản Ngân hàng",
@@ -266,7 +343,24 @@
     "creating": "Đang tạo giao dịch...",
     "scanInvite": "Xin mời quét mã QR để thanh toán!",
     "checking": "Chưa nhận được thanh toán. Vui lòng thử lại sau 30s!",
-    "failed": "Hệ thống thanh toán đang gặp sự cố. Vui lòng thử lại sau!"
+    "failed": "Hệ thống thanh toán đang gặp sự cố. Vui lòng thử lại sau!",
+    "vnpay": {
+      "title": "Thanh toán qua VNPay",
+      "amount": "Số tiền cần thanh toán",
+      "payBtn": "Mở cổng thanh toán VNPay",
+      "payDirectBtn": "Thanh toán trực tiếp tại Website",
+      "warning": "Cảnh báo: Vui lòng hoàn thành giao dịch trên trang VNPay. Hệ thống sẽ tự động đối soát và cộng tín dụng tức thì ngay sau khi thanh toán thành công.",
+      "verifyingTitle": "Đang xác thực giao dịch",
+      "verifyingDesc": "Vui lòng không đóng trình duyệt hoặc tải lại trang. Hệ thống đang kiểm tra chữ ký bảo mật từ VNPay...",
+      "successTitle": "Thành Công!",
+      "successDesc": "Tuyệt vời! Giao dịch của bạn đã được xác thực an toàn. Chúng tôi đã cộng lượt phân tích vào tài khoản của bạn.",
+      "creditsCharged": "Số lượt đã nạp",
+      "creditsNote": "tín dụng giám định cổ vật",
+      "appraiseNow": "Giám định ngay",
+      "failedTitle": "Giao dịch thất bại",
+      "retry": "Thử lại",
+      "goHome": "Về Trang chủ"
+    }
   },
   "transactions": {
     "title": "Lịch sử giao dịch",
@@ -398,7 +492,272 @@
   },
   "admin": {
     "title": "Bảng điều khiển Admin",
-    "subtitle": "Quản trị toàn bộ hệ thống The Archivist",
+    "subtitle": "Quản lý nền tảng The Archivist",
+    "panelTitle": "Bảng Điều Khiển Quản Trị",
+    "backToHome": "Về Trang Chủ",
+    "dashboard": "Tổng Quan",
+    "users": "Người Dùng",
+    "ceramicLines": "Dòng Gốm",
+    "pages": "Trang",
+    "paymentPackages": "Gói Thanh Toán",
+    "paymentsHistory": "Lịch Sử Giao Dịch",
+    "predictions": "Lịch Sử Giám Định",
+    "tokenHistory": "Lịch Sử Token",
+    "paymentSettings": "Cấu hình Thanh toán",
+    "welcomeBack": "Chào mừng trở lại,",
+    "confirmLogout": "Xác nhận Đăng xuất",
+    "logoutMessage": "Bạn có chắc chắn muốn đăng xuất khỏi hệ thống?",
+    "cancel": "Hủy",
+    "logout": "Đăng xuất",
+    "dashboardOverview": "Tổng quan số liệu thống kê hệ thống của bạn",
+    "totalUsers": "Tổng Số Người Dùng",
+    "totalPredictions": "Lượt Giám Định",
+    "totalCeramics": "Dòng Gốm Sứ",
+    "totalRevenue": "Doanh Thu",
+    "creditsSold": "Credit Đã Bán",
+    "featuredCeramics": "Gốm Sứ Nổi Bật",
+    "pendingPayments": "Thanh Toán Đang Chờ",
+    "failedPayments": "Thanh Toán Thất Bại",
+    "recentUsers": "Người Dùng Mới Nhất",
+    "recentPayments": "Giao Dịch Gần Đây",
+    "recentPredictions": "Giám Định Mới Nhất",
+    "noDataYet": "Chưa có dữ liệu",
+    "viewAll": "Xem tất cả",
+    "noUsersYet": "Chưa có người dùng",
+    "noPaymentsYet": "Chưa có giao dịch",
+    "noPredictionsYet": "Chưa có giám định",
+    "retry": "Thử lại",
+    "completedPaymentsCount": "{{count}} thanh toán hoàn tất",
+    "featuredCount": "{{count}} nổi bật",
+    "usersPage": {
+      "title": "Người Dùng",
+      "subtitle": "Quản lý tất cả người dùng trong hệ thống",
+      "addUser": "Thêm Người Dùng",
+      "searchPlaceholder": "Tìm theo tên, email, hoặc vai trò...",
+      "deleteTitle": "Xóa Người Dùng",
+      "deleteMessage": "Bạn có chắc chắn muốn xóa \"{{name}}\"? Hành động này không thể hoàn tác.",
+      "deleteConfirm": "Xóa",
+      "deletedSuccess": "Đã xóa người dùng thành công",
+      "roleUpdated": "Vai trò đã được cập nhật thành {{role}}",
+      "table": {
+        "id": "ID",
+        "name": "Tên",
+        "role": "Vai trò",
+        "credits": "Credit",
+        "freeUsed": "Miễn phí đã dùng",
+        "joined": "Ngày tham gia",
+        "actions": "Thao tác"
+      }
+    },
+    "ceramicsPage": {
+      "title": "Dòng Gốm",
+      "subtitle": "Quản lý các dòng gốm và bộ sưu tập",
+      "addCeramic": "Thêm Dòng Gốm",
+      "searchPlaceholder": "Tìm kiếm theo tên, quốc gia, hoặc thời đại...",
+      "deleteTitle": "Xóa Dòng Gốm",
+      "deleteMessage": "Bạn có chắc chắn muốn xóa \"{{name}}\"? Hành động này không thể hoàn tác.",
+      "deleteConfirm": "Xóa",
+      "deletedSuccess": "Xóa dòng gốm thành công",
+      "removedFeatured": "Đã bỏ khỏi danh sách nổi bật",
+      "markedFeatured": "Đã đánh dấu nổi bật",
+      "table": {
+        "id": "ID",
+        "image": "Hình ảnh",
+        "name": "Tên",
+        "country": "Quốc gia",
+        "era": "Thời đại",
+        "featured": "Nổi bật",
+        "actions": "Thao tác",
+        "clickToUnfeature": "Bấm để bỏ nổi bật",
+        "clickToFeature": "Bấm để nổi bật",
+        "edit": "Sửa",
+        "delete": "Xóa"
+      }
+    },
+    "pagesPage": {
+      "title": "Quản lý nội dung trang",
+      "subtitle": "Chỉnh sửa trực tiếp nội dung text hiển thị trên mỗi trang web",
+      "addPage": "Thêm trang mới",
+      "searchPlaceholder": "Tìm kiếm trang...",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa trang \"{{title}}\" không? Hành động này không thể hoàn tác.",
+      "deletedSuccess": "Đã xóa trang thành công",
+      "addSuccess": "Đã thêm trang mới thành công",
+      "addNewPageTitle": "Thêm trang mới",
+      "pageName": "Tên trang",
+      "pageNamePlaceholder": "Ví dụ: Giới thiệu",
+      "slug": "Slug (URL)",
+      "slugPlaceholder": "Ví dụ: about",
+      "pageContent": "Nội dung trang",
+      "pageContentPlaceholder": "Nhập nội dung HTML hoặc văn bản của trang...",
+      "cancel": "Hủy",
+      "adding": "Đang thêm...",
+      "add": "Thêm trang",
+      "imageAssistant": "Trợ lý tải ảnh lên cho trang",
+      "uploadImage": "Chọn ảnh từ máy",
+      "uploading": "Đang tải lên...",
+      "copied": "Đã sao chép",
+      "copyLink": "Sao chép link",
+      "insertImage": "Chèn thẻ ảnh",
+      "imageAssistantDesc": "* Tải hình ảnh lên và chèn thẳng thẻ ảnh <img> vào vị trí con trỏ trong khung nội dung ở trên.",
+      "editorTitle": "Biên tập nội dung trang (HTML / Văn bản)",
+      "previewTitle": "Xem trước trực quan (Live Preview)",
+      "customPageDesc": "Trang tự do (Trang HTML tùy biến không theo khuôn mẫu)",
+      "saveSuccess": "Đã lưu nội dung trang thành công!",
+      "selectImageError": "Vui lòng chọn tệp hình ảnh",
+      "uploadingImage": "Đang tải ảnh lên...",
+      "uploadImageSuccess": "Tải ảnh lên thành công!",
+      "editModal": {
+        "title": "Chỉnh sửa nội dung: {{title}}",
+        "subtitle": "Slug: /{{slug}} • Sửa trực tiếp từng phần nội dung hoặc viết mã HTML tự do",
+        "pageTitleLabel": "Tiêu đề trang (hiển thị trong danh sách Admin)",
+        "slugLabel": "Đường dẫn tĩnh (Slug / URL)",
+        "sectionHeader": "Nội dung các phần trên trang ({{count}} mục)",
+        "infoBanner": "💡 Nội dung được điền sẵn từ hệ thống. Bạn chỉ cần sửa phần nào muốn thay đổi. Phần nào khác với mặc định sẽ được đánh dấu Đã sửa và bấm nút Mặc định để khôi phục.",
+        "editedBadge": "Đã sửa",
+        "defaultBtn": "Mặc định",
+        "displayNamePlaceholder": "Tên hiển thị (VD: Giới thiệu)",
+        "linkPathPlaceholder": "Đường link (VD: /about)",
+        "addNewLink": "Thêm link mới",
+        "noMappedSections": "Trang này chưa có các phần nội dung được cấu trúc mẫu.",
+        "changedCount": "{{count}} phần đã thay đổi",
+        "noChanges": "Chưa có thay đổi",
+        "cancelBtn": "Hủy",
+        "saveBtn": "Lưu nội dung",
+        "savingBtn": "Đang lưu..."
+      },
+      "table": {
+        "id": "ID",
+        "title": "Tên trang",
+        "slug": "Slug / URL",
+        "overrides": "Đã tuỳ chỉnh",
+        "updatedAt": "Cập nhật",
+        "actions": "Thao tác",
+        "sections": "phần",
+        "default": "Mặc định",
+        "edit": "Sửa",
+        "delete": "Xóa",
+        "editContent": "Chỉnh sửa nội dung",
+        "deletePage": "Xóa trang"
+      }
+    },
+    "paymentPackagesPage": {
+      "title": "Gói Thanh Toán",
+      "subtitle": "Quản lý các gói nạp tiền có sẵn cho người dùng",
+      "addPackage": "Thêm Gói",
+      "searchPlaceholder": "Tìm kiếm gói...",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa gói \"{{name}}\"? Hành động này không thể hoàn tác.",
+      "deletedSuccess": "Xóa gói thành công",
+      "deleteTitle": "Xóa Gói Thanh Toán",
+      "deletePackageBtn": "Xóa Gói",
+      "cancel": "Hủy",
+      "modal": {
+        "editTitle": "Chỉnh sửa gói",
+        "addTitle": "Thêm gói mới",
+        "nameVi": "Tên gói (Tiếng Việt) *",
+        "nameEn": "Tên gói (Tiếng Anh)",
+        "price": "Giá (VNĐ) *",
+        "credits": "Tín dụng *",
+        "discountVi": "Nhãn giảm giá (Tiếng Việt - Tùy chọn)",
+        "discountEn": "Nhãn giảm giá (Tiếng Anh - Tùy chọn)",
+        "featured": "Nổi bật trên trang thanh toán",
+        "save": "Lưu gói",
+        "saving": "Đang lưu...",
+        "cancel": "Hủy",
+        "editSuccess": "Cập nhật gói thành công",
+        "addSuccess": "Tạo gói mới thành công"
+      },
+      "table": {
+        "id": "ID",
+        "name": "Tên",
+        "price": "Giá",
+        "credits": "Credit",
+        "featured": "Nổi bật",
+        "discountLabel": "Mã giảm giá",
+        "actions": "Thao tác",
+        "yes": "Có",
+        "no": "Không",
+        "edit": "Sửa",
+        "delete": "Xóa"
+      }
+    },
+    "paymentsPage": {
+      "title": "Giao Dịch",
+      "subtitle": "Xem và quản lý tất cả giao dịch thanh toán",
+      "filtered": "(Đã lọc: {{filtered}} / {{total}})",
+      "filter": "Lọc",
+      "exportCsv": "Xuất CSV",
+      "searchPlaceholder": "Tìm theo người dùng, trạng thái, hoặc phương thức...",
+      "exportSuccess": "Xuất giao dịch thành công",
+      "unknown": "Không rõ",
+      "bankTransfer": "Chuyển khoản ngân hàng",
+      "table": {
+        "id": "ID",
+        "user": "Người dùng",
+        "amount": "Số tiền",
+        "credits": "Credit",
+        "status": "Trạng thái",
+        "method": "Phương thức",
+        "date": "Ngày"
+      }
+    },
+    "predictionsPage": {
+      "title": "Giám Định",
+      "subtitle": "Xem và quản lý tất cả kết quả AI trong hệ thống",
+      "exportCsv": "Xuất CSV",
+      "searchPlaceholder": "Tìm kiếm kết quả...",
+      "exportSuccess": "Xuất dữ liệu thành công",
+      "unknown": "Không rõ",
+      "viewDetails": "Xem chi tiết",
+      "table": {
+        "id": "ID",
+        "image": "Hình ảnh",
+        "result": "Kết quả / Nhãn",
+        "confidence": "Độ tin cậy",
+        "user": "Người dùng",
+        "date": "Ngày",
+        "actions": "Thao tác"
+      }
+    },
+    "tokenHistoryPage": {
+      "title": "Lịch Sử Token",
+      "subtitle": "Nhật ký kiểm toán chỉ đọc của tất cả biến động token",
+      "filtered": "(có bộ lọc)",
+      "refresh": "Làm mới",
+      "filter": "Lọc",
+      "searchPlaceholder": "Tìm theo người dùng hoặc mô tả...",
+      "filterModalTitle": "Lọc Lịch Sử Token",
+      "userId": "ID Người dùng",
+      "userIdPlaceholder": "ID dạng số",
+      "type": "Loại",
+      "allTypes": "Tất cả các loại",
+      "typeIn": "VÀO (thêm credit)",
+      "typeOut": "RA (trừ credit)",
+      "from": "Từ",
+      "to": "Đến",
+      "reset": "Đặt lại",
+      "apply": "Áp dụng",
+      "table": {
+        "id": "ID",
+        "user": "Người dùng",
+        "type": "Loại",
+        "amount": "Số lượng",
+        "description": "Mô tả",
+        "date": "Ngày"
+      }
+    },
+    "paymentSettingsPage": {
+      "title": "Cấu hình Thanh toán",
+      "subtitle": "Chọn phương thức thanh toán hoạt động chính trên hệ thống cho người dùng.",
+      "sepayTitle": "Cổng SePay (VietQR)",
+      "sepayDesc": "Thanh toán chuyển khoản ngân hàng bằng cách quét mã VietQR tự động. Hệ thống sử dụng polling API của SePay để đối soát và tự động cộng tokens nhanh chóng.",
+      "active": "Đang hoạt động",
+      "sepayNote": "Hỗ trợ các ngân hàng tại Việt Nam",
+      "vnpayTitle": "Cổng VNPay",
+      "vnpayDesc": "Khách hàng thanh toán qua cổng VNPay bằng thẻ ATM nội địa, thẻ quốc tế (Visa, Mastercard...) hoặc quét mã ứng dụng ngân hàng. Cực kỳ bảo mật và chuyên nghiệp.",
+      "vnpayNote": "Hỗ trợ thẻ nội địa & quốc tế",
+      "saveBtn": "Lưu cấu hình",
+      "saveSuccess": "Cập nhật cấu hình thanh toán thành công!"
+    },
     "tabs": {
       "dashboard": "Tổng quan",
       "users": "Người dùng",
@@ -411,12 +770,78 @@
       "predictions": "Lượt phân tích",
       "ceramics": "Dòng gốm",
       "revenue": "Doanh thu"
+    },
+    "apiSettings": "API & Model",
+    "apiSettingsPage": {
+      "title": "API Key & Model AI",
+      "subtitle": "Cấu hình key nhà cung cấp và model dùng chung cho web/app thông qua AI backend.",
+      "reload": "Tải lại",
+      "save": "Lưu & đồng bộ",
+      "saveSuccess": "Đã cập nhật và đồng bộ cấu hình API thành công.",
+      "keysTitle": "API key nhà cung cấp",
+      "keysDesc": "Key được lưu trên backend và đẩy sang AI service đang chạy.",
+      "keyPlaceholder": "Nhập API key",
+      "modelsTitle": "Điều phối model",
+      "modelsDesc": "{{active}}/{{total}} model đang bật",
+      "addModel": "Thêm model",
+      "modelId": "Model ID",
+      "modelName": "Tên hiển thị",
+      "provider": "Nhà cung cấp",
+      "role": "Vai trò",
+      "active": "Đang bật",
+      "deleteModel": "Xóa model",
+      "noModels": "Chưa có model nào.",
+      "roles": {
+        "vision": "Vision fallback",
+        "agent_text": "Text agent mặc định",
+        "historian": "Agent lịch sử",
+        "kiln": "Agent lò gốm",
+        "global": "Agent toàn cầu",
+        "judge": "Trọng tài cuối",
+        "chat": "Chatbot"
+      }
     }
   },
   "footer": {
     "company": "Công ty",
     "product": "Sản phẩm",
+    "productLinks": [
+      {
+        "href": "/",
+        "label": "Trang chủ"
+      },
+      {
+        "href": "/ceramics",
+        "label": "Dòng gốm"
+      },
+      {
+        "href": "/history",
+        "label": "Lịch sử"
+      },
+      {
+        "href": "/payment",
+        "label": "Nạp lượt"
+      }
+    ],
     "support": "Hỗ trợ",
+    "supportLinks": [
+      {
+        "href": "/contact",
+        "label": "Liên hệ"
+      },
+      {
+        "href": "/about",
+        "label": "Về chúng tôi"
+      },
+      {
+        "href": "/terms",
+        "label": "Điều khoản"
+      },
+      {
+        "href": "/privacy",
+        "label": "Bảo mật"
+      }
+    ],
     "follow": "Theo dõi",
     "rights": "© {{year}} The Archivist. Mọi quyền được bảo lưu."
   },

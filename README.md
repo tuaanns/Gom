@@ -79,7 +79,7 @@ graph TD
 ## 🚀 Cách Chạy Đồng Bộ (Operational Workflow)
 
 Vận hành **4 Terminal** cùng lúc:
-1.  **AI Engine**: `uvicorn main:app --port 8001`
+1.  **AI Engine**: `uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload`
 2.  **API Gate**: `php artisan serve` (Port: 8000)
 3.  **Mobile**: `flutter run`
 4.  **Web**: `npm start`

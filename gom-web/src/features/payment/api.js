@@ -6,5 +6,7 @@ export const paymentApi = {
   check: (paymentId) => apiClient.get(`/payment/check/${paymentId}`),
   history: () => apiClient.get('/payment/history'),
   testComplete: (paymentId) => apiClient.post(`/payment/test-complete/${paymentId}`),
+  activeMethod: () => apiClient.get('/payment/active-method'),
+  vnpayReturn: (params) => apiClient.get('/payment/vnpay-return', { params }),
 };
 

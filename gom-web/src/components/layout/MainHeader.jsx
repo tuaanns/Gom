@@ -9,6 +9,7 @@ import { ThemeToggle } from '../../theme/ThemeToggle';
 import { useTheme } from '../../theme/ThemeProvider';
 import PillNav from '../ui/PillNav';
 import { cn } from '../../lib/utils';
+import { apiClient } from '../../lib/apiClient';
 
 export const MainHeader = ({ user, quota, logout }) => {
   const navigate = useNavigate();
@@ -18,13 +19,40 @@ export const MainHeader = ({ user, quota, logout }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [dropdownPos, setDropdownPos] = useState({ top: 0, right: 0 });
   const badgeRef = useRef(null);
+  const [customPages, setCustomPages] = useState([]);
 
-  const navItems = [
+  useEffect(() => {
+    let isMounted = true;
+    apiClient
+      .get('/pages')
+      .then((res) => {
+        if (isMounted && res.data?.data) {
+          const allPages = res.data.data;
+          const defaultSlugs = ['home', 'ceramics', 'history', 'contact', 'about', 'terms', 'privacy', 'header', 'footer'];
+          const custom = allPages.filter(p => !defaultSlugs.includes(p.slug));
+          setCustomPages(custom);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to load dynamic pages:', err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const rawNavItems = t('header.navItems', { returnObjects: true });
+  const navItems = Array.isArray(rawNavItems) ? rawNavItems : [
     { href: '/', label: t('nav.home') },
     { href: '/ceramics', label: t('nav.lines') },
     { href: '/history', label: t('nav.history') },
     { href: '/contact', label: t('nav.contact') },
     { href: '/about', label: t('nav.about') },
+  ];
+
+  const mergedNavItems = [
+    ...navItems,
+    ...customPages.map(p => ({ href: `/${p.slug}`, label: p.title }))
   ];
 
   const toggleDropdown = (e) => {
@@ -84,7 +112,7 @@ export const MainHeader = ({ user, quota, logout }) => {
         <div className="flex-1 flex justify-center lg:flex-initial">
           <PillNav
             showLogo={false}
-            items={navItems}
+            items={mergedNavItems}
             activeHref={location.pathname}
             initialLoadAnimation={false}
             {...pillNavColors}
@@ -98,24 +126,24 @@ export const MainHeader = ({ user, quota, logout }) => {
             {tokenBalance > 0 && (
               <div 
                 className="group relative flex items-center gap-1.5 rounded-full bg-ceramic/15 px-3 py-1.5 transition-all hover:bg-ceramic/25"
-                title="Tín dụng"
+                title={t('payment.credits')}
               >
                 <Zap size={14} className="text-ceramic-dark" />
                 <span className="text-xs font-bold text-ceramic-dark">{tokenBalance}</span>
                 <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-ivory dark:text-navy">
-                  Tín dụng
+                  {t('payment.credits')}
                 </span>
               </div>
             )}
             {remainingFree > 0 && (
               <div 
                 className="group relative flex items-center gap-1.5 rounded-full bg-success/15 px-3 py-1.5 transition-all hover:bg-success/25"
-                title="Lượt miễn phí"
+                title={t('header.freeQuota')}
               >
                 <Gift size={14} className="text-success" />
                 <span className="text-xs font-bold text-success">{remainingFree}</span>
                 <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-ivory dark:text-navy">
-                  Lượt miễn phí
+                  {t('header.freeQuota')}
                 </span>
               </div>
             )}

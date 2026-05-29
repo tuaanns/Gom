@@ -60,6 +60,7 @@ class BaseAgent:
     )
     # Call the appropriate LLM provider (Google Gemini, Groq, or OpenAI)
     async def _call_llm(self, prompt: str) -> str:
+        self.api_key = self.get_api_key(self.provider)
         if not self.api_key:
             return f"{{\"error\": \"API Key missing for {self.provider}\"}}"
 
@@ -93,51 +94,83 @@ class BaseAgent:
 
         return ""
 
-    # Phase 1: Initial prediction based on visual evidence
+    # Phase 1: Initial prediction based on visual evidence (FALLBACK — specialists override this)
     async def predict(self, visual_features: dict) -> dict:
         prompt = (
             f"You are the '{self.name}'. Personality: {self.personality}\n"
-            f"Based on the following visual evidence:\n{json.dumps(visual_features, indent=2)}\n\n"
-            "Predict the ceramic line, country, era, and style. Provide evidence and list visual clues used.\n"
-            "CRITICAL DOMAIN KNOWLEDGE: You must balance your expertise perfectly between TWO major groups:\n"
-            "1. VIETNAMESE CERAMICS: Notice the robust thicker clay body, slightly imperfect/rustic wheel marks, free-flowing and spirited brushwork, heavier bases, 'chocolate' bottoms (Chu Đậu), crackle glazes (Bát Tràng), and folk motifs.\n"
-            "2. GLOBAL CERAMICS: Notice the fine, thin porcelain of Jingdezhen (China), mathematically precise brushwork, flawless clear glazes, bright Ming blue, smooth unglazed bases, Japanese Imari's neat polychrome, or exact European symmetry.\n"
-            "CRUCIAL INSTRUCTION TO AVOID CONFUSION: DO NOT confuse them! Look for the defining technical traits. If the brushwork is free flowing and rustic with dark cobalt on a thicker body, lean Vietnamese. If it's razor-sharp, fine porcelain with ultra-thin walls, lean Chinese/Global. Do not force a Vietnamese prediction if it is clearly global, and vice versa. Always evaluate the clay base (trôn gốm), glaze texture, and brush control.\n"
+            f"Based on the following visual evidence:\n{json.dumps(visual_features, indent=2, ensure_ascii=False)}\n\n"
+            "CRITICAL: You MUST identify the SPECIFIC ceramic line, kiln, or brand name.\n"
+            "DANH SÁCH DÒNG GỐM CỤ THỂ ĐỂ THAM KHẢO:\n"
+            "- Việt Nam: Bát Tràng, Chu Đậu, Phù Lãng, Bàu Trúc, Biên Hòa, Lái Thiêu, Thổ Hà, Thanh Hà, Cây Mai\n"
+            "- Trung Quốc: Cảnh Đức Trấn, Longquan, Yixing, Dehua, Cizhou, Jun, Ge, Ding, Ru\n"
+            "- Nhật Bản: Arita/Imari, Satsuma, Raku, Kutani, Hagi, Bizen, Mashiko, Shigaraki\n"
+            "- Hàn Quốc: Goryeo celadon, Buncheong, Joseon white porcelain\n"
+            "- Châu Âu: Meissen, Sèvres, Wedgwood, Royal Copenhagen, Delftware, Majolica\n"
+            "- Trung Đông: Iznik, Kashi, Lusterware\n"
+            "- Châu Mỹ: Barro Negro, Mata Ortiz, Pueblo pottery\n\n"
+            "⚠️ TUYỆT ĐỐI KHÔNG dùng tên chung chung như 'Gốm men nâu truyền thống Việt Nam', 'Gốm Châu Á', 'Gốm cổ'. "
+            "PHẢI đưa ra tên lò gốm hoặc dòng gốm CỤ THỂ.\n"
+            "⚠️ KHÔNG mặc định là gốm Việt Nam. Đánh giá TẤT CẢ khả năng toàn cầu.\n\n"
             "IMPORTANT: Response must be in Vietnamese with full diacritics.\n\n"
-            "Return ONLY JSON in this format:\n"
+            "Return ONLY JSON:\n"
             "{\n"
             "  \"agent_name\": \"...\",\n"
             "  \"prediction\": {\n"
-            "    \"ceramic_line\": \"... (TÊN DÒNG GỐM, LÒ GỐM HOẶC THƯƠNG HIỆU CỤ THỂ BẰNG ĐỊA PHƯƠNG/TIẾNG VIỆT. VD: Meissen, Wedgwood, Royal Albert, Bát Tràng, Chu Đậu, Cảnh Đức Trấn... TUYỆT ĐỐI KHÔNG DÙNG TỪ CHUNG CHUNG như 'Gốm Châu Âu' hay 'Gốm Châu Á') ...\",\n"
-            "    \"country\": \"... (TÊN QUỐC GIA BẰNG TIẾNG VIỆT) ...\",\n"
-            "    \"era\": \"... (NIÊN ĐẠI BẰNG TIẾNG VIỆT) ...\",\n"
-            "    \"style\": \"... (PHONG CÁCH BẰNG TIẾNG VIỆT) ...\"\n"
+            "    \"ceramic_line\": \"(TÊN DÒNG GỐM CỤ THỂ — VD: Gốm Phù Lãng, Gốm Bát Tràng, Satsuma, Meissen)\",\n"
+            "    \"country\": \"(TÊN QUỐC GIA)\",\n"
+            "    \"era\": \"(NIÊN ĐẠI CỤ THỂ)\",\n"
+            "    \"style\": \"(PHONG CÁCH)\"\n"
             "  },\n"
             "  \"confidence\": 0.0-1.0,\n"
-            "  \"evidence\": \"... (BẰNG CHỨNG BẰNG TIẾNG VIỆT) ...\",\n"
+            "  \"evidence\": \"(BẰNG CHỨNG chi tiết)\",\n"
             "  \"visual_clues_used\": [\"...\", \"...\"]\n"
             "}"
         )
         raw_resp = await self._call_llm(prompt)
         return self._extract_json(raw_resp)
 
-    # Phase 2: Criticize others' predictions and defend own position
-    async def debate(self, my_prediction: dict, other_predictions: list) -> dict:
+    # Phase 2: Debate — each agent argues from their specialized perspective
+    async def debate(self, my_prediction: dict, other_predictions: list, lens_results: list = None, lang: str = "vi") -> dict:
         other_data = "\n\n".join([
-            f"Agent {p.get('agent_name', 'Unknown')} said: {json.dumps(p.get('prediction', {}))} (Conf: {p.get('confidence', 0.5)})"
+            f"Agent '{p.get('agent_name', 'Unknown')}' predicted: {json.dumps(p.get('prediction', {}), ensure_ascii=False)}\n"
+            f"  Evidence: {p.get('evidence', 'N/A')}\n"
+            f"  Confidence: {p.get('confidence', 0.5)}"
             for p in other_predictions
         ])
 
+        lens_context = ""
+        if lens_results:
+            lens_context = (
+                "Google Lens visual search matched these web pages for this image:\n"
+                + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
+                + "\nUse these search results to verify claims, resolve conflicts, and guide the debate.\n\n"
+            )
+
+        is_en = lang == "en"
+        lang_instruction = "IMPORTANT: Response must be entirely in English." if is_en else "IMPORTANT: Response must be entirely in Vietnamese with full diacritics."
+
+        attacks_placeholder = "(\"Specific attack against Agent X — pointing out where they are WRONG based on your expertise\")" if is_en else "(\"Phản bác cụ thể Agent X — chỉ ra SAI ở đâu dựa trên chuyên môn của bạn\")"
+        defense_placeholder = "(\"Defend your position with specific visual evidence\")" if is_en else "(\"Bảo vệ quan điểm của bạn với bằng chứng thị giác cụ thể\")"
+        revised_placeholder = "(\"Specific ceramic line name after debate — can keep the original or change it\")" if is_en else "(\"Tên dòng gốm CỤ THỂ sau tranh biện — có thể giữ nguyên hoặc thay đổi\")"
+
         prompt = (
-            f"You are the '{self.name}'. Personality: {self.personality}\n"
-            f"Your previous prediction was: {json.dumps(my_prediction.get('prediction', {}))}\n\n"
-            f"Others' predictions:\n{other_data}\n\n"
-            "TASK: Re-evaluate everything in Vietnamese. Criticize others' flaws and defend your position. "
-            "Write in Vietnamese with full diacritics.\n\n"
-            "Return JSON in this format:\n"
+            f"You are '{self.name}'. Personality: {self.personality}\n"
+            f"Your prediction was: {json.dumps(my_prediction.get('prediction', {}), ensure_ascii=False)}\n"
+            f"Your evidence was: {my_prediction.get('evidence', 'N/A')}\n\n"
+            f"{lens_context}"
+            f"Other agents' predictions:\n{other_data}\n\n"
+            "TASK: Re-evaluate from YOUR specialized perspective. You MUST:\n"
+            "1. Point out SPECIFIC factual errors in other agents' reasoning using YOUR area of expertise.\n"
+            "   For example, if you are the Kiln expert and another agent said 'Gốm Bát Tràng' but the glaze is eel-skin (men da lươn), "
+            "point out that eel-skin glaze is characteristic of Phù Lãng, NOT Bát Tràng.\n"
+            "2. Defend YOUR prediction with concrete visual evidence from the image.\n"
+            "3. If another agent's argument is convincing, you MAY adjust your position — but explain WHY.\n\n"
+            f"{lang_instruction}\n\n"
+            "Return JSON:\n"
             "{\n"
-            "  \"attacks\": [\"(Lý do tại sao X sai - bằng tiếng Việt)\", \"(Lý do tại sao Y sai - bằng tiếng Việt)\"],\n"
-            "  \"defense\": \"Tại sao quan điểm của bạn vẫn đúng hoặc cách bạn điều chỉnh (tiếng Việt)\",\n"
+            f"  \"attacks\": [{attacks_placeholder}, ...],\n"
+            f"  \"defense\": {defense_placeholder},\n"
+            f"  \"revised_ceramic_line\": {revised_placeholder},\n"
             "  \"confidence_adjustment\": -0.2 to 0.2\n"
             "}"
         )

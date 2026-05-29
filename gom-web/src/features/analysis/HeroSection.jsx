@@ -13,9 +13,28 @@ export const HeroSection = ({ onUpload, onExplore, featuredImage }) => {
   const [images, setImages] = React.useState([]);
   const [isLoading, setIsLoading] = React.useState(true);
 
-  // Fetch featured ceramic images from API
+  const overrideImagesRaw = t('home.heroImages', { returnObjects: true, defaultValue: '' });
+  // Memoize it so useEffect doesn't trigger infinitely if it's an array reference change
+  const overrideImages = React.useMemo(() => {
+    if (typeof overrideImagesRaw === 'string' && overrideImagesRaw.trim() !== '') {
+      return overrideImagesRaw.split(',').map(s => s.trim()).filter(Boolean);
+    }
+    if (Array.isArray(overrideImagesRaw) && overrideImagesRaw.length > 0 && overrideImagesRaw[0] !== '') {
+      return overrideImagesRaw;
+    }
+    return [];
+  }, [overrideImagesRaw]);
+
+  // Fetch featured ceramic images from API or use overrides
   React.useEffect(() => {
     const fetchImages = async () => {
+      // If admin provided custom image links, use them directly
+      if (overrideImages.length > 0) {
+        setImages(overrideImages);
+        setIsLoading(false);
+        return;
+      }
+
       try {
         const response = await fetch(`${import.meta.env.VITE_API_BASE || 'http://localhost:8000/api'}/ceramic-lines?featured=1`);
         const data = await response.json();
@@ -44,7 +63,7 @@ export const HeroSection = ({ onUpload, onExplore, featuredImage }) => {
       }
     };
     fetchImages();
-  }, []);
+  }, [overrideImages]);
 
   // Auto-rotate carousel (right to left by default)
   React.useEffect(() => {
@@ -66,7 +85,11 @@ export const HeroSection = ({ onUpload, onExplore, featuredImage }) => {
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
-  const rotatingWords = t('home.heroRotatingWords', { returnObjects: true });
+  const rotatingWordsRaw = t('home.heroRotatingWords', { returnObjects: true });
+  const rotatingWords = typeof rotatingWordsRaw === 'string' 
+    ? rotatingWordsRaw.split(',').map(s => s.trim()) 
+    : rotatingWordsRaw;
+    
   const safeRotatingWords =
     Array.isArray(rotatingWords) && rotatingWords.length > 0
       ? rotatingWords

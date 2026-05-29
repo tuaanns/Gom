@@ -1,10 +1,54 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Facebook, Linkedin, Github } from 'lucide-react';
+import { apiClient } from '../../lib/apiClient';
 
 export const Footer = () => {
   const { t } = useTranslation();
+  const [customPages, setCustomPages] = useState([]);
+
+  useEffect(() => {
+    let isMounted = true;
+    apiClient
+      .get('/pages')
+      .then((res) => {
+        if (isMounted && res.data?.data) {
+          const allPages = res.data.data;
+          const defaultSlugs = ['home', 'ceramics', 'history', 'contact', 'about', 'terms', 'privacy', 'header', 'footer'];
+          const custom = allPages.filter(p => !defaultSlugs.includes(p.slug));
+          setCustomPages(custom);
+        }
+      })
+      .catch((err) => {
+        console.warn('Failed to load dynamic pages for footer:', err);
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+  
+  const rawProductLinks = t('footer.productLinks', { returnObjects: true });
+  const productLinks = Array.isArray(rawProductLinks) ? rawProductLinks : [
+    { href: '/', label: t('nav.home') },
+    { href: '/ceramics', label: t('nav.lines') },
+    { href: '/history', label: t('nav.history') },
+    { href: '/payment', label: t('nav.payment') },
+  ];
+
+  const rawSupportLinks = t('footer.supportLinks', { returnObjects: true });
+  const supportLinks = Array.isArray(rawSupportLinks) ? rawSupportLinks : [
+    { href: '/contact', label: t('nav.contact') },
+    { href: '/about', label: t('nav.about') },
+    { href: '/terms', label: t('nav.terms') },
+    { href: '/privacy', label: t('nav.privacy') },
+  ];
+
+  const mergedSupportLinks = [
+    ...supportLinks,
+    ...customPages.map(p => ({ href: `/${p.slug}`, label: p.title }))
+  ];
+
   const year = new Date().getFullYear();
 
   return (
@@ -35,18 +79,11 @@ export const Footer = () => {
               {t('footer.product')}
             </h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <FooterLink to="/" label={t('nav.home')} />
-              </li>
-              <li>
-                <FooterLink to="/ceramics" label={t('nav.lines')} />
-              </li>
-              <li>
-                <FooterLink to="/history" label={t('nav.history')} />
-              </li>
-              <li>
-                <FooterLink to="/payment" label={t('nav.payment')} />
-              </li>
+              {productLinks.map((link, idx) => (
+                <li key={idx}>
+                  <FooterLink to={link.href} label={link.label} />
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -56,18 +93,11 @@ export const Footer = () => {
               {t('footer.support')}
             </h4>
             <ul className="space-y-2 text-sm">
-              <li>
-                <FooterLink to="/contact" label={t('nav.contact')} />
-              </li>
-              <li>
-                <FooterLink to="/about" label={t('nav.about')} />
-              </li>
-              <li>
-                <FooterLink to="/terms" label={t('nav.terms')} />
-              </li>
-              <li>
-                <FooterLink to="/privacy" label={t('nav.privacy')} />
-              </li>
+              {mergedSupportLinks.map((link, idx) => (
+                <li key={idx}>
+                  <FooterLink to={link.href} label={link.label} />
+                </li>
+              ))}
             </ul>
           </div>
 

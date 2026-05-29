@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import { cn } from '../../lib/utils';
+import { translateCeramicTerm } from '../../lib/ceramicTranslations';
 
 const fallbackImage =
   'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=900';
@@ -10,6 +12,8 @@ export const FeaturedCeramicMotionCard = ({
   onClick,
   className,
 }) => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language;
   const prefersReducedMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
   const [imgSrc, setImgSrc] = useState(item?.image_url || fallbackImage);
@@ -90,7 +94,7 @@ export const FeaturedCeramicMotionCard = ({
             transition={{ duration: 0.35 }}
             className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-ceramic-soft"
           >
-            {item?.era}
+            {translateCeramicTerm(item?.era, lang)}
           </motion.p>
           <motion.h3
             animate={
@@ -104,7 +108,7 @@ export const FeaturedCeramicMotionCard = ({
             transition={{ duration: 0.38, delay: 0.04 }}
             className="mt-1 font-heading text-xl font-bold leading-[1.25] text-ivory"
           >
-            {item?.name}
+            {translateCeramicTerm(item?.name, lang)}
           </motion.h3>
         </div>
       </div>
@@ -121,7 +125,7 @@ export const FeaturedCeramicMotionCard = ({
         className="relative p-5"
       >
         <p className="line-clamp-2 text-sm leading-[1.8] text-muted dark:text-dark-text-muted">
-          {item?.description}
+          {translateCeramicTerm(item?.description, lang)}
         </p>
       </motion.div>
     </motion.article>

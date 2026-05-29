@@ -71,9 +71,21 @@ export function isValidEmail(email) {
 // Get error message from axios error
 export function getErrorMessage(err, fallback = 'Đã có lỗi xảy ra') {
   if (!err) return fallback;
+
+  // Extract specific validation errors from Laravel's ValidationException response
+  // Response shape: { success: false, message: "Validation failed", errors: { field: ["msg1", ...] } }
+  const responseData = err?.response?.data;
+  const errors = responseData?.errors;
+  if (responseData?.code === 'VALIDATION_ERROR' && errors && typeof errors === 'object') {
+    const firstFieldErrors = Object.values(errors).flat();
+    if (firstFieldErrors.length > 0) {
+      return firstFieldErrors[0];
+    }
+  }
+
   return (
-    err?.response?.data?.message ||
-    err?.response?.data?.error ||
+    responseData?.message ||
+    responseData?.error ||
     err?.message ||
     fallback
   );

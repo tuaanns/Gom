@@ -34,7 +34,6 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
 
     <!-- Facebook SDK -->
-    <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
       src="https://connect.facebook.net/vi_VN/sdk.js"></script>
     <script>
@@ -49,6 +48,17 @@
     </script>
   </head>
   <body>
+    <div id="fb-root"></div>
+    <!-- VNPay HashRouter redirect: convert /payment/vnpay-return?... to /#/payment/vnpay-return?... -->
+    <script>
+      (function () {
+        var p = window.location.pathname;
+        if (p === '/payment/vnpay-return' || p === '/payment/vnpay-return/') {
+          var s = window.location.search || '';
+          window.location.replace(window.location.origin + '/#/payment/vnpay-return' + s);
+        }
+      })();
+    </script>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>

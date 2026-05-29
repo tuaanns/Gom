@@ -5,11 +5,15 @@ import './i18n';
 import { ThemeProvider } from './theme/ThemeProvider';
 import App from './App';
 
+import { HelmetProvider } from 'react-helmet-async';
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <ThemeProvider>
-      <App />
-    </ThemeProvider>
+    <HelmetProvider>
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
+    </HelmetProvider>
   </React.StrictMode>
 );
 

@@ -17,6 +17,7 @@ class UpdateProfileRequest extends FormRequest
             'name'   => ['sometimes', 'string', 'max:255'],
             'phone'  => ['sometimes', 'nullable', 'string', 'max:30'],
             'avatar' => ['sometimes', 'nullable', 'string'],
+            'language' => ['sometimes', 'string', 'in:vi,en'],
         ];
     }
 }

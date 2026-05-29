@@ -30,7 +30,7 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
         password: '',
         role: user.role || 'user',
         token_balance: user.token_balance || 0,
-        free_limit: user.free_limit || 5,
+        free_limit: user ? (user.free_limit - (user.free_used || 0)) : 5,
         avatar: user.avatar || '',
       });
       setAvatarPreview(user.avatar || null);
@@ -145,7 +145,7 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
         // TODO: Implement create user endpoint in backend
       }
 
-      onSuccess?.();
+      onSuccess?.(user ? user.id : null);
       onClose();
     } catch (err) {
       notify?.(getErrorMessage(err), 'error');
@@ -249,7 +249,7 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
           />
         </FormField>
 
-        <FormField label="Free Limit">
+        <FormField label="Free Remaining">
           <Input
             type="number"
             name="free_limit"

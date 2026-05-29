@@ -10,30 +10,132 @@ import {
   MapPin,
   Clock,
   Eye,
-  Code2
+  Code2,
+  Search,
+  ExternalLink
 } from 'lucide-react';
 import { Badge } from './Badge';
 import { formatDate } from '../../lib/utils';
 import { cn } from '../../lib/utils';
+import { translateCeramicTerm } from '../../lib/ceramicTranslations';
+import { AI_BASE } from '../../lib/constants';
+
+const cleanExtractedLabel = (value) => {
+  return String(value || '')
+    .replace(/\*\*/g, '')
+    .replace(/\s+/g, ' ')
+    .replace(/\s+([.,;:!?])/g, '$1')
+    .trim()
+    .replace(/\s*\([^)]*$/, '')
+    .replace(/^(?:là|là dòng|thuộc dòng)\s+/i, '')
+    .trim();
+};
+
+export const extractLensLabel = (fullText) => {
+  const text = String(fullText || '').trim();
+  if (!text) return '';
+
+  const leadingNameMatch = text.match(/^\s*((?:gốm|sứ|đồ gốm|đồ sứ|ấm trà|bình|lọ|chum|vase|pottery|porcelain)\s+[A-ZÀ-Ỹ0-9][^.,;:\n]{2,80}(?:\([^)]{2,40}\))?)/i);
+  if (leadingNameMatch) {
+    return cleanExtractedLabel(leadingNameMatch[1]);
+  }
+
+  const boldMatch = text.match(/\*\*([^*]{3,60})\*\*/);
+  if (boldMatch) {
+    return cleanExtractedLabel(boldMatch[1]);
+  }
+
+  const quoteMatch = text.match(/"([^"]{3,60})"/);
+  if (quoteMatch) {
+    return cleanExtractedLabel(quoteMatch[1]);
+  }
+
+  const patternMatch = text.match(/(?:[tT]huộc dòng|[lL]à dòng|[dD]òng gốm|[sS]ản phẩm của|[tT]huộc về|[gG]ốm sứ|[sS]ứ|[gG]ốm)\s+([A-ZÀ-Ỹ][\wÀ-ỹ\s/()]{2,60}?)(?=[.,;!?\n]|\s+(?:[cC]ủa|[tT]huộc|[xX]uất|[vV]ới|[cC]ó|[lL]à|[đĐ]ược|[tT]ừ|[tT]hế|[nN]iên))/)
+    || text.match(/(?:[cC]eramic line|[kK]iln|[bB]rand|[pP]orcelain|[pP]ottery)[:\s]+([A-Z][\w\s/()]{2,60}?)(?=[.,;!?\n]|\s+(?:[fF]rom|[oO]f|[iI]n|[wW]ith|[iI]s|[wW]as|[dD]ating))/);
+
+  if (patternMatch) {
+    return cleanExtractedLabel(patternMatch[1]);
+  }
+
+  const firstClause = text.split(/[.!?\n,;:]/)[0] || text;
+  const cleaned = cleanExtractedLabel(firstClause);
+  return cleaned.length > 40 ? `${cleaned.substring(0, 37)}...` : cleaned;
+};
 
 export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true, showDebugInfo = true }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
 
   if (!prediction) return null;
 
   // Normalize data from different sources
   const result = prediction.result || prediction.result_json || prediction;
-  const finalReport = result.final_report || result;
+  const finalReport = { ...(result.final_report || result) };
   
-  const label = finalReport.final_prediction || prediction.predicted_label || prediction.label || '—';
-  const country = finalReport.final_country || prediction.country || '—';
-  const era = finalReport.final_era || prediction.era || '—';
-  const rawConfidence = finalReport.final_confidence
+  let label = finalReport.final_prediction || prediction.predicted_label || prediction.label || '—';
+  let country = finalReport.final_country || prediction.country || '—';
+  let era = finalReport.final_era || prediction.era || '—';
+  
+  const isLens = prediction.source_type === 'lens' || result.isLensMode;
+
+  // For Lens, the label often contains the entire summarized paragraph. 
+  // Extract the actual ceramic line name, country, era and move the full text to verdict.
+  if (isLens && label.length > 50) {
+    finalReport.verdict = label;
+    const fullText = label;
+    label = extractLensLabel(fullText);
+
+    // Extract country from AI text (patterns: "xuất xứ...là **Trung Quốc**", "của **Nhật Bản**")
+    if (!country || country === '—' || country === 'Google Lens') {
+      const countryMatch = fullText.match(/(?:xuất xứ|quốc gia)[^*]*\*\*([^*]{2,25})\*\*/i)
+        || fullText.match(/của\s+\*\*([^*]{2,20})\*\*/i)
+        || fullText.match(/(?:xuất xứ|quốc gia)[^.]*là\s+([A-ZÀ-Ỹa-zà-ỹ\s]{2,25}?)(?=\.|\s+niên|\s+đại|$)/i)
+        || fullText.match(/gốm sứ truyền thống của\s+([A-ZÀ-Ỹa-zà-ỹ\s]{2,25}?)(?=\.|,|$)/i);
+      if (countryMatch) country = countryMatch[1]?.trim();
+    }
+
+    // Extract era from AI text
+    if (!era || era === '—' || era === 'AI Conclusion') {
+      const boldEra = fullText.match(/(?:niên đại|thời kỳ|thời đại)[^*]*\*\*([^*]{2,40})\*\*/i)
+        || fullText.match(/\*\*(thế kỷ[^*]{2,20})\*\*/i)
+        || fullText.match(/\*\*(khoảng\s+\d{4}[^*]{0,15})\*\*/i);
+      if (boldEra) {
+        era = boldEra[1] || boldEra[0]?.replace(/\*\*/g, '');
+      } else {
+        const plainEra = fullText.match(/(?:thuộc về |thuộc |là )(thời kỳ[^,.]{3,30})/i)
+          || fullText.match(/(từ những năm \d{3,4}[^,.]{0,20})/i)
+          || fullText.match(/(?:có lịch sử|phát triển)[^,.]*(?:từ |thời )([\wÀ-ỹ ]{5,35})/i)
+          || fullText.match(/(thế kỷ\s+\d+\s+đến\s+thế kỷ\s+\d+)/i)
+          || fullText.match(/(thế kỷ\s+\d+[-–]\d+)/i)
+          || fullText.match(/(thế kỷ\s+\d+)/i)
+          || fullText.match(/(khoảng\s+\d{4}[-–]\d{4})/i)
+          || fullText.match(/(khoảng\s+năm\s+\d{4})/i);
+        if (plainEra) {
+          era = plainEra[1]?.trim();
+        } else if (fullText.toLowerCase().includes('hiện đại')) {
+          era = 'Hiện đại';
+        } else if (fullText.toLowerCase().includes('cổ vật') || fullText.toLowerCase().includes('đồ cổ') || fullText.toLowerCase().includes('cổ đại')) {
+          era = 'Cổ đại';
+        } else if (fullText.toLowerCase().includes('không xác định') || fullText.toLowerCase().includes('chưa xác định')) {
+          era = 'Chưa xác định';
+        }
+      }
+    }
+  }
+
+  // Read confidence from result_json (where Python AI stores it for Lens)
+  let rawConfidence = finalReport.final_confidence
     ?? finalReport.confidence
     ?? finalReport.certainty
     ?? prediction.confidence
     ?? prediction.certainty
-    ?? 0;
+    ?? result.confidence;
+
+  // Fallback: only if backend truly didn't return any confidence
+  if (rawConfidence == null) {
+    rawConfidence = 0;
+  }
+
   const confidence = typeof rawConfidence === 'string'
     ? Math.round(parseFloat(rawConfidence) || 0)
     : Math.round(rawConfidence > 1 ? rawConfidence : rawConfidence * 100);
@@ -41,6 +143,7 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
   const agentPredictions = result.agents || result.agent_predictions || [];
   const debate = result.debate || [];
   const visualFeatures = result.visual_features || null;
+  const lensResults = prediction.lens_results || result.lens_results || [];
 
   const imgSrc = imageUrl || prediction.image_url || prediction.image;
 
@@ -77,19 +180,25 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
               </span>
             </div>
             <h3 className="text-2xl font-bold text-navy dark:text-ivory">
-              {label}
+              {translateCeramicTerm(label, lang)}
             </h3>
             <div className="mt-3 flex flex-wrap gap-2">
-              {country && country !== '—' && (
+              {country && country !== '—' && country !== 'Google Lens' && (
                 <div className="flex items-center gap-1.5 rounded-full bg-ceramic/20 px-3 py-1 text-sm dark:bg-ceramic/30">
                   <MapPin size={14} className="text-ceramic-dark dark:text-ceramic" />
-                  <span className="font-semibold text-ceramic-dark dark:text-ceramic">{country}</span>
+                  <span className="font-semibold text-ceramic-dark dark:text-ceramic">{translateCeramicTerm(country, lang)}</span>
                 </div>
               )}
-              {era && era !== '—' && (
+              {era && era !== '—' && era !== 'AI Conclusion' && (
                 <div className="flex items-center gap-1.5 rounded-full bg-navy/10 px-3 py-1 text-sm dark:bg-ivory/10">
                   <Clock size={14} className="text-navy dark:text-ivory" />
-                  <span className="font-semibold text-navy dark:text-ivory">{era}</span>
+                  <span className="font-semibold text-navy dark:text-ivory">{translateCeramicTerm(era, lang)}</span>
+                </div>
+              )}
+              {isLens && (
+                <div className="flex items-center gap-1.5 rounded-full bg-emerald-500/15 px-3 py-1 text-sm dark:bg-emerald-500/25">
+                  <Search size={14} className="text-emerald-700 dark:text-emerald-400" />
+                  <span className="font-semibold text-emerald-700 dark:text-emerald-400">Google Lens</span>
                 </div>
               )}
             </div>
@@ -120,11 +229,13 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
                 <span className="text-xs font-medium uppercase tracking-wide">Date</span>
               </div>
               <p className="font-semibold text-navy dark:text-ivory">
-                {formatDate(prediction.created_at)}
+                {formatDate(prediction.created_at || prediction.db_created_at || new Date().toISOString())}
               </p>
-              <p className="text-sm text-muted dark:text-dark-text-muted">
-                ID: #{prediction.id}
-              </p>
+              {(prediction.id || prediction.db_id) && (
+                <p className="text-sm text-muted dark:text-dark-text-muted">
+                  ID: #{prediction.id || prediction.db_id}
+                </p>
+              )}
             </div>
 
             {/* Confidence Level - Moved here */}
@@ -173,35 +284,160 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
         visualFeatures={visualFeatures}
         result={result}
         showDebugInfo={showDebugInfo}
+        isLens={isLens}
+        lensResults={lensResults}
       />
     </div>
   );
 };
 
-// AI Result Sections Component
-const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeatures, result, showDebugInfo }) => {
-  const { t } = useTranslation();
+// Translation cache to avoid repeated API calls
+const translationCache = new Map();
 
-  if (!agentPredictions?.length && !debate?.length && !finalReport?.reasoning && !visualFeatures) {
+// AI Result Sections Component
+const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeatures, result, showDebugInfo, isLens, lensResults }) => {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
+  const [translatedText, setTranslatedText] = React.useState(null);
+  const [translating, setTranslating] = React.useState(false);
+const originalText = finalReport?.reasoning || finalReport?.final_reasoning || finalReport?.verdict || '';
+
+  const [translateError, setTranslateError] = React.useState(false);
+
+  const performTranslation = React.useCallback(async (abortSignal) => {
+    const originalLang = result?.lang || 'vi';
+    if (!originalText || originalText.length < 10 || originalLang === lang) {
+      setTranslatedText(null);
+      setTranslateError(false);
+      return;
+    }
+
+    const cacheKey = `${originalText.substring(0, 50)}_${lang}`;
+    if (translationCache.has(cacheKey)) {
+      setTranslatedText(translationCache.get(cacheKey));
+      setTranslateError(false);
+      return;
+    }
+
+    setTranslating(true);
+    setTranslateError(false);
+
+    try {
+      let translated = '';
+      try {
+        const res = await fetch(`${AI_BASE}/translate`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: originalText, target_lang: lang }),
+          signal: abortSignal,
+        });
+        if (!res.ok) throw new Error(`Error ${res.status}`);
+        const data = await res.json();
+        translated = data.translated_text || originalText;
+      } catch (err) {
+        if (err.name === 'AbortError') throw err;
+        console.warn('AI translation failed, falling back to Google Translate:', err);
+        const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${lang}&dt=t&q=${encodeURIComponent(originalText)}`;
+        const gRes = await fetch(url, { signal: abortSignal });
+        if (!gRes.ok) throw new Error(`Google Translate returned ${gRes.status}`);
+        const gJson = await gRes.json();
+        if (gJson && gJson[0]) {
+          translated = gJson[0].map(item => item[0]).join('');
+        } else {
+          translated = originalText;
+        }
+      }
+      translationCache.set(cacheKey, translated);
+      setTranslatedText(translated);
+    } catch (err) {
+      if (err.name !== 'AbortError') {
+        console.error('Auto-translation failed:', err);
+        setTranslateError(true);
+        setTranslatedText(null);
+      }
+    } finally {
+      setTranslating(false);
+    }
+  }, [lang, originalText]);
+
+  // Auto-translate when language changes to non-VI
+  React.useEffect(() => {
+    const controller = new AbortController();
+    performTranslation(controller.signal);
+    return () => controller.abort();
+  }, [performTranslation]);
+
+  if (!agentPredictions?.length && !debate?.length && !finalReport?.reasoning && !finalReport?.verdict && !visualFeatures && !lensResults?.length) {
     return null;
   }
+
+  const displayText = (lang !== 'vi' && translatedText) ? translatedText : originalText;
 
   return (
     <div className="space-y-4 border-t border-stroke pt-6 dark:border-dark-stroke">
       {/* Final Report Reasoning */}
       {finalReport && (finalReport.reasoning || finalReport.final_reasoning || finalReport.verdict) && (
         <div className="rounded-xl border border-navy/20 bg-gradient-to-br from-navy/5 to-ceramic/5 p-5 dark:border-ceramic/20 dark:from-navy/10 dark:to-ceramic/10">
-          <div className="mb-3 flex items-center gap-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy text-white dark:bg-ceramic dark:text-navy-dark">
-              <Target size={16} />
+          <div className="mb-3 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy text-white dark:bg-ceramic dark:text-navy-dark">
+                <Target size={16} />
+              </div>
+              <h4 className="text-sm font-bold text-navy dark:text-ivory">
+                {isLens ? t('analysis.lens.resultTitle', 'Kết luận từ AI (Google Lens)') : t('analysis.result.verdict')}
+              </h4>
+              {translating && (
+                <div className="flex items-center gap-1.5 text-xs font-medium text-ceramic">
+                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
+                  <span>Translating...</span>
+                </div>
+              )}
             </div>
-            <h4 className="text-sm font-bold text-navy dark:text-ivory">
-              {t('analysis.result.verdict')}
-            </h4>
+            {translateError && lang !== 'vi' && !translating && (
+              <button
+                onClick={() => performTranslation()}
+                className="flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-medium text-red-600 transition-colors hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 dark:hover:bg-red-900/40"
+              >
+                ⚠️ Translation failed. Retry?
+              </button>
+            )}
           </div>
           <p className="whitespace-pre-line text-sm leading-relaxed text-navy dark:text-ivory">
-            {finalReport.reasoning || finalReport.final_reasoning || finalReport.verdict}
+            {displayText}
           </p>
+        </div>
+      )}
+
+      {/* Google Lens Sources */}
+      {Array.isArray(lensResults) && lensResults.length > 0 && (
+        <div className="rounded-xl border border-stroke bg-surface p-5 dark:border-dark-stroke dark:bg-dark-surface">
+          <h4 className="mb-4 flex items-center gap-2 text-sm font-bold text-navy dark:text-ivory">
+            <Search size={16} className="text-ceramic-dark dark:text-ceramic" />
+            {t('analysis.lens.sourcesTitle', 'Các nguồn tham khảo tìm được')} ({lensResults.length})
+          </h4>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {lensResults.map((item, idx) => (
+              <a
+                key={idx}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex items-start gap-3 rounded-lg border border-stroke bg-surface-alt p-3 transition-all hover:border-ceramic/50 hover:shadow-md dark:border-dark-stroke dark:bg-dark-surface-alt dark:hover:border-ceramic/40"
+              >
+                <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-ceramic/20 text-ceramic-dark dark:bg-ceramic/30 dark:text-ceramic">
+                  <ExternalLink size={12} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="line-clamp-2 text-sm font-medium text-navy group-hover:text-ceramic-dark dark:text-ivory dark:group-hover:text-ceramic">
+                    {item.title?.split('\n')[0] || `Source ${idx + 1}`}
+                  </p>
+                  <p className="mt-1 truncate text-xs text-muted dark:text-dark-text-muted">
+                    {(() => { try { return new URL(item.url).hostname; } catch { return item.url; } })()}
+                  </p>
+                </div>
+              </a>
+            ))}
+          </div>
         </div>
       )}
 
@@ -282,6 +518,9 @@ const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeature
 
 // Agent Card Component
 const AgentCard = ({ agent, index }) => {
+  const { t } = useTranslation();
+  const [isExpanded, setIsExpanded] = React.useState(false);
+
   const conf = agent?.confidence != null ? Math.round(agent.confidence * 100) : null;
   const pred = agent?.prediction || {};
   const label = pred.ceramic_line || agent?.label || agent?.verdict || agent?.agent_name || `Agent ${index + 1}`;
@@ -320,9 +559,22 @@ const AgentCard = ({ agent, index }) => {
         </div>
       )}
       {evidence && (
-        <p className="mt-2 line-clamp-3 text-xs leading-relaxed text-muted dark:text-dark-text-muted">
-          {evidence}
-        </p>
+        <div className="mt-2">
+          <p className={`text-xs leading-relaxed text-muted dark:text-dark-text-muted ${!isExpanded ? 'line-clamp-3' : ''}`}>
+            {evidence}
+          </p>
+          {evidence.length > 150 && (
+            <button 
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded(!isExpanded);
+              }}
+              className="mt-1 text-xs font-semibold text-ceramic transition-colors hover:text-navy dark:text-ceramic dark:hover:text-ivory"
+            >
+              {isExpanded ? t('common.less', 'Thu gọn') : t('common.more', 'Xem thêm')}
+            </button>
+          )}
+        </div>
       )}
     </div>
   );

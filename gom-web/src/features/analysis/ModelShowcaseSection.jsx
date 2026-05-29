@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, Suspense, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Box } from 'lucide-react';
-import ModelViewer from '../../components/3d/ModelViewer';
+
+const ModelViewer = lazy(() => import('../../components/3d/ModelViewer'));
 
 // ModelShowcaseSection — 3D ceramic sample showcase for visual engagement
 export const ModelShowcaseSection = () => {
@@ -121,7 +122,9 @@ export const ModelShowcaseSection = () => {
                 transition={{ duration: 0.45, ease: 'easeOut' }}
                 className="relative"
               >
-                <ModelViewer {...viewerProps} t={t} />
+                <Suspense fallback={<div className="flex h-[480px] w-full items-center justify-center text-muted">Đang tải mô hình 3D...</div>}>
+                  <ModelViewer {...viewerProps} t={t} />
+                </Suspense>
               </motion.div>
             </motion.div>
           </div>

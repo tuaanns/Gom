@@ -16,12 +16,13 @@ class AIService
     }
 
     // Call the Python FastAPI Multi-Agent Debate Server
-    public function runMultiAgentDebate(UploadedFile $image): array
+    public function runMultiAgentDebate(UploadedFile $image, string $lang = 'vi'): array
     {
         $endpoint = "{$this->pythonUrl}/predict";
 
         Log::info('AIService: preparing to send image to Python AI server', [
             'endpoint' => $endpoint,
+            'lang' => $lang,
             'original_name' => $image->getClientOriginalName(),
             'mime_type' => $image->getMimeType(),
             'size_bytes' => $image->getSize(),
@@ -59,7 +60,7 @@ class AIService
                     fopen($realPath, 'r'),
                     $image->getClientOriginalName()
                 )
-                ->post($endpoint);
+                ->post($endpoint, ['lang' => $lang]);
 
             Log::info('AIService: Python AI server responded', [
                 'status' => $response->status(),
@@ -122,6 +123,41 @@ class AIService
             return [
                 'error' => 'Could not connect to Python AI Server: ' . $e->getMessage(),
             ];
+        }
+    }
+
+    // Call the Python FastAPI Lens Endpoint
+    public function runLens(UploadedFile $image, string $lang = 'vi'): array
+    {
+        $endpoint = "{$this->pythonUrl}/predict/lens";
+
+        Log::info('AIService: preparing to send image to Python Lens endpoint', [
+            'endpoint' => $endpoint,
+            'lang' => $lang,
+        ]);
+
+        $realPath = $image->getRealPath();
+
+        if (!$realPath || !file_exists($realPath)) {
+            return ['error' => 'Uploaded image temp file not found'];
+        }
+
+        try {
+            $response = Http::connectTimeout(30)
+                ->timeout(600) // 10 mins for Lens
+                ->retry(1, 2000)
+                ->attach('file', fopen($realPath, 'r'), $image->getClientOriginalName())
+                ->post($endpoint, ['lang' => $lang]);
+
+            if (!$response->successful()) {
+                Log::error('AIService Lens error', ['status' => $response->status(), 'body' => $response->body()]);
+                return ['error' => 'AI Server returned status ' . $response->status()];
+            }
+
+            return $response->json();
+        } catch (\Throwable $e) {
+            Log::error('AIService Lens exception', ['error' => $e->getMessage()]);
+            return ['error' => 'Could not connect to Python AI Server: ' . $e->getMessage()];
         }
     }
 }

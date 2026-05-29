@@ -13,7 +13,12 @@ export const PackageCard = ({
   animatePrice = false,
   dimmed = false,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n.language || 'vi';
+  const isEn = currentLang.startsWith('en');
+  const pkgName = isEn ? (pkg.name_en || pkg.name) : pkg.name;
+  const pkgDiscount = isEn ? (pkg.discount_en || pkg.discount) : pkg.discount;
+  
   const featured = !!pkg.featured || pkg.is_popular;
   const credits = pkg.credits ?? pkg.credit_amount ?? 0;
   const price = pkg.price ?? pkg.amount ?? 0;
@@ -30,10 +35,10 @@ export const PackageCard = ({
       {/* Top section: Label + Badge */}
       <div className="mb-4 flex min-h-[32px] items-center gap-2">
         <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-muted dark:text-dark-text-muted">
-          {pkg.name}
+          {pkgName}
         </span>
-        {pkg.discount && <ShimmerBadge variant="ceramic">{pkg.discount}</ShimmerBadge>}
-        {featured && !pkg.discount && <ShimmerBadge variant="ceramic">★ Phổ biến</ShimmerBadge>}
+        {pkgDiscount && <ShimmerBadge variant="ceramic">{pkgDiscount}</ShimmerBadge>}
+        {featured && !pkgDiscount && <ShimmerBadge variant="ceramic">{t('payment.popularBadge')}</ShimmerBadge>}
       </div>
 
       {/* Credits amount */}
@@ -64,7 +69,7 @@ export const PackageCard = ({
             e.stopPropagation();
             onSelect(pkg);
           }}
-          aria-label={`${t('payment.select')} ${pkg.name}`}
+          aria-label={`${t('payment.select')} ${pkgName}`}
         >
           {t('payment.select')}
         </PackageSelectButton>

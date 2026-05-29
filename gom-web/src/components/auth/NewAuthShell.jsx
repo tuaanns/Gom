@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Lock, User, Eye, EyeOff, ArrowLeft, Sparkles, Shield, Zap } from 'lucide-react';
+import { Mail, Lock, User, Eye, EyeOff, ArrowLeft, Sparkles, Shield, Zap, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../hooks/useAuth';
 import { useNotify } from '../../hooks/useNotify';
 import { authApi } from '../../features/auth/api';
@@ -20,6 +21,7 @@ const isMockMode = () => false;
 
 // GOOGLE IDENTITY BUTTON COMPONENT - Handles its own lifecycle
 const GoogleIdentityButton = ({ mode, onCredential }) => {
+  const { t, i18n } = useTranslation();
   const containerRef = useRef(null);
   const retryTimerRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
@@ -78,7 +80,7 @@ const GoogleIdentityButton = ({ mode, onCredential }) => {
           shape: 'rectangular',
           logo_alignment: 'left',
           width,
-          locale: 'vi',
+          locale: i18n.language === 'vi' ? 'vi' : 'en',
         });
 
         setIsReady(true);
@@ -98,16 +100,50 @@ const GoogleIdentityButton = ({ mode, onCredential }) => {
         clearTimeout(retryTimerRef.current);
       }
     };
-  }, [mode, onCredential]);
+  }, [mode, onCredential, i18n.language]);
 
   return (
     <div className="auth-google-slot">
-      {!isReady && <div className="auth-google-loading">Đang tải Google...</div>}
+      {!isReady && <div className="auth-google-loading">{t('auth.loadingGoogle')}</div>}
+      {/* Hidden Google rendered button (needed for auth flow) */}
       <div
         ref={containerRef}
         className="auth-google-render-target"
-        style={{ display: isReady ? 'flex' : 'none' }}
+        style={{ position: 'absolute', opacity: 0, pointerEvents: 'none', height: 0, overflow: 'hidden' }}
       />
+      {/* Our custom translated button */}
+      {isReady && (
+        <button
+          type="button"
+          className="auth-social-native auth-google-custom-button"
+          onClick={() => {
+            const iframe = containerRef.current?.querySelector('iframe');
+            if (iframe) {
+              iframe.contentWindow?.postMessage({ type: 'click' }, '*');
+            }
+            // Fallback: click the div which contains the Google button
+            const clickTarget = containerRef.current?.querySelector('[role="button"]') || containerRef.current?.querySelector('div');
+            if (clickTarget) clickTarget.click();
+          }}
+          style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+            width: '100%', padding: '12px 16px', borderRadius: 8,
+            border: '1px solid #dadce0', background: '#fff', cursor: 'pointer',
+            fontSize: 14, fontWeight: 500, color: '#3c4043',
+            transition: 'all 0.2s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = '#f8f9fa'}
+          onMouseLeave={e => e.currentTarget.style.background = '#fff'}
+        >
+          <svg width="18" height="18" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          {t('auth.loginGoogle')}
+        </button>
+      )}
     </div>
   );
 };
@@ -136,6 +172,9 @@ export const NewAuthShell = () => {
       <div className="auth-glow-orb auth-glow-orb-1" />
       <div className="auth-glow-orb auth-glow-orb-2" />
 
+      {/* Language Switcher */}
+      <AuthLanguageSwitcher />
+
       {/* LAYER 2: Content */}
       <motion.div
         className="auth-content"
@@ -160,8 +199,39 @@ export const NewAuthShell = () => {
   );
 };
 
+// LANGUAGE SWITCHER FOR AUTH PAGE
+const AuthLanguageSwitcher = () => {
+  const { i18n } = useTranslation();
+  const lang = i18n.language;
+  const toggle = () => i18n.changeLanguage(lang === 'vi' ? 'en' : 'vi');
+
+  return (
+    <button
+      onClick={toggle}
+      className="auth-lang-switcher"
+      title={lang === 'vi' ? 'Switch to English' : 'Chuyển sang Tiếng Việt'}
+      style={{
+        position: 'absolute', top: 24, right: 24, zIndex: 50,
+        display: 'flex', alignItems: 'center', gap: 6,
+        padding: '8px 16px', borderRadius: 999,
+        background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(15,38,92,0.2)',
+        color: '#0F265C', fontSize: 13, fontWeight: 600,
+        cursor: 'pointer', transition: 'all 0.2s',
+      }}
+      onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,1)'}
+      onMouseLeave={e => e.currentTarget.style.background = 'rgba(255,255,255,0.9)'}
+    >
+      <Globe size={15} />
+      {lang === 'vi' ? 'EN' : 'VI'}
+    </button>
+  );
+};
+
 // BRAND PANEL
 const BrandPanel = () => {
+  const { t } = useTranslation();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -187,7 +257,7 @@ const BrandPanel = () => {
       <motion.div className="auth-brand-header" variants={itemVariants}>
         <img src="/logo.png" alt="The Archivist" className="auth-brand-logo" />
         <h1 className="auth-brand-title">The Archivist</h1>
-        <p className="auth-brand-subtitle">Hệ thống giám định gốm sứ cổ thông minh</p>
+        <p className="auth-brand-subtitle">{t('auth.brandSubtitle')}</p>
         <p className="auth-brand-tagline">AI-Powered Ceramic Authentication Archive</p>
       </motion.div>
 
@@ -197,8 +267,8 @@ const BrandPanel = () => {
             <Sparkles size={24} />
           </div>
           <div className="auth-brand-feature-text">
-            <div className="auth-brand-feature-title">Trí tuệ nhân tạo đa đại lý</div>
-            <div className="auth-brand-feature-desc">Phân tích chính xác nguồn gốc và niên đại cổ vật</div>
+            <div className="auth-brand-feature-title">{t('auth.feature1Title')}</div>
+            <div className="auth-brand-feature-desc">{t('auth.feature1Desc')}</div>
           </div>
         </motion.div>
 
@@ -207,8 +277,8 @@ const BrandPanel = () => {
             <Shield size={24} />
           </div>
           <div className="auth-brand-feature-text">
-            <div className="auth-brand-feature-title">Bảo tồn di sản văn hóa</div>
-            <div className="auth-brand-feature-desc">Lưu trữ và bảo vệ kiến thức gốm sứ truyền thống</div>
+            <div className="auth-brand-feature-title">{t('auth.feature2Title')}</div>
+            <div className="auth-brand-feature-desc">{t('auth.feature2Desc')}</div>
           </div>
         </motion.div>
 
@@ -217,8 +287,8 @@ const BrandPanel = () => {
             <Zap size={24} />
           </div>
           <div className="auth-brand-feature-text">
-            <div className="auth-brand-feature-title">Giám định nhanh chóng</div>
-            <div className="auth-brand-feature-desc">Kết quả chi tiết chỉ trong vài giây</div>
+            <div className="auth-brand-feature-title">{t('auth.feature3Title')}</div>
+            <div className="auth-brand-feature-desc">{t('auth.feature3Desc')}</div>
           </div>
         </motion.div>
       </motion.div>
@@ -251,6 +321,7 @@ const FormPanel = ({ setToken, setUser, notify, navigate, from, subView, setSubV
 
 // LOGIN/REGISTER FORM
 const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView, setSubView }) => {
+  const { t, i18n } = useTranslation();
   const [form, setForm] = useState({ name: '', email: '', password: '', password_confirmation: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -267,11 +338,14 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
       localStorage.setItem('user', JSON.stringify(res.data.user));
       setToken(res.data.token);
       setUser(res.data.user);
-      notify(`Chào mừng ${res.data.user.name} đã gia nhập!`, 'success');
+      if (res.data.user.language) {
+        await i18n.changeLanguage(res.data.user.language);
+      }
+      notify(t('auth.welcomeJoin', { name: res.data.user.name }), 'success');
       // Navigate to intended route after successful login
       navigate(from, { replace: true });
     } catch (err) {
-      notify(err.response?.data?.message || `Lỗi kết nối ${provider}`, 'error');
+      notify(err.response?.data?.message || t('auth.socialError', { provider }), 'error');
     } finally {
       setLoading(false);
     }
@@ -297,14 +371,16 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
       localStorage.setItem('user', JSON.stringify(res.data.user));
       setToken(res.data.token);
       setUser(res.data.user);
+      if (res.data.user.language) {
+        await i18n.changeLanguage(res.data.user.language);
+      }
       const message = isLogin
-        ? `Chào mừng ${res.data.user.name} quay trở lại!`
-        : `Chào mừng ${res.data.user.name} đã gia nhập!`;
+        ? t('auth.welcomeBackUser', { name: res.data.user.name })
+        : t('auth.welcomeJoin', { name: res.data.user.name });
       notify(message, 'success');
-      // Navigate to intended route after successful login
       navigate(from, { replace: true });
     } catch (err) {
-      setError(err.response?.data?.message || 'Lỗi xác thực hệ thống');
+      setError(err.response?.data?.message || t('auth.authError'));
     }
     setLoading(false);
   };
@@ -323,11 +399,11 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
           (res) => {
             if (res.authResponse) {
               sendSocialAuth('facebook', res.authResponse.accessToken);
-            } else notify('Đã hủy đăng nhập Facebook', 'info');
+            } else notify(t('auth.cancelledFacebook'), 'info');
           },
           { scope: 'public_profile,email' }
         );
-      } else notify('Đang tải thư viện Facebook...', 'info');
+      } else notify(t('auth.loadingFacebook'), 'info');
     }
   };
 
@@ -360,9 +436,9 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
           exit="exit"
         >
           <div className="auth-card-header">
-            <h2 className="auth-card-title">{isLogin ? 'Chào mừng trở lại' : 'Gia nhập hệ thống'}</h2>
+            <h2 className="auth-card-title">{isLogin ? t('auth.welcomeBack') : t('auth.joinSystem')}</h2>
             <p className="auth-card-subtitle">
-              {isLogin ? 'Đăng nhập để tiếp tục sử dụng hệ thống' : 'Tạo tài khoản mới để bắt đầu'}
+              {isLogin ? t('auth.loginSubtitle') : t('auth.registerSubtitle')}
             </p>
           </div>
 
@@ -375,14 +451,14 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
           <form onSubmit={handleSubmit} className={`auth-form ${!isLogin ? 'is-register' : ''}`}>
             {!isLogin && (
               <div className="auth-input-group">
-                <label className="auth-input-label">TÊN NGHỆ NHÂN</label>
+                <label className="auth-input-label">{t('auth.nameLabel')}</label>
                 <div className="auth-input-wrapper">
                   <div className="auth-input-icon">
                     <User size={20} />
                   </div>
                   <input
                     className="auth-input"
-                    placeholder="Họ và tên đầy đủ..."
+                    placeholder={t('auth.namePlaceholder')}
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     required
@@ -410,10 +486,10 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
 
             <div className="auth-input-group">
               <div className="auth-input-label-row">
-                <label className="auth-input-label">MẬT KHẨU</label>
+                <label className="auth-input-label">{t('auth.passwordLabel')}</label>
                 {isLogin && (
                   <span className="auth-forgot-link" onClick={() => setSubView('forgot')}>
-                    Quên mật khẩu?
+                    {t('auth.forgotPassword')}
                   </span>
                 )}
               </div>
@@ -437,7 +513,7 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
 
             {!isLogin && (
               <div className="auth-input-group">
-                <label className="auth-input-label">XÁC NHẬN MẬT KHẨU</label>
+                <label className="auth-input-label">{t('auth.confirmPasswordLabel')}</label>
                 <div className="auth-input-wrapper">
                   <div className="auth-input-icon">
                     <Lock size={20} />
@@ -455,34 +531,32 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
             )}
 
             <button className="auth-submit" type="submit" disabled={loading}>
-              {loading ? 'Đang xử lý...' : isLogin ? 'Đăng nhập' : 'Đăng ký ngay'}
+              {loading ? t('auth.processing') : isLogin ? t('auth.loginBtn') : t('auth.registerBtn')}
             </button>
           </form>
 
           <div className="auth-divider">
-            <span>HOẶC KẾT NỐI QUA</span>
+            <span>{t('auth.orConnectVia')}</span>
           </div>
 
           <div className="auth-social-stack">
-            <GoogleIdentityButton mode={subView} onCredential={handleGoogleCredential} />
+            <GoogleIdentityButton key={`google-btn-${i18n.language}`} mode={subView} onCredential={handleGoogleCredential} />
             <button className="auth-social-native auth-facebook-button" onClick={() => handleSocialLogin('Facebook')} type="button">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
               </svg>
-              Đăng nhập bằng Facebook
+              {t('auth.loginFacebook')}
             </button>
           </div>
 
           <p className="auth-switch">
-            {isLogin ? 'Chưa có tài khoản? ' : 'Đã có tài khoản? '}
+            {isLogin ? t('auth.noAccount') : t('auth.haveAccount')}
             <span className="auth-switch-link" onClick={() => setSubView(isLogin ? 'register' : 'login')}>
-              {isLogin ? 'Đăng ký ngay' : 'Đăng nhập ngay'}
+              {isLogin ? t('auth.registerNow') : t('auth.loginNow')}
             </span>
           </p>
 
-          <div className="auth-terms">
-            Bằng việc tiếp tục, bạn đồng ý với <b>Điều khoản Dịch vụ</b> và <b>Chính sách Bảo mật</b> của chúng tôi.
-          </div>
+          <div className="auth-terms" dangerouslySetInnerHTML={{ __html: t('auth.terms') }} />
         </motion.div>
       </AnimatePresence>
     </div>
@@ -491,6 +565,7 @@ const LoginRegisterForm = ({ setToken, setUser, notify, navigate, from, subView,
 
 // FORGOT PASSWORD FORM
 const ForgotPasswordForm = ({ setSubView, notify, setResetEmail }) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
 
@@ -500,11 +575,11 @@ const ForgotPasswordForm = ({ setSubView, notify, setResetEmail }) => {
     setLoading(true);
     try {
       await api.forgotPassword(email);
-      notify('Mã phục hồi đã được gửi về email của bạn.', 'success');
+      notify(t('auth.forgotCodeSent'), 'success');
       setResetEmail(email);
       setSubView('reset');
     } catch (err) {
-      notify(err.response?.data?.message || 'Lỗi gửi yêu cầu phục hồi', 'error');
+      notify(err.response?.data?.message || t('auth.forgotError'), 'error');
     }
     setLoading(false);
   };
@@ -514,12 +589,12 @@ const ForgotPasswordForm = ({ setSubView, notify, setResetEmail }) => {
       <motion.div className="auth-card" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}>
         <div className="auth-back-button" onClick={() => setSubView('login')}>
           <ArrowLeft size={20} />
-          <span>Quay lại</span>
+          <span>{t('auth.goBack')}</span>
         </div>
 
         <div className="auth-card-header">
-          <h2 className="auth-card-title">Quên mật khẩu</h2>
-          <p className="auth-card-subtitle">Nhập email của bạn và chúng tôi sẽ gửi mã khôi phục tài khoản</p>
+          <h2 className="auth-card-title">{t('auth.forgotTitle')}</h2>
+          <p className="auth-card-subtitle">{t('auth.forgotSubtitle')}</p>
         </div>
 
         <form onSubmit={handleReset} className="auth-form">
@@ -532,7 +607,7 @@ const ForgotPasswordForm = ({ setSubView, notify, setResetEmail }) => {
               <input
                 className="auth-input"
                 type="email"
-                placeholder="Nhập email liên lạc..."
+                placeholder={t('auth.emailContactPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -541,7 +616,7 @@ const ForgotPasswordForm = ({ setSubView, notify, setResetEmail }) => {
           </div>
 
           <button className="auth-submit" type="submit" disabled={loading}>
-            {loading ? 'Đang xử lý...' : 'Gửi yêu cầu'}
+            {loading ? t('auth.processing') : t('auth.sendRequest')}
           </button>
         </form>
       </motion.div>
@@ -551,6 +626,7 @@ const ForgotPasswordForm = ({ setSubView, notify, setResetEmail }) => {
 
 // RESET PASSWORD FORM
 const ResetPasswordForm = ({ setSubView, notify, email }) => {
+  const { t } = useTranslation();
   const [form, setForm] = useState({ code: '', password: '' });
   const [loading, setLoading] = useState(false);
 
@@ -559,10 +635,10 @@ const ResetPasswordForm = ({ setSubView, notify, email }) => {
     setLoading(true);
     try {
       await api.resetPassword({ ...form, email });
-      notify('Đổi mật khẩu thành công! Vui lòng đăng nhập lại.', 'success');
+      notify(t('auth.resetSuccess2'), 'success');
       setSubView('login');
     } catch (err) {
-      notify(err.response?.data?.message || 'Mã xác nhận không chính xác', 'error');
+      notify(err.response?.data?.message || t('auth.resetCodeError'), 'error');
     }
     setLoading(false);
   };
@@ -572,26 +648,26 @@ const ResetPasswordForm = ({ setSubView, notify, email }) => {
       <motion.div className="auth-card" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -50 }}>
         <div className="auth-back-button" onClick={() => setSubView('login')}>
           <ArrowLeft size={20} />
-          <span>Quay lại</span>
+          <span>{t('auth.goBack')}</span>
         </div>
 
         <div className="auth-card-header">
-          <h2 className="auth-card-title">Đặt lại mật khẩu</h2>
+          <h2 className="auth-card-title">{t('auth.resetTitle')}</h2>
           <p className="auth-card-subtitle">
-            Nhập mã xác nhận đã được gửi tới <b style={{ color: '#0F265C' }}>{email}</b>
+            {t('auth.resetSubtitle')} <b style={{ color: '#0F265C' }}>{email}</b>
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="auth-input-group">
-            <label className="auth-input-label">MÃ XÁC NHẬN</label>
+            <label className="auth-input-label">{t('auth.codeLabel')}</label>
             <div className="auth-input-wrapper">
               <div className="auth-input-icon">
                 <Mail size={20} />
               </div>
               <input
                 className="auth-input"
-                placeholder="Nhập mã 6 số..."
+                placeholder={t('auth.codePlaceholder')}
                 value={form.code}
                 onChange={(e) => setForm({ ...form, code: e.target.value })}
                 required
@@ -600,7 +676,7 @@ const ResetPasswordForm = ({ setSubView, notify, email }) => {
           </div>
 
           <div className="auth-input-group">
-            <label className="auth-input-label">MẬT KHẨU MỚI</label>
+            <label className="auth-input-label">{t('auth.newPasswordLabel')}</label>
             <div className="auth-input-wrapper">
               <div className="auth-input-icon">
                 <Lock size={20} />
@@ -617,7 +693,7 @@ const ResetPasswordForm = ({ setSubView, notify, email }) => {
           </div>
 
           <button className="auth-submit" type="submit" disabled={loading}>
-            {loading ? 'Đang xử lý...' : 'Xác nhận đổi mật khẩu'}
+            {loading ? t('auth.processing') : t('auth.confirmReset')}
           </button>
         </form>
       </motion.div>

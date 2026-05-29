@@ -12,23 +12,31 @@ import {
   X,
   Moon,
   Sun,
-  Home
+  Home,
+  KeyRound
 } from 'lucide-react';
 import { useAuth } from '../../hooks/useAuth';
 import { useTheme } from '../../hooks/useTheme';
 import { Avatar } from '../../components/ui/Avatar';
 import { cn } from '../../lib/utils';
+import { useTranslation } from 'react-i18next';
+import { LanguageToggle } from '../../components/ui/LanguageToggle';
 
 const SIDEBAR_ITEMS = [
-  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, path: '/admin' },
-  { id: 'users', label: 'Users', icon: Users, path: '/admin/users' },
-  { id: 'ceramics', label: 'Ceramic Lines', icon: Layers, path: '/admin/ceramics' },
-  { id: 'payments', label: 'Payments', icon: Receipt, path: '/admin/payments' },
-  { id: 'predictions', label: 'Predictions', icon: Sparkles, path: '/admin/predictions' },
-  { id: 'token-history', label: 'Token History', icon: Coins, path: '/admin/token-history' },
+  { id: 'dashboard', labelKey: 'dashboard', icon: LayoutDashboard, path: '/admin' },
+  { id: 'users', labelKey: 'users', icon: Users, path: '/admin/users' },
+  { id: 'ceramics', labelKey: 'ceramicLines', icon: Layers, path: '/admin/ceramics' },
+  { id: 'pages', labelKey: 'pages', icon: Layers, path: '/admin/pages' },
+  { id: 'payment-packages', labelKey: 'paymentPackages', icon: Receipt, path: '/admin/payment-packages' },
+  { id: 'payments', labelKey: 'paymentsHistory', icon: Receipt, path: '/admin/payments' },
+  { id: 'predictions', labelKey: 'predictions', icon: Sparkles, path: '/admin/predictions' },
+  { id: 'token-history', labelKey: 'tokenHistory', icon: Coins, path: '/admin/token-history' },
+  { id: 'payment-settings', labelKey: 'paymentSettings', icon: Receipt, path: '/admin/payment-settings' },
+  { id: 'api-settings', labelKey: 'apiSettings', icon: KeyRound, path: '/admin/api-settings' },
 ];
 
 export const AdminLayout = () => {
+  const { t } = useTranslation();
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -67,7 +75,7 @@ export const AdminLayout = () => {
           {/* Logo */}
           <div className="flex h-16 items-center justify-between border-b border-gray-200 px-6 dark:border-gray-700">
             <h1 className="font-heading text-xl font-bold text-gray-900 dark:text-white">
-              Admin Panel
+              {t('admin.panelTitle')}
             </h1>
             <button
               onClick={() => setSidebarOpen(false)}
@@ -88,7 +96,7 @@ export const AdminLayout = () => {
               className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 mb-2"
             >
               <Home size={18} />
-              Back to Homepage
+              {t('admin.backToHome')}
             </button>
 
             {SIDEBAR_ITEMS.map((item) => {
@@ -109,7 +117,7 @@ export const AdminLayout = () => {
                   )}
                 >
                   <Icon size={18} />
-                  {item.label}
+                  {t(`admin.${item.labelKey}`)}
                 </button>
               );
             })}
@@ -166,13 +174,14 @@ export const AdminLayout = () => {
               <Menu size={24} />
             </button>
             <h1 className="font-heading text-base font-bold text-gray-900 dark:text-white sm:text-lg">
-              {SIDEBAR_ITEMS.find((i) => isActive(i.path))?.label || 'Admin'}
+              {SIDEBAR_ITEMS.find((i) => isActive(i.path)) ? t(`admin.${SIDEBAR_ITEMS.find((i) => isActive(i.path)).labelKey}`) : t('admin.panelTitle')}
             </h1>
           </div>
           <div className="hidden items-center gap-4 sm:flex">
             <span className="text-sm text-gray-600 dark:text-gray-400">
-              Welcome back, <span className="font-semibold text-gray-900 dark:text-white">{user?.name}</span>
+              {t('admin.welcomeBack')} <span className="font-semibold text-gray-900 dark:text-white">{user?.name}</span>
             </span>
+            <LanguageToggle />
           </div>
         </header>
 
@@ -192,10 +201,10 @@ export const AdminLayout = () => {
               </div>
               <div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">
-                  Confirm Logout
+                  {t('admin.confirmLogout')}
                 </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  Are you sure you want to logout?
+                  {t('admin.logoutMessage')}
                 </p>
               </div>
             </div>
@@ -205,7 +214,7 @@ export const AdminLayout = () => {
                 onClick={() => setShowLogoutModal(false)}
                 className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 text-sm font-semibold text-gray-700 transition-colors hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
               >
-                Cancel
+                {t('admin.cancel')}
               </button>
               <button
                 onClick={() => {
@@ -214,7 +223,7 @@ export const AdminLayout = () => {
                 }}
                 className="flex-1 rounded-lg bg-red-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800"
               >
-                Logout
+                {t('admin.logout')}
               </button>
             </div>
           </div>

@@ -14,6 +14,7 @@ import {
   RefreshCw,
 } from 'lucide-react';
 import { adminApi } from '../api';
+import { useTranslation } from 'react-i18next';
 import { ImageWithFallback } from '../../../components/ui/ImageWithFallback';
 import { Avatar } from '../../../components/ui/Avatar';
 import { Badge } from '../../../components/ui/Badge';
@@ -80,7 +81,7 @@ const StatusBadge = ({ status }) => {
   return <Badge>{status}</Badge>;
 };
 
-const ListSection = ({ title, viewAllHref, children, empty = 'No data yet' }) => (
+const ListSection = ({ title, viewAllHref, viewAllLabel, children, empty = 'No data yet' }) => (
   <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-700 dark:bg-gray-800">
     <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3 dark:border-gray-700">
       <h3 className="text-sm font-semibold text-gray-900 dark:text-white">{title}</h3>
@@ -89,7 +90,7 @@ const ListSection = ({ title, viewAllHref, children, empty = 'No data yet' }) =>
           to={viewAllHref}
           className="text-xs font-medium text-blue-600 hover:underline dark:text-blue-400"
         >
-          View all →
+          {viewAllLabel || 'View all'} →
         </Link>
       )}
     </div>
@@ -104,6 +105,7 @@ const ListSection = ({ title, viewAllHref, children, empty = 'No data yet' }) =>
 );
 
 export const DashboardPage = ({ notify }) => {
+  const { t } = useTranslation();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -155,7 +157,7 @@ export const DashboardPage = ({ notify }) => {
           onClick={fetchData}
           className="inline-flex items-center gap-2 rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white hover:bg-red-700"
         >
-          <RefreshCw size={16} /> Retry
+          <RefreshCw size={16} /> {t('admin.retry')}
         </button>
       </div>
     );
@@ -168,57 +170,57 @@ export const DashboardPage = ({ notify }) => {
 
   const kpis = [
     {
-      title: 'Total Users',
+      title: t('admin.totalUsers'),
       value: formatNumber(stats.total_users ?? 0),
       icon: Users,
       color: 'blue',
     },
     {
-      title: 'Predictions',
+      title: t('admin.totalPredictions'),
       value: formatNumber(stats.total_predictions ?? 0),
       icon: Sparkles,
       color: 'purple',
     },
     {
-      title: 'Ceramic Lines',
+      title: t('admin.totalCeramics'),
       value: formatNumber(stats.total_ceramics ?? 0),
       icon: Layers,
       color: 'green',
       helper:
         stats.total_ceramics_featured != null
-          ? `${stats.total_ceramics_featured} featured`
+          ? t('admin.featuredCount', { count: stats.total_ceramics_featured })
           : undefined,
     },
     {
-      title: 'Revenue',
+      title: t('admin.totalRevenue'),
       value: formatVND(stats.total_revenue ?? 0),
       icon: Receipt,
       color: 'orange',
       helper:
         stats.payments_completed != null
-          ? `${stats.payments_completed} completed payments`
+          ? t('admin.completedPaymentsCount', { count: stats.payments_completed })
           : undefined,
     },
     {
-      title: 'Credits Sold',
+      title: t('admin.creditsSold'),
       value: formatNumber(stats.total_credits_sold ?? 0),
       icon: Coins,
       color: 'teal',
     },
     {
-      title: 'Featured Ceramics',
+      title: t('admin.featuredCeramics'),
       value: formatNumber(stats.total_ceramics_featured ?? 0),
       icon: Star,
       color: 'yellow',
     },
     {
-      title: 'Pending Payments',
+      title: t('admin.pendingPayments'),
       value: formatNumber(stats.payments_pending ?? 0),
       icon: Clock,
       color: 'yellow',
     },
     {
-      title: 'Failed Payments',
+      title: t('admin.failedPayments'),
       value: formatNumber(stats.payments_failed ?? 0),
       icon: XCircle,
       color: 'red',
@@ -229,7 +231,7 @@ export const DashboardPage = ({ notify }) => {
     <div className="space-y-6">
       <div>
         <p className="text-sm text-gray-600 dark:text-gray-400">
-          Overview of your application statistics
+          {t('admin.dashboardOverview')}
         </p>
       </div>
 
@@ -241,9 +243,10 @@ export const DashboardPage = ({ notify }) => {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <ListSection
-          title="Recent Users"
+          title={t('admin.recentUsers')}
           viewAllHref="/admin/users"
-          empty="No users yet"
+          viewAllLabel={t('admin.viewAll')}
+          empty={t('admin.noUsersYet')}
         >
           {recentUsers.map((u) => (
             <div key={u.id} className="flex items-center gap-3 px-5 py-3">
@@ -265,9 +268,10 @@ export const DashboardPage = ({ notify }) => {
         </ListSection>
 
         <ListSection
-          title="Recent Payments"
+          title={t('admin.recentPayments')}
           viewAllHref="/admin/payments"
-          empty="No payments yet"
+          viewAllLabel={t('admin.viewAll')}
+          empty={t('admin.noPaymentsYet')}
         >
           {recentPayments.map((p) => (
             <div key={p.id} className="flex items-center gap-3 px-5 py-3">
@@ -298,9 +302,10 @@ export const DashboardPage = ({ notify }) => {
       </div>
 
       <ListSection
-        title="Recent Predictions"
+        title={t('admin.recentPredictions')}
         viewAllHref="/admin/predictions"
-        empty="No predictions yet"
+        viewAllLabel={t('admin.viewAll')}
+        empty={t('admin.noPredictionsYet')}
       >
         {recentPredictions.map((p) => (
           <div key={p.id} className="flex items-center gap-3 px-5 py-3">

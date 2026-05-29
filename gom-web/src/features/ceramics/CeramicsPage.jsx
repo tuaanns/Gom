@@ -10,10 +10,13 @@ import { LoadingState, EmptyState, ErrorState } from '../../components/ui/states
 import { CeramicDetailModal } from './CeramicDetailModal';
 import { ceramicsApi } from './api';
 import { cn, getErrorMessage } from '../../lib/utils';
+import { translateCeramicTerm } from '../../lib/ceramicTranslations';
 import ShinyText from '../../components/ui/ShinyText';
+import { SEO } from '../../components/SEO';
 
 export const CeramicsPage = ({ notify }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language;
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -75,172 +78,177 @@ export const CeramicsPage = ({ notify }) => {
 
   return (
     <PageContainer>
-      <PageHeader
-        title={
-          <ShinyText
-            text={t('ceramics.title')}
-            speed={3}
-            delay={0}
-            color="#0A1A42"
-            shineColor="#B8CAD8"
-            darkColor="#9CA3AF"
-            darkShineColor="#FFFFFF"
-            spread={80}
-            direction="left"
-            yoyo={false}
-          />
-        }
-        subtitle={t('ceramics.subtitle')}
+      <SEO 
+        title={t('ceramics.seoTitle', { defaultValue: t('ceramics.title') })}
+        description={t('ceramics.seoDescription', { defaultValue: t('ceramics.subtitle') })}
+        keywords={t('ceramics.seoKeywords', { defaultValue: 'dòng gốm, gốm việt nam, gốm lịch sử, men lam, men ngọc' })}
       />
-
-      <div className="mb-8 space-y-4">
-        {/* Search and Filter Row */}
-        <div className="flex gap-3">
-          {/* Search Bar */}
-          <div className="flex-1">
-            <Input
-              placeholder={t('ceramics.searchPlaceholder')}
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              leftIcon={<Search size={16} />}
+        <PageHeader
+          title={
+            <ShinyText
+              text={t('ceramics.title')}
+              speed={3}
+              delay={0}
+              color="#0A1A42"
+              shineColor="#B8CAD8"
+              darkColor="#9CA3AF"
+              darkShineColor="#FFFFFF"
+              spread={80}
+              direction="left"
+              yoyo={false}
             />
-          </div>
+          }
+          subtitle={t('ceramics.subtitle')}
+        />
 
-          {/* Filter Dropdown */}
-          <div className="relative" ref={dropdownRef}>
-            <button
-              onClick={() => setShowDropdown(!showDropdown)}
-              className={cn(
-                'flex items-center gap-2 rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all',
-                showDropdown
-                  ? 'border-navy bg-navy text-white dark:border-ceramic dark:bg-ceramic dark:text-navy-dark'
-                  : 'border-stroke bg-surface text-navy hover:border-navy/50 dark:border-dark-stroke dark:bg-dark-surface dark:text-ivory dark:hover:border-ceramic/50'
-              )}
-            >
-              <Filter size={16} />
-              <span>{country === 'all' ? t('ceramics.filterAll') : country}</span>
-              <ChevronDown size={16} className={cn('transition-transform', showDropdown && 'rotate-180')} />
-            </button>
+        <div className="mb-8 space-y-4">
+          {/* Search and Filter Row */}
+          <div className="flex gap-3">
+            {/* Search Bar */}
+            <div className="flex-1">
+              <Input
+                placeholder={t('ceramics.searchPlaceholder')}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                leftIcon={<Search size={16} />}
+              />
+            </div>
 
-            {/* Dropdown Menu with Scrollbar */}
-            {showDropdown && (
-              <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-stroke bg-surface shadow-lg dark:border-dark-stroke dark:bg-dark-surface">
-                <div className="p-2">
-                  <div className="mb-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-muted dark:text-dark-text-muted">
-                    {t('ceramics.filterCountry')}
-                  </div>
-                  {/* Scrollable container with custom scrollbar */}
-                  <div className="max-h-64 overflow-y-auto pr-1" style={{
-                    scrollbarWidth: 'thin',
-                    scrollbarColor: 'rgba(15, 38, 92, 0.3) transparent'
-                  }}>
-                    {countries.map((c) => (
-                      <button
-                        key={c}
-                        onClick={() => {
-                          setCountry(c);
-                          setShowDropdown(false);
-                        }}
-                        className={cn(
-                          'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors',
-                          country === c
-                            ? 'bg-navy text-white dark:bg-ceramic dark:text-navy-dark'
-                            : 'text-navy hover:bg-surface-alt dark:text-ivory dark:hover:bg-dark-surface-alt'
-                        )}
-                      >
-                        <span>{c === 'all' ? t('ceramics.filterAll') : c}</span>
-                        {country === c && <Check size={16} />}
-                      </button>
-                    ))}
+            {/* Filter Dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button
+                onClick={() => setShowDropdown(!showDropdown)}
+                className={cn(
+                  'flex items-center gap-2 rounded-lg border-2 px-4 py-2.5 text-sm font-semibold transition-all',
+                  showDropdown
+                    ? 'border-navy bg-navy text-white dark:border-ceramic dark:bg-ceramic dark:text-navy-dark'
+                    : 'border-stroke bg-surface text-navy hover:border-navy/50 dark:border-dark-stroke dark:bg-dark-surface dark:text-ivory dark:hover:border-ceramic/50'
+                )}
+              >
+                <Filter size={16} />
+                <span>{country === 'all' ? t('ceramics.filterAll') : translateCeramicTerm(country, lang)}</span>
+                <ChevronDown size={16} className={cn('transition-transform', showDropdown && 'rotate-180')} />
+              </button>
+
+              {/* Dropdown Menu with Scrollbar */}
+              {showDropdown && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-56 rounded-lg border border-stroke bg-surface shadow-lg dark:border-dark-stroke dark:bg-dark-surface">
+                  <div className="p-2">
+                    <div className="mb-2 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-muted dark:text-dark-text-muted">
+                      {t('ceramics.filterCountry')}
+                    </div>
+                    {/* Scrollable container with custom scrollbar */}
+                    <div className="max-h-64 overflow-y-auto pr-1" style={{
+                      scrollbarWidth: 'thin',
+                      scrollbarColor: 'rgba(15, 38, 92, 0.3) transparent'
+                    }}>
+                      {countries.map((c) => (
+                        <button
+                          key={c}
+                          onClick={() => {
+                            setCountry(c);
+                            setShowDropdown(false);
+                          }}
+                          className={cn(
+                            'flex w-full items-center justify-between rounded-md px-3 py-2 text-sm font-medium transition-colors',
+                            country === c
+                              ? 'bg-navy text-white dark:bg-ceramic dark:text-navy-dark'
+                              : 'text-navy hover:bg-surface-alt dark:text-ivory dark:hover:bg-dark-surface-alt'
+                          )}
+                        >
+                          <span>{c === 'all' ? t('ceramics.filterAll') : translateCeramicTerm(c, lang)}</span>
+                          {country === c && <Check size={16} />}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
+
+          {/* Results Count and Clear */}
+          {!loading && !error && (
+            <div className="flex items-center justify-between text-xs text-muted dark:text-dark-text-muted">
+              <span>
+                {filtered.length === list.length
+                  ? `${filtered.length} dòng gốm`
+                  : `${filtered.length} / ${list.length} kết quả`}
+              </span>
+              {(search || country !== 'all') && (
+                <button
+                  onClick={() => {
+                    setSearch('');
+                    setCountry('all');
+                  }}
+                  className="text-danger hover:underline"
+                >
+                  ✕ Xóa bộ lọc
+                </button>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* Results Count and Clear */}
-        {!loading && !error && (
-          <div className="flex items-center justify-between text-xs text-muted dark:text-dark-text-muted">
-            <span>
-              {filtered.length === list.length
-                ? `${filtered.length} dòng gốm`
-                : `${filtered.length} / ${list.length} kết quả`}
-            </span>
-            {(search || country !== 'all') && (
-              <button
-                onClick={() => {
-                  setSearch('');
-                  setCountry('all');
-                }}
-                className="text-danger hover:underline"
+        {loading && <LoadingState message={t('common.loading')} />}
+        {!loading && error && <ErrorState message={error} />}
+        {!loading && !error && filtered.length === 0 && (
+          <EmptyState icon={Filter} title={t('ceramics.noResults')} />
+        )}
+
+        {!loading && !error && filtered.length > 0 && (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((line) => (
+              <Card
+                key={line.id}
+                padded={false}
+                hoverable
+                className="cursor-pointer overflow-hidden"
+                onClick={() => setSelected(line)}
               >
-                ✕ Xóa bộ lọc
-              </button>
-            )}
+                <div className="aspect-[4/3] overflow-hidden bg-surface-alt dark:bg-dark-surface-alt">
+                  {line.image_url ? (
+                    <img
+                      src={line.image_url}
+                      alt={line.name}
+                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                      onError={(e) => {
+                        e.currentTarget.src =
+                          'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=800';
+                        e.currentTarget.onerror = null;
+                      }}
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center text-muted">
+                      <Search size={36} />
+                    </div>
+                  )}
+                </div>
+                <div className="p-5">
+                  <div className="mb-2 flex items-center gap-2">
+                    {line.is_featured && <Badge variant="gold">{t('ceramics.featured')}</Badge>}
+                    {line.country && <Badge variant="navy">{translateCeramicTerm(line.country, lang)}</Badge>}
+                  </div>
+                  <h3 className="font-heading text-lg font-bold leading-card text-navy dark:text-ivory">
+                    {translateCeramicTerm(line.name, lang)}
+                  </h3>
+                  {line.era && (
+                    <p className="mt-1 text-xs font-semibold uppercase tracking-wider leading-eyebrow text-ceramic-dark">
+                      {translateCeramicTerm(line.era, lang)}
+                    </p>
+                  )}
+                  {line.description && (
+                    <p className="mt-2 line-clamp-2 text-sm leading-paragraph text-muted dark:text-dark-text-muted">
+                      {translateCeramicTerm(line.description, lang)}
+                    </p>
+                  )}
+                </div>
+              </Card>
+            ))}
           </div>
         )}
-      </div>
 
-      {loading && <LoadingState message={t('common.loading')} />}
-      {!loading && error && <ErrorState message={error} />}
-      {!loading && !error && filtered.length === 0 && (
-        <EmptyState icon={Filter} title={t('ceramics.noResults')} />
-      )}
-
-      {!loading && !error && filtered.length > 0 && (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((line) => (
-            <Card
-              key={line.id}
-              padded={false}
-              hoverable
-              className="cursor-pointer overflow-hidden"
-              onClick={() => setSelected(line)}
-            >
-              <div className="aspect-[4/3] overflow-hidden bg-surface-alt dark:bg-dark-surface-alt">
-                {line.image_url ? (
-                  <img
-                    src={line.image_url}
-                    alt={line.name}
-                    className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
-                    onError={(e) => {
-                      e.currentTarget.src =
-                        'https://images.unsplash.com/photo-1578749556568-bc2c40e68b61?auto=format&fit=crop&q=80&w=800';
-                      e.currentTarget.onerror = null;
-                    }}
-                  />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-muted">
-                    <Search size={36} />
-                  </div>
-                )}
-              </div>
-              <div className="p-5">
-                <div className="mb-2 flex items-center gap-2">
-                  {line.is_featured && <Badge variant="gold">{t('ceramics.featured')}</Badge>}
-                  {line.country && <Badge variant="navy">{line.country}</Badge>}
-                </div>
-                <h3 className="font-heading text-lg font-bold leading-card text-navy dark:text-ivory">
-                  {line.name}
-                </h3>
-                {line.era && (
-                  <p className="mt-1 text-xs font-semibold uppercase tracking-wider leading-eyebrow text-ceramic-dark">
-                    {line.era}
-                  </p>
-                )}
-                {line.description && (
-                  <p className="mt-2 line-clamp-2 text-sm leading-paragraph text-muted dark:text-dark-text-muted">
-                    {line.description}
-                  </p>
-                )}
-              </div>
-            </Card>
-          ))}
-        </div>
-      )}
-
-      <CeramicDetailModal item={selected} onClose={() => setSelected(null)} />
+        <CeramicDetailModal item={selected} onClose={() => setSelected(null)} />
     </PageContainer>
   );
 };

@@ -5,8 +5,10 @@ import { PaymentFilterModal } from '../components/PaymentFilterModal';
 import { adminApi } from '../api';
 import { formatVND, formatDate, getErrorMessage } from '../../../lib/utils';
 import { Badge } from '../../../components/ui/Badge';
+import { useTranslation } from 'react-i18next';
 
 export const PaymentsPage = ({ notify }) => {
+  const { t } = useTranslation();
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilterModal, setShowFilterModal] = useState(false);
@@ -86,7 +88,7 @@ export const PaymentsPage = ({ notify }) => {
       headers.join(','),
       ...filteredPayments.map(p => [
         p.id,
-        `"${p.user?.name || 'Unknown'}"`,
+        `"${p.user?.name || t('admin.paymentsPage.unknown')}"`,
         p.amount,
         p.credit_amount || 0,
         p.status,
@@ -103,7 +105,7 @@ export const PaymentsPage = ({ notify }) => {
     a.click();
     window.URL.revokeObjectURL(url);
     
-    notify?.('Payments exported successfully', 'success');
+    notify?.(t('admin.paymentsPage.exportSuccess'), 'success');
   };
 
   const getStatusVariant = (status) => {
@@ -124,7 +126,7 @@ export const PaymentsPage = ({ notify }) => {
   const columns = [
     {
       key: 'id',
-      header: 'ID',
+      header: t('admin.paymentsPage.table.id'),
       accessor: (row) => row.id,
       cell: (row) => (
         <span className="font-mono text-xs text-gray-600 dark:text-gray-400">
@@ -136,12 +138,12 @@ export const PaymentsPage = ({ notify }) => {
     },
     {
       key: 'user',
-      header: 'User',
+      header: t('admin.paymentsPage.table.user'),
       accessor: (row) => row.user?.name || row.user_id,
       cell: (row) => (
         <div>
           <p className="font-semibold text-gray-900 dark:text-white">
-            {row.user?.name || 'Unknown'}
+            {row.user?.name || t('admin.paymentsPage.unknown')}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             {row.user?.email || `ID: ${row.user_id}`}
@@ -153,7 +155,7 @@ export const PaymentsPage = ({ notify }) => {
     },
     {
       key: 'amount',
-      header: 'Amount',
+      header: t('admin.paymentsPage.table.amount'),
       accessor: (row) => row.amount,
       cell: (row) => (
         <span className="font-semibold text-gray-900 dark:text-white">
@@ -165,7 +167,7 @@ export const PaymentsPage = ({ notify }) => {
     },
     {
       key: 'credit_amount',
-      header: 'Credits',
+      header: t('admin.paymentsPage.table.credits'),
       accessor: (row) => row.credit_amount ?? 0,
       cell: (row) => (
         <span className="text-gray-700 dark:text-gray-300">
@@ -177,7 +179,7 @@ export const PaymentsPage = ({ notify }) => {
     },
     {
       key: 'status',
-      header: 'Status',
+      header: t('admin.paymentsPage.table.status'),
       accessor: (row) => row.status,
       cell: (row) => (
         <Badge variant={getStatusVariant(row.status)}>
@@ -189,11 +191,11 @@ export const PaymentsPage = ({ notify }) => {
     },
     {
       key: 'payment_method',
-      header: 'Method',
+      header: t('admin.paymentsPage.table.method'),
       accessor: (row) => row.payment_method || 'bank_transfer',
       cell: (row) => (
         <span className="text-sm text-gray-600 dark:text-gray-400">
-          {row.payment_method || 'Bank Transfer'}
+          {row.payment_method || t('admin.paymentsPage.bankTransfer')}
         </span>
       ),
       sortable: true,
@@ -201,7 +203,7 @@ export const PaymentsPage = ({ notify }) => {
     },
     {
       key: 'created_at',
-      header: 'Date',
+      header: t('admin.paymentsPage.table.date'),
       accessor: (row) => row.created_at,
       cell: (row) => (
         <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -226,12 +228,12 @@ export const PaymentsPage = ({ notify }) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Payments</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('admin.paymentsPage.title')}</h1>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            View and manage all payment transactions
+            {t('admin.paymentsPage.subtitle')}
             {hasActiveFilters && (
               <span className="ml-2 text-blue-600 dark:text-blue-400">
-                (Filtered: {filteredPayments.length} of {payments.length})
+                {t('admin.paymentsPage.filtered', { filtered: filteredPayments.length, total: payments.length })}
               </span>
             )}
           </p>
@@ -246,7 +248,7 @@ export const PaymentsPage = ({ notify }) => {
             }`}
           >
             <Filter size={16} />
-            Filter
+            {t('admin.paymentsPage.filter')}
             {hasActiveFilters && (
               <span className="ml-1 rounded-full bg-blue-600 px-2 py-0.5 text-xs text-white">
                 {Object.values(filters).filter(v => v !== '').length}
@@ -258,7 +260,7 @@ export const PaymentsPage = ({ notify }) => {
             className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
           >
             <Download size={16} />
-            Export CSV
+            {t('admin.paymentsPage.exportCsv')}
           </button>
         </div>
       </div>
@@ -266,7 +268,7 @@ export const PaymentsPage = ({ notify }) => {
       <DataTable
         data={filteredPayments}
         columns={columns}
-        searchPlaceholder="Search by user, status, or method..."
+        searchPlaceholder={t('admin.paymentsPage.searchPlaceholder')}
         pageSize={10}
       />
 

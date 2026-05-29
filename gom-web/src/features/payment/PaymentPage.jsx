@@ -21,9 +21,9 @@ gsap.registerPlugin(useGSAP);
 
 // Fallback packages when API fails
 const FALLBACK_PACKAGES = [
-  { id: 1, name: 'Cơ Bản', credits: 10, price: 150000, discount: null },
-  { id: 2, name: 'Phổ Biến', credits: 50, price: 600000, discount: 'Tiết kiệm 20%', featured: true },
-  { id: 3, name: 'Chuyên Gia', credits: 200, price: 2000000, discount: '-30% off' },
+  { id: 1, name: 'Cơ Bản', name_en: 'Basic', credits: 10, price: 150000, discount: null, discount_en: null },
+  { id: 2, name: 'Phổ Biến', name_en: 'Popular', credits: 50, price: 600000, discount: 'Tiết kiệm 20%', discount_en: 'Save 20%', featured: true },
+  { id: 3, name: 'Chuyên Gia', name_en: 'Expert', credits: 200, price: 2000000, discount: '-30% off', discount_en: '-30% off' },
 ];
 
 export const PaymentPage = ({ fetchUser, notify, setView }) => {
@@ -39,6 +39,7 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
   const [qrData, setQrData] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [successCredits, setSuccessCredits] = useState(0);
+  const [activeMethod, setActiveMethod] = useState('sepay');
 
   // Animation refs
   const titleRef = useRef(null);
@@ -54,6 +55,16 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
     let cancelled = false;
     setLoadingPkg(true);
     setPkgError(null);
+
+    // Fetch active payment method
+    paymentApi.activeMethod()
+      .then((res) => {
+        if (!cancelled && (res.data?.data?.payment_method || res.data?.payment_method)) {
+          setActiveMethod(res.data.data?.payment_method || res.data?.payment_method);
+        }
+      })
+      .catch(() => {});
+
     paymentApi
       .packages()
       .then((res) => {
@@ -158,7 +169,11 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
     setSelectedPkg(pkg);
 
     if (prefersReducedMotion || !cardsRef.current) {
-      setStage(1);
+      if (activeMethod === 'vnpay') {
+        buyPackage(pkg);
+      } else {
+        setStage(1);
+      }
       return;
     }
 
@@ -176,7 +191,11 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
     }
 
     selectionTimeoutRef.current = setTimeout(() => {
-      setStage(1);
+      if (activeMethod === 'vnpay') {
+        buyPackage(pkg);
+      } else {
+        setStage(1);
+      }
     }, 280);
   };
 
@@ -188,38 +207,49 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
     hasAnimated.current = false;
   };
 
-  const buyPackage = async () => {
-    if (!selectedPkg) return;
+  const buyPackage = async (pkgOverride = null) => {
+    const pkg = pkgOverride || selectedPkg;
+    if (!pkg) return;
     setPurchasing(true);
     try {
-      const res = await paymentApi.create(selectedPkg.id);
+      const res = await paymentApi.create(pkg.id);
       const serverData = res.data?.data || res.data;
-      const amount = serverData?.amount || selectedPkg.price;
-      const content = serverData?.transfer_content || `GOM NAP ${selectedPkg.id}`;
+      const amount = serverData?.amount || pkg.price;
 
-      // Build robust payment data with bank fallback (server SHOULD return bank_info)
-      const bankInfo = serverData?.bank_info || {};
-      const bankName = bankInfo.bank_name || bankInfo.bank || serverData?.bank_name || 'ACB';
-      const account = bankInfo.account_number || serverData?.account_number || '28569967';
-      const owner = bankInfo.account_name || serverData?.account_name || 'MA GIA TUAN';
+      if (serverData?.payment_method === 'vnpay') {
+        setQrData({
+          ...serverData,
+          amount,
+          payment_method: 'vnpay',
+        });
+        setStage(2);
+        notify?.('Đơn hàng VNPay đã được tạo!', 'success');
+      } else {
+        const content = serverData?.transfer_content || `GOM NAP ${pkg.id}`;
+        const bankInfo = serverData?.bank_info || {};
+        const bankName = bankInfo.bank_name || bankInfo.bank || serverData?.bank_name || 'ACB';
+        const account = bankInfo.account_number || serverData?.account_number || '28569967';
+        const owner = bankInfo.account_name || serverData?.account_name || 'MA GIA TUAN';
 
-      const qrUrl =
-        serverData?.qr_url ||
-        `https://qr.sepay.vn/img?bank=${encodeURIComponent(
-          bankName
-        )}&acc=${encodeURIComponent(account)}&template=compact&amount=${amount}&des=${encodeURIComponent(content)}`;
+        const qrUrl =
+          serverData?.qr_url ||
+          `https://qr.sepay.vn/img?bank=${encodeURIComponent(
+            bankName
+          )}&acc=${encodeURIComponent(account)}&template=compact&amount=${amount}&des=${encodeURIComponent(content)}`;
 
-      setQrData({
-        ...serverData,
-        amount,
-        transfer_content: content,
-        bank_name: bankName,
-        account_number: account,
-        account_name: owner,
-        qr_url: qrUrl,
-      });
-      setStage(2);
-      notify?.(t('payment.scanInvite'), 'success');
+        setQrData({
+          ...serverData,
+          amount,
+          transfer_content: content,
+          bank_name: bankName,
+          account_number: account,
+          account_name: owner,
+          qr_url: qrUrl,
+          payment_method: 'sepay',
+        });
+        setStage(2);
+        notify?.(t('payment.scanInvite'), 'success');
+      }
     } catch (err) {
       notify?.(t('payment.failed'), 'error');
     } finally {
@@ -353,6 +383,11 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
           onConfirm={checkStatus}
           onCancel={reset}
           onSimulate={simulateSuccess}
+          onSuccess={(credits) => {
+            setSuccessCredits(credits);
+            setPaymentSuccess(true);
+            fetchUser?.();
+          }}
         />
       )}
 

@@ -5,11 +5,15 @@ import { MainHeader } from './MainHeader';
 import { Footer } from './Footer';
 import { useNotify } from '../../hooks/useNotify';
 import { FloatingChatbot } from '../ui/FloatingChatbot';
+import { usePageOverrides } from '../../hooks/usePageOverrides';
 
 // AppLayout — main app shell with header, footer, and content area
 export const AppLayout = () => {
   const { token, user, quota, setQuota, logout, fetchUser } = useAuth();
   const { notify } = useNotify();
+
+  // Load admin page content overrides into i18n
+  usePageOverrides();
 
   // Sync token balance when chatbot deducts tokens
   const handleQuotaChange = useCallback(

@@ -1,14 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Loader2, Copy, FlaskConical } from 'lucide-react';
+import { Loader2, Copy, FlaskConical, CreditCard } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { copyToClipboard, formatNumber } from '../../lib/utils';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
-export const QRStage = ({ qrData, purchasing, notify, onConfirm, onCancel, onSimulate }) => {
+export const QRStage = ({ qrData, purchasing, notify, onConfirm, onCancel, onSimulate, onSuccess }) => {
   const { t } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
 
@@ -28,6 +28,75 @@ export const QRStage = ({ qrData, purchasing, notify, onConfirm, onCancel, onSim
       featured: true,
     },
   ];
+
+  const isVNPay = qrData?.payment_method === 'vnpay';
+
+  if (isVNPay) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 28, scale: 0.98 }}
+        whileInView={{ opacity: 1, y: 0, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.58, ease: [0.22, 1, 0.36, 1] }}
+        className="mx-auto max-w-2xl"
+      >
+        <Card
+          className="overflow-hidden rounded-[30px] border-ceramic-border/75 bg-[#FFFCF7] p-8 shadow-[0_24px_58px_-34px_rgba(16,42,86,0.72)] dark:border-ceramic/28 dark:bg-[#101B35] text-center space-y-6"
+        >
+          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
+            <CreditCard size={32} />
+          </div>
+
+          <div>
+            <h3 className="font-heading text-2xl font-bold text-navy dark:text-ivory">
+              {t('payment.vnpay.title')}
+            </h3>
+            <p className="mt-2 text-sm text-muted dark:text-dark-text-muted">
+              {t('payment.qr.details')}: <span className="font-bold">{qrData?.package?.name}</span> — {formatNumber(qrData?.package?.credits)} {t('payment.credits')}
+            </p>
+          </div>
+
+          <div className="py-6 border-t border-b border-stroke dark:border-dark-stroke">
+            <div className="text-xs text-muted dark:text-dark-text-muted uppercase tracking-wider font-extrabold mb-1">{t('payment.vnpay.amount')}</div>
+            <div className="text-4xl font-black text-navy dark:text-ivory">{formatNumber(qrData?.amount)} đ</div>
+          </div>
+
+          <div className="space-y-3 pt-4">
+            <Button
+              variant="primary"
+              size="lg"
+              onClick={() => window.location.href = qrData.vnpay_url}
+              className="w-full font-bold py-3.5"
+            >
+              {t('payment.vnpay.payBtn')}
+            </Button>
+            <Button variant="ghost" size="md" onClick={onCancel} className="w-full font-bold">
+              {t('payment.qr.cancel')}
+            </Button>
+
+            {isDevelopment && (
+              <div className="border-t border-stroke pt-4 text-center dark:border-dark-stroke">
+                <button
+                  type="button"
+                  onClick={onSimulate}
+                  className="inline-flex items-center gap-1.5 text-xs font-extrabold text-ceramic underline-offset-2 hover:underline"
+                >
+                  <FlaskConical size={12} />
+                  {t('payment.qr.simulate')}
+                </button>
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-xl border border-warning/30 bg-warning/5 p-4 text-left">
+            <p className="text-xs font-semibold leading-relaxed text-warning">
+              ⚠️ {t('payment.vnpay.warning')}
+            </p>
+          </div>
+        </Card>
+      </motion.div>
+    );
+  }
 
   return (
     <motion.div

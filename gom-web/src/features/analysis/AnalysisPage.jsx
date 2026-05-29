@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Sparkles, ShieldCheck, Zap, ArrowRight } from 'lucide-react';
@@ -16,8 +16,10 @@ import { ceramicsApi } from '../ceramics/api';
 import { getErrorMessage } from '../../lib/utils';
 import { VIEWS } from '../../lib/constants';
 
+import { SEO } from '../../components/SEO';
+
 export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const prefersReducedMotion = useReducedMotion();
   const [file, setFile] = useState(null);
   const [preview, setPreview] = useState(null);
@@ -39,6 +41,29 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
       })
       .catch(() => setFeaturedLines([]));
   }, []);
+
+  // Auto-retranslate Lens results when language changes
+  const prevLangRef = useRef(i18n.language);
+  useEffect(() => {
+    const currentLang = i18n.language;
+    if (prevLangRef.current === currentLang) return;
+    prevLangRef.current = currentLang;
+
+    if (result?.isLensMode && result?.lens_results?.length > 0) {
+      setLoading(true);
+      analysisApi
+        .retranslateLens(result.lens_results, currentLang)
+        .then((res) => {
+          const data = res.data;
+          setResult({
+            ...result,
+            final_prediction: data.final_prediction,
+          });
+        })
+        .catch(() => {})
+        .finally(() => setLoading(false));
+    }
+  }, [i18n.language]);
 
   const onFileChange = (e) => {
     const f = e.target.files?.[0];
@@ -69,6 +94,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
 
     const formData = new FormData();
     formData.append('image', file);
+    formData.append('lang', i18n.language);
 
     try {
       const res = await analysisApi.predict(formData);
@@ -152,112 +178,117 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
 
   return (
     <PageContainer>
-      <HeroSection
-        onUpload={scrollToUpload}
-        onExplore={() => setView?.(VIEWS.LINES)}
-        featuredImage={featuredImage}
+      <SEO 
+        title={t('home.seoTitle', { defaultValue: t('app.name') })}
+        description={t('home.seoDescription', { defaultValue: t('app.tagline') })}
+        keywords={t('home.seoKeywords', { defaultValue: 'gốm sứ, đồ cổ, the archivist, ai giám định, gốm việt nam, gốm sứ cổ' })}
       />
+        <HeroSection
+          onUpload={scrollToUpload}
+          onExplore={() => setView?.(VIEWS.LINES)}
+          featuredImage={featuredImage}
+        />
 
-      {/* Trust signals */}
-      <section className="py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.25 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-7"
-        >
-          <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-ceramic-dark dark:text-ceramic">
-            Museum-grade Authentication
-          </p>
-        </motion.div>
-
-        <motion.div
-          variants={trustContainerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.12 }}
-          className="grid gap-6 md:grid-cols-3"
-        >
-          {trustItems.map((it, i) => (
-            <motion.div key={it.k} variants={trustCardVariants}>
-              <HomeSpotlightCard
-                icon={it.icon}
-                title={t('home.trust.' + it.k)}
-                description={t('home.trust.' + it.k + 'Desc')}
-                withBeam={i === 1}
-              />
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
-
-      <UploadSection
-        file={file}
-        preview={preview}
-        loading={loading}
-        error={error}
-        onFileChange={onFileChange}
-        onAnalyze={analyze}
-        onClear={onClear}
-      />
-
-      {/* 3D Model Showcase */}
-      <ModelShowcaseSection setView={setView} />
-
-      {/* Featured lines */}
-      <section className="py-16">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.3 }}
-          transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="mb-10 flex items-center justify-between"
-        >
-          <h2 className="font-heading text-3xl font-extrabold leading-[1.25] text-navy dark:text-ivory">
-            {t('home.featured.title')}
-          </h2>
-          <Button
-            variant="ghost"
-            size="sm"
-            rightIcon={<ArrowRight size={14} />}
-            onClick={() => setView?.(VIEWS.LINES)}
+        {/* Trust signals */}
+        <section className="py-12">
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-7"
           >
-            {t('common.viewAll')}
-          </Button>
-        </motion.div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.18em] text-ceramic-dark dark:text-ceramic">
+              Museum-grade Authentication
+            </p>
+          </motion.div>
 
-        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {featuredLines.length === 0 &&
-            Array.from({ length: 3 }).map((_, i) => (
-              <Card key={i} padded={false} className="overflow-hidden">
-                <div className="aspect-[4/3] animate-pulse bg-surface-alt dark:bg-dark-surface-alt" />
-                <div className="space-y-2 p-5">
-                  <div className="h-4 w-3/4 animate-pulse rounded bg-surface-alt dark:bg-dark-surface-alt" />
-                  <div className="h-3 w-1/2 animate-pulse rounded bg-surface-alt dark:bg-dark-surface-alt" />
-                </div>
-              </Card>
+          <motion.div
+            variants={trustContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12 }}
+            className="grid gap-6 md:grid-cols-3"
+          >
+            {trustItems.map((it, i) => (
+              <motion.div key={it.k} variants={trustCardVariants}>
+                <HomeSpotlightCard
+                  icon={it.icon}
+                  title={t('home.trust.' + it.k)}
+                  description={t('home.trust.' + it.k + 'Desc')}
+                  withBeam={i === 1}
+                />
+              </motion.div>
             ))}
-          {featuredLines.slice(0, 3).map((line, i) => (
-            <motion.div
-              key={line.id || i}
-              initial={{ opacity: 0, y: 40, scale: 0.96 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{
-                delay: i * 0.1,
-                duration: prefersReducedMotion ? 0.35 : 0.62,
-                ease: [0.22, 1, 0.36, 1],
-              }}
+          </motion.div>
+        </section>
+
+        <UploadSection
+          file={file}
+          preview={preview}
+          loading={loading}
+          error={error}
+          onFileChange={onFileChange}
+          onAnalyze={analyze}
+          onClear={onClear}
+        />
+
+        {/* 3D Model Showcase */}
+        <ModelShowcaseSection setView={setView} />
+
+        {/* Featured lines */}
+        <section className="py-16">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="mb-10 flex items-center justify-between"
+          >
+            <h2 className="font-heading text-3xl font-extrabold leading-[1.25] text-navy dark:text-ivory">
+              {t('home.featured.title')}
+            </h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              rightIcon={<ArrowRight size={14} />}
+              onClick={() => setView?.(VIEWS.LINES)}
             >
-              <FeaturedCeramicMotionCard
-                item={line}
-                onClick={() => setView?.(VIEWS.LINES)}
-              />
-            </motion.div>
-          ))}
-        </div>
-      </section>
+              {t('common.viewAll')}
+            </Button>
+          </motion.div>
+
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {featuredLines.length === 0 &&
+              Array.from({ length: 3 }).map((_, i) => (
+                <Card key={i} padded={false} className="overflow-hidden">
+                  <div className="aspect-[4/3] animate-pulse bg-surface-alt dark:bg-dark-surface-alt" />
+                  <div className="space-y-2 p-5">
+                    <div className="h-4 w-3/4 animate-pulse rounded bg-surface-alt dark:bg-dark-surface-alt" />
+                    <div className="h-3 w-1/2 animate-pulse rounded bg-surface-alt dark:bg-dark-surface-alt" />
+                  </div>
+                </Card>
+              ))}
+            {featuredLines.slice(0, 3).map((line, i) => (
+              <motion.div
+                key={line.id || i}
+                initial={{ opacity: 0, y: 40, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{
+                  delay: i * 0.1,
+                  duration: prefersReducedMotion ? 0.35 : 0.62,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+              >
+                <FeaturedCeramicMotionCard
+                  item={line}
+                  onClick={() => setView?.(VIEWS.LINES)}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </section>
     </PageContainer>
   );
 };

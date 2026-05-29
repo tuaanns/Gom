@@ -6,8 +6,12 @@ import { ConfirmDialog } from '../components/ConfirmDialog';
 import { adminApi } from '../api';
 import { formatDate, getErrorMessage } from '../../../lib/utils';
 import { Badge } from '../../../components/ui/Badge';
+import { useAuth } from '../../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
 export const UsersPage = ({ notify }) => {
+  const { t } = useTranslation();
+  const { user: currentUser, fetchUser: syncGlobalUser } = useAuth();
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
@@ -44,7 +48,7 @@ export const UsersPage = ({ notify }) => {
     setDeleting(true);
     try {
       await adminApi.deleteUser(userToDelete.id);
-      notify?.('User deleted successfully', 'success');
+      notify?.(t('admin.usersPage.deletedSuccess'), 'success');
       fetchUsers();
       setShowDeleteDialog(false);
       setUserToDelete(null);
@@ -60,7 +64,7 @@ export const UsersPage = ({ notify }) => {
     
     try {
       await adminApi.updateUser(user.id, { role: newRole });
-      notify?.(`User role updated to ${newRole}`, 'success');
+      notify?.(t('admin.usersPage.roleUpdated', { role: newRole }), 'success');
       fetchUsers();
     } catch (err) {
       notify?.(getErrorMessage(err), 'error');
@@ -82,14 +86,17 @@ export const UsersPage = ({ notify }) => {
     setSelectedUser(null);
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = (updatedUserId) => {
     fetchUsers();
+    if (updatedUserId === currentUser?.id) {
+      syncGlobalUser?.();
+    }
   };
 
   const columns = [
     {
       key: 'id',
-      header: 'ID',
+      header: t('admin.usersPage.table.id'),
       accessor: (row) => row.id,
       cell: (row) => (
         <span className="font-mono text-xs text-gray-600 dark:text-gray-400">
@@ -101,7 +108,7 @@ export const UsersPage = ({ notify }) => {
     },
     {
       key: 'name',
-      header: 'Name',
+      header: t('admin.usersPage.table.name'),
       accessor: (row) => row.name,
       cell: (row) => (
         <div className="flex items-center gap-3">
@@ -131,7 +138,7 @@ export const UsersPage = ({ notify }) => {
     },
     {
       key: 'role',
-      header: 'Role',
+      header: t('admin.usersPage.table.role'),
       accessor: (row) => row.role || 'user',
       cell: (row) => (
         <Badge variant={row.role === 'admin' ? 'admin' : 'user'}>
@@ -143,7 +150,7 @@ export const UsersPage = ({ notify }) => {
     },
     {
       key: 'token_balance',
-      header: 'Credits',
+      header: t('admin.usersPage.table.credits'),
       accessor: (row) => row.token_balance ?? 0,
       cell: (row) => (
         <span className="font-semibold text-gray-900 dark:text-white">
@@ -155,7 +162,7 @@ export const UsersPage = ({ notify }) => {
     },
     {
       key: 'free_used',
-      header: 'Free Used',
+      header: t('admin.usersPage.table.freeUsed'),
       accessor: (row) => row.free_used ?? 0,
       cell: (row) => (
         <span className="text-gray-700 dark:text-gray-300">
@@ -167,7 +174,7 @@ export const UsersPage = ({ notify }) => {
     },
     {
       key: 'created_at',
-      header: 'Joined',
+      header: t('admin.usersPage.table.joined'),
       accessor: (row) => row.created_at,
       cell: (row) => (
         <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -179,7 +186,7 @@ export const UsersPage = ({ notify }) => {
     },
     {
       key: 'actions',
-      header: 'Actions',
+      header: t('admin.usersPage.table.actions'),
       accessor: () => '',
       cell: (row) => (
         <div className="flex items-center gap-2">
@@ -217,9 +224,9 @@ export const UsersPage = ({ notify }) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Users</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('admin.usersPage.title')}</h1>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Manage all users in the system
+            {t('admin.usersPage.subtitle')}
           </p>
         </div>
         <button
@@ -227,14 +234,14 @@ export const UsersPage = ({ notify }) => {
           className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
         >
           <UserPlus size={16} />
-          Add User
+          {t('admin.usersPage.addUser')}
         </button>
       </div>
 
       <DataTable
         data={users}
         columns={columns}
-        searchPlaceholder="Search by name, email, or role..."
+        searchPlaceholder={t('admin.usersPage.searchPlaceholder')}
         pageSize={10}
       />
 
@@ -250,9 +257,9 @@ export const UsersPage = ({ notify }) => {
         isOpen={showDeleteDialog}
         onClose={() => setShowDeleteDialog(false)}
         onConfirm={handleDeleteConfirm}
-        title="Delete User"
-        message={`Are you sure you want to delete "${userToDelete?.name}"? This action cannot be undone.`}
-        confirmText="Delete"
+        title={t('admin.usersPage.deleteTitle')}
+        message={t('admin.usersPage.deleteMessage', { name: userToDelete?.name })}
+        confirmText={t('admin.usersPage.deleteConfirm')}
         variant="danger"
         loading={deleting}
       />

@@ -28,6 +28,7 @@
     "error": "Something went wrong",
     "retry": "Retry",
     "more": "More",
+    "less": "Less",
     "select": "Select",
     "language": "Language",
     "theme": "Theme",
@@ -50,6 +51,28 @@
     "privacy": "Privacy"
   },
   "header": {
+    "navItems": [
+      {
+        "href": "/",
+        "label": "Home"
+      },
+      {
+        "href": "/ceramics",
+        "label": "Ceramic Lines"
+      },
+      {
+        "href": "/history",
+        "label": "History"
+      },
+      {
+        "href": "/contact",
+        "label": "Contact"
+      },
+      {
+        "href": "/about",
+        "label": "About"
+      }
+    ],
     "myProfile": "My Profile",
     "transactionHistory": "Transaction History",
     "topup": "Top up credits",
@@ -80,20 +103,65 @@
     "registerNow": "Sign up now",
     "forgotPassword": "Forgot password?",
     "or": "Or",
-    "loginGoogle": "Continue with Google",
+    "loginGoogle": "Sign in with Google",
     "loginSuccess": "Signed in!",
     "registerSuccess": "Account created!",
     "logoutSuccess": "Signed out.",
     "codeSent": "Verification code sent to your email.",
     "resetSuccess": "Password reset successfully.",
     "passwordMismatch": "Passwords do not match.",
-    "fillAll": "Please fill in all fields."
+    "fillAll": "Please fill in all fields.",
+    "welcomeBack": "Welcome back",
+    "joinSystem": "Join the system",
+    "loginSubtitle": "Sign in to continue using the system",
+    "registerSubtitle": "Create a new account to get started",
+    "nameLabel": "ARTISAN NAME",
+    "namePlaceholder": "Full name...",
+    "emailPlaceholder": "email@example.com",
+    "passwordLabel": "PASSWORD",
+    "confirmPasswordLabel": "CONFIRM PASSWORD",
+    "processing": "Processing...",
+    "orConnectVia": "OR CONNECT VIA",
+    "loginFacebook": "Sign in with Facebook",
+    "terms": "By continuing, you agree to our <b>Terms of Service</b> and <b>Privacy Policy</b>.",
+    "brandSubtitle": "AI-Powered Ceramic Authentication System",
+    "feature1Title": "Multi-Agent AI",
+    "feature1Desc": "Accurately analyze the origin and era of artifacts",
+    "feature2Title": "Cultural Heritage Preservation",
+    "feature2Desc": "Archive and protect traditional ceramic knowledge",
+    "feature3Title": "Rapid Appraisal",
+    "feature3Desc": "Detailed results in just a few seconds",
+    "forgotSubtitle": "Enter your email and we'll send you a recovery code",
+    "emailContactPlaceholder": "Enter your contact email...",
+    "sendRequest": "Send request",
+    "goBack": "Go back",
+    "resetSubtitle": "Enter the verification code sent to",
+    "codeLabel": "VERIFICATION CODE",
+    "codePlaceholder": "Enter the 6-digit code...",
+    "newPasswordLabel": "NEW PASSWORD",
+    "confirmReset": "Confirm password change",
+    "loadingGoogle": "Loading Google...",
+    "welcomeJoin": "Welcome {{name}}!",
+    "welcomeBackUser": "Welcome back, {{name}}!",
+    "cancelledFacebook": "Cancelled Facebook login",
+    "loadingFacebook": "Loading Facebook library...",
+    "authError": "System authentication error",
+    "forgotCodeSent": "Recovery code has been sent to your email.",
+    "forgotError": "Error sending recovery request",
+    "resetSuccess2": "Password changed successfully! Please sign in again.",
+    "resetCodeError": "Verification code is incorrect",
+    "socialError": "Connection error with {{provider}}"
   },
   "home": {
     "heroTitle": "Discover ceramic heritage",
     "heroEyebrow": "AI Multi-Agent Debate",
     "heroPrefix": "Discover",
-    "heroRotatingWords": ["heritage", "masterpieces", "treasures", "artifacts"],
+    "heroRotatingWords": [
+      "heritage",
+      "masterpieces",
+      "treasures",
+      "artifacts"
+    ],
     "heroSuffix": "ceramics",
     "heroSubtitle": "Multi-agent AI system performs deep analysis on any ceramic artifact in seconds.",
     "ctaUpload": "Upload to analyze",
@@ -159,6 +227,19 @@
       "send": "Send",
       "thinking": "Thinking...",
       "greeting": "Hello {{name}}.\nI'm your ceramic AI assistant. How can I help?"
+    },
+    "lens": {
+      "btnLabel": "Google Lens + AI",
+      "sending": "Sending...",
+      "notifySearching": "Sending image to Google Lens, this may take up to 15 seconds...",
+      "notifySuccess": "Lens identification successful!",
+      "notifyError": "Google Lens connection error",
+      "resultTitle": "AI Conclusion (Google Lens)",
+      "noConclusion": "Unable to draw a conclusion.",
+      "sourcesTitle": "Reference sources found",
+      "noSources": "No related articles found.",
+      "noImage": "No image",
+      "lensError": "No results from Google Lens or an error occurred."
     }
   },
   "ceramics": {
@@ -230,6 +311,7 @@
     "credits": "Credits",
     "perCredit": "{{price}}đ / credit",
     "select": "Select",
+    "popularBadge": "★ Popular",
     "method": {
       "title": "Payment method",
       "vietqr": "Bank transfer",
@@ -261,7 +343,24 @@
     "creating": "Creating order...",
     "scanInvite": "Please scan the QR to pay!",
     "checking": "Payment not received yet. Please retry in 30s!",
-    "failed": "The payment system is currently unavailable. Please try again later!"
+    "failed": "The payment system is currently unavailable. Please try again later!",
+    "vnpay": {
+      "title": "Payment via VNPay",
+      "amount": "Amount to pay",
+      "payBtn": "Open VNPay Gateway",
+      "payDirectBtn": "Pay directly on Website",
+      "warning": "Warning: Please complete the transaction on the VNPay page. The system will automatically check and credit tokens instantly after a successful payment.",
+      "verifyingTitle": "Verifying transaction",
+      "verifyingDesc": "Please do not close the browser or reload the page. System is verifying the secure signature from VNPay...",
+      "successTitle": "Success!",
+      "successDesc": "Excellent! Your transaction has been securely verified. We have added the appraisal credits to your account.",
+      "creditsCharged": "Credits charged",
+      "creditsNote": "ceramic appraisal credits",
+      "appraiseNow": "Appraise Now",
+      "failedTitle": "Transaction failed",
+      "retry": "Try again",
+      "goHome": "Go Home"
+    }
   },
   "transactions": {
     "title": "Transaction History",
@@ -394,6 +493,271 @@
   "admin": {
     "title": "Admin Dashboard",
     "subtitle": "Manage The Archivist platform",
+    "panelTitle": "Admin Panel",
+    "backToHome": "Back to Homepage",
+    "dashboard": "Dashboard",
+    "users": "Users",
+    "ceramicLines": "Ceramic Lines",
+    "pages": "Pages",
+    "paymentPackages": "Payment Packages",
+    "paymentsHistory": "Payments History",
+    "predictions": "Predictions",
+    "tokenHistory": "Token History",
+    "paymentSettings": "Payment Settings",
+    "welcomeBack": "Welcome back,",
+    "confirmLogout": "Confirm Logout",
+    "logoutMessage": "Are you sure you want to logout?",
+    "cancel": "Cancel",
+    "logout": "Logout",
+    "dashboardOverview": "Overview of your application statistics",
+    "totalUsers": "Total Users",
+    "totalPredictions": "Predictions",
+    "totalCeramics": "Ceramic Lines",
+    "totalRevenue": "Revenue",
+    "creditsSold": "Credits Sold",
+    "featuredCeramics": "Featured Ceramics",
+    "pendingPayments": "Pending Payments",
+    "failedPayments": "Failed Payments",
+    "recentUsers": "Recent Users",
+    "recentPayments": "Recent Payments",
+    "recentPredictions": "Recent Predictions",
+    "noDataYet": "No data yet",
+    "viewAll": "View all",
+    "noUsersYet": "No users yet",
+    "noPaymentsYet": "No payments yet",
+    "noPredictionsYet": "No predictions yet",
+    "retry": "Retry",
+    "completedPaymentsCount": "{{count}} completed payments",
+    "featuredCount": "{{count}} featured",
+    "usersPage": {
+      "title": "Users",
+      "subtitle": "Manage all users in the system",
+      "addUser": "Add User",
+      "searchPlaceholder": "Search by name, email, or role...",
+      "deleteTitle": "Delete User",
+      "deleteMessage": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "deleteConfirm": "Delete",
+      "deletedSuccess": "User deleted successfully",
+      "roleUpdated": "User role updated to {{role}}",
+      "table": {
+        "id": "ID",
+        "name": "Name",
+        "role": "Role",
+        "credits": "Credits",
+        "freeUsed": "Free Used",
+        "joined": "Joined",
+        "actions": "Actions"
+      }
+    },
+    "ceramicsPage": {
+      "title": "Ceramic Lines",
+      "subtitle": "Manage ceramic lines and collections",
+      "addCeramic": "Add Ceramic Line",
+      "searchPlaceholder": "Search by name, country, or era...",
+      "deleteTitle": "Delete Ceramic Line",
+      "deleteMessage": "Are you sure you want to delete \"{{name}}\"? This action cannot be undone.",
+      "deleteConfirm": "Delete",
+      "deletedSuccess": "Ceramic line deleted successfully",
+      "removedFeatured": "Removed from featured",
+      "markedFeatured": "Marked as featured",
+      "table": {
+        "id": "ID",
+        "image": "Image",
+        "name": "Name",
+        "country": "Country",
+        "era": "Era",
+        "featured": "Featured",
+        "actions": "Actions",
+        "clickToUnfeature": "Click to unfeature",
+        "clickToFeature": "Click to feature",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "pagesPage": {
+      "title": "Manage Page Content",
+      "subtitle": "Edit text content displayed on each website page",
+      "addPage": "Add new page",
+      "searchPlaceholder": "Search pages...",
+      "deleteConfirm": "Are you sure you want to delete the page \"{{title}}\"? This action cannot be undone.",
+      "deletedSuccess": "Page deleted successfully",
+      "addSuccess": "New page added successfully",
+      "addNewPageTitle": "Add New Page",
+      "pageName": "Page Name",
+      "pageNamePlaceholder": "Example: About",
+      "slug": "Slug (URL)",
+      "slugPlaceholder": "Example: about",
+      "pageContent": "Page Content",
+      "pageContentPlaceholder": "Enter HTML or text content for the page...",
+      "cancel": "Cancel",
+      "adding": "Adding...",
+      "add": "Add Page",
+      "imageAssistant": "Image Upload Assistant",
+      "uploadImage": "Select Image",
+      "uploading": "Uploading...",
+      "copied": "Copied",
+      "copyLink": "Copy Link",
+      "insertImage": "Insert Image Tag",
+      "imageAssistantDesc": "* Upload image and directly insert <img> tag at cursor position inside content area.",
+      "editorTitle": "Page Content Editor (HTML / Text)",
+      "previewTitle": "Live Visual Preview",
+      "customPageDesc": "Custom Page (Freeform HTML Page without templates)",
+      "saveSuccess": "Page saved successfully!",
+      "selectImageError": "Please select an image file",
+      "uploadingImage": "Uploading image...",
+      "uploadImageSuccess": "Image uploaded successfully!",
+      "editModal": {
+        "title": "Edit Page Content: {{title}}",
+        "subtitle": "Slug: /{{slug}} • Edit section contents directly or write custom HTML",
+        "pageTitleLabel": "Page Title (displayed in Admin list)",
+        "slugLabel": "Permalink (Slug / URL)",
+        "sectionHeader": "Section Contents ({{count}} items)",
+        "infoBanner": "💡 Content is pre-filled from the system. Edit only what you want to change. Modified items are marked as Edited; click Default to restore.",
+        "editedBadge": "Edited",
+        "defaultBtn": "Default",
+        "displayNamePlaceholder": "Display name (e.g. About Us)",
+        "linkPathPlaceholder": "Link path (e.g. /about)",
+        "addNewLink": "Add new link",
+        "noMappedSections": "This page does not have structured template sections.",
+        "changedCount": "{{count}} sections changed",
+        "noChanges": "No changes",
+        "cancelBtn": "Cancel",
+        "saveBtn": "Save Content",
+        "savingBtn": "Saving..."
+      },
+      "table": {
+        "id": "ID",
+        "title": "Page Title",
+        "slug": "Slug / URL",
+        "overrides": "Overrides",
+        "updatedAt": "Updated At",
+        "actions": "Actions",
+        "sections": "sections",
+        "default": "Default",
+        "edit": "Edit",
+        "delete": "Delete",
+        "editContent": "Edit content",
+        "deletePage": "Delete page"
+      }
+    },
+    "paymentPackagesPage": {
+      "title": "Payment Packages",
+      "subtitle": "Manage top-up packages available to users",
+      "addPackage": "Add Package",
+      "searchPlaceholder": "Search packages...",
+      "deleteConfirm": "Are you sure you want to delete the package \"{{name}}\"? This action cannot be undone.",
+      "deletedSuccess": "Package deleted successfully",
+      "deleteTitle": "Delete Payment Package",
+      "deletePackageBtn": "Delete Package",
+      "cancel": "Cancel",
+      "modal": {
+        "editTitle": "Edit Package",
+        "addTitle": "Add New Package",
+        "nameVi": "Package Name (Vietnamese) *",
+        "nameEn": "Package Name (English)",
+        "price": "Price (VNĐ) *",
+        "credits": "Credits *",
+        "discountVi": "Discount Label (Vietnamese - Optional)",
+        "discountEn": "Discount Label (English - Optional)",
+        "featured": "Highlight as Featured Package",
+        "save": "Save Package",
+        "saving": "Saving...",
+        "cancel": "Cancel",
+        "editSuccess": "Package updated successfully",
+        "addSuccess": "Package created successfully"
+      },
+      "table": {
+        "id": "ID",
+        "name": "Name",
+        "price": "Price",
+        "credits": "Credits",
+        "featured": "Featured",
+        "discountLabel": "Discount Label",
+        "actions": "Actions",
+        "yes": "Yes",
+        "no": "No",
+        "edit": "Edit",
+        "delete": "Delete"
+      }
+    },
+    "paymentsPage": {
+      "title": "Payments",
+      "subtitle": "View and manage all payment transactions",
+      "filtered": "(Filtered: {{filtered}} of {{total}})",
+      "filter": "Filter",
+      "exportCsv": "Export CSV",
+      "searchPlaceholder": "Search by user, status, or method...",
+      "exportSuccess": "Payments exported successfully",
+      "unknown": "Unknown",
+      "bankTransfer": "Bank Transfer",
+      "table": {
+        "id": "ID",
+        "user": "User",
+        "amount": "Amount",
+        "credits": "Credits",
+        "status": "Status",
+        "method": "Method",
+        "date": "Date"
+      }
+    },
+    "predictionsPage": {
+      "title": "Predictions",
+      "subtitle": "View and manage all AI predictions in the system",
+      "exportCsv": "Export CSV",
+      "searchPlaceholder": "Search predictions...",
+      "exportSuccess": "Predictions exported successfully",
+      "unknown": "Unknown",
+      "viewDetails": "View Details",
+      "table": {
+        "id": "ID",
+        "image": "Image",
+        "result": "Result / Label",
+        "confidence": "Confidence",
+        "user": "User",
+        "date": "Date",
+        "actions": "Actions"
+      }
+    },
+    "tokenHistoryPage": {
+      "title": "Token History",
+      "subtitle": "Read-only audit log of all token movements",
+      "filtered": "(filters active)",
+      "refresh": "Refresh",
+      "filter": "Filter",
+      "searchPlaceholder": "Search by user or description...",
+      "filterModalTitle": "Filter Token History",
+      "userId": "User ID",
+      "userIdPlaceholder": "Numeric user ID",
+      "type": "Type",
+      "allTypes": "All types",
+      "typeIn": "IN (credits added)",
+      "typeOut": "OUT (credits spent)",
+      "from": "From",
+      "to": "To",
+      "reset": "Reset",
+      "apply": "Apply",
+      "table": {
+        "id": "ID",
+        "user": "User",
+        "type": "Type",
+        "amount": "Amount",
+        "description": "Description",
+        "date": "Date"
+      }
+    },
+    "paymentSettingsPage": {
+      "title": "Payment Settings",
+      "subtitle": "Choose the active payment gateway for customers on the system.",
+      "sepayTitle": "SePay Gateway (VietQR)",
+      "sepayDesc": "Bank transfer payment using automated VietQR scanning. The system uses SePay polling API to verify and credit tokens automatically.",
+      "active": "Active",
+      "sepayNote": "Supports all Vietnamese banks",
+      "vnpayTitle": "VNPay Gateway",
+      "vnpayDesc": "Customers pay via VNPay gateway using domestic ATM cards, international cards (Visa, Mastercard...) or bank app QR code. High security and professional.",
+      "vnpayNote": "Supports domestic & international cards",
+      "saveBtn": "Save Settings",
+      "saveSuccess": "Payment configurations updated successfully!"
+    },
     "tabs": {
       "dashboard": "Overview",
       "users": "Users",
@@ -406,12 +770,78 @@
       "predictions": "Predictions",
       "ceramics": "Ceramic lines",
       "revenue": "Revenue"
+    },
+    "apiSettings": "API & Models",
+    "apiSettingsPage": {
+      "title": "API Keys & AI Models",
+      "subtitle": "Configure provider keys and model routing used by the web and mobile app through the shared AI backend.",
+      "reload": "Reload",
+      "save": "Save & Sync",
+      "saveSuccess": "API settings updated and synchronized.",
+      "keysTitle": "Provider API keys",
+      "keysDesc": "Keys are saved on the backend and pushed to the running AI service.",
+      "keyPlaceholder": "Paste API key",
+      "modelsTitle": "Model routing",
+      "modelsDesc": "{{active}}/{{total}} active models",
+      "addModel": "Add model",
+      "modelId": "Model ID",
+      "modelName": "Display name",
+      "provider": "Provider",
+      "role": "Role",
+      "active": "Active",
+      "deleteModel": "Delete model",
+      "noModels": "No models configured.",
+      "roles": {
+        "vision": "Vision fallback",
+        "agent_text": "Default text agent",
+        "historian": "Historian agent",
+        "kiln": "Kiln agent",
+        "global": "Global agent",
+        "judge": "Final judge",
+        "chat": "Chatbot"
+      }
     }
   },
   "footer": {
     "company": "Company",
     "product": "Product",
+    "productLinks": [
+      {
+        "href": "/",
+        "label": "Home"
+      },
+      {
+        "href": "/ceramics",
+        "label": "Ceramic Lines"
+      },
+      {
+        "href": "/history",
+        "label": "History"
+      },
+      {
+        "href": "/payment",
+        "label": "Top up"
+      }
+    ],
     "support": "Support",
+    "supportLinks": [
+      {
+        "href": "/contact",
+        "label": "Contact"
+      },
+      {
+        "href": "/about",
+        "label": "About"
+      },
+      {
+        "href": "/terms",
+        "label": "Terms"
+      },
+      {
+        "href": "/privacy",
+        "label": "Privacy"
+      }
+    ],
     "follow": "Follow",
     "rights": "© {{year}} The Archivist. All rights reserved."
   },

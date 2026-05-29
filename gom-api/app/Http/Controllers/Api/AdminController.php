@@ -371,6 +371,158 @@ class AdminController extends Controller
         return response()->json(['success' => true, 'data' => $payment]);
     }
 
+    public function paymentPackages(): JsonResponse
+    {
+        $packages = \App\Models\PaymentPackage::all();
+        return response()->json(['success' => true, 'data' => $packages]);
+    }
+
+    public function storePaymentPackage(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'name'        => 'required|string|max:255',
+            'name_en'     => 'nullable|string|max:255',
+            'price'       => 'required|numeric|min:0',
+            'credits'     => 'required|integer|min:1',
+            'featured'    => 'nullable|boolean',
+            'discount'    => 'nullable|string|max:255',
+            'discount_en' => 'nullable|string|max:255',
+        ]);
+
+        $pkg = \App\Models\PaymentPackage::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Gói nạp đã được tạo',
+            'data'    => $pkg,
+        ]);
+    }
+
+    public function updatePaymentPackage(Request $request, $id): JsonResponse
+    {
+        $pkg = \App\Models\PaymentPackage::findOrFail($id);
+
+        $data = $request->validate([
+            'name'        => 'sometimes|string|max:255',
+            'name_en'     => 'sometimes|nullable|string|max:255',
+            'price'       => 'sometimes|numeric|min:0',
+            'credits'     => 'sometimes|integer|min:1',
+            'featured'    => 'sometimes|boolean',
+            'discount'    => 'sometimes|nullable|string|max:255',
+            'discount_en' => 'sometimes|nullable|string|max:255',
+        ]);
+
+        $pkg->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật gói nạp thành công',
+            'data'    => $pkg->fresh(),
+        ]);
+    }
+
+    public function deletePaymentPackage($id): JsonResponse
+    {
+        $pkg = \App\Models\PaymentPackage::findOrFail($id);
+        $pkg->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa gói nạp',
+        ]);
+    }
+
+    public function pages(): JsonResponse
+    {
+        $pages = \App\Models\Page::all();
+        return response()->json(['success' => true, 'data' => $pages]);
+    }
+
+    public function showPage($slug): JsonResponse
+    {
+        $page = \App\Models\Page::where('slug', $slug)->first();
+        if (!$page) {
+            return response()->json(['success' => false, 'message' => 'Page not found'], 404);
+        }
+        return response()->json(['success' => true, 'data' => $page]);
+    }
+
+    /**
+     * Public endpoint: return merged i18n overrides from all pages.
+     * Frontend calls this on boot to override default i18n translations.
+     */
+    public function pageOverrides(): JsonResponse
+    {
+        $pages = \App\Models\Page::whereNotNull('content')
+            ->where('content', '!=', '')
+            ->get(['content']);
+
+        $merged = [];
+        foreach ($pages as $page) {
+            $decoded = json_decode($page->content, true);
+            if (is_array($decoded)) {
+                $merged = array_merge($merged, $decoded);
+            }
+        }
+
+        return response()->json(['success' => true, 'data' => $merged]);
+    }
+
+    public function updatePage(Request $request, $id): JsonResponse
+    {
+        $page = \App\Models\Page::findOrFail($id);
+
+        $data = $request->validate([
+            'slug'            => 'sometimes|string|max:100|unique:pages,slug,' . $id,
+            'title'           => 'sometimes|string|max:255',
+            'title_en'        => 'sometimes|nullable|string|max:255',
+            'content'         => 'sometimes|string|nullable',
+            'seo_title'       => 'sometimes|nullable|string|max:255',
+            'seo_description' => 'sometimes|nullable|string',
+            'seo_keywords'    => 'sometimes|nullable|string|max:255',
+        ]);
+
+        $page->update($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật trang thành công',
+            'data'    => $page->fresh(),
+        ]);
+    }
+
+    public function storePage(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'slug'            => 'required|string|max:100|unique:pages,slug',
+            'title'           => 'required|string|max:255',
+            'title_en'        => 'nullable|string|max:255',
+            'content'         => 'nullable|string',
+            'seo_title'       => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string',
+            'seo_keywords'    => 'nullable|string|max:255',
+        ]);
+
+        $page = \App\Models\Page::create($data);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Tạo trang mới thành công',
+            'data'    => $page,
+        ], 201);
+    }
+
+    public function deletePage($id): JsonResponse
+    {
+        $page = \App\Models\Page::findOrFail($id);
+        $page->delete();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Đã xóa trang thành công',
+        ]);
+    }
+
     public function predictions(Request $request): JsonResponse
     {
         $search  = $request->query('search');
@@ -500,5 +652,221 @@ class AdminController extends Controller
         });
 
         return response()->json(['success' => true, 'data' => $rows]);
+    }
+
+    public function getPaymentSettings(): JsonResponse
+    {
+        $method = \App\Models\Setting::getByKey('payment_method', 'sepay');
+        return response()->json([
+            'success' => true,
+            'data'    => [
+                'payment_method' => $method,
+            ]
+        ]);
+    }
+
+    public function updatePaymentSettings(Request $request): JsonResponse
+    {
+        $request->validate([
+            'payment_method' => 'required|string|in:sepay,vnpay',
+        ]);
+
+        $method = $request->input('payment_method');
+        \App\Models\Setting::setByKey('payment_method', $method);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Cập nhật cấu hình thanh toán thành công',
+            'data'    => [
+                'payment_method' => $method,
+            ]
+        ]);
+    }
+
+    public function getApiSettings(): JsonResponse
+    {
+        $config = $this->loadApiSettings();
+
+        return response()->json([
+            'success' => true,
+            'data'    => $config,
+        ]);
+    }
+
+    public function updateApiSettings(Request $request): JsonResponse
+    {
+        $validated = $request->validate([
+            'config' => ['required', 'array'],
+            'config.api_keys' => ['nullable', 'array'],
+            'config.api_keys.GOOGLE_API_KEY' => ['nullable', 'string'],
+            'config.api_keys.GROQ_API_KEY' => ['nullable', 'string'],
+            'config.api_keys.OPENAI_API_KEY' => ['nullable', 'string'],
+            'config.models' => ['required', 'array', 'min:1'],
+            'config.models.*.id' => ['required', 'string', 'max:255'],
+            'config.models.*.name' => ['nullable', 'string', 'max:255'],
+            'config.models.*.provider' => ['required', 'string', 'in:google,groq,openai'],
+            'config.models.*.role' => ['required', 'string', 'in:vision,agent_text,historian,kiln,global,judge,chat'],
+            'config.models.*.is_active' => ['nullable', 'boolean'],
+        ]);
+
+        $config = $this->normalizeApiSettings($validated['config']);
+        \App\Models\Setting::setByKey('api_settings', json_encode($config, JSON_UNESCAPED_UNICODE));
+
+        // Sync to Python AI server
+        $pythonAiUrl = rtrim((string) env('PYTHON_AI_URL', 'http://127.0.0.1:8001'), '/');
+        $endpoint = "{$pythonAiUrl}/sync-keys";
+        $syncStatus = 'skipped';
+
+        try {
+            $response = \Illuminate\Support\Facades\Http::connectTimeout(5)
+                ->timeout(10)
+                ->post($endpoint, $config);
+
+            if ($response->successful()) {
+                $syncStatus = 'synced';
+                \Illuminate\Support\Facades\Log::info('AdminController: synchronized API settings to Python AI server.');
+            } else {
+                $syncStatus = 'failed';
+                \Illuminate\Support\Facades\Log::error('AdminController: failed to sync API settings to Python AI server', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+            }
+        } catch (\Throwable $e) {
+            $syncStatus = 'failed';
+            \Illuminate\Support\Facades\Log::error('AdminController: exception syncing API settings: ' . $e->getMessage());
+        }
+
+        // Auto-update Laravel .env file with new API keys
+        $envSyncStatus = $this->updateEnvKeys($config['api_keys'] ?? []);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'API and model configuration updated.',
+            'data'    => [
+                'config' => $config,
+                'sync_status' => $syncStatus,
+                'env_sync' => $envSyncStatus,
+            ],
+        ]);
+    }
+
+    private function loadApiSettings(): array
+    {
+        $rawConfig = \App\Models\Setting::getByKey('api_settings');
+        if ($rawConfig) {
+            $decoded = json_decode($rawConfig, true);
+            if (is_array($decoded)) {
+                return $this->normalizeApiSettings($decoded);
+            }
+        }
+
+        return $this->defaultApiSettings();
+    }
+
+    private function defaultApiSettings(): array
+    {
+        return [
+            'api_keys' => [
+                'GOOGLE_API_KEY' => env('GOOGLE_API_KEY', ''),
+                'GROQ_API_KEY'   => env('GROQ_API_KEY', ''),
+                'OPENAI_API_KEY' => env('OPENAI_API_KEY', ''),
+            ],
+            'models' => [
+                ['id' => 'gemini-3.1-flash-lite', 'name' => 'Gemini 3.1 Flash Lite (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
+                ['id' => 'gemini-2.5-pro', 'name' => 'Gemini 2.5 Pro (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
+                ['id' => 'gemini-2.5-flash', 'name' => 'Gemini 2.5 Flash (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
+                ['id' => 'llama-3.3-70b-versatile', 'name' => 'Llama 3.3 70B (Text)', 'provider' => 'groq', 'role' => 'agent_text', 'is_active' => true],
+            ],
+        ];
+    }
+
+    private function normalizeApiSettings(array $config): array
+    {
+        $defaults = $this->defaultApiSettings();
+        $apiKeys = array_merge($defaults['api_keys'], $config['api_keys'] ?? []);
+
+        $models = collect($config['models'] ?? $defaults['models'])
+            ->filter(fn ($model) => is_array($model) && !empty($model['id']) && !empty($model['provider']) && !empty($model['role']))
+            ->map(function ($model) {
+                return [
+                    'id' => trim((string) $model['id']),
+                    'name' => trim((string) ($model['name'] ?? $model['id'])),
+                    'provider' => trim((string) $model['provider']),
+                    'role' => trim((string) $model['role']),
+                    'is_active' => (bool) ($model['is_active'] ?? true),
+                ];
+            })
+            ->values()
+            ->all();
+
+        return [
+            'api_keys' => [
+                'GOOGLE_API_KEY' => (string) ($apiKeys['GOOGLE_API_KEY'] ?? ''),
+                'GROQ_API_KEY' => (string) ($apiKeys['GROQ_API_KEY'] ?? ''),
+                'OPENAI_API_KEY' => (string) ($apiKeys['OPENAI_API_KEY'] ?? ''),
+            ],
+            'models' => $models,
+        ];
+    }
+
+    /**
+     * Auto-update the Laravel .env file with new API key values.
+     *
+     * - If a key exists in .env, update its value (or clear it if empty).
+     * - If a key does NOT exist in .env but has a value, append it.
+     * - Preserve all other lines (comments, non-API-key settings) untouched.
+     */
+    private function updateEnvKeys(array $apiKeys): string
+    {
+        $allowedKeys = ['GOOGLE_API_KEY', 'GROQ_API_KEY', 'OPENAI_API_KEY'];
+
+        try {
+            $envPath = base_path('.env');
+            if (!file_exists($envPath)) {
+                \Illuminate\Support\Facades\Log::warning('AdminController: .env file not found at ' . $envPath);
+                return 'not_found';
+            }
+
+            $content = file_get_contents($envPath);
+            $lines = explode("\n", $content);
+            $updatedKeys = [];
+            $newLines = [];
+
+            foreach ($lines as $line) {
+                $trimmed = trim($line);
+                $matchedKey = null;
+
+                foreach ($allowedKeys as $keyName) {
+                    if (str_starts_with($trimmed, "{$keyName}=") || $trimmed === $keyName) {
+                        $matchedKey = $keyName;
+                        break;
+                    }
+                }
+
+                if ($matchedKey && array_key_exists($matchedKey, $apiKeys)) {
+                    $updatedKeys[] = $matchedKey;
+                    $value = (string) ($apiKeys[$matchedKey] ?? '');
+                    $newLines[] = "{$matchedKey}={$value}";
+                } else {
+                    $newLines[] = $line;
+                }
+            }
+
+            // Append any new keys that weren't in the original .env
+            foreach ($allowedKeys as $keyName) {
+                if (!in_array($keyName, $updatedKeys) && !empty($apiKeys[$keyName] ?? '')) {
+                    $newLines[] = "{$keyName}={$apiKeys[$keyName]}";
+                }
+            }
+
+            file_put_contents($envPath, implode("\n", $newLines));
+
+            \Illuminate\Support\Facades\Log::info('AdminController: updated .env file with API keys: ' . implode(', ', array_keys($apiKeys)));
+            return 'synced';
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('AdminController: failed to update .env file: ' . $e->getMessage());
+            return 'failed';
+        }
     }
 }

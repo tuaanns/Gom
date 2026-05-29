@@ -6,9 +6,11 @@ import { FormField, Input, Select } from '../components/FormField';
 import { adminApi } from '../api';
 import { Badge } from '../../../components/ui/Badge';
 import { formatDate, getErrorMessage, formatNumber } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 // Token History admin page — read-only, filter by user_id, type (in/out), date range
 export const TokenHistoryPage = ({ notify }) => {
+  const { t } = useTranslation();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -48,7 +50,7 @@ export const TokenHistoryPage = ({ notify }) => {
   const columns = [
     {
       key: 'id',
-      header: 'ID',
+      header: t('admin.tokenHistoryPage.table.id'),
       accessor: (r) => r.id,
       cell: (r) => (
         <span className="font-mono text-xs text-gray-500 dark:text-gray-400">#{r.id}</span>
@@ -58,7 +60,7 @@ export const TokenHistoryPage = ({ notify }) => {
     },
     {
       key: 'user',
-      header: 'User',
+      header: t('admin.tokenHistoryPage.table.user'),
       accessor: (r) => r.user?.name || r.user_id,
       cell: (r) => (
         <div>
@@ -75,7 +77,7 @@ export const TokenHistoryPage = ({ notify }) => {
     },
     {
       key: 'type',
-      header: 'Type',
+      header: t('admin.tokenHistoryPage.table.type'),
       accessor: (r) => r.type,
       cell: (r) =>
         r.type === 'in' ? (
@@ -88,7 +90,7 @@ export const TokenHistoryPage = ({ notify }) => {
     },
     {
       key: 'amount',
-      header: 'Amount',
+      header: t('admin.tokenHistoryPage.table.amount'),
       accessor: (r) => Number(r.amount) || 0,
       cell: (r) => {
         const n = Number(r.amount) || 0;
@@ -110,7 +112,7 @@ export const TokenHistoryPage = ({ notify }) => {
     },
     {
       key: 'description',
-      header: 'Description',
+      header: t('admin.tokenHistoryPage.table.description'),
       accessor: (r) => r.description || '',
       cell: (r) => (
         <span className="text-sm text-gray-700 dark:text-gray-300">
@@ -122,7 +124,7 @@ export const TokenHistoryPage = ({ notify }) => {
     },
     {
       key: 'created_at',
-      header: 'Date',
+      header: t('admin.tokenHistoryPage.table.date'),
       accessor: (r) => r.created_at,
       cell: (r) => (
         <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -159,11 +161,11 @@ export const TokenHistoryPage = ({ notify }) => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Token History</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{t('admin.tokenHistoryPage.title')}</h1>
           <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            Read-only audit log of all token movements
+            {t('admin.tokenHistoryPage.subtitle')}
             {hasActiveFilters && (
-              <span className="ml-2 text-blue-600 dark:text-blue-400">(filters active)</span>
+              <span className="ml-2 text-blue-600 dark:text-blue-400">{t('admin.tokenHistoryPage.filtered')}</span>
             )}
           </p>
         </div>
@@ -174,7 +176,7 @@ export const TokenHistoryPage = ({ notify }) => {
             className="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
           >
             <RefreshCw size={16} />
-            Refresh
+            {t('admin.tokenHistoryPage.refresh')}
           </button>
           <button
             type="button"
@@ -185,7 +187,7 @@ export const TokenHistoryPage = ({ notify }) => {
               }`}
           >
             <Filter size={16} />
-            Filter
+            {t('admin.tokenHistoryPage.filter')}
             {hasActiveFilters && (
               <span className="ml-1 rounded-full bg-blue-600 px-2 py-0.5 text-xs text-white">
                 {Object.values(filters).filter((v) => v !== '').length}
@@ -198,45 +200,45 @@ export const TokenHistoryPage = ({ notify }) => {
       <DataTable
         data={rows}
         columns={columns}
-        searchPlaceholder="Search by user or description..."
+        searchPlaceholder={t('admin.tokenHistoryPage.searchPlaceholder')}
         pageSize={15}
       />
 
       <Modal
         isOpen={showFilters}
         onClose={() => setShowFilters(false)}
-        title="Filter Token History"
+        title={t('admin.tokenHistoryPage.filterModalTitle')}
         size="md"
       >
         <div className="space-y-4">
-          <FormField label="User ID">
+          <FormField label={t('admin.tokenHistoryPage.userId')}>
             <Input
               type="number"
               min="1"
               value={filters.user_id}
               onChange={(e) => setFilters((p) => ({ ...p, user_id: e.target.value }))}
-              placeholder="Numeric user ID"
+              placeholder={t('admin.tokenHistoryPage.userIdPlaceholder')}
             />
           </FormField>
-          <FormField label="Type">
+          <FormField label={t('admin.tokenHistoryPage.type')}>
             <Select
               value={filters.type}
               onChange={(e) => setFilters((p) => ({ ...p, type: e.target.value }))}
             >
-              <option value="">All types</option>
-              <option value="in">IN (credits added)</option>
-              <option value="out">OUT (credits spent)</option>
+              <option value="">{t('admin.tokenHistoryPage.allTypes')}</option>
+              <option value="in">{t('admin.tokenHistoryPage.typeIn')}</option>
+              <option value="out">{t('admin.tokenHistoryPage.typeOut')}</option>
             </Select>
           </FormField>
           <div className="grid grid-cols-2 gap-3">
-            <FormField label="From">
+            <FormField label={t('admin.tokenHistoryPage.from')}>
               <Input
                 type="date"
                 value={filters.from}
                 onChange={(e) => setFilters((p) => ({ ...p, from: e.target.value }))}
               />
             </FormField>
-            <FormField label="To">
+            <FormField label={t('admin.tokenHistoryPage.to')}>
               <Input
                 type="date"
                 value={filters.to}
@@ -250,14 +252,14 @@ export const TokenHistoryPage = ({ notify }) => {
               onClick={handleReset}
               className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
             >
-              Reset
+              {t('admin.tokenHistoryPage.reset')}
             </button>
             <button
               type="button"
               onClick={handleApply}
               className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
             >
-              Apply
+              {t('admin.tokenHistoryPage.apply')}
             </button>
           </div>
         </div>

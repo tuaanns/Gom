@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, Send, X, Loader2, Coins, Sparkles, MessageSquare } from 'lucide-react';
@@ -18,6 +19,10 @@ const CHAT_TOKEN_COST = 0.1;
  *   onQuotaChange — callback to sync token_balance after deduction
  */
 export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
+  const { t, i18n } = useTranslation();
+  const lang = i18n.language || 'vi';
+  const isEn = lang.startsWith('en');
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
@@ -25,18 +30,40 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
   const scrollRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Initialize greeting when opening for the first time
+  // Translations
+  const greetingText = isEn 
+    ? `Hello${user?.name ? ` ${user.name}` : ''}! 👋\nI am The Archivist AI Assistant, specializing in antique ceramics. Ask me anything!`
+    : `Xin chào${user?.name ? ` ${user.name}` : ''}! 👋\nTôi là Trợ lý AI của The Archivist, chuyên về gốm sứ cổ. Hãy hỏi tôi bất cứ điều gì!`;
+  const loginRequiredText = isEn ? 'You need to log in to use the chatbot. Each question costs 0.1 tokens.' : 'Bạn cần đăng nhập để sử dụng chatbot. Mỗi câu hỏi sẽ trừ 0.1 token.';
+  const insufficientTokensText = isEn ? `Insufficient tokens (needs ${CHAT_TOKEN_COST}). Please top up to continue.` : `Tài khoản của bạn không đủ token (cần ${CHAT_TOKEN_COST} token). Vui lòng nạp thêm để tiếp tục sử dụng chatbot.`;
+  const outOfLimitText = isEn ? 'Account out of tokens. Please top up to continue.' : 'Tài khoản hết lượt. Vui lòng nạp thêm token để tiếp tục.';
+  const connectionErrorText = isEn ? 'Cannot connect to AI. Please try again later.' : 'Không thể kết nối AI. Vui lòng thử lại sau.';
+  const thinkingText = isEn ? 'Thinking...' : 'Đang suy nghĩ...';
+  const placeholderText = isEn 
+    ? (user ? 'Ask about ceramics...' : 'Log in to use chatbot') 
+    : (user ? 'Hỏi về gốm sứ...' : 'Đăng nhập để sử dụng chatbot');
+  const tokenNoticeText = isEn ? `Each question costs ${CHAT_TOKEN_COST} tokens` : `Mỗi câu hỏi trừ ${CHAT_TOKEN_COST} token`;
+  const tokenSuffixText = isEn ? 'tokens/question' : 'token/câu hỏi';
+
+  // Initialize greeting when opening for the first time, or update when language changes
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setMessages([
         {
           isUser: false,
-          text: `Xin chào${user?.name ? ` ${user.name}` : ''}! 👋\nTôi là Trợ lý AI của The Archivist, chuyên về gốm sứ cổ. Hãy hỏi tôi bất cứ điều gì!`,
+          text: greetingText,
           time: new Date(),
         },
       ]);
+    } else if (isOpen && messages.length > 0 && !messages[0].isUser) {
+      // Update the greeting message when language changes
+      setMessages((prev) => [
+        { ...prev[0], text: greetingText },
+        ...prev.slice(1),
+      ]);
     }
-  }, [isOpen, messages.length, user?.name]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, greetingText]);
 
   // Auto-scroll to bottom
   useEffect(() => {
@@ -63,7 +90,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
         { isUser: true, text: q, time: new Date() },
         {
           isUser: false,
-          text: 'Bạn cần đăng nhập để sử dụng chatbot. Mỗi câu hỏi sẽ trừ 0.1 token.',
+          text: loginRequiredText,
           isError: true,
           time: new Date(),
         },
@@ -83,7 +110,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
         { isUser: true, text: q, time: new Date() },
         {
           isUser: false,
-          text: `Tài khoản của bạn không đủ token (cần ${CHAT_TOKEN_COST} token). Vui lòng nạp thêm để tiếp tục sử dụng chatbot.`,
+          text: insufficientTokensText,
           isError: true,
           time: new Date(),
         },
@@ -97,7 +124,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
     setLoading(true);
 
     try {
-      const res = await apiClient.post('/ai/chat', { question: q });
+      const res = await apiClient.post('/ai/chat', { question: q, lang: lang });
       const data = res.data?.data || res.data;
       const reply = data?.answer || data?.message || '...';
       const newBalance = data?.user_token_balance;
@@ -120,9 +147,9 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
       const status = err?.response?.status;
       let errorText;
       if (status === 402) {
-        errorText = 'Tài khoản hết lượt. Vui lòng nạp thêm token để tiếp tục.';
+        errorText = outOfLimitText;
       } else {
-        errorText = getErrorMessage(err, 'Không thể kết nối AI. Vui lòng thử lại sau.');
+        errorText = getErrorMessage(err, connectionErrorText);
       }
       setMessages((p) => [
         ...p,
@@ -131,7 +158,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
     } finally {
       setLoading(false);
     }
-  }, [input, loading, user, quota, onQuotaChange]);
+  }, [input, loading, user, quota, onQuotaChange, lang, loginRequiredText, insufficientTokensText, outOfLimitText, connectionErrorText]);
 
   const onKeyDown = (e) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -185,7 +212,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed bottom-6 right-6 z-[9995] flex w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl shadow-2xl"
+            className="fixed bottom-6 right-6 z-[9995] flex w-[380px] max-w-[calc(100vw-2rem)] flex-col overflow-hidden rounded-2xl shadow-2xl bg-white dark:bg-dark-surface"
             style={{
               height: 'min(560px, calc(100vh - 6rem))',
               backdropFilter: 'blur(20px)',
@@ -208,7 +235,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
                   </h3>
                   <div className="flex items-center gap-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                    <span className="text-[11px] text-white/70">Online • {CHAT_TOKEN_COST} token/câu hỏi</span>
+                    <span className="text-[11px] text-white/70">{isEn ? 'Online' : 'Trực tuyến'} • {CHAT_TOKEN_COST} {tokenSuffixText}</span>
                   </div>
                 </div>
               </div>
@@ -236,18 +263,8 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
             {/* Messages */}
             <div
               ref={scrollRef}
-              className="flex-1 space-y-3 overflow-y-auto p-4"
-              style={{
-                background: 'linear-gradient(180deg, #f8f6f0 0%, #F7F2E8 100%)',
-              }}
+              className="flex-1 space-y-3 overflow-y-auto p-4 bg-gradient-to-b from-[#f8f6f0] to-ivory dark:from-dark-bg dark:to-dark-surface"
             >
-              {/* Dark mode override */}
-              <style>{`
-                .dark #floating-chatbot-panel .chatbot-messages-area {
-                  background: linear-gradient(180deg, #0A0F1F 0%, #111827 100%) !important;
-                }
-              `}</style>
-              <div className="chatbot-messages-area" />
 
               {messages.map((m, i) => (
                 <motion.div
@@ -296,7 +313,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
                   </div>
                   <div className="flex items-center gap-2 rounded-2xl rounded-bl-md bg-white px-3.5 py-2.5 text-[13px] text-muted shadow-sm dark:bg-dark-surface dark:text-dark-text-muted">
                     <Loader2 size={14} className="animate-spin" />
-                    <span>Đang suy nghĩ...</span>
+                    <span>{thinkingText}</span>
                     <div className="flex gap-0.5">
                       <span className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-navy/30 dark:bg-white/30" style={{ animationDelay: '0ms' }} />
                       <span className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-navy/30 dark:bg-white/30" style={{ animationDelay: '150ms' }} />
@@ -309,11 +326,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
 
             {/* Input area */}
             <div
-              className="flex items-center gap-2 border-t px-3 py-3"
-              style={{
-                borderColor: 'rgba(0,0,0,0.06)',
-                background: '#fff',
-              }}
+              className="flex items-center gap-2 border-t border-gray-100 bg-white px-3 py-3 dark:border-dark-stroke dark:bg-dark-surface"
             >
               {/* Dark mode inline style override */}
               <input
@@ -321,7 +334,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={onKeyDown}
-                placeholder={user ? 'Hỏi về gốm sứ...' : 'Đăng nhập để sử dụng chatbot'}
+                placeholder={placeholderText}
                 disabled={loading || !user}
                 className="flex-1 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-[13px] text-navy placeholder:text-gray-400 focus:border-navy/30 focus:bg-white focus:outline-none dark:border-dark-stroke dark:bg-dark-surface-alt dark:text-dark-text dark:placeholder:text-dark-text-muted dark:focus:border-ceramic/50"
               />
@@ -349,7 +362,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
             <div className="flex items-center justify-center gap-1 border-t border-gray-100 bg-gray-50/80 px-3 py-1.5 dark:border-dark-stroke dark:bg-dark-surface">
               <Coins size={10} className="text-amber-500" />
               <span className="text-[10px] text-muted dark:text-dark-text-muted">
-                Mỗi câu hỏi trừ {CHAT_TOKEN_COST} token
+                {tokenNoticeText}
               </span>
             </div>
           </motion.div>

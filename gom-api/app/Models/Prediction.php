@@ -16,10 +16,13 @@ class Prediction extends Model
         'country',
         'era',
         'result_json',
+        'source_type',
+        'lens_results',
     ];
 
     protected $casts = [
-        'result_json' => 'array',
+        'result_json'  => 'array',
+        'lens_results' => 'array',
     ];
 
     public function user()

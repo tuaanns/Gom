@@ -19,7 +19,7 @@ class VisionAgent:
     # Priority: Gemini 3 > Gemini 2.5 Pro > Gemini 2.5 Flash > Gemini 2.0 Flash
     # All models support vision capabilities
     MODELS = [
-        "gemini-3-flash-preview",      # Best: Gemini 3 with agentic vision & reasoning
+        "gemini-3.1-flash-lite",      # Best: Gemini 3 with agentic vision & reasoning
         "gemini-2.5-pro",               # Strongest reasoning & multimodal (1M context)
         "gemini-2.5-flash",             # Fast & efficient with good vision
         "gemini-2.5-flash-lite",        # Cost-effective fallback
@@ -28,6 +28,12 @@ class VisionAgent:
 
     def __init__(self):
         self.api_key = os.getenv("GOOGLE_API_KEY")
+        self.models = list(self.MODELS)
+
+    def configure(self, models: list[str] | None = None):
+        self.api_key = os.getenv("GOOGLE_API_KEY")
+        if models:
+            self.models = [model for model in models if model]
 
     @retry(
         retry=retry_if_exception_type(_RateLimitError),
@@ -38,6 +44,7 @@ class VisionAgent:
     # Analyze pottery image to extract core visual features
     async def analyze(self, image_bytes: bytes) -> dict:
         logger.info("[VisionAgent] Analyzing image...")
+        self.api_key = os.getenv("GOOGLE_API_KEY")
         if not self.api_key:
             return {"error": "GOOGLE_API_KEY missing"}
 
@@ -48,15 +55,15 @@ class VisionAgent:
             "hãy trả về JSON chỉ chứa một trường {'is_pottery': false}.\n"
             "Nếu là gốm sứ, hãy trả về JSON với 'is_pottery': true và các trường: "
             "color, pattern, material, shape, estimated_era, style_hint, và suspected_origin (ghi rõ quốc gia và tên thương hiệu, lò gốm hoặc dòng gốm CỤ THỂ NHẤT có thể, ví dụ: Meissen, Royal Albert, Bát Tràng, Cảnh Đức Trấn. KHÔNG ghi chung chung như 'Châu Âu' hay 'Gốm ngoại').\n"
-            "LƯU Ý ĐẶC BIỆT NHẰM TRÁNH NHẦM LẪN: Hãy phân biệt cực kỳ cẩn thận giữa gốm Việt Nam và gốm quốc tế. Chú ý các đặc điểm nhận diện cốt lõi:\n"
-            "- Gốm Việt Nam (Bát Tràng, Chu Đậu, Lái Thiêu...): Cốt gốm đanh, dày dặn, màu men mộc mạc, nét vẽ phóng khoáng tự do, màu chàm (cobalt) sẫm, đôi khi đọng cục, đáy/trôn gốm thường thô mộc hoặc quét son (đáy chocolate tay áo). Hoa văn mang tính dân gian.\n"
-            "- Gốm Trung Quốc, Nhật Bản, Châu Âu: Cốt thai mỏng, nhẹ (sứ), men trong vắt hoặc trắng muốt, nét vẽ mảnh, vô cùng sắc sảo và cân xứng, đáy mài nhẵn mịn bóng. Hãy đánh giá khách quan dựa trên đặc trưng hình ảnh tuyệt đối không suy đoán thiên vị."
+            "LƯU Ý ĐẶC BIỆT: Cần đánh giá bao quát cả GỐM VIỆT NAM và GỐM THẾ GIỚI, KHÔNG ĐƯỢC ép buộc một vật phẩm vào gốm Việt Nam nếu nó thuộc về nền văn hóa khác. Một số ví dụ:\n"
+            "- Gốm mộc/thô sơ (Rustic/Unglazed): Không chỉ có Bàu Trúc của Việt Nam (vuốt tay, nung ngoài trời), mà còn có Barro Negro (Oaxaca, Mexico - gốm đen bóng hoặc nhám, thường có đục lỗ hoa văn hoa lá/kỷ hà), gốm của người Mỹ bản địa, gốm Châu Phi...\n"
+            "- Gốm tráng men truyền thống: Gốm Việt Nam (Bát Tràng, Chu Đậu, Lái Thiêu) thường có nét vẽ tự do, cốt đanh dày. Trong khi gốm Trung Quốc (Cảnh Đức Trấn), Nhật Bản, Châu Âu thường có cốt mỏng (sứ), họa tiết vô cùng chuẩn xác, đối xứng hoặc mang đặc trưng văn hóa đặc thù. Hãy đánh giá khách quan dựa trên mọi chi tiết thị giác nhỏ nhất, tuyệt đối không thiên vị."
         )
 
         client = google_genai.Client(api_key=self.api_key)
         last_error = None
 
-        for model_id in self.MODELS:
+        for model_id in self.models:
             try:
                 logger.info(f"[VisionAgent] Trying model: {model_id}")
                 response = await client.aio.models.generate_content(

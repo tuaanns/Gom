@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { RotateCcw, MessageCircle } from 'lucide-react';
+import { RotateCcw, MessageCircle, Search } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
 import { ChatBox } from './ChatBox';
 import { PredictionDetailView } from '../../components/ui/PredictionDetailView';

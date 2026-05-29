@@ -23,6 +23,16 @@
   <!-- Cấu hình Google Login tại đây -->
   <meta name="google-signin-client_id"
     content="208231172368-34f26e0l7771ngcqa89j9ufj01gm6mtt.apps.googleusercontent.com">
+  <script>
+    (function() {
+      var lang = localStorage.getItem('app_lang') || 'vi';
+      var script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client?hl=' + lang;
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  </script>
 
   <meta name="description" content="A new Flutter project.">
 

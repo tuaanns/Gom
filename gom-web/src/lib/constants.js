@@ -1,4 +1,5 @@
 export const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api';
+export const AI_BASE = import.meta.env.VITE_AI_BASE || 'http://127.0.0.1:8001';
 export const GOOGLE_CLIENT_ID =
   import.meta.env.VITE_GOOGLE_CLIENT_ID ||
   '208231172368-34f26e0l7771ngcqa89j9ufj01gm6mtt.apps.googleusercontent.com';

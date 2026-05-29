@@ -145,6 +145,7 @@ class AuthController extends Controller
         if (array_key_exists('name', $fields))   $user->name   = $fields['name'];
         if (array_key_exists('phone', $fields))  $user->phone  = $fields['phone'];
         if (array_key_exists('avatar', $fields)) $user->avatar = $fields['avatar'];
+        if (array_key_exists('language', $fields)) $user->language = $fields['language'];
 
         $user->save();
 

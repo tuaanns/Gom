@@ -61,14 +61,27 @@ class PredictionController extends Controller
             'result_json'      => null,
         ]);
 
-        $debateResult = $this->aiService->runMultiAgentDebate($image);
+        $lang = $request->input('lang', 'vi');
+        $debateResult = $this->aiService->runMultiAgentDebate($image, $lang);
 
         if (isset($debateResult['error'])) {
+            $isNonPottery = array_key_exists('is_pottery', $debateResult) && $debateResult['is_pottery'] === false;
+
             $prediction->update([
-                'final_prediction' => 'Lỗi hệ thống AI',
+                'final_prediction' => $isNonPottery ? 'Ảnh không phải gốm/sứ' : 'Lỗi hệ thống AI',
                 'era'              => 'Vui lòng thử lại',
-                'result_json'      => ['error' => $debateResult['error']],
+                'result_json'      => $debateResult,
             ]);
+
+            if ($isNonPottery) {
+                return $this->fail(
+                    $debateResult['error'],
+                    422,
+                    'NON_POTTERY_IMAGE',
+                    ['db_id' => $prediction->id]
+                );
+            }
+
             return $this->fail(
                 'AI Server Error: ' . $debateResult['error'],
                 502,
@@ -83,6 +96,7 @@ class PredictionController extends Controller
             'country'          => $final['final_country'] ?? null,
             'era'              => $final['final_era'] ?? null,
             'result_json'      => $debateResult,
+            'lens_results'     => $debateResult['lens_results'] ?? [],
         ]);
 
         // Quota deduction
@@ -114,10 +128,114 @@ class PredictionController extends Controller
         ], 'Phân tích hoàn tất');
     }
 
+    public function predictLens(PredictRequest $request): JsonResponse
+    {
+        set_time_limit(600); // Lens takes longer
+        $user = $request->user();
+
+        $freeUsed = (int) ($user->free_predictions_used ?? 0);
+        $balance  = (float) ($user->token_balance ?? 0);
+
+        if ($freeUsed >= self::FREE_LIMIT && $balance < self::TOKEN_COST) {
+            return $this->fail(
+                'Bạn đã hết 5 lượt miễn phí. Vui lòng nạp thêm để tiếp tục.',
+                402,
+                'PAYMENT_REQUIRED',
+                ['free_used' => $freeUsed, 'token_balance' => $balance]
+            );
+        }
+
+        $image = $request->file('image');
+        $lang = $request->input('lang', 'vi');
+
+        try {
+            $azureUrl = $this->azureStorage->uploadSingleFile($image, 'predictions');
+        } catch (\Throwable $e) {
+            Log::error('Azure upload failed', ['error' => $e->getMessage()]);
+            return $this->serverError('Tải ảnh lên thất bại. Vui lòng thử lại.');
+        }
+
+        $prediction = Prediction::create([
+            'user_id'          => $user->id,
+            'image'            => $azureUrl,
+            'final_prediction' => 'Đang phân tích Lens...',
+            'country'          => 'Google Lens',
+            'era'              => 'Google Lens',
+            'result_json'      => null,
+            'source_type'      => 'lens',
+            'lens_results'     => null,
+        ]);
+
+        $lensResult = $this->aiService->runLens($image, $lang);
+
+        if (isset($lensResult['error'])) {
+            $isNonPottery = array_key_exists('is_pottery', $lensResult) && $lensResult['is_pottery'] === false;
+
+            $prediction->update([
+                'final_prediction' => $isNonPottery ? 'Ảnh không phải gốm/sứ' : 'Lỗi kết nối Google Lens',
+                'era'              => 'Vui lòng thử lại',
+                'result_json'      => $lensResult,
+            ]);
+
+            if ($isNonPottery) {
+                return $this->fail(
+                    $lensResult['error'],
+                    422,
+                    'NON_POTTERY_IMAGE',
+                    ['db_id' => $prediction->id]
+                );
+            }
+
+            return $this->fail(
+                'AI Lens Error: ' . $lensResult['error'],
+                502,
+                'AI_LENS_ERROR',
+                ['db_id' => $prediction->id]
+            );
+        }
+
+        $prediction->update([
+            'final_prediction' => $lensResult['final_prediction'] ?? 'Unknown',
+            'country'          => 'Google Lens',
+            'era'              => 'AI Conclusion',
+            'result_json'      => $lensResult,
+            'lens_results'     => $lensResult['lens_results'] ?? [],
+        ]);
+
+        // Quota deduction
+        $note = '';
+        if ($user->free_predictions_used < self::FREE_LIMIT) {
+            $user->increment('free_predictions_used');
+            $remaining = self::FREE_LIMIT - $user->fresh()->free_predictions_used;
+            $note = 'Lượt miễn phí còn lại: ' . $remaining;
+        } else {
+            $user->decrement('token_balance', self::TOKEN_COST);
+            TokenHistory::create([
+                'user_id'     => $user->id,
+                'type'        => 'out',
+                'amount'      => self::TOKEN_COST,
+                'description' => 'Phân tích Lens: ' . mb_substr($lensResult['final_prediction'] ?? 'Unknown', 0, 50) . '...',
+            ]);
+            $note = 'Đã trừ 1 lượt. Còn lại: ' . (float) $user->fresh()->token_balance;
+        }
+
+        return $this->ok([
+            'data'  => $lensResult,
+            'db_id' => $prediction->id,
+            'quota' => [
+                'free_used'     => (int) $user->fresh()->free_predictions_used,
+                'free_limit'    => self::FREE_LIMIT,
+                'token_balance' => (float) $user->fresh()->token_balance,
+                'note'          => $note,
+            ],
+        ], 'Phân tích Lens hoàn tất');
+    }
+
     public function chat(ChatRequest $request): JsonResponse
     {
         $user = $request->user();
         $query = $request->validated()['question'];
+        $lang = $request->input('lang', 'vi'); // default to vi
         $pythonAiUrl = rtrim((string) env('PYTHON_AI_URL', 'http://127.0.0.1:8001'), '/');
 
         $freeUsed = (int) ($user->free_predictions_used ?? 0);
@@ -139,7 +257,7 @@ class PredictionController extends Controller
                 'http' => [
                     'method'  => 'POST',
                     'header'  => "Content-Type: application/json\r\n",
-                    'content' => json_encode(['question' => $query]),
+                    'content' => json_encode(['question' => $query, 'lang' => $lang]),
                     'timeout' => 30,
                 ],
             ];
@@ -200,11 +318,11 @@ class PredictionController extends Controller
 
         $confidence = $finalReport['confidence']
             ?? $finalReport['final_confidence']
-            ?? null;
+            ?? ($resultJson['confidence'] ?? null);
 
         $certainty = $finalReport['certainty']
             ?? $finalReport['assessment']
-            ?? null;
+            ?? ($resultJson['confidence'] ?? null);
 
         $payload = [
             'id'              => $item->id,
@@ -214,6 +332,8 @@ class PredictionController extends Controller
             'era'             => $item->era,
             'confidence'      => $confidence !== null ? (float) $confidence : null,
             'certainty'       => $certainty,
+            'source_type'     => $item->source_type ?? 'debate',
+            'lens_results'    => $item->lens_results,
             'created_at'      => $item->created_at,
         ];
 

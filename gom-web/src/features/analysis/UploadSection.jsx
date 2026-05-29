@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Upload, ImagePlus, Loader2, X } from 'lucide-react';
+import { Upload, ImagePlus, Loader2, X, Search } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { GlareHover } from '../../components/ui/GlareHover';
@@ -66,34 +66,39 @@ export const UploadSection = ({ file, preview, loading, error, onFileChange, onA
             <p className="mt-4 text-sm font-semibold text-danger">{error}</p>
           )}
 
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Button
               variant="ghost"
               size="md"
               onClick={() => fileRef.current?.click()}
               leftIcon={<Upload size={16} />}
+              className="w-full sm:w-auto"
             >
               {file ? t('analysis.changeFile') : t('analysis.selectFile')}
             </Button>
-            <GlareHover
-              glareColor="#ffffff"
-              glareOpacity={0.32}
-              glareAngle={-30}
-              glareSize={260}
-              transitionDuration={600}
-              playOnce={false}
-              className="rounded-2xl"
-            >
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={onAnalyze}
-                disabled={!file || loading}
-                leftIcon={loading ? <Loader2 className="animate-spin" size={18} /> : null}
+            
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <GlareHover
+                glareColor="#ffffff"
+                glareOpacity={0.32}
+                glareAngle={-30}
+                glareSize={260}
+                transitionDuration={600}
+                playOnce={false}
+                className="rounded-2xl"
               >
-                {loading ? t('analysis.analyzing') : t('analysis.analyzeBtn')}
-              </Button>
-            </GlareHover>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={onAnalyze}
+                  disabled={!file || loading}
+                  leftIcon={loading ? <Loader2 className="animate-spin" size={18} /> : null}
+                  className="w-full sm:w-auto"
+                >
+                  {loading ? t('analysis.analyzing') : t('analysis.analyzeBtn')}
+                </Button>
+              </GlareHover>
+            </div>
           </div>
         </div>
       </Card>
