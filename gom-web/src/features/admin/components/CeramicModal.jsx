@@ -5,8 +5,10 @@ import { FormField, Input, Textarea, Checkbox } from './FormField';
 import { adminApi } from '../api';
 import { storageApi } from '../../../lib/storageApi';
 import { getErrorMessage } from '../../../lib/utils';
+import { useTranslation } from 'react-i18next';
 
 export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [imageFile, setImageFile] = useState(null);
@@ -67,12 +69,12 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      notify?.('Please select an image file', 'error');
+      notify?.(t('admin.ceramicsPage.modal.errorSelectImage'), 'error');
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      notify?.('Image size must be less than 5MB', 'error');
+      notify?.(t('admin.ceramicsPage.modal.errorImageSize'), 'error');
       return;
     }
 
@@ -95,11 +97,11 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('admin.ceramicsPage.modal.errorNameRequired');
     }
 
     if (!formData.country.trim()) {
-      newErrors.country = 'Country is required';
+      newErrors.country = t('admin.ceramicsPage.modal.errorCountryRequired');
     }
 
     setErrors(newErrors);
@@ -118,7 +120,7 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
       // Upload image if new file selected
       if (imageFile) {
         setUploading(true);
-        notify?.('Uploading image...', 'info');
+        notify?.(t('admin.ceramicsPage.modal.infoUploading'), 'info');
         const uploadResult = await storageApi.uploadSingle(imageFile, 'ceramics');
         imageUrl = uploadResult.fileUrl;
         setUploading(false);
@@ -131,10 +133,10 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
 
       if (ceramic) {
         await adminApi.updateCeramic(ceramic.id, submitData);
-        notify?.('Ceramic line updated successfully', 'success');
+        notify?.(t('admin.ceramicsPage.modal.successUpdate'), 'success');
       } else {
         await adminApi.createCeramic(submitData);
-        notify?.('Ceramic line created successfully', 'success');
+        notify?.(t('admin.ceramicsPage.modal.successCreate'), 'success');
       }
 
       onSuccess?.();
@@ -151,12 +153,12 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={ceramic ? 'Edit Ceramic Line' : 'Add New Ceramic Line'}
+      title={ceramic ? t('admin.ceramicsPage.modal.editTitle') : t('admin.ceramicsPage.modal.addTitle')}
       size="lg"
     >
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Image Upload */}
-        <FormField label="Image">
+        <FormField label={t('admin.ceramicsPage.modal.image')}>
           <div className="space-y-3">
             {imagePreview ? (
               <div className="relative inline-block">
@@ -176,7 +178,7 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
             ) : (
               <label className="flex h-40 w-40 cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400 dark:border-gray-600 dark:hover:border-gray-500">
                 <Upload size={32} className="text-gray-400" />
-                <span className="mt-2 text-sm text-gray-500">Upload Image</span>
+                <span className="mt-2 text-sm text-gray-500">{t('admin.ceramicsPage.modal.uploadImage')}</span>
                 <input
                   type="file"
                   accept="image/*"
@@ -189,62 +191,62 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
         </FormField>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <FormField label="Name" required error={errors.name}>
+          <FormField label={t('admin.ceramicsPage.modal.name')} required error={errors.name}>
             <Input
               name="name"
               value={formData.name}
               onChange={handleChange}
-              placeholder="Enter ceramic line name"
+              placeholder={t('admin.ceramicsPage.modal.namePlaceholder')}
               error={errors.name}
             />
           </FormField>
 
-          <FormField label="Country" required error={errors.country}>
+          <FormField label={t('admin.ceramicsPage.modal.country')} required error={errors.country}>
             <Input
               name="country"
               value={formData.country}
               onChange={handleChange}
-              placeholder="e.g., Việt Nam, Trung Quốc"
+              placeholder={t('admin.ceramicsPage.modal.countryPlaceholder')}
               error={errors.country}
             />
           </FormField>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <FormField label="Origin">
+          <FormField label={t('admin.ceramicsPage.modal.origin')}>
             <Input
               name="origin"
               value={formData.origin}
               onChange={handleChange}
-              placeholder="e.g., Hà Nội, Giang Tây"
+              placeholder={t('admin.ceramicsPage.modal.originPlaceholder')}
             />
           </FormField>
 
-          <FormField label="Era">
+          <FormField label={t('admin.ceramicsPage.modal.era')}>
             <Input
               name="era"
               value={formData.era}
               onChange={handleChange}
-              placeholder="e.g., Lý Dynasty, Ming Dynasty"
+              placeholder={t('admin.ceramicsPage.modal.eraPlaceholder')}
             />
           </FormField>
         </div>
 
-        <FormField label="Style">
+        <FormField label={t('admin.ceramicsPage.modal.style')}>
           <Input
             name="style"
             value={formData.style}
             onChange={handleChange}
-            placeholder="e.g., Men ngọc, Hoa lam, Celadon"
+            placeholder={t('admin.ceramicsPage.modal.stylePlaceholder')}
           />
         </FormField>
 
-        <FormField label="Description">
+        <FormField label={t('admin.ceramicsPage.modal.description')}>
           <Textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
-            placeholder="Enter description..."
+            placeholder={t('admin.ceramicsPage.modal.descriptionPlaceholder')}
             rows={4}
           />
         </FormField>
@@ -254,7 +256,7 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
             name="is_featured"
             checked={formData.is_featured}
             onChange={handleChange}
-            label="Featured ceramic line"
+            label={t('admin.ceramicsPage.modal.featured')}
           />
         </FormField>
 
@@ -264,7 +266,7 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
             onClick={onClose}
             className="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-700"
           >
-            Cancel
+            {t('admin.ceramicsPage.modal.cancel')}
           </button>
           <button
             type="submit"
@@ -272,12 +274,12 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
             className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
           >
             {uploading
-              ? 'Uploading...'
+              ? t('admin.ceramicsPage.modal.uploading')
               : loading
-                ? 'Saving...'
+                ? t('admin.ceramicsPage.modal.saving')
                 : ceramic
-                  ? 'Update'
-                  : 'Create'}
+                  ? t('admin.ceramicsPage.modal.update')
+                  : t('admin.ceramicsPage.modal.create')}
           </button>
         </div>
       </form>
