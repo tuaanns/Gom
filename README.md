@@ -109,6 +109,21 @@ Vận hành **4 Terminal** cùng lúc:
 | **Backend** | Azure App Service | [thearchivist-...azurewebsites.net](https://thearchivist-edemdeeaf4ahamgs.southeastasia-01.azurewebsites.net) | `tuaanns/Gom` (GitHub Actions) |
 | **Backup** | GitHub | — | `tuaanns/TheArchivist` |
 
+### 🌐 Cấu Hình Google Lens Trên Production (Browserless.io)
+
+Để chạy được Selenium quét Google Lens trên môi trường máy chủ đám mây (như **Azure App Service** - vốn không có sẵn môi trường đồ họa và Google Chrome), hệ thống hỗ trợ luồng định tuyến thông minh qua **Remote Cloud Browser**:
+
+1. **Cách hoạt động**:
+   - **Tại local**: Hệ thống dùng Chrome cài sẵn trên máy tính của bạn.
+   - **Tại production**: Hệ thống tự động kết nối qua WebSocket tới cụm trình duyệt đám mây của **Browserless.io** khi phát hiện thấy biến cấu hình `BROWSERLESS_TOKEN`.
+2. **Hướng dẫn thiết lập**:
+   - Đăng ký tài khoản miễn phí (tặng 1000+ lượt quét/tháng) tại [Browserless.io](https://www.browserless.io/).
+   - Copy mã **API Token** từ Dashboard chính của Browserless.
+   - Thiết lập biến môi trường trên **Azure Portal** cho Web App **`TheArchivistAI`**:
+     * **Key**: `BROWSERLESS_TOKEN`
+     * **Value**: *(Mã Token của bạn)*
+   - Khởi động lại App Service để áp dụng cấu hình mới. Trích dẫn Google Lens sẽ tự động kích hoạt thành công trên mọi nền tảng!
+
 ### 💳 Tài Khoản Thử Nghiệm VNPay (VNPay Sandbox Test Cards)
 
 Khi thực hiện thanh toán thử nghiệm trên cổng Sandbox VNPay, vui lòng sử dụng thông tin thẻ dưới đây:
