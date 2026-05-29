@@ -26,6 +26,14 @@ jobs:
                   python --version
                   python -m pip --version
 
+            - name: Create .env file from secrets
+              run: |
+                  echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" > .env
+                  echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env
+                  echo "GOOGLE_LENS_HEADLESS=true" >> .env
+                  echo "BROWSERLESS_TOKEN=${{ secrets.BROWSERLESS_TOKEN }}" >> .env
+                  echo ".env file created with $(wc -l < .env) lines"
+
             - name: Install dependencies for validation
               run: |
                   python -m pip install --upgrade pip
@@ -64,6 +72,17 @@ jobs:
                   client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6708FEEC4A4749AFAF95299213727277 }}
                   tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2617D5F362E441C3A7196430FCB6377D }}
                   subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_948D1AE4FF0C43DEAFD2650E50DDB68F }}
+
+            - name: Set Azure App Settings
+              run: |
+                  az webapp config appsettings set \
+                    --resource-group TheArchivist_group \
+                    --name TheArchivistAI \
+                    --settings \
+                    GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
+                    GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
+                    BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
+                    GOOGLE_LENS_HEADLESS="true"
 
             - name: Deploy to Azure Web App
               uses: azure/webapps-deploy@v3

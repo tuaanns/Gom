@@ -71,6 +71,22 @@ Lấy API keys:
 - **Google Gemini**: https://aistudio.google.com/app/apikey
 - **Google Client ID** (cho social login): Google Cloud Console → APIs & Services → Credentials
 
+## 🌐 Cấu Hình Google Lens Trên Production (Browserless.io)
+
+Để chạy được Selenium quét Google Lens trên môi trường máy chủ đám mây (như **Azure App Service** - vốn không có sẵn môi trường đồ họa và Google Chrome), hệ thống hỗ trợ luồng định tuyến thông minh qua **Remote Cloud Browser**:
+
+### 1. Cách hoạt động
+- **Tại local**: Hệ thống dùng Chrome cài sẵn trên máy tính của bạn.
+- **Tại production**: Hệ thống tự động kết nối qua WebSocket tới cụm trình duyệt đám mây của **Browserless.io** khi phát hiện thấy biến cấu hình `BROWSERLESS_TOKEN`.
+
+### 2. Hướng dẫn thiết lập (Miễn phí)
+1. Đăng ký tài khoản miễn phí (tặng 1000+ lượt quét/tháng) tại [Browserless.io](https://www.browserless.io/).
+2. Copy mã **API Token** từ Dashboard chính của Browserless.
+3. Thiết lập biến môi trường trên **Azure Portal** (hoặc file `.env` trên VPS):
+   - **Key**: `BROWSERLESS_TOKEN`
+   - **Value**: *(Mã Token của bạn)*
+4. Khởi động lại App Service để áp dụng cấu hình mới. Trích dẫn Google Lens sẽ tự động kích hoạt thành công trên mọi nền tảng!
+
 ## Chạy server
 
 ```bash

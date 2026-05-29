@@ -36,9 +36,19 @@ def setup_driver():
     chrome_options.add_argument("--log-level=3")
     chrome_options.add_argument("--silent")
 
-    driver = webdriver.Chrome(options=chrome_options)
-    stealth_js = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
-    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_js})
+    browserless_token = os.getenv("BROWSERLESS_TOKEN")
+    if browserless_token:
+        logger.info("[Lens] BROWSERLESS_TOKEN found. Connecting to Remote Cloud Browser (browserless.io)...")
+        driver = webdriver.Remote(
+            command_executor=f"https://chrome.browserless.io/webdriver?token={browserless_token}",
+            options=chrome_options
+        )
+    else:
+        logger.info("[Lens] BROWSERLESS_TOKEN not found. Launching local Chrome...")
+        driver = webdriver.Chrome(options=chrome_options)
+        stealth_js = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
+        driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_js})
+        
     driver.set_page_load_timeout(60)
     return driver
 
