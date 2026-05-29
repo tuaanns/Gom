@@ -5,7 +5,7 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { GlareHover } from '../../components/ui/GlareHover';
 
-export const UploadSection = ({ file, preview, loading, error, onFileChange, onAnalyze, onClear }) => {
+export const UploadSection = ({ file, preview, loading, error, onFileChange, onAnalyze, onAnalyzeLens, onClear }) => {
   const { t } = useTranslation();
   const fileRef = useRef(null);
 
@@ -77,7 +77,7 @@ export const UploadSection = ({ file, preview, loading, error, onFileChange, onA
               {file ? t('analysis.changeFile') : t('analysis.selectFile')}
             </Button>
             
-            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row justify-center">
               <GlareHover
                 glareColor="#ffffff"
                 glareOpacity={0.32}
@@ -93,9 +93,30 @@ export const UploadSection = ({ file, preview, loading, error, onFileChange, onA
                   onClick={onAnalyze}
                   disabled={!file || loading}
                   leftIcon={loading ? <Loader2 className="animate-spin" size={18} /> : null}
-                  className="w-full sm:w-auto"
+                  className="w-full sm:w-auto font-bold"
                 >
                   {loading ? t('analysis.analyzing') : t('analysis.analyzeBtn')}
+                </Button>
+              </GlareHover>
+
+              <GlareHover
+                glareColor="#10b981"
+                glareOpacity={0.32}
+                glareAngle={-30}
+                glareSize={260}
+                transitionDuration={600}
+                playOnce={false}
+                className="rounded-2xl"
+              >
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={onAnalyzeLens}
+                  disabled={!file || loading}
+                  leftIcon={loading ? null : <Search size={18} />}
+                  className="w-full sm:w-auto font-bold bg-emerald-600 hover:bg-emerald-700 text-white border-none dark:bg-emerald-500 dark:hover:bg-emerald-600 dark:text-navy-dark"
+                >
+                  {loading ? t('analysis.lens.sending') : t('analysis.lens.btnLabel')}
                 </Button>
               </GlareHover>
             </div>
