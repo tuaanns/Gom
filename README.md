@@ -96,6 +96,19 @@ Vận hành **4 Terminal** cùng lúc:
 | **Backend** | Azure App Service | [thearchivist-...azurewebsites.net](https://thearchivist-edemdeeaf4ahamgs.southeastasia-01.azurewebsites.net) | `tuaanns/Gom` (GitHub Actions) |
 | **Backup** | GitHub | — | `tuaanns/TheArchivist` |
 
+### 💳 Tài Khoản Thử Nghiệm VNPay (VNPay Sandbox Test Cards)
+
+Khi thực hiện thanh toán thử nghiệm trên cổng Sandbox VNPay, vui lòng sử dụng thông tin thẻ dưới đây:
+
+*   **Ngân hàng**: `NCB`
+*   **Số thẻ**: `9704198526191432198`
+*   **Tên chủ thẻ**: `NGUYEN VAN A`
+*   **Ngày phát hành**: `07/15`
+*   **Mật khẩu OTP**: `123456`
+*   **Số tiền**: Tự do (VD: `50,000` VND)
+
+---
+
 ### 🚀 Deploy Nhanh (1 lệnh duy nhất)
 
 ```powershell
