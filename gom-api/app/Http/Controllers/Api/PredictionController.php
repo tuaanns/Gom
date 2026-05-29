@@ -253,20 +253,22 @@ class PredictionController extends Controller
         $sources = [];
 
         try {
-            $opts = [
-                'http' => [
-                    'method'  => 'POST',
-                    'header'  => "Content-Type: application/json\r\n",
-                    'content' => json_encode(['question' => $query, 'lang' => $lang]),
-                    'timeout' => 30,
-                ],
-            ];
-            $context = stream_context_create($opts);
-            $aiResponse = @file_get_contents($pythonAiUrl . '/chat', false, $context);
-            if ($aiResponse !== false) {
-                $aiData = json_decode($aiResponse, true);
+            $response = \Illuminate\Support\Facades\Http::timeout(120)
+                ->connectTimeout(30)
+                ->post($pythonAiUrl . '/chat', [
+                    'question' => $query,
+                    'lang'     => $lang,
+                ]);
+
+            if ($response->successful()) {
+                $aiData = $response->json();
                 $answer = $aiData['answer'] ?? $answer;
                 $sources = $aiData['sources'] ?? [];
+            } else {
+                Log::warning('AI chat returned non-200', [
+                    'status' => $response->status(),
+                    'body'   => $response->body(),
+                ]);
             }
         } catch (\Throwable $e) {
             Log::warning('AI chat failed', ['error' => $e->getMessage()]);
