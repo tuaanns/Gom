@@ -7,10 +7,11 @@ import { adminApi } from '../api';
 import { Badge } from '../../../components/ui/Badge';
 import { formatDate, getErrorMessage, formatNumber } from '../../../lib/utils';
 import { useTranslation } from 'react-i18next';
+import { translateCeramicTerm } from '../../../lib/ceramicTranslations';
 
 // Token History admin page — read-only, filter by user_id, type (in/out), date range
 export const TokenHistoryPage = ({ notify }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [rows, setRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showFilters, setShowFilters] = useState(false);
@@ -114,11 +115,47 @@ export const TokenHistoryPage = ({ notify }) => {
       key: 'description',
       header: t('admin.tokenHistoryPage.table.description'),
       accessor: (r) => r.description || '',
-      cell: (r) => (
-        <span className="text-sm text-gray-700 dark:text-gray-300">
-          {r.description || '—'}
-        </span>
-      ),
+      cell: (r) => {
+        const desc = r.description || '';
+        let displayDesc = desc;
+        const isEn = (i18n.language || 'vi').startsWith('en');
+        if (isEn && desc) {
+          if (desc.startsWith('Phân tích gốm: ')) {
+            const val = desc.substring('Phân tích gốm: '.length);
+            displayDesc = 'Ceramic analysis: ' + translateCeramicTerm(val, 'en');
+          } else if (desc.startsWith('Phân tích Lens: ')) {
+            const val = desc.substring('Phân tích Lens: '.length);
+            displayDesc = 'Lens analysis: ' + translateCeramicTerm(val, 'en');
+          } else if (desc.startsWith('Nạp tiền: ')) {
+            const val = desc.substring('Nạp tiền: '.length);
+            let transVal = val;
+            if (val === 'Cơ Bản') transVal = 'Basic';
+            else if (val === 'Phổ Biến') transVal = 'Popular';
+            else if (val === 'Chuyên Gia') transVal = 'Expert';
+            displayDesc = 'Deposit: ' + transVal;
+          } else if (desc.startsWith('VNPay Nạp tiền: ')) {
+            const val = desc.substring('VNPay Nạp tiền: '.length);
+            let transVal = val;
+            if (val === 'Cơ Bản') transVal = 'Basic';
+            else if (val === 'Phổ Biến') transVal = 'Popular';
+            else if (val === 'Chuyên Gia') transVal = 'Expert';
+            displayDesc = 'VNPay Deposit: ' + transVal;
+          } else if (desc === 'Trừ phí sử dụng Chatbot AI') {
+            displayDesc = 'Deduction for using Chatbot AI';
+          } else if (desc === 'Phân tích gốm sứ (1 lượt)') {
+            displayDesc = 'Ceramics analysis (1 credit)';
+          } else if (desc === 'Hoàn phí phân tích gốm thất bại') {
+            displayDesc = 'Refund for failed ceramic analysis';
+          } else {
+            displayDesc = translateCeramicTerm(desc, 'en');
+          }
+        }
+        return (
+          <span className="text-sm text-gray-700 dark:text-gray-300">
+            {displayDesc || '—'}
+          </span>
+        );
+      },
       sortable: false,
       searchable: true,
     },

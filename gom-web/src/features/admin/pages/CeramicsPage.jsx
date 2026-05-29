@@ -8,9 +8,10 @@ import { adminApi } from '../api';
 import { getErrorMessage } from '../../../lib/utils';
 import { Badge } from '../../../components/ui/Badge';
 import { useTranslation } from 'react-i18next';
+import { translateCeramicTerm } from '../../../lib/ceramicTranslations';
 
 export const CeramicsPage = ({ notify }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [ceramics, setCeramics] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedCeramic, setSelectedCeramic] = useState(null);
@@ -119,11 +120,15 @@ export const CeramicsPage = ({ notify }) => {
     {
       key: 'name',
       header: t('admin.ceramicsPage.table.name'),
-      accessor: (row) => row.name,
+      accessor: (row) => translateCeramicTerm(row.name, i18n.language),
       cell: (row) => (
         <div>
-          <p className="font-semibold text-gray-900 dark:text-white">{row.name}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400">{row.country}</p>
+          <p className="font-semibold text-gray-900 dark:text-white">
+            {translateCeramicTerm(row.name, i18n.language)}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {translateCeramicTerm(row.country, i18n.language)}
+          </p>
         </div>
       ),
       sortable: true,
@@ -132,14 +137,24 @@ export const CeramicsPage = ({ notify }) => {
     {
       key: 'country',
       header: t('admin.ceramicsPage.table.country'),
-      accessor: (row) => row.country,
+      accessor: (row) => translateCeramicTerm(row.country, i18n.language),
+      cell: (row) => (
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {translateCeramicTerm(row.country, i18n.language)}
+        </span>
+      ),
       sortable: true,
       searchable: true,
     },
     {
       key: 'era',
       header: t('admin.ceramicsPage.table.era'),
-      accessor: (row) => row.era || '—',
+      accessor: (row) => translateCeramicTerm(row.era || '', i18n.language) || '—',
+      cell: (row) => (
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {translateCeramicTerm(row.era || '', i18n.language) || '—'}
+        </span>
+      ),
       sortable: true,
       searchable: true,
     },

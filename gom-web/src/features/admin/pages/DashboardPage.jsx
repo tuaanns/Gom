@@ -19,6 +19,7 @@ import { ImageWithFallback } from '../../../components/ui/ImageWithFallback';
 import { Avatar } from '../../../components/ui/Avatar';
 import { Badge } from '../../../components/ui/Badge';
 import { formatVND, formatNumber, formatDate, getErrorMessage, cn } from '../../../lib/utils';
+import { translateCeramicTerm } from '../../../lib/ceramicTranslations';
 
 const StatCard = ({ title, value, icon: Icon, color = 'blue', helper }) => {
   const colorClasses = {
@@ -105,7 +106,7 @@ const ListSection = ({ title, viewAllHref, viewAllLabel, children, empty = 'No d
 );
 
 export const DashboardPage = ({ notify }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -277,10 +278,12 @@ export const DashboardPage = ({ notify }) => {
             <div key={p.id} className="flex items-center gap-3 px-5 py-3">
               <div className="rounded-full bg-orange-100 p-2 text-orange-600 dark:bg-orange-900/20 dark:text-orange-400">
                 <Receipt size={16} />
-              </div>
-              <div className="min-w-0 flex-1">
+              </div>              <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-                  {p.package_name || 'Payment'}{' '}
+                  {((p.package_name === 'Cơ Bản' || p.package_name === 'Basic') && i18n.language.startsWith('en')) ? 'Basic' : 
+                   ((p.package_name === 'Phổ Biến' || p.package_name === 'Popular') && i18n.language.startsWith('en')) ? 'Popular' :
+                   ((p.package_name === 'Chuyên Gia' || p.package_name === 'Expert') && i18n.language.startsWith('en')) ? 'Expert' :
+                   p.package_name || 'Payment'}{' '}
                   <span className="font-mono text-[11px] text-gray-500 dark:text-gray-400">
                     {p.hex_id ? `#${p.hex_id}` : ''}
                   </span>
@@ -300,7 +303,7 @@ export const DashboardPage = ({ notify }) => {
           ))}
         </ListSection>
       </div>
-
+ 
       <ListSection
         title={t('admin.recentPredictions')}
         viewAllHref="/admin/predictions"
@@ -318,10 +321,10 @@ export const DashboardPage = ({ notify }) => {
             </div>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-gray-900 dark:text-white">
-                {p.predicted_label || '—'}
+                {translateCeramicTerm(p.predicted_label || '—', i18n.language)}
               </p>
               <p className="truncate text-xs text-gray-500 dark:text-gray-400">
-                {p.country || '—'} • {p.era || '—'} • by {p.user?.name || 'Unknown'}
+                {translateCeramicTerm(p.country || '—', i18n.language)} • {translateCeramicTerm(p.era || '—', i18n.language)} • by {p.user?.name || 'Unknown'}
               </p>
             </div>
             <span className="shrink-0 text-[11px] text-gray-500 dark:text-gray-400">

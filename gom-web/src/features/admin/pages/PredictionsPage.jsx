@@ -6,9 +6,10 @@ import { ImageWithFallback } from '../../../components/ui/ImageWithFallback';
 import { adminApi } from '../api';
 import { formatDate, getErrorMessage } from '../../../lib/utils';
 import { useTranslation } from 'react-i18next';
+import { translateCeramicTerm } from '../../../lib/ceramicTranslations';
 
 export const PredictionsPage = ({ notify }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [predictions, setPredictions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedPrediction, setSelectedPrediction] = useState(null);
@@ -158,6 +159,14 @@ export const PredictionsPage = ({ notify }) => {
                 displayEra = 'Chưa xác định';
               }
             }
+          }
+        }
+
+        const isEn = (i18n.language || 'vi').startsWith('en');
+        if (isEn) {
+          displayLabel = translateCeramicTerm(displayLabel, 'en');
+          if (displayEra) {
+            displayEra = translateCeramicTerm(displayEra, 'en');
           }
         }
 
