@@ -144,6 +144,7 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
   const debate = result.debate || [];
   const visualFeatures = result.visual_features || null;
   const lensResults = prediction.lens_results || result.lens_results || [];
+  const lensStatus = prediction.lens_status || result.lens_status || null;
 
   const imgSrc = imageUrl || prediction.image_url || prediction.image;
 
@@ -286,6 +287,7 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
         showDebugInfo={showDebugInfo}
         isLens={isLens}
         lensResults={lensResults}
+        lensStatus={lensStatus}
       />
     </div>
   );
@@ -295,7 +297,7 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
 const translationCache = new Map();
 
 // AI Result Sections Component
-const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeatures, result, showDebugInfo, isLens, lensResults }) => {
+const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeatures, result, showDebugInfo, isLens, lensResults, lensStatus }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const [translatedText, setTranslatedText] = React.useState(null);
@@ -367,7 +369,13 @@ const originalText = finalReport?.reasoning || finalReport?.final_reasoning || f
     return () => controller.abort();
   }, [performTranslation]);
 
-  if (!agentPredictions?.length && !debate?.length && !finalReport?.reasoning && !finalReport?.verdict && !visualFeatures && !lensResults?.length) {
+  const lensMentioned = /google\s+lens/i.test(originalText || '');
+  const shouldShowLens = (Array.isArray(lensResults) && lensResults.length > 0)
+    || !!lensStatus?.attempted
+    || lensMentioned
+    || isLens;
+
+  if (!agentPredictions?.length && !debate?.length && !finalReport?.reasoning && !finalReport?.verdict && !visualFeatures && !lensResults?.length && !shouldShowLens) {
     return null;
   }
 
@@ -437,6 +445,35 @@ const originalText = finalReport?.reasoning || finalReport?.final_reasoning || f
                 </div>
               </a>
             ))}
+          </div>
+        </div>
+      )}
+
+      {shouldShowLens && (!Array.isArray(lensResults) || lensResults.length === 0) && (
+        <div className="rounded-xl border border-stroke bg-surface p-5 dark:border-dark-stroke dark:bg-dark-surface">
+          <div className="mb-4 flex items-center justify-between gap-3">
+            <h4 className="flex items-center gap-2 text-sm font-bold text-navy dark:text-ivory">
+              <Search size={16} className="text-ceramic-dark dark:text-ceramic" />
+              Google Lens
+            </h4>
+            <Badge variant="gold" className="text-xs">
+              {t('analysis.lens.noDirectSources', 'No direct sources')}
+            </Badge>
+          </div>
+          <div className="rounded-lg border border-stroke bg-surface-alt p-4 text-sm leading-relaxed text-muted dark:border-dark-stroke dark:bg-dark-surface-alt dark:text-dark-text-muted">
+            {lensStatus?.message
+              || t(
+                'analysis.lens.noSourcesStatus',
+                'Google Lens was used as reference context for this appraisal, but it did not return direct source links for this image.'
+              )}
+            {lensMentioned && (
+              <p className="mt-2 text-navy dark:text-ivory">
+                {t(
+                  'analysis.lens.mentionedInVerdict',
+                  'The final verdict still includes the Lens signal in its reasoning.'
+                )}
+              </p>
+            )}
           </div>
         </div>
       )}
