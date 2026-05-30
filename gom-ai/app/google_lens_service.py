@@ -1,10 +1,12 @@
 import time
 import os
 import logging
+import re
 import shutil
 import uuid
 import random
 import requests as http_requests
+from urllib.parse import parse_qs, unquote, urlparse
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -13,6 +15,46 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.options import Options
 
 logger = logging.getLogger("gom-ai.lens")
+
+
+def _normalize_result_url(href: str) -> str:
+    if not href:
+        return ""
+
+    href = href.strip()
+    if href.startswith("/url?"):
+        href = "https://www.google.com" + href
+
+    parsed = urlparse(href)
+    host = parsed.netloc.lower()
+
+    if "google." in host:
+        params = parse_qs(parsed.query)
+        for key in ("url", "q", "imgrefurl"):
+            values = params.get(key)
+            if values:
+                candidate = unquote(values[0]).strip()
+                if candidate.startswith("http"):
+                    return candidate
+        return ""
+
+    return href if href.startswith("http") else ""
+
+
+def _valid_result_url(url: str) -> bool:
+    if not url:
+        return False
+    host = urlparse(url).netloc.lower()
+    blocked = ("google.", "gstatic.", "ggpht.", "googleusercontent.", "schema.org")
+    return not any(part in host for part in blocked)
+
+
+def _element_text(el) -> str:
+    for attr in ("aria-label", "title"):
+        value = (el.get_attribute(attr) or "").strip()
+        if value:
+            return value
+    return (el.text or "").strip()
 
 
 def _build_chrome_options():
@@ -113,10 +155,10 @@ def _scrape_results(driver, max_results: int) -> list:
                         link_el = el.find_element(By.TAG_NAME, "a")
                     except:
                         link_el = el
-                    href = link_el.get_attribute("href") or ""
+                    href = _normalize_result_url(link_el.get_attribute("href") or "")
                     if not title:
-                        title = link_el.text.strip()
-                    if href and title and "google" not in href.lower() and len(title) > 3:
+                        title = _element_text(link_el)
+                    if href and title and _valid_result_url(href) and len(title) > 3:
                         if not any(r['url'] == href for r in results):
                             results.append({"title": title, "url": href})
                             if len(results) >= max_results:
@@ -130,12 +172,10 @@ def _scrape_results(driver, max_results: int) -> list:
     all_links = driver.find_elements(By.TAG_NAME, "a")
     for link in all_links:
         try:
-            href = link.get_attribute("href") or ""
-            title = link.text.strip()
+            href = _normalize_result_url(link.get_attribute("href") or "")
+            title = _element_text(link)
             if (href and title
-                    and "google" not in href.lower()
-                    and "gstatic" not in href.lower()
-                    and "about.google" not in href
+                    and _valid_result_url(href)
                     and not href.startswith("javascript")
                     and len(title) > 5):
                 if not any(r['url'] == href for r in results):
@@ -145,6 +185,22 @@ def _scrape_results(driver, max_results: int) -> list:
                         break
         except:
             continue
+
+    if not results:
+        page_source = driver.page_source or ""
+        encoded_urls = re.findall(r"https?%3A%2F%2F[^\"'&<>\\]+", page_source)
+        plain_urls = re.findall(r"https?://[^\"'<>\\\s]+", page_source)
+        for raw in encoded_urls + plain_urls:
+            href = _normalize_result_url(unquote(raw))
+            if not _valid_result_url(href):
+                continue
+            host = urlparse(href).netloc.lower().replace("www.", "")
+            if not host:
+                continue
+            if not any(r["url"] == href for r in results):
+                results.append({"title": host, "url": href})
+                if len(results) >= max_results:
+                    break
     return results
 
 
