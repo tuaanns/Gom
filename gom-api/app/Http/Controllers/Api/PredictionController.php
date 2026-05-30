@@ -97,7 +97,6 @@ class PredictionController extends Controller
             'era'              => $final['final_era'] ?? null,
             'result_json'      => $debateResult,
             'lens_results'     => $debateResult['lens_results'] ?? [],
-            'lens_status'      => $debateResult['lens_status'] ?? null,
         ]);
 
         // Quota deduction
@@ -338,7 +337,7 @@ class PredictionController extends Controller
             'certainty'       => $certainty,
             'source_type'     => $item->source_type ?? 'debate',
             'lens_results'    => $item->lens_results,
-            'lens_status'     => $item->lens_status ?? ($resultJson['lens_status'] ?? null),
+            'lens_status'     => $resultJson['lens_status'] ?? null,
             'created_at'      => $item->created_at,
         ];
 

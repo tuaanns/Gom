@@ -18,13 +18,11 @@ class Prediction extends Model
         'result_json',
         'source_type',
         'lens_results',
-        'lens_status',
     ];
 
     protected $casts = [
         'result_json'  => 'array',
         'lens_results' => 'array',
-        'lens_status'  => 'array',
     ];
 
     public function user()
