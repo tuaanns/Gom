@@ -6,6 +6,23 @@ import { PackageSelectButton } from './PackageSelectButton';
 import { AnimatedPrice } from './AnimatedPrice';
 import { formatNumber } from '../../lib/utils';
 
+const EN_PACKAGE_FALLBACKS = {
+  1: { name: 'Basic', discount: null },
+  2: { name: 'Popular', discount: 'Save 20%' },
+  3: { name: 'Expert', discount: '-30%' },
+};
+
+const getEnglishFallback = (pkg) => {
+  const byId = EN_PACKAGE_FALLBACKS[pkg.id];
+  if (byId) return byId;
+
+  if ((pkg.credits ?? pkg.credit_amount) === 10) return EN_PACKAGE_FALLBACKS[1];
+  if ((pkg.credits ?? pkg.credit_amount) === 50) return EN_PACKAGE_FALLBACKS[2];
+  if ((pkg.credits ?? pkg.credit_amount) === 200) return EN_PACKAGE_FALLBACKS[3];
+
+  return {};
+};
+
 export const PackageCard = ({
   pkg,
   onSelect,
@@ -16,8 +33,9 @@ export const PackageCard = ({
   const { t, i18n } = useTranslation();
   const currentLang = i18n.language || 'vi';
   const isEn = currentLang.startsWith('en');
-  const pkgName = isEn ? (pkg.name_en || pkg.name) : pkg.name;
-  const pkgDiscount = isEn ? (pkg.discount_en || pkg.discount) : pkg.discount;
+  const englishFallback = getEnglishFallback(pkg);
+  const pkgName = isEn ? (pkg.name_en || englishFallback.name || pkg.name) : pkg.name;
+  const pkgDiscount = isEn ? (pkg.discount_en || englishFallback.discount || pkg.discount) : pkg.discount;
   
   const featured = !!pkg.featured || pkg.is_popular;
   const credits = pkg.credits ?? pkg.credit_amount ?? 0;
