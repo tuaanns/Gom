@@ -79,4 +79,4 @@ jobs:
           app-name: "TheArchivistAI"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISH_PROFILE_AI }}
-          package: .
+          package: gom-ai
