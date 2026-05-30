@@ -1,0 +1,101 @@
+name: Build and deploy Python app to Azure Web App - TheArchivistAI
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "gom-ai/**"
+      - ".github/workflows/main_thearchivistai.yml"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    defaults:
+      run:
+        working-directory: gom-ai
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check Python version
+        run: |
+          python --version
+          python -m pip --version
+
+      - name: Create .env file from secrets
+        run: |
+          echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" > .env
+          echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env
+          echo "GOOGLE_LENS_HEADLESS=true" >> .env
+          echo "BROWSERLESS_TOKEN=${{ secrets.BROWSERLESS_TOKEN }}" >> .env
+          echo "GOOGLE_LENS_REMOTE_ONLY=true" >> .env
+          echo ".env file created with $(wc -l < .env) lines"
+
+      - name: Install dependencies for validation
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate FastAPI app import
+        run: |
+          python -c "from app.main import app; print('FastAPI app import OK:', app.title)"
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: python-app
+          path: |
+            gom-ai/app/
+            gom-ai/requirements.txt
+            gom-ai/.env
+            gom-ai/*.py
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: python-app
+
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6708FEEC4A4749AFAF95299213727277 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2617D5F362E441C3A7196430FCB6377D }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_948D1AE4FF0C43DEAFD2650E50DDB68F }}
+
+      - name: Set Azure App Settings
+        run: |
+          az webapp config appsettings set \
+            --resource-group gom-images-public \
+            --name TheArchivistAI \
+            --settings \
+            GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
+            GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
+            BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
+            GOOGLE_LENS_HEADLESS="true" \
+            GOOGLE_LENS_REMOTE_ONLY="true"
+
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
+        with:
+          app-name: "TheArchivistAI"
+          slot-name: "Production"
+          package: .

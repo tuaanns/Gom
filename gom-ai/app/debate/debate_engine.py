@@ -132,6 +132,12 @@ class DebateEngine:
             }
 
         lens_results = []
+        lens_status = {
+            "attempted": lens_task is not None,
+            "count": 0,
+            "ok": False,
+            "message": "Google Lens was not started",
+        }
         try:
             # Await the parallel Google Lens task to finish BEFORE starting Phase 1 predictions
             if lens_task:
@@ -139,8 +145,24 @@ class DebateEngine:
                     logger.info("[DebateEngine] Awaiting background Google Lens search to complete...")
                     lens_results = await lens_task
                     logger.info(f"[DebateEngine] Google Lens search completed with {len(lens_results)} results")
+                    lens_status = {
+                        "attempted": True,
+                        "count": len(lens_results),
+                        "ok": len(lens_results) > 0,
+                        "message": (
+                            "Google Lens returned reference sources"
+                            if lens_results else
+                            "Google Lens ran but returned no reference sources"
+                        ),
+                    }
                 except Exception as e:
                     logger.error(f"[DebateEngine] Error during awaiting Lens background task: {e}")
+                    lens_status = {
+                        "attempted": True,
+                        "count": 0,
+                        "ok": False,
+                        "message": f"Google Lens failed: {e}",
+                    }
 
             # Phase 1: Independent Predictions (injecting lens_results)
             logger.info("[DebateEngine] Starting Phase 1: Independent Predictions with Google Lens results")
@@ -234,6 +256,7 @@ class DebateEngine:
             "final_report": final_report,
             "iterations_run": iteration,
             "lens_results": lens_results,
+            "lens_status": lens_status,
             "lang": lang
         }
 

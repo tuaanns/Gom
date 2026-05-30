@@ -15,7 +15,7 @@ from selenium.webdriver.chrome.options import Options
 logger = logging.getLogger("gom-ai.lens")
 
 
-def setup_driver():
+def _build_chrome_options():
     chrome_options = Options()
     headless = os.getenv("GOOGLE_LENS_HEADLESS", "true").strip().lower() not in {"0", "false", "no", "off"}
     if headless:
@@ -35,19 +35,31 @@ def setup_driver():
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--log-level=3")
     chrome_options.add_argument("--silent")
+    return chrome_options
+
+
+def setup_driver():
+    chrome_options = _build_chrome_options()
 
     browserless_token = os.getenv("BROWSERLESS_TOKEN")
     if browserless_token:
-        logger.info("[Lens] BROWSERLESS_TOKEN found. Connecting to Remote Cloud Browser (browserless.io)...")
-        driver = webdriver.Remote(
-            command_executor=f"https://chrome.browserless.io/webdriver?token={browserless_token}",
-            options=chrome_options
-        )
-    else:
-        logger.info("[Lens] BROWSERLESS_TOKEN not found. Launching local Chrome...")
-        driver = webdriver.Chrome(options=chrome_options)
-        stealth_js = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
-        driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_js})
+        browserless_url = os.getenv("BROWSERLESS_WEBDRIVER_URL", "https://chrome.browserless.io/webdriver")
+        command_executor = f"{browserless_url}?token={browserless_token}"
+        logger.info("[Lens] BROWSERLESS_TOKEN found. Connecting to remote browser...")
+        try:
+            driver = webdriver.Remote(command_executor=command_executor, options=chrome_options)
+            driver.set_page_load_timeout(60)
+            return driver
+        except Exception as e:
+            logger.warning(f"[Lens] Remote browser failed: {e}")
+            remote_only = os.getenv("GOOGLE_LENS_REMOTE_ONLY", "false").strip().lower() in {"1", "true", "yes", "on"}
+            if remote_only:
+                raise
+
+    logger.info("[Lens] Launching local Chrome...")
+    driver = webdriver.Chrome(options=chrome_options)
+    stealth_js = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
+    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_js})
         
     driver.set_page_load_timeout(60)
     return driver

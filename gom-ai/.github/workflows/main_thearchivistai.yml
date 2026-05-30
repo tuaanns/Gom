@@ -32,6 +32,7 @@ jobs:
                   echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env
                   echo "GOOGLE_LENS_HEADLESS=true" >> .env
                   echo "BROWSERLESS_TOKEN=${{ secrets.BROWSERLESS_TOKEN }}" >> .env
+                  echo "GOOGLE_LENS_REMOTE_ONLY=true" >> .env
                   echo ".env file created with $(wc -l < .env) lines"
 
             - name: Install dependencies for validation
@@ -76,13 +77,14 @@ jobs:
             - name: Set Azure App Settings
               run: |
                   az webapp config appsettings set \
-                    --resource-group TheArchivist_group \
+                    --resource-group gom-images-public \
                     --name TheArchivistAI \
                     --settings \
                     GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
                     GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
                     BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
-                    GOOGLE_LENS_HEADLESS="true"
+                    GOOGLE_LENS_HEADLESS="true" \
+                    GOOGLE_LENS_REMOTE_ONLY="true"
 
             - name: Deploy to Azure Web App
               uses: azure/webapps-deploy@v3
