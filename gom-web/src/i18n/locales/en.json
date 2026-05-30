@@ -196,6 +196,12 @@
     }
   },
   "analysis": {
+    "agentNames": {
+      "historian": "Ceramic Historian",
+      "kiln": "Kiln Signature & Morphology Expert",
+      "global": "Global Ceramics Expert",
+      "judge": "Final Judge"
+    },
     "title": "Artifact Appraisal",
     "subtitle": "Upload an artifact image to launch the multi-agent AI council.",
     "uploadHint": "Drag & drop or click to choose an image (JPG, PNG)",

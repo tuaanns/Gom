@@ -40,7 +40,7 @@ export const HistoryDetailModal = ({ item, onClose }) => {
       {loading ? (
         <LoadingState message={t('common.loading')} />
       ) : (
-        <PredictionDetailView prediction={detailData || item} showUserInfo={false} showDebugInfo={false} />
+        <PredictionDetailView prediction={detailData || item} showUserInfo={false} showDebugInfo={true} />
       )}
     </Modal>
   );

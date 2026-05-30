@@ -196,6 +196,12 @@
     }
   },
   "analysis": {
+    "agentNames": {
+      "historian": "Lịch Sử Gốm",
+      "kiln": "Chuyên gia Chữ ký Lò và Hình thái Gốm",
+      "global": "Chuyên Gia Gốm Toàn Cầu",
+      "judge": "Trọng Tài Phán Quyết"
+    },
     "title": "Giám định cổ vật",
     "subtitle": "Tải ảnh hiện vật để khởi động hội đồng AI đa đại lý.",
     "uploadHint": "Kéo thả hoặc bấm để chọn ảnh (JPG, PNG)",
