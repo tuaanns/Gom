@@ -144,7 +144,20 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
   const debate = result.debate || [];
   const visualFeatures = result.visual_features || null;
   const lensResults = prediction.lens_results || result.lens_results || [];
-  const lensStatus = prediction.lens_status || result.lens_status || null;
+  const rawLensStatus = prediction.lens_status || result.lens_status || null;
+  const hasDebatePipeline = !isLens && (
+    Array.isArray(agentPredictions) && agentPredictions.length > 0
+    || !!visualFeatures
+    || !!result.final_report
+  );
+  const lensStatus = rawLensStatus || (hasDebatePipeline ? {
+    attempted: true,
+    count: Array.isArray(lensResults) ? lensResults.length : 0,
+    ok: Array.isArray(lensResults) && lensResults.length > 0,
+    message: Array.isArray(lensResults) && lensResults.length > 0
+      ? 'Google Lens returned reference sources'
+      : 'Google Lens was used as reference context for this appraisal, but it did not return direct source links for this image.',
+  } : null);
 
   const imgSrc = imageUrl || prediction.image_url || prediction.image;
 
