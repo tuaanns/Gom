@@ -63,3 +63,51 @@ jobs:
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISH_PROFILE }}
           package: .
+
+      - name: Run Laravel migrations on Azure
+        env:
+          AZURE_PUBLISH_PROFILE: ${{ secrets.AZUREAPPSERVICE_PUBLISH_PROFILE }}
+        run: |
+          python - <<'PY'
+          import base64
+          import json
+          import os
+          import urllib.request
+          import xml.etree.ElementTree as ET
+
+          publish_profile = os.environ["AZURE_PUBLISH_PROFILE"]
+          root = ET.fromstring(publish_profile)
+          profiles = [
+              profile for profile in root.findall("publishProfile")
+              if profile.attrib.get("publishMethod") == "ZipDeploy"
+          ]
+          if not profiles:
+              raise RuntimeError("ZipDeploy publish profile was not found.")
+
+          profile = profiles[0]
+          publish_url = profile.attrib["publishUrl"].split(":")[0]
+          username = profile.attrib["userName"]
+          password = profile.attrib["userPWD"]
+          command_url = f"https://{publish_url}/api/command"
+          payload = json.dumps({
+              "command": "php artisan migrate --force && php artisan optimize:clear",
+              "dir": "/home/site/wwwroot",
+          }).encode("utf-8")
+
+          token = base64.b64encode(f"{username}:{password}".encode("utf-8")).decode("ascii")
+          request = urllib.request.Request(
+              command_url,
+              data=payload,
+              headers={
+                  "Authorization": f"Basic {token}",
+                  "Content-Type": "application/json",
+              },
+              method="POST",
+          )
+
+          with urllib.request.urlopen(request, timeout=120) as response:
+              body = response.read().decode("utf-8", errors="replace")
+              if response.status >= 400:
+                  raise RuntimeError(body)
+              print(body)
+          PY
