@@ -555,8 +555,9 @@ const originalText = finalReport?.reasoning || finalReport?.final_reasoning || f
 
 // Agent Card Component
 const AgentCard = ({ agent, index }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isExpanded, setIsExpanded] = React.useState(false);
+  const lang = i18n.language;
 
   const conf = agent?.confidence != null ? Math.round(agent.confidence * 100) : null;
   const pred = agent?.prediction || {};
@@ -565,12 +566,16 @@ const AgentCard = ({ agent, index }) => {
   const country = pred.country || agent?.country;
   const era = pred.era || agent?.era;
   const evidence = agent?.evidence || agent?.reasoning;
+  const displayName = translateCeramicTerm(name, lang);
+  const displayLabel = translateCeramicTerm(label, lang);
+  const displayCountry = translateCeramicTerm(country, lang);
+  const displayEra = translateCeramicTerm(era, lang);
 
   return (
     <div className="group rounded-xl border-2 border-stroke bg-gradient-to-br from-surface to-surface-alt p-4 transition-all hover:border-navy/30 hover:shadow-md dark:border-dark-stroke dark:from-dark-surface dark:to-dark-surface-alt dark:hover:border-ceramic/30">
       <div className="mb-2 flex items-center justify-between">
         <p className="text-xs font-bold text-navy dark:text-ceramic">
-          {name}
+          {displayName}
         </p>
         {conf != null && (
           <Badge variant="gold" className="text-xs">
@@ -579,18 +584,18 @@ const AgentCard = ({ agent, index }) => {
         )}
       </div>
       <p className="mb-2 text-sm font-bold text-navy dark:text-ivory">
-        {label}
+        {displayLabel}
       </p>
       {(country || era) && (
         <div className="mb-2 flex flex-wrap gap-1 text-xs">
           {country && (
             <span className="rounded-full bg-ceramic/20 px-2 py-0.5 text-ceramic-dark dark:bg-ceramic/30 dark:text-ceramic">
-              {country}
+              {displayCountry}
             </span>
           )}
           {era && (
             <span className="rounded-full bg-navy/10 px-2 py-0.5 text-navy dark:bg-ivory/10 dark:text-ivory">
-              {era}
+              {displayEra}
             </span>
           )}
         </div>

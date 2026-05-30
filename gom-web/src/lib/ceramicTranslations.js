@@ -7,6 +7,17 @@
 
 const VI_TO_EN = {
   // === Names ===
+  'Gốm Đông Triều': 'Dong Trieu Ceramics',
+  'Đông Triều': 'Dong Trieu',
+  'Phu Lang': 'Phu Lang Ceramics',
+  'Gốm Cây Mai': 'Cay Mai Ceramics',
+  'Gốm Dehua': 'Dehua Porcelain',
+
+  // === Agent / section names ===
+  'Lịch Sử Gốm': 'Ceramic History',
+  'Chuyên gia Chủ ký Lò và Hình thái Gốm': 'Kiln Signature and Ceramic Morphology Expert',
+  'Chuyên Gia Gốm Toàn Cầu': 'Global Ceramics Expert',
+
   'Gốm Bát Tràng': 'Bat Trang Ceramics',
   'Gốm Biên Hòa': 'Bien Hoa Ceramics',
   'Gốm Phù Lãng': 'Phu Lang Ceramics',
