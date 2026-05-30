@@ -64,7 +64,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     permissions:
-      id-token: write
       contents: read
 
     steps:
@@ -73,29 +72,11 @@ jobs:
         with:
           name: python-app
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_6708FEEC4A4749AFAF95299213727277 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_2617D5F362E441C3A7196430FCB6377D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_948D1AE4FF0C43DEAFD2650E50DDB68F }}
-
-      - name: Set Azure App Settings
-        run: |
-          az webapp config appsettings set \
-            --resource-group gom-images-public \
-            --name TheArchivistAI \
-            --settings \
-            GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
-            GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
-            BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
-            GOOGLE_LENS_HEADLESS="true" \
-            GOOGLE_LENS_REMOTE_ONLY="true"
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: "TheArchivistAI"
           slot-name: "Production"
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISH_PROFILE_AI }}
           package: .
