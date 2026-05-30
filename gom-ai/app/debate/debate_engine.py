@@ -61,6 +61,55 @@ class DebateEngine:
                 agent.api_key = agent.get_api_key(agent.provider)
 
     # Orchestrate the full multi-agent debate pipeline: vision → predict → debate → judge + Google Lens in parallel
+    def _agent_error_result(self, agent_name: str, error, lang: str) -> dict:
+        message = str(error)
+        evidence = (
+            f"Agent temporarily unavailable: {message[:220]}"
+            if lang == "en" else
+            f"Agent tam thoi khong kha dung: {message[:220]}"
+        )
+        return {
+            "agent_name": agent_name,
+            "prediction": {
+                "ceramic_line": "Unknown",
+                "country": "Unknown",
+                "era": "Unknown",
+                "style": "Unknown",
+            },
+            "confidence": 0.0,
+            "evidence": evidence,
+            "error": message,
+        }
+
+    def _fallback_final_report(self, results: list[dict], lang: str, error=None) -> dict:
+        usable = [
+            r for r in results
+            if isinstance(r, dict) and "error" not in r and r.get("prediction")
+        ]
+        best = max(usable, key=lambda r: float(r.get("confidence") or 0), default=None)
+        if best:
+            prediction = best.get("prediction") or {}
+            line = prediction.get("ceramic_line") or "Unknown"
+            reasoning = (
+                f"The judge model was temporarily unavailable, so the result uses the strongest available agent prediction: {line}."
+                if lang == "en" else
+                f"Model giam khao tam thoi khong kha dung, nen ket qua dung du doan manh nhat con lai: {line}."
+            )
+            return {
+                "final_prediction": line,
+                "certainty": int(float(best.get("confidence") or 0.5) * 100),
+                "reasoning": reasoning,
+            }
+
+        message = (
+            "The AI system is temporarily overloaded. Please try again in a few minutes."
+            if lang == "en" else
+            "He thong AI dang tam thoi qua tai. Vui long thu lai sau vai phut."
+        )
+        if error:
+            message = f"{message} ({str(error)[:180]})"
+        return {"error": message}
+
     async def start_debate(self, image_bytes: bytes, lang: str = "vi") -> dict:
         # Initialize temporary file variables for parallel Google Lens search
         import uuid
@@ -166,14 +215,38 @@ class DebateEngine:
 
             # Phase 1: Independent Predictions (injecting lens_results)
             logger.info("[DebateEngine] Starting Phase 1: Independent Predictions with Google Lens results")
-            results = await asyncio.gather(
+            phase1_raw = await asyncio.gather(
                 self.gpt.predict(visual_features, lens_results, lang),
                 self.grok.predict(visual_features, lens_results, lang),
-                self.gemini.predict(visual_features, lens_results, lang)
+                self.gemini.predict(visual_features, lens_results, lang),
+                return_exceptions=True,
             )
+            agent_names = ["Ceramic History", "Kiln Signature and Ceramic Morphology Expert", "Global Ceramics Expert"]
+            results = []
+            for i, item in enumerate(phase1_raw):
+                if isinstance(item, Exception):
+                    logger.error(f"[DebateEngine] Agent {agent_names[i]} failed during Phase 1: {item}")
+                    results.append(self._agent_error_result(agent_names[i], item, lang))
+                elif isinstance(item, dict):
+                    results.append(item)
+                else:
+                    results.append(self._agent_error_result(agent_names[i], "Invalid agent response", lang))
+
+            if all(isinstance(r, dict) and "error" in r for r in results):
+                final_report = self._fallback_final_report(results, lang, results[0].get("error"))
+                return {
+                    "visual_features": visual_features,
+                    "agent_predictions": results,
+                    "final_report": final_report,
+                    "iterations_run": 0,
+                    "lens_results": lens_results,
+                    "lens_status": lens_status,
+                    "lang": lang,
+                    "error": final_report.get("error"),
+                }
             # Add basic info and validation if missing
             for i, r in enumerate(results):
-                name = ["Lịch Sử Gốm", "Chuyên gia Chữ ký Lò và Hình thái Gốm", "Chuyên Gia Gốm Toàn Cầu"][i]
+                name = agent_names[i]
                 if not r.get("agent_name"):
                     r["agent_name"] = name
                 if r.get("confidence") is None:
@@ -208,10 +281,13 @@ class DebateEngine:
                     debate_tasks.append(agent.debate(me, others, lens_results, lang))
 
                 # All agents debate concurrently
-                debates = await asyncio.gather(*debate_tasks)
+                debates = await asyncio.gather(*debate_tasks, return_exceptions=True)
 
                 # Apply confidence adjustments and update predictions from debate
                 for i, d in enumerate(debates):
+                    if isinstance(d, Exception):
+                        results[i]["debate_details"] = {"error": str(d)}
+                        continue
                     if not isinstance(d, dict) or "error" in d:
                         results[i]["debate_details"] = d if isinstance(d, dict) else {"error": "Invalid debate result"}
                         continue
@@ -231,7 +307,11 @@ class DebateEngine:
 
                 # Final Judging for this round (injecting lens_results)
                 logger.info(f"[DebateEngine] Judging Debate Round {iteration + 1}")
-                final_report = await self.judge.evaluate(results, visual_features, lens_results, lang)
+                try:
+                    final_report = await self.judge.evaluate(results, visual_features, lens_results, lang)
+                except Exception as e:
+                    logger.error(f"[DebateEngine] Judge failed during round {iteration + 1}: {e}")
+                    final_report = self._fallback_final_report(results, lang, e)
 
                 # Extract certainty from Judge (0-100) and normalize to 0.0-1.0
                 try:
