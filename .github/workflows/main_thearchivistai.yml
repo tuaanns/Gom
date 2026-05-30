@@ -50,15 +50,19 @@ jobs:
         run: |
           python -c "from app.main import app; print('FastAPI app import OK:', app.title)"
 
+      - name: Prepare deployment package
+        run: |
+          rm -rf ../python-app
+          mkdir -p ../python-app
+          cp -R app ../python-app/app
+          cp requirements.txt .env ../python-app/
+          find ../python-app -maxdepth 2 -type f | sort
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: python-app
-          path: |
-            gom-ai/app/
-            gom-ai/requirements.txt
-            gom-ai/.env
-            gom-ai/*.py
+          path: python-app
 
   deploy:
     runs-on: ubuntu-latest
@@ -71,6 +75,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: python-app
+          path: python-app
+
+      - name: Inspect deployment package
+        run: |
+          find python-app -maxdepth 2 -type f | sort
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -79,4 +88,4 @@ jobs:
           app-name: "TheArchivistAI"
           slot-name: "Production"
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISH_PROFILE_AI }}
-          package: gom-ai
+          package: python-app
