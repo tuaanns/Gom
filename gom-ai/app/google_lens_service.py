@@ -7,8 +7,10 @@ import re
 import shutil
 import uuid
 import random
+import json
 import requests as http_requests
-from urllib.parse import parse_qs, unquote, urlparse
+import websocket as ws_client
+from urllib.parse import parse_qs, unquote, urlparse, quote
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -261,6 +263,186 @@ def _upload_to_catbox(file_path: str) -> str:
     return ""
 
 
+def _search_via_browserless_cdp(public_url: str, max_results: int = 10) -> list:
+    """
+    Search Google Lens using Browserless /unblock + CDP WebSocket pipeline.
+    This method bypasses CAPTCHA by:
+    1. Using /unblock endpoint to get a live browser session (CAPTCHA auto-solved)
+    2. Connecting via CDP WebSocket to the page
+    3. Waiting for JavaScript to render Google Lens results
+    4. Extracting links via JS evaluation
+    """
+    browserless_token = os.getenv("BROWSERLESS_TOKEN", "").strip()
+    if not browserless_token:
+        return []
+
+    # Use first token if comma-separated
+    token = browserless_token.split(",")[0].strip()
+    lens_url = f"https://lens.google.com/uploadbyurl?url={quote(public_url, safe='')}"
+    ws = None
+
+    try:
+        # Step 1: Get live browser session via /unblock
+        logger.info("[Lens CDP] Requesting /unblock session...")
+        browserless_base = os.getenv("BROWSERLESS_BASE_URL", "https://chrome.browserless.io").rstrip("/")
+        unblock_url = f"{browserless_base}/unblock?token={token}"
+        payload = {
+            "url": lens_url,
+            "browserWSEndpoint": True,
+            "cookies": False,
+            "content": False,
+            "screenshot": False,
+            "ttl": 60000,
+        }
+
+        resp = http_requests.post(unblock_url, json=payload, timeout=120)
+        if resp.status_code != 200:
+            logger.warning(f"[Lens CDP] /unblock failed ({resp.status_code}): {resp.text[:200]}")
+            return []
+
+        data = resp.json()
+        ws_endpoint = data.get("browserWSEndpoint", "")
+        if not ws_endpoint:
+            logger.warning("[Lens CDP] No browserWSEndpoint returned")
+            return []
+
+        logger.info(f"[Lens CDP] ✓ Got WS endpoint: {ws_endpoint[:60]}...")
+
+        # Step 2: Connect via CDP WebSocket
+        ws = ws_client.create_connection(ws_endpoint, timeout=60)
+        msg_id = 1
+
+        def send_cdp(method, params=None, session_id=None):
+            nonlocal msg_id
+            msg = {"id": msg_id, "method": method}
+            if params:
+                msg["params"] = params
+            if session_id:
+                msg["sessionId"] = session_id
+            ws.send(json.dumps(msg))
+            while True:
+                raw = ws.recv()
+                response = json.loads(raw)
+                if response.get("id") == msg_id:
+                    msg_id += 1
+                    return response
+
+        def evaluate_js(expression, session_id):
+            result = send_cdp("Runtime.evaluate", {
+                "expression": expression,
+                "returnByValue": True,
+                "awaitPromise": True,
+            }, session_id=session_id)
+            return result.get("result", {}).get("result", {}).get("value")
+
+        # Step 3: Find and attach to page target
+        targets_resp = send_cdp("Target.getTargets")
+        targets = targets_resp.get("result", {}).get("targetInfos", [])
+        page_target = None
+        for t in targets:
+            if t.get("type") == "page":
+                page_target = t
+                if "google" in t.get("url", "").lower():
+                    break  # Prefer Google page
+
+        if not page_target:
+            logger.warning("[Lens CDP] No page target found")
+            return []
+
+        logger.info(f"[Lens CDP] Attaching to: {page_target['url'][:80]}")
+        attach_resp = send_cdp("Target.attachToTarget", {
+            "targetId": page_target["targetId"],
+            "flatten": True,
+        })
+        session_id = attach_resp.get("result", {}).get("sessionId")
+        if not session_id:
+            logger.warning("[Lens CDP] Failed to attach to target")
+            return []
+
+        # Step 4: Check for CAPTCHA
+        has_captcha = evaluate_js(
+            "document.body.innerHTML.toLowerCase().includes('captcha')",
+            session_id
+        )
+        if has_captcha:
+            logger.warning("[Lens CDP] CAPTCHA detected even after /unblock")
+            return []
+
+        # Step 5: Poll for Lens results to render
+        logger.info("[Lens CDP] Waiting for Lens results to render...")
+        for attempt in range(12):  # Max 36 seconds
+            time.sleep(3)
+            info_json = evaluate_js(
+                'JSON.stringify({'
+                '  links: document.querySelectorAll("a[href]").length,'
+                '  items: document.querySelectorAll("div[role=\'listitem\']").length,'
+                '  cards: document.querySelectorAll("div[data-action-url]").length,'
+                '})',
+                session_id
+            )
+            if info_json:
+                info = json.loads(info_json)
+                logger.info(f"[Lens CDP] [{(attempt+1)*3}s] links={info['links']}, items={info['items']}, cards={info['cards']}")
+                if info["items"] > 0 or info["cards"] > 0 or info["links"] > 15:
+                    logger.info("[Lens CDP] ✓ Content loaded!")
+                    break
+
+        # Step 6: Extract results via JS
+        extract_js = r"""
+        (() => {
+            const blocked = ['google.', 'gstatic.', 'ggpht.', 'googleusercontent.', 'schema.org', 'googleapis.com'];
+            const results = [];
+            function isBlocked(host) { return blocked.some(b => host.includes(b)); }
+            function extractUrl(href) {
+                if (!href) return '';
+                try {
+                    const url = new URL(href);
+                    if (url.hostname.includes('google.')) {
+                        const r = url.searchParams.get('url') || url.searchParams.get('q') || url.searchParams.get('imgrefurl');
+                        if (r && r.startsWith('http')) return r;
+                        return '';
+                    }
+                    return href;
+                } catch(e) { return href.startsWith('http') ? href : ''; }
+            }
+            document.querySelectorAll('a[href]').forEach(a => {
+                const url = extractUrl(a.href);
+                if (!url || !url.startsWith('http')) return;
+                try {
+                    const host = new URL(url).hostname.toLowerCase();
+                    if (isBlocked(host)) return;
+                    const title = (a.textContent || '').trim() || a.getAttribute('aria-label') || a.getAttribute('title') || host;
+                    if (title.length > 2 && !results.some(r => r.url === url)) {
+                        results.push({ title: title.substring(0, 200), url: url });
+                    }
+                } catch(e) {}
+            });
+            return JSON.stringify(results);
+        })()
+        """
+
+        results_json = evaluate_js(extract_js, session_id)
+        if not results_json:
+            logger.warning("[Lens CDP] JS extraction returned empty")
+            return []
+
+        results = json.loads(results_json)
+        logger.info(f"[Lens CDP] ✅ Extracted {len(results)} results!")
+
+        # Format and return top results
+        return [{"title": r["title"][:200], "url": r["url"]} for r in results[:max_results]]
+
+    except Exception as e:
+        logger.warning(f"[Lens CDP] Pipeline error: {e}")
+        return []
+    finally:
+        if ws:
+            try:
+                ws.close()
+            except Exception:
+                pass
+
+
 def _scrape_results(driver, max_results: int) -> list:
     """Cào tất cả link kết quả từ trang Google Lens."""
     results = []
@@ -454,50 +636,52 @@ def search_google_lens(image_path: str, max_results: int = 10):
         try:
             # Upload ảnh lên máy chủ công khai
             public_url = ""
-            # 1. Thử ImgBB trước nếu có cấu hình API Key
             if os.getenv("IMGBB_API_KEY"):
                 logger.info("[Lens] Upload ảnh lên ImgBB...")
                 public_url = _upload_to_imgbb(safe_path)
-                
-            # 2. Fallback về Catbox nếu không có ImgBB hoặc ImgBB lỗi
+
             if not public_url:
                 logger.info("[Lens] Upload ảnh lên catbox...")
                 public_url = _upload_to_catbox(safe_path)
-                
+
             if not public_url:
-                raise Exception("Không thể upload ảnh lên bất kỳ dịch vụ nào! (Vui lòng kiểm tra mạng hoặc cấu hình IMGBB_API_KEY)")
+                raise Exception("Không thể upload ảnh lên bất kỳ dịch vụ nào!")
             logger.info(f"[Lens] ✓ URL ảnh công khai: {public_url}")
 
-            # Mở Chrome
+            # === PHƯƠNG PHÁP 1: Browserless /unblock + CDP (ưu tiên) ===
+            if os.getenv("BROWSERLESS_TOKEN", "").strip():
+                logger.info("[Lens] Thử phương pháp Browserless CDP...")
+                cdp_results = _search_via_browserless_cdp(public_url, max_results)
+                if cdp_results:
+                    logger.info(f"[Lens] ✅ Browserless CDP: {len(cdp_results)} kết quả!")
+                    return cdp_results
+                logger.warning("[Lens] Browserless CDP không có kết quả, thử Selenium local...")
+
+            # === PHƯƠNG PHÁP 2: Selenium local Chrome (fallback) ===
+            logger.info("[Lens] Launching local Chrome...")
             driver = setup_driver()
 
-            # === CÁCH MỚI: Truy cập Google Lens trực tiếp bằng URL ===
-            # Thay vì: Mở Google → Click Lens → Dán URL
-            # Giờ: Truy cập thẳng URL Lens với ảnh
-            from urllib.parse import quote
             lens_url = f"https://lens.google.com/uploadbyurl?url={quote(public_url, safe='')}"
-            logger.info(f"[Lens] Truy cập trực tiếp: {lens_url[:100]}")
-            
+            logger.info(f"[Lens] Truy cập: {lens_url[:100]}")
+
             try:
                 driver.get(lens_url)
             except Exception as e:
-                logger.warning(f"[Lens] Timeout load trang, thử tiếp: {e}")
-            
+                logger.warning(f"[Lens] Timeout load trang: {e}")
+
             time.sleep(15)
-            
+
             current_url = driver.current_url
             logger.info(f"[Lens] URL hiện tại: {current_url[:120]}")
 
             # Kiểm tra 403
             page_source = driver.page_source
             if "403" in page_source and "Forbidden" in page_source:
-                logger.warning("[Lens] 403 trên lens.google.com, thử cách 2: qua google.com...")
-                
-                # Cách 2: Mở Google → Click Lens → Dán URL (backup)
+                logger.warning("[Lens] 403, thử qua google.com...")
                 driver.get("https://www.google.com")
                 time.sleep(3)
                 wait = WebDriverWait(driver, 15)
-                
+
                 selectors = [
                     "div[aria-label='Tìm kiếm bằng hình ảnh']",
                     "div[aria-label='Search by image']",
@@ -511,10 +695,8 @@ def search_google_lens(image_path: str, max_results: int = 10):
                         break
                     except:
                         continue
-                
+
                 time.sleep(2)
-                
-                # Tìm ô URL và dán
                 from selenium.webdriver.common.keys import Keys
                 all_inputs = driver.find_elements(By.CSS_SELECTOR, "input")
                 for inp in all_inputs:
@@ -529,7 +711,7 @@ def search_google_lens(image_path: str, max_results: int = 10):
                         inp.send_keys(Keys.RETURN)
                         logger.info("[Lens] ✓ Dán URL")
                         break
-                
+
                 time.sleep(15)
                 current_url = driver.current_url
 
@@ -544,9 +726,8 @@ def search_google_lens(image_path: str, max_results: int = 10):
 
             # Cào kết quả
             results = _scrape_results(driver, max_results)
-            
+
             if not results:
-                # Thử refresh
                 try:
                     driver.refresh()
                     time.sleep(8)
@@ -555,9 +736,9 @@ def search_google_lens(image_path: str, max_results: int = 10):
                     pass
 
             if results:
-                logger.info(f"[Lens] ✅ {len(results)} kết quả!")
+                logger.info(f"[Lens] ✅ Selenium: {len(results)} kết quả!")
             else:
-                logger.warning("[Lens] ⚠ Không có kết quả từ Selenium scraper. Triggering Gemini Vision fallback...")
+                logger.warning("[Lens] ⚠ Selenium không có kết quả. Gemini Vision fallback...")
                 with open(safe_path, "rb") as f:
                     img_bytes = f.read()
                 return fallback_vision_google_lens(img_bytes, max_results)
@@ -565,21 +746,20 @@ def search_google_lens(image_path: str, max_results: int = 10):
             return results
 
         except Exception as sel_err:
-            logger.warning(f"[Lens] Selenium scraping flow encountered an error: {sel_err}. Triggering Gemini Vision fallback...")
+            logger.warning(f"[Lens] Scraping error: {sel_err}. Gemini Vision fallback...")
             with open(safe_path, "rb") as f:
                 img_bytes = f.read()
             return fallback_vision_google_lens(img_bytes, max_results)
 
     except Exception as e:
         import traceback
-        logger.error(f"[Lens] Lỗi chính trong search_google_lens: {e}\n{traceback.format_exc()}")
-        # Ultimate fallback
+        logger.error(f"[Lens] Lỗi chính: {e}\n{traceback.format_exc()}")
         try:
             with open(safe_path, "rb") as f:
                 img_bytes = f.read()
             return fallback_vision_google_lens(img_bytes, max_results)
         except Exception as ult_err:
-            logger.error(f"[Lens] Ultimate fallback also failed: {ult_err}")
+            logger.error(f"[Lens] Ultimate fallback failed: {ult_err}")
             return []
     finally:
         if safe_path and os.path.exists(safe_path):
