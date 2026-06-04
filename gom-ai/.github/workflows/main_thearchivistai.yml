@@ -94,6 +94,8 @@ jobs:
                     BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
                     GOOGLE_LENS_HEADLESS="true" \
                     GOOGLE_LENS_REMOTE_ONLY="true"
+                  echo "Waiting 60 seconds for Azure App Service to process configuration changes and restart SCM container..."
+                  sleep 60
 
             - name: Deploy to Azure Web App
               uses: azure/webapps-deploy@v3
