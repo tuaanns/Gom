@@ -2,11 +2,78 @@ import json
 import logging
 import os
 import re
+import threading
 
 from openai import AsyncOpenAI
 from tenacity import retry, stop_after_attempt, wait_exponential
 
 logger = logging.getLogger("gom-ai.agents.base")
+
+
+class APIKeyRotator:
+    def __init__(self):
+        self._indices = {"google": 0, "groq": 0, "openai": 0, "deepseek": 0}
+        self._lock = threading.Lock()
+
+    def _get_all_keys(self, provider: str) -> list[str]:
+        env_name = f"{provider.upper()}_API_KEY"
+        raw_value = os.getenv(env_name, "")
+        keys_list = []
+        
+        # 1. Comma-separated
+        if raw_value:
+            parts = [p.strip() for p in raw_value.split(",") if p.strip()]
+            keys_list.extend(parts)
+            
+        # 2. Numbered suffixes
+        i = 1
+        while True:
+            suffixed_val = os.getenv(f"{env_name}_{i}", "") or os.getenv(f"{env_name}{i}", "")
+            if not suffixed_val:
+                break
+            val = suffixed_val.strip()
+            if val and val not in keys_list:
+                keys_list.append(val)
+            i += 1
+            
+        return keys_list
+
+    def get_key(self, provider: str) -> str | None:
+        with self._lock:
+            keys = self._get_all_keys(provider)
+            if not keys:
+                return None
+            idx = self._indices.get(provider, 0)
+            if idx >= len(keys):
+                idx = 0
+                self._indices[provider] = 0
+            return keys[idx]
+
+    def rotate_key(self, provider: str, failed_key: str):
+        with self._lock:
+            keys = self._get_all_keys(provider)
+            if not keys:
+                return
+            
+            idx = self._indices.get(provider, 0)
+            if idx >= len(keys):
+                idx = 0
+                self._indices[provider] = 0
+                
+            # If the current key is the failed key, rotate to next
+            if keys[idx] == failed_key:
+                new_idx = (idx + 1) % len(keys)
+                self._indices[provider] = new_idx
+                masked_old = failed_key[:10] + "..." if len(failed_key) > 10 else "key"
+                new_key = keys[new_idx]
+                masked_new = new_key[:10] + "..." if len(new_key) > 10 else "key"
+                logger.warning(
+                    f"[KeyRotator] Key for provider '{provider}' failed ({masked_old}). "
+                    f"Rotated to next key index {new_idx} ({masked_new})."
+                )
+
+
+key_rotator = APIKeyRotator()
 
 
 class BaseAgent:
@@ -18,10 +85,7 @@ class BaseAgent:
         self.api_key = self.get_api_key(provider)
 
     def get_api_key(self, provider: str):
-        if provider == "google": return os.getenv("GOOGLE_API_KEY")
-        if provider == "groq": return os.getenv("GROQ_API_KEY")
-        if provider == "openai": return os.getenv("OPENAI_API_KEY")
-        return None
+        return key_rotator.get_key(provider)
 
     # Extract JSON from LLM response, handling various formatting quirks
     def _extract_json(self, text: str) -> dict:
@@ -58,7 +122,7 @@ class BaseAgent:
         stop=stop_after_attempt(3),
         reraise=True
     )
-    # Call the appropriate LLM provider (Google Gemini, Groq, or OpenAI)
+    # Call the appropriate LLM provider (Google Gemini, Groq, OpenAI, or DeepSeek)
     async def _call_llm(self, prompt: str) -> str:
         self.api_key = self.get_api_key(self.provider)
         if not self.api_key:
@@ -76,21 +140,67 @@ class BaseAgent:
                 return response.text or ""
             except Exception as e:
                 logger.error(f"[{self.name}] Gemini Error: {e}")
-                raise e
+                key_rotator.rotate_key(self.provider, self.api_key)
+                
+                # Fallback to Groq if key is available
+                groq_key = self.get_api_key("groq")
+                if groq_key:
+                    fallback_model = "llama-3.3-70b-versatile"
+                    logger.info(f"[{self.name}] Gemini failed. Falling back to Groq ({fallback_model})...")
+                    try:
+                        base_url = "https://api.groq.com/openai/v1"
+                        async with AsyncOpenAI(api_key=groq_key, base_url=base_url) as client_g:
+                            resp = await client_g.chat.completions.create(
+                                model=fallback_model,
+                                messages=[{"role": "user", "content": prompt}],
+                                temperature=0.3,
+                            )
+                            return resp.choices[0].message.content or ""
+                    except Exception as groq_err:
+                        logger.error(f"[{self.name}] Groq fallback failed: {groq_err}")
+                        key_rotator.rotate_key("groq", groq_key)
+                        raise e
+                else:
+                    raise e
 
-        elif self.provider in ["groq", "openai"]:
-            base_url = "https://api.groq.com/openai/v1" if self.provider == "groq" else None
+        elif self.provider in ["groq", "openai", "deepseek"]:
+            base_urls = {
+                "groq": "https://api.groq.com/openai/v1",
+                "deepseek": "https://api.deepseek.com",
+            }
+            base_url = base_urls.get(self.provider)  # None for openai (uses default)
             async with AsyncOpenAI(api_key=self.api_key, base_url=base_url) as client:
                 try:
                     resp = await client.chat.completions.create(
                         model=self.model_id,
                         messages=[{"role": "user", "content": prompt}],
-                        temperature=0.7,
+                        temperature=0.3,
                     )
                     return resp.choices[0].message.content or ""
                 except Exception as e:
-                    logger.error(f"[{self.name}] Openai/Groq Error: {e}")
-                    raise e
+                    logger.error(f"[{self.name}] {self.provider.capitalize()} Error: {e}")
+                    key_rotator.rotate_key(self.provider, self.api_key)
+                    
+                    # Try fallback to google gemini if key is available
+                    google_key = self.get_api_key("google")
+                    if google_key:
+                        fallback_model = "gemini-2.5-flash"
+                        logger.info(f"[{self.name}] {self.provider.capitalize()} failed. Falling back to Gemini ({fallback_model})...")
+                        try:
+                            from google import genai as google_genai
+                            from google.genai import types as genai_types
+                            client_g = google_genai.Client(api_key=google_key)
+                            response = await client_g.aio.models.generate_content(
+                                model=fallback_model,
+                                contents=[genai_types.Part.from_text(text=prompt)],
+                            )
+                            return response.text or ""
+                        except Exception as gemini_err:
+                            logger.error(f"[{self.name}] Gemini fallback failed: {gemini_err}")
+                            key_rotator.rotate_key("google", google_key)
+                            raise e
+                    else:
+                        raise e
 
         return ""
 

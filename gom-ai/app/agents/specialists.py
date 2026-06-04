@@ -27,8 +27,8 @@ class GPTAgent(BaseAgent):
         super().__init__(
             name="Lịch Sử Gốm",
             personality="A meticulous ceramic historian specializing in eras, global trade routes, and manufacturing evolution. Very logical and focuses on historical evidence.",
-            provider="groq",
-            model_id="llama-3.3-70b-versatile",
+            provider="openai",
+            model_id="gpt-4o-mini",
         )
 
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi") -> dict:
@@ -36,7 +36,7 @@ class GPTAgent(BaseAgent):
         if lens_results:
             signals = analyze_lens_keywords(lens_results)
             lens_context = (
-                "Google Lens visual search matched these web pages for this image (VERY IMPORTANT REFERENCE):\n"
+                "Google Lens visual search matched these web pages for this image (reference material to help verify your analysis — NOT a primary source):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
                 + signals
@@ -49,11 +49,13 @@ class GPTAgent(BaseAgent):
             f"Your expertise: Dating ceramics by era, identifying trade route influences, and recognizing manufacturing evolution across centuries.\n\n"
             f"Visual evidence from the image:\n{json.dumps(visual_features, indent=2, ensure_ascii=False)}\n\n"
             f"{lens_context}"
+            "IMPORTANT: You are an INDEPENDENT EXPERT. Analyze the visual evidence FIRST using your own expertise, "
+            "then use Google Lens results only as reference material to verify or challenge your initial assessment.\n\n"
             "YOUR UNIQUE ANALYSIS ANGLE — You MUST focus on these historical factors:\n"
             "1. ERA DATING: Based on shape, decoration style, and technique, determine the specific historical period.\n"
             "2. TRADE ROUTE & REGIONAL INFLUENCE: Look for cross-cultural or regional trade influences.\n"
             "3. MANUFACTURING EVOLUTION: Distinguish hand-coiled vs wheel-thrown vs slip-cast.\n"
-            "4. REAL-WORLD EVIDENCE HARMONIZATION: Actively analyze the Google Lens context. If Google Lens matches indicate a specific museum artifact or historic ware (such as Sawankhalok from Thailand, Bat Trang antique, Goryeo celadon, etc.), you MUST evaluate its historical possibility. Avoid bias toward over-famous ceramic lines when visual matches strongly point elsewhere (e.g. do not misidentify Thai Sawankhalok celadon with olive-green glaze and incised walls as Song Dynasty Yaozhou celadon if Lens matches Sawankhalok).\n\n"
+            "4. CROSS-REFERENCE VERIFICATION: After forming your own expert opinion, check Google Lens results to see if they support or contradict your analysis. If they contradict, explain why you still hold your position or adjust it based on the new evidence.\n\n"
             "⚠️ CRITICAL: You MUST give a SPECIFIC ceramic line/kiln name (e.g., 'Sawankhalok', 'Yaozhou', 'Bat Trang', 'Longquan', etc.). "
             "NEVER use generic terms. If unsure, give your best specific guess with lower confidence.\n\n"
             "⚠️ DO NOT assume Vietnamese origin. Evaluate ALL global and Southeast Asian possibilities equally.\n\n"
@@ -97,7 +99,7 @@ class GrokAgent(BaseAgent):
         if lens_results:
             signals = analyze_lens_keywords(lens_results)
             lens_context = (
-                "Google Lens visual search matched these web pages for this image (VERY IMPORTANT REFERENCE):\n"
+                "Google Lens visual search matched these web pages for this image (reference material to help verify your analysis — NOT a primary source):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
                 + signals
@@ -110,11 +112,13 @@ class GrokAgent(BaseAgent):
             f"Your expertise: Identifying ceramics by their glaze type, firing marks, and clay body characteristics.\n\n"
             f"Visual evidence from the image:\n{json.dumps(visual_features, indent=2, ensure_ascii=False)}\n\n"
             f"{lens_context}"
+            "IMPORTANT: You are an INDEPENDENT EXPERT. Analyze the physical material evidence FIRST using your own expertise, "
+            "then use Google Lens results only as reference material to verify or challenge your initial assessment.\n\n"
             "YOUR UNIQUE ANALYSIS ANGLE — You MUST focus on MATERIAL factors:\n"
-            "1. GLAZE TYPOLOGY — the #1 fingerprint of ceramic lines.\n"
+            "1. GLAZE TYPOLOGY — the #1 fingerprint of ceramic lines. Analyze the glaze independently before checking any references.\n"
             "2. KILN SIGNATURES: firing marks, stacking traces, heat distribution.\n"
             "3. BODY MORPHOLOGY: clay color, wall thickness, foot ring shape, forming technique.\n"
-            "4. LENS MATCH CORRELATION: Carefully check the Google Lens results. If the matched titles and descriptions consistently point to a specific ware (like Thai Sawankhalok glaze typologies, which feature thick glassy light green to dark olive-green celadon with fine crazing and dark iron spots/firing scars on the base), analyze whether the physical glaze and foot morphology match that description, rather than assuming it must be a more well-known Chinese counterpart (like Yaozhou or Longquan).\n\n"
+            "4. REFERENCE VERIFICATION: After your own material analysis, check if Google Lens results align with your findings. If they point to a different ware, explain whether the material evidence supports or contradicts the Lens suggestion.\n\n"
             "⚠️ CRITICAL: You MUST give a SPECIFIC ceramic line/kiln name (e.g. 'Sawankhalok', 'Yaozhou', 'Longquan', 'Phu Lang', etc.). "
             "NEVER use generic terms. Based on glaze + body + kiln marks, pin it to a SPECIFIC kiln/line.\n\n"
             "⚠️ DO NOT assume Vietnamese origin. Compare glaze characteristics globally and regionally across Southeast Asia.\n\n"
@@ -143,8 +147,8 @@ class GeminiAgent(BaseAgent):
         super().__init__(
             name="Chuyên Gia Gốm Toàn Cầu",
             personality="A specialist in worldwide ceramics, spanning Asian (Vietnamese, Chinese, Japanese), European (Meissen, Delftware, Wedgwood), and Middle Eastern styles. Understands symbolism, global trade routes, local clays, and regional kiln signatures across different continents.",
-            provider="groq",
-            model_id="llama-3.3-70b-versatile",
+            provider="google",
+            model_id="gemini-2.5-flash",
         )
 
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi") -> dict:
@@ -152,7 +156,7 @@ class GeminiAgent(BaseAgent):
         if lens_results:
             signals = analyze_lens_keywords(lens_results)
             lens_context = (
-                "Google Lens visual search matched these web pages for this image (VERY IMPORTANT REFERENCE):\n"
+                "Google Lens visual search matched these web pages for this image (reference material to help verify your analysis — NOT a primary source):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
                 + signals
@@ -165,11 +169,13 @@ class GeminiAgent(BaseAgent):
             f"Your expertise: Comparing ceramics across ALL world cultures, reading cultural symbolism, and identifying regional artistic traditions.\n\n"
             f"Visual evidence from the image:\n{json.dumps(visual_features, indent=2, ensure_ascii=False)}\n\n"
             f"{lens_context}"
+            "IMPORTANT: You are an INDEPENDENT EXPERT. Analyze the cultural and stylistic evidence FIRST using your own expertise, "
+            "then use Google Lens results only as reference material to verify or challenge your initial assessment.\n\n"
             "YOUR UNIQUE ANALYSIS ANGLE — You MUST focus on CULTURAL & STYLISTIC factors:\n"
             "1. MOTIFS & CULTURAL SYMBOLISM: dragon claws, flower types, geometric patterns, etc.\n"
             "2. REGIONAL CHARACTERISTICS: identify specific regional ceramic traditions (including Southeast Asian styles like Sawankhalok or Sukhothai from Thailand, Bencharong, etc.).\n"
             "3. CROSS-CONTINENTAL & REGIONAL COMPARISON: Compare with AT LEAST 2 other possible origins (e.g. comparing Thai celadon motifs with Chinese Song/Yuan motifs).\n"
-            "4. HIGH-INTELLIGENCE GOOGLE LENS INTEGRATION: Pay extreme attention to Google Lens web page matches. If Google Lens reveals that this specific design/piece belongs to a particular regional culture (e.g. a Sawankhalok fish-motif incised bowl or a specific glaze style), analyze if the motifs and cultural style are characteristic of that specific region. Do not let overrepresented Chinese/Vietnamese categories blindly override specific regional styles found by Lens.\n\n"
+            "4. REFERENCE VERIFICATION: After forming your own cultural analysis, check Google Lens results to verify. If Lens points to a specific regional culture, evaluate whether the motifs and cultural style truly match that region based on YOUR expertise. Your analysis should lead, Lens should verify.\n\n"
             "⚠️ CRITICAL: You MUST give a SPECIFIC ceramic line/kiln name. "
             "NEVER use generic terms. Pin it to the exact kiln/line/brand.\n\n"
             "⚠️ DO NOT assume Vietnamese origin. Evaluate ALL global and Southeast Asian possibilities equally.\n\n"

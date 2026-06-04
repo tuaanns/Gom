@@ -536,34 +536,70 @@ def analyze_lens_keywords(lens_results: list) -> str:
         "kutani": ("Kutani", "Nhật Bản", "Thế kỷ 17 đến nay", "Gốm sứ Kutani Nhật Bản"),
         "raku": ("Raku", "Nhật Bản", "Thế kỷ 16 đến nay", "Gốm Raku trà đạo Nhật Bản"),
         "bizen": ("Bizen", "Nhật Bản", "Thế kỷ 14 đến nay", "Gốm mộc Bizen nung củi"),
+        "hagi": ("Hagi", "Nhật Bản", "Thế kỷ 16 đến nay", "Gốm Hagi trà đạo Nhật Bản"),
+        "mashiko": ("Mashiko", "Nhật Bản", "Thế kỷ 19 đến nay", "Gốm Mashiko mingei Nhật Bản"),
+        "shigaraki": ("Shigaraki", "Nhật Bản", "Thế kỷ 13 đến nay", "Gốm Shigaraki nung củi Nhật Bản"),
+        "mino": ("Mino", "Nhật Bản", "Thế kỷ 15 đến nay", "Gốm Mino Nhật Bản (Shino, Oribe, Setoguro)"),
+        "oribe": ("Mino", "Nhật Bản", "Thế kỷ 16 đến nay", "Gốm Oribe men xanh đồng Nhật Bản"),
+        "karatsu": ("Karatsu", "Nhật Bản", "Thế kỷ 16 đến nay", "Gốm Karatsu Nhật Bản"),
+        "tokoname": ("Tokoname", "Nhật Bản", "Thế kỷ 12 đến nay", "Gốm Tokoname ấm trà Nhật Bản"),
         
         # Đông Nam Á
         "sawankhalok": ("Sawankhalok", "Thái Lan", "Thế kỷ 14-16", "Gốm Sawankhalok Thái Lan cổ"),
         "sukhothai": ("Sukhothai", "Thái Lan", "Thế kỷ 14-16", "Gốm Sukhothai Thái Lan cổ"),
         "bencharong": ("Bencharong", "Thái Lan", "Thế kỷ 18-19", "Gốm sứ ngũ sắc Bencharong Thái Lan hoàng gia"),
+        "khmer": ("Khmer", "Campuchia", "Thế kỷ 9-13", "Gốm Khmer cổ Đế quốc Angkor"),
         
         # Hàn Quốc
         "goryeo": ("Goryeo celadon", "Hàn Quốc", "Thế kỷ 10-14", "Gốm men ngọc Cao Ly (Goryeo Celadon)"),
         "buncheong": ("Buncheong", "Hàn Quốc", "Thế kỷ 15-16", "Gốm Buncheong Hàn Quốc"),
+        "joseon": ("Joseon white porcelain", "Hàn Quốc", "Thế kỷ 14-19", "Sứ trắng Triều Tiên thời Joseon"),
+        
+        # Trung Quốc bổ sung
+        "jun ware": ("Jun", "Trung Quốc", "Tống, Nguyên", "Gốm Jun Quân diêu men hỏa biến"),
+        "quân diêu": ("Jun", "Trung Quốc", "Tống, Nguyên", "Gốm Jun Quân diêu men hỏa biến"),
+        "ge ware": ("Ge", "Trung Quốc", "Tống", "Gốm Ge Cáp diêu men rạn"),
+        "ding ware": ("Ding", "Trung Quốc", "Tống", "Gốm Định men trắng ngà Trung Quốc"),
+        "ru ware": ("Ru", "Trung Quốc", "Bắc Tống", "Gốm Nhữ men ngọc bích Bắc Tống"),
+        "yaozhou": ("Yaozhou", "Trung Quốc", "Tống, Kim", "Gốm Diêu Châu men ngọc khắc hoa"),
+        "diêu châu": ("Yaozhou", "Trung Quốc", "Tống, Kim", "Gốm Diêu Châu men ngọc khắc hoa"),
+        "blanc de chine": ("Dehua", "Trung Quốc", "Minh, Thanh", "Sứ trắng Đức Hóa (Blanc de Chine)"),
+        "blue and white": ("Jingdezhen", "Trung Quốc", "Nguyên, Minh, Thanh", "Sứ hoa lam Cảnh Đức Trấn"),
+        "hoa lam": ("Jingdezhen", "Trung Quốc", "Nguyên, Minh, Thanh", "Sứ hoa lam Cảnh Đức Trấn"),
+        "tử sa": ("Yixing", "Trung Quốc", "Minh, Thanh đến nay", "Ấm Tử Sa Nghi Hưng"),
+        "zisha": ("Yixing", "Trung Quốc", "Minh, Thanh đến nay", "Ấm Tử Sa Nghi Hưng"),
+        "famille rose": ("Jingdezhen", "Trung Quốc", "Thanh (Khang Hy đến nay)", "Sứ Phấn Thái / Famille Rose Cảnh Đức Trấn"),
+        "famille verte": ("Jingdezhen", "Trung Quốc", "Thanh (Khang Hy)", "Sứ Ngũ Thái / Famille Verte Cảnh Đức Trấn"),
         
         # Châu Âu
         "delft": ("Delftware", "Hà Lan", "Thế kỷ 17 đến nay", "Gốm sứ Delft lam trắng"),
+        "delftware": ("Delftware", "Hà Lan", "Thế kỷ 17 đến nay", "Gốm sứ Delft lam trắng"),
         "meissen": ("Meissen", "Đức", "Thế kỷ 18 đến nay", "Sứ cổ Meissen Đức"),
+        "sèvres": ("Sèvres", "Pháp", "Thế kỷ 18 đến nay", "Sứ cổ Sèvres Pháp"),
         "sevres": ("Sèvres", "Pháp", "Thế kỷ 18 đến nay", "Sứ cổ Sèvres Pháp"),
         "wedgwood": ("Wedgwood", "Anh", "Thế kỷ 18 đến nay", "Gốm sứ Wedgwood Anh (Jasperware)"),
+        "jasperware": ("Wedgwood", "Anh", "Thế kỷ 18 đến nay", "Gốm Jasperware Wedgwood"),
         "limoges": ("Limoges", "Pháp", "Thế kỷ 18 đến nay", "Sứ trắng cao cấp Limoges Pháp"),
         "royal copenhagen": ("Royal Copenhagen", "Đan Mạch", "Thế kỷ 18 đến nay", "Sứ vẽ tay lam Đan Mạch"),
+        "royal doulton": ("Royal Doulton", "Anh", "Thế kỷ 19 đến nay", "Sứ Royal Doulton Anh"),
+        "herend": ("Herend", "Hungary", "Thế kỷ 19 đến nay", "Sứ vẽ tay Herend Hungary"),
         "majolica": ("Majolica", "Ý/Tây Ban Nha", "Thế kỷ 15 đến nay", "Gốm tráng men thiếc Majolica"),
         "deruta": ("Majolica", "Ý", "Thế kỷ 15 đến nay", "Gốm truyền thống Deruta Ý"),
         "talavera": ("Talavera", "Mexico/Tây Ban Nha", "Thế kỷ 16 đến nay", "Gốm Talavera tráng men đa sắc"),
         "capodimonte": ("Capodimonte", "Ý", "Thế kỷ 18 đến nay", "Sứ Capodimonte đắp nổi hoa lá Ý"),
+        "rosenthal": ("Rosenthal", "Đức", "Thế kỷ 19 đến nay", "Sứ Rosenthal Đức"),
+        "spode": ("Spode", "Anh", "Thế kỷ 18 đến nay", "Sứ Spode / Copeland Anh"),
+        "minton": ("Minton", "Anh", "Thế kỷ 18 đến nay", "Sứ Minton majolica Anh"),
         
         # Trung Đông
         "iznik": ("Iznik", "Thổ Nhĩ Kỳ", "Thế kỷ 15-17", "Gốm Iznik Thổ Nhĩ Kỳ hoa văn Hồi giáo"),
+        "kashi": ("Kashi", "Ba Tư/Iran", "Thế kỷ 12-17", "Gốm Kashi Ba Tư luster"),
+        "persian": ("Persian pottery", "Ba Tư/Iran", "Thế kỷ 10-17", "Gốm Ba Tư cổ"),
         
         # Mỹ Latinh & Khác
         "barro negro": ("Barro Negro", "Mexico", "Thế kỷ 15 đến nay", "Gốm mộc màu đen bóng Oaxaca Mexico"),
         "mata ortiz": ("Mata Ortiz", "Mexico", "Thế kỷ 20 đến nay", "Gốm đắp vẽ Mata Ortiz Chihuahua Mexico"),
+        "pueblo": ("Pueblo", "Hoa Kỳ", "Truyền thống bản địa", "Gốm Pueblo người Mỹ bản địa"),
     }
     
     # Define mapping of country indicators
@@ -621,6 +657,21 @@ def analyze_lens_keywords(lens_results: list) -> str:
         "turkey": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
         "turkish": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
         "iznik": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
+        
+        "hungary": "Hungary (Hungarian)",
+        "hungarian": "Hungary (Hungarian)",
+        
+        "ba tư": "Ba Tư / Iran (Persian/Iranian)",
+        "iran": "Ba Tư / Iran (Persian/Iranian)",
+        "persian": "Ba Tư / Iran (Persian/Iranian)",
+        
+        "campuchia": "Campuchia (Cambodia/Khmer)",
+        "cambodia": "Campuchia (Cambodia/Khmer)",
+        "khmer": "Campuchia (Cambodia/Khmer)",
+        
+        "đan mạch": "Đan Mạch (Denmark/Danish)",
+        "denmark": "Đan Mạch (Denmark/Danish)",
+        "danish": "Đan Mạch (Denmark/Danish)",
     }
 
     # Define ceramic type/material indicators
@@ -635,6 +686,12 @@ def analyze_lens_keywords(lens_results: list) -> str:
         "majolica": "Gốm tráng men thiếc đa sắc (Majolica)",
         "faience": "Gốm tráng men Faience",
         "slipware": "Gốm phủ đất sét màu (Slipware)",
+        "raku": "Gốm Raku nung nhanh (Raku)",
+        "bone china": "Sứ xương / Bone China",
+        "tin-glazed": "Gốm tráng men thiếc (Tin-glazed)",
+        "salt-glazed": "Gốm men muối (Salt-glazed)",
+        "creamware": "Sứ men kem (Creamware)",
+        "jasperware": "Gốm Jasperware (Wedgwood)",
     }
     
     ceramic_matches = {}
@@ -683,11 +740,36 @@ def analyze_lens_keywords(lens_results: list) -> str:
         for mat, count in sorted_materials:
             analysis_str += f"   - Material category '{mat}': {count} mention(s).\n"
             
+    # Compute consensus strength
+    top_ceramic = None
+    top_count = 0
+    if ceramic_matches:
+        sorted_ceramics_list = sorted(ceramic_matches.items(), key=lambda x: x[1], reverse=True)
+        top_ceramic_info, top_count = sorted_ceramics_list[0]
+        top_ceramic = top_ceramic_info[0]  # ceramic line name
+    
     analysis_str += (
-        "\nCRITICAL RULES FOR LLM SYNTHESIS:\n"
-        "1. PRIORITIZE EXACT MATCHES: If a specific ceramic line (e.g. Delftware, Sawankhalok, Chu Dau, Satsuma, Meissen) has clear matches, strongly favor it.\n"
-        "2. GEOGRAPHIC CONSISTENCY: Align your prediction, country, and era with the detected geographic signals. If the matches point to Japan, the country MUST be Japan, era must correspond to Japanese periods (e.g., Edo, Meiji). If the matches point to England/Wedgwood, country must be England, era must be 18th century to present. NEVER mix different countries (e.g., do not predict 'Limoges porcelain from England').\n"
-        "3. GLOBAL SCALE: Treat both Vietnamese and all international ceramic traditions with equal weight based on the evidence.\n"
+        "\nHOW TO USE THESE SIGNALS (REFERENCE MATERIAL — NOT PRIMARY SOURCE):\n"
+        "These Google Lens signals are provided as REFERENCE MATERIAL to help you verify your own expert analysis "
+        "and prevent hallucination. They are NOT the primary basis for your prediction.\n\n"
+        "GUIDELINES:\n"
+        "1. FORM YOUR OWN OPINION FIRST: Analyze the visual evidence using your specialized expertise BEFORE "
+        "considering these Lens signals. Your expert knowledge should drive the prediction.\n"
+        "2. USE LENS TO VERIFY: After forming your initial analysis, check if these signals support or contradict "
+        "your conclusion. If they confirm your analysis, your confidence can increase. If they contradict, "
+        "re-examine your reasoning but do NOT automatically change your prediction — Lens matches visually similar items "
+        "which may not be the same ceramic line.\n"
+        "3. GEOGRAPHIC CONSISTENCY: If you identify a ceramic line, ensure the country and era are consistent. "
+        "Do NOT mix origins (e.g., do not predict 'Limoges porcelain from England').\n"
+        "4. GLOBAL SCALE: Treat all ceramic traditions with equal weight based on the visual evidence.\n"
+    )
+    if top_ceramic and top_count >= 3:
+        analysis_str += f"📋 NOTE: '{top_ceramic}' appeared in {top_count} separate Lens results — worth considering as supporting evidence for your analysis.\n"
+    elif top_ceramic and top_count >= 2:
+        analysis_str += f"📋 NOTE: '{top_ceramic}' appeared in {top_count} Lens results — may be relevant as a reference point.\n"
+    analysis_str += (
+        "5. REMEMBER: You are the expert. Google Lens is a search engine tool, not a ceramic specialist. "
+        "Trust your training and analysis methodology over raw search results.\n"
     )
     analysis_str += "---------------------------------------------------\n\n"
     return analysis_str
