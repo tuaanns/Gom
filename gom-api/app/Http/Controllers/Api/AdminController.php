@@ -225,8 +225,8 @@ class AdminController extends Controller
         $featured = $request->query('featured');
 
         $query = CeramicLine::select([
-            'id', 'name', 'origin', 'country', 'era', 'description',
-            'image_url', 'style', 'is_featured', 'created_at',
+            'id', 'name', 'name_en', 'origin', 'origin_en', 'country', 'country_en', 'era', 'era_en', 'description', 'description_en',
+            'image_url', 'style', 'style_en', 'is_featured', 'created_at',
         ]);
 
         if ($search) {
@@ -262,10 +262,17 @@ class AdminController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'name_en' => 'nullable|string|max:255',
             'origin' => 'nullable|string|max:255',
+            'origin_en' => 'nullable|string|max:255',
             'country' => 'nullable|string|max:255',
+            'country_en' => 'nullable|string|max:255',
             'era' => 'nullable|string|max:255',
+            'era_en' => 'nullable|string|max:255',
+            'style' => 'nullable|string|max:255',
+            'style_en' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'image_url' => 'nullable|string',
             'is_featured' => 'nullable|boolean',
         ]);
@@ -292,14 +299,20 @@ class AdminController extends Controller
         $line = CeramicLine::findOrFail($id);
 
         $data = $request->validate([
-            'name'        => 'sometimes|string|max:255',
-            'origin'      => 'sometimes|nullable|string|max:255',
-            'country'     => 'sometimes|string|max:255',
-            'era'         => 'sometimes|nullable|string|max:255',
-            'style'       => 'sometimes|nullable|string|max:255',
-            'description' => 'sometimes|nullable|string',
-            'image_url'   => 'sometimes|nullable|string',
-            'is_featured' => 'sometimes|boolean',
+            'name'           => 'sometimes|string|max:255',
+            'name_en'        => 'sometimes|nullable|string|max:255',
+            'origin'         => 'sometimes|nullable|string|max:255',
+            'origin_en'      => 'sometimes|nullable|string|max:255',
+            'country'        => 'sometimes|string|max:255',
+            'country_en'     => 'sometimes|nullable|string|max:255',
+            'era'            => 'sometimes|nullable|string|max:255',
+            'era_en'         => 'sometimes|nullable|string|max:255',
+            'style'          => 'sometimes|nullable|string|max:255',
+            'style_en'       => 'sometimes|nullable|string|max:255',
+            'description'    => 'sometimes|nullable|string',
+            'description_en' => 'sometimes|nullable|string',
+            'image_url'      => 'sometimes|nullable|string',
+            'is_featured'    => 'sometimes|boolean',
         ]);
 
         $line->update($data);

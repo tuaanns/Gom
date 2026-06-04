@@ -120,14 +120,14 @@ export const CeramicsPage = ({ notify }) => {
     {
       key: 'name',
       header: t('admin.ceramicsPage.table.name'),
-      accessor: (row) => translateCeramicTerm(row.name, i18n.language),
+      accessor: (row) => i18n.language === 'en' && row.name_en ? row.name_en : translateCeramicTerm(row.name, i18n.language),
       cell: (row) => (
         <div>
           <p className="font-semibold text-gray-900 dark:text-white">
-            {translateCeramicTerm(row.name, i18n.language)}
+            {i18n.language === 'en' && row.name_en ? row.name_en : translateCeramicTerm(row.name, i18n.language)}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            {translateCeramicTerm(row.country, i18n.language)}
+            {i18n.language === 'en' && row.country_en ? row.country_en : translateCeramicTerm(row.country, i18n.language)}
           </p>
         </div>
       ),
@@ -137,10 +137,10 @@ export const CeramicsPage = ({ notify }) => {
     {
       key: 'country',
       header: t('admin.ceramicsPage.table.country'),
-      accessor: (row) => translateCeramicTerm(row.country, i18n.language),
+      accessor: (row) => i18n.language === 'en' && row.country_en ? row.country_en : translateCeramicTerm(row.country, i18n.language),
       cell: (row) => (
         <span className="text-sm text-gray-700 dark:text-gray-300">
-          {translateCeramicTerm(row.country, i18n.language)}
+          {i18n.language === 'en' && row.country_en ? row.country_en : translateCeramicTerm(row.country, i18n.language)}
         </span>
       ),
       sortable: true,
@@ -149,10 +149,10 @@ export const CeramicsPage = ({ notify }) => {
     {
       key: 'era',
       header: t('admin.ceramicsPage.table.era'),
-      accessor: (row) => translateCeramicTerm(row.era || '', i18n.language) || '—',
+      accessor: (row) => i18n.language === 'en' && row.era_en ? row.era_en : (translateCeramicTerm(row.era || '', i18n.language) || '—'),
       cell: (row) => (
         <span className="text-sm text-gray-700 dark:text-gray-300">
-          {translateCeramicTerm(row.era || '', i18n.language) || '—'}
+          {i18n.language === 'en' && row.era_en ? row.era_en : (translateCeramicTerm(row.era || '', i18n.language) || '—')}
         </span>
       ),
       sortable: true,

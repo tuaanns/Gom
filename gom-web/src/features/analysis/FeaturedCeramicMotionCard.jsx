@@ -94,7 +94,7 @@ export const FeaturedCeramicMotionCard = ({
             transition={{ duration: 0.35 }}
             className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-ceramic-soft"
           >
-            {translateCeramicTerm(item?.era, lang)}
+            {lang === 'en' && item?.era_en ? item.era_en : translateCeramicTerm(item?.era, lang)}
           </motion.p>
           <motion.h3
             animate={
@@ -108,7 +108,7 @@ export const FeaturedCeramicMotionCard = ({
             transition={{ duration: 0.38, delay: 0.04 }}
             className="mt-1 font-heading text-xl font-bold leading-[1.25] text-ivory"
           >
-            {translateCeramicTerm(item?.name, lang)}
+            {lang === 'en' && item?.name_en ? item.name_en : translateCeramicTerm(item?.name, lang)}
           </motion.h3>
         </div>
       </div>
@@ -125,7 +125,7 @@ export const FeaturedCeramicMotionCard = ({
         className="relative p-5"
       >
         <p className="line-clamp-2 text-sm leading-[1.8] text-muted dark:text-dark-text-muted">
-          {translateCeramicTerm(item?.description, lang)}
+          {lang === 'en' && item?.description_en ? item.description_en : translateCeramicTerm(item?.description, lang)}
         </p>
       </motion.div>
     </motion.article>

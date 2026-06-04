@@ -6,6 +6,7 @@ import { adminApi } from '../api';
 import { storageApi } from '../../../lib/storageApi';
 import { getErrorMessage } from '../../../lib/utils';
 import { useTranslation } from 'react-i18next';
+import { translateCeramicTerm } from '../../../lib/ceramicTranslations';
 
 export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) => {
   const { t } = useTranslation();
@@ -15,11 +16,17 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
   const [imagePreview, setImagePreview] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
+    name_en: '',
     origin: '',
+    origin_en: '',
     country: '',
+    country_en: '',
     era: '',
+    era_en: '',
     style: '',
+    style_en: '',
     description: '',
+    description_en: '',
     image_url: '',
     is_featured: false,
   });
@@ -29,11 +36,17 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
     if (ceramic) {
       setFormData({
         name: ceramic.name || '',
+        name_en: ceramic.name_en || translateCeramicTerm(ceramic.name, 'en') || '',
         origin: ceramic.origin || '',
+        origin_en: ceramic.origin_en || translateCeramicTerm(ceramic.origin, 'en') || '',
         country: ceramic.country || '',
+        country_en: ceramic.country_en || translateCeramicTerm(ceramic.country, 'en') || '',
         era: ceramic.era || '',
+        era_en: ceramic.era_en || translateCeramicTerm(ceramic.era, 'en') || '',
         style: ceramic.style || '',
+        style_en: ceramic.style_en || translateCeramicTerm(ceramic.style, 'en') || '',
         description: ceramic.description || '',
+        description_en: ceramic.description_en || translateCeramicTerm(ceramic.description, 'en') || '',
         image_url: ceramic.image_url || '',
         is_featured: !!ceramic.is_featured,
       });
@@ -41,11 +54,17 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
     } else {
       setFormData({
         name: '',
+        name_en: '',
         origin: '',
+        origin_en: '',
         country: '',
+        country_en: '',
         era: '',
+        era_en: '',
         style: '',
+        style_en: '',
         description: '',
+        description_en: '',
         image_url: '',
         is_featured: false,
       });
@@ -191,7 +210,7 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
         </FormField>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <FormField label={t('admin.ceramicsPage.modal.name')} required error={errors.name}>
+          <FormField label={`${t('admin.ceramicsPage.modal.name')} (VI)`} required error={errors.name}>
             <Input
               name="name"
               value={formData.name}
@@ -201,7 +220,18 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
             />
           </FormField>
 
-          <FormField label={t('admin.ceramicsPage.modal.country')} required error={errors.country}>
+          <FormField label={`${t('admin.ceramicsPage.modal.name')} (EN)`}>
+            <Input
+              name="name_en"
+              value={formData.name_en}
+              onChange={handleChange}
+              placeholder="e.g., Bat Trang Ceramics"
+            />
+          </FormField>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormField label={`${t('admin.ceramicsPage.modal.country')} (VI)`} required error={errors.country}>
             <Input
               name="country"
               value={formData.country}
@@ -210,10 +240,19 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
               error={errors.country}
             />
           </FormField>
+
+          <FormField label={`${t('admin.ceramicsPage.modal.country')} (EN)`}>
+            <Input
+              name="country_en"
+              value={formData.country_en}
+              onChange={handleChange}
+              placeholder="e.g., Vietnam"
+            />
+          </FormField>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
-          <FormField label={t('admin.ceramicsPage.modal.origin')}>
+          <FormField label={`${t('admin.ceramicsPage.modal.origin')} (VI)`}>
             <Input
               name="origin"
               value={formData.origin}
@@ -222,7 +261,18 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
             />
           </FormField>
 
-          <FormField label={t('admin.ceramicsPage.modal.era')}>
+          <FormField label={`${t('admin.ceramicsPage.modal.origin')} (EN)`}>
+            <Input
+              name="origin_en"
+              value={formData.origin_en}
+              onChange={handleChange}
+              placeholder="e.g., Hanoi"
+            />
+          </FormField>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormField label={`${t('admin.ceramicsPage.modal.era')} (VI)`}>
             <Input
               name="era"
               value={formData.era}
@@ -230,24 +280,54 @@ export const CeramicModal = ({ isOpen, onClose, ceramic, onSuccess, notify }) =>
               placeholder={t('admin.ceramicsPage.modal.eraPlaceholder')}
             />
           </FormField>
+
+          <FormField label={`${t('admin.ceramicsPage.modal.era')} (EN)`}>
+            <Input
+              name="era_en"
+              value={formData.era_en}
+              onChange={handleChange}
+              placeholder="e.g., 14th century - present"
+            />
+          </FormField>
         </div>
 
-        <FormField label={t('admin.ceramicsPage.modal.style')}>
-          <Input
-            name="style"
-            value={formData.style}
-            onChange={handleChange}
-            placeholder={t('admin.ceramicsPage.modal.stylePlaceholder')}
-          />
-        </FormField>
+        <div className="grid gap-4 md:grid-cols-2">
+          <FormField label={`${t('admin.ceramicsPage.modal.style')} (VI)`}>
+            <Input
+              name="style"
+              value={formData.style}
+              onChange={handleChange}
+              placeholder={t('admin.ceramicsPage.modal.stylePlaceholder')}
+            />
+          </FormField>
 
-        <FormField label={t('admin.ceramicsPage.modal.description')}>
+          <FormField label={`${t('admin.ceramicsPage.modal.style')} (EN)`}>
+            <Input
+              name="style_en"
+              value={formData.style_en}
+              onChange={handleChange}
+              placeholder="e.g., Celadon, Cracked glaze"
+            />
+          </FormField>
+        </div>
+
+        <FormField label={`${t('admin.ceramicsPage.modal.description')} (VI)`}>
           <Textarea
             name="description"
             value={formData.description}
             onChange={handleChange}
             placeholder={t('admin.ceramicsPage.modal.descriptionPlaceholder')}
-            rows={4}
+            rows={3}
+          />
+        </FormField>
+
+        <FormField label={`${t('admin.ceramicsPage.modal.description')} (EN)`}>
+          <Textarea
+            name="description_en"
+            value={formData.description_en}
+            onChange={handleChange}
+            placeholder="Enter detailed description in English..."
+            rows={3}
           />
         </FormField>
 

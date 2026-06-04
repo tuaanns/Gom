@@ -11,12 +11,18 @@ class CeramicLine extends Model
 
     protected $fillable = [
         'name',
+        'name_en',
         'origin',
+        'origin_en',
         'country',
+        'country_en',
         'era',
+        'era_en',
         'description',
+        'description_en',
         'image_url',
         'style',
+        'style_en',
         'is_featured',
     ];
 

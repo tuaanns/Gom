@@ -227,19 +227,19 @@ export const CeramicsPage = ({ notify }) => {
                 <div className="p-5">
                   <div className="mb-2 flex items-center gap-2">
                     {line.is_featured && <Badge variant="gold">{t('ceramics.featured')}</Badge>}
-                    {line.country && <Badge variant="navy">{translateCeramicTerm(line.country, lang)}</Badge>}
+                    {line.country && <Badge variant="navy">{lang === 'en' && line.country_en ? line.country_en : translateCeramicTerm(line.country, lang)}</Badge>}
                   </div>
                   <h3 className="font-heading text-lg font-bold leading-card text-navy dark:text-ivory">
-                    {translateCeramicTerm(line.name, lang)}
+                    {lang === 'en' && line.name_en ? line.name_en : translateCeramicTerm(line.name, lang)}
                   </h3>
                   {line.era && (
                     <p className="mt-1 text-xs font-semibold uppercase tracking-wider leading-eyebrow text-ceramic-dark">
-                      {translateCeramicTerm(line.era, lang)}
+                      {lang === 'en' && line.era_en ? line.era_en : translateCeramicTerm(line.era, lang)}
                     </p>
                   )}
                   {line.description && (
                     <p className="mt-2 line-clamp-2 text-sm leading-paragraph text-muted dark:text-dark-text-muted">
-                      {translateCeramicTerm(line.description, lang)}
+                      {lang === 'en' && line.description_en ? line.description_en : translateCeramicTerm(line.description, lang)}
                     </p>
                   )}
                 </div>

@@ -37,9 +37,15 @@ export const CeramicDetailModal = ({ item, onClose }) => {
     let needsApiCall = false;
     let fullTextToTranslate = '';
 
-    // Check local dictionary and cache first
+    // Check local dictionary, DB columns, and cache first
     for (const [key, text] of Object.entries(textsToTranslate)) {
       if (!text) continue;
+
+      const dbEnField = `${key}_en`;
+      if (item && item[dbEnField]) {
+        newTranslatedContent[key] = item[dbEnField];
+        continue;
+      }
 
       const localTrans = translateCeramicTerm(text, lang);
       if (localTrans !== text) {
@@ -151,7 +157,7 @@ export const CeramicDetailModal = ({ item, onClose }) => {
   const has3DModel = item.model_url || item.model_3d_url;
 
   return (
-    <Modal open={!!item} onClose={onClose} size="xl" title={translateCeramicTerm(item.name, lang)}>
+    <Modal open={!!item} onClose={onClose} size="xl" title={lang === 'en' && item.name_en ? item.name_en : translateCeramicTerm(item.name, lang)}>
       <div className="grid gap-6 p-6 lg:grid-cols-2">
         {/* Left side: Image or 3D viewer */}
         <div className="space-y-4">
@@ -226,12 +232,12 @@ export const CeramicDetailModal = ({ item, onClose }) => {
         <div className="space-y-5">
           <div className="flex flex-wrap gap-2">
             {item.is_featured && <Badge variant="gold">{t('ceramics.featured')}</Badge>}
-            {item.country && <Badge variant="navy">{translateCeramicTerm(item.country, lang)}</Badge>}
-            {item.era && <Badge variant="info">{translateCeramicTerm(item.era, lang)}</Badge>}
+            {item.country && <Badge variant="navy">{lang === 'en' && item.country_en ? item.country_en : translateCeramicTerm(item.country, lang)}</Badge>}
+            {item.era && <Badge variant="info">{lang === 'en' && item.era_en ? item.era_en : translateCeramicTerm(item.era, lang)}</Badge>}
           </div>
 
           <div className="flex items-center justify-between">
-            <h2 className="font-heading text-3xl font-bold text-navy dark:text-ivory">{translateCeramicTerm(item.name, lang)}</h2>
+            <h2 className="font-heading text-3xl font-bold text-navy dark:text-ivory">{lang === 'en' && item.name_en ? item.name_en : translateCeramicTerm(item.name, lang)}</h2>
             {translating && (
               <div className="flex items-center gap-1.5 text-xs font-medium text-ceramic">
                 <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"/><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg>
@@ -250,13 +256,13 @@ export const CeramicDetailModal = ({ item, onClose }) => {
 
           <div className="grid gap-3 text-sm">
             {item.origin && (
-              <DetailRow label={t('ceramics.detail.origin')} value={translateCeramicTerm(item.origin, lang)} />
+              <DetailRow label={t('ceramics.detail.origin')} value={lang === 'en' && item.origin_en ? item.origin_en : translateCeramicTerm(item.origin, lang)} />
             )}
             {item.country && (
-              <DetailRow label={t('ceramics.detail.country')} value={translateCeramicTerm(item.country, lang)} />
+              <DetailRow label={t('ceramics.detail.country')} value={lang === 'en' && item.country_en ? item.country_en : translateCeramicTerm(item.country, lang)} />
             )}
-            {item.era && <DetailRow label={t('ceramics.detail.era')} value={translateCeramicTerm(item.era, lang)} />}
-            {item.style && <DetailRow label={t('ceramics.detail.style')} value={translateCeramicTerm(item.style, lang)} />}
+            {item.era && <DetailRow label={t('ceramics.detail.era')} value={lang === 'en' && item.era_en ? item.era_en : translateCeramicTerm(item.era, lang)} />}
+            {item.style && <DetailRow label={t('ceramics.detail.style')} value={lang === 'en' && item.style_en ? item.style_en : translateCeramicTerm(item.style, lang)} />}
           </div>
 
           {item.description && (
