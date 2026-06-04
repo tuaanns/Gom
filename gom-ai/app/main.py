@@ -441,7 +441,7 @@ async def predict_debate(file: UploadFile = File(...), lang: str = Form("vi")):
         raise HTTPException(status_code=502, detail=friendly_err)
 
 
-from app.google_lens_service import search_google_lens
+from app.google_lens_service import search_google_lens, analyze_lens_keywords
 
 @app.post("/predict/lens")
 async def predict_with_lens(file: UploadFile = File(...), lang: str = Form("vi")):
@@ -474,17 +474,20 @@ async def predict_with_lens(file: UploadFile = File(...), lang: str = Form("vi")
     with open(file_path, "wb") as f:
         f.write(image_bytes)
 
-    lens_results = await search_google_lens(os.path.abspath(file_path), max_results=15)
+    import asyncio
+    lens_results = await asyncio.to_thread(search_google_lens, os.path.abspath(file_path), 15)
 
     if not lens_results:
         return {"final_prediction": "Không tìm thấy kết quả phù hợp từ Google Lens." if lang == "vi" else "No matching results found from Google Lens.", "confidence": 0, "lens_results": []}
 
     # Use LLM to synthesize a final prediction from lens results
     titles = "\n".join([f"- {r['title']} ({r['url']})" for r in lens_results])
+    signals = analyze_lens_keywords(lens_results)
     if lang == "en":
         synth_prompt = (
             f"You are an expert ceramic appraiser analyzing Google Lens image search results.\n\n"
             f"Google Lens found these matching pages for the uploaded ceramic image:\n{titles}\n\n"
+            f"{signals}"
             f"INSTRUCTIONS:\n"
             f"1. Analyze the titles and URLs to identify the ceramic type, origin, era.\n"
             f"2. Cross-reference multiple sources.\n"
@@ -502,6 +505,7 @@ async def predict_with_lens(file: UploadFile = File(...), lang: str = Form("vi")
         synth_prompt = (
             f"Bạn là chuyên gia giám định gốm sứ, đang phân tích kết quả tìm kiếm hình ảnh từ Google Lens.\n\n"
             f"Google Lens đã tìm thấy các trang web khớp với ảnh gốm sứ được tải lên:\n{titles}\n\n"
+            f"{signals}"
             f"HƯỚNG DẪN:\n"
             f"1. Phân tích tiêu đề và URL để xác định loại gốm, xuất xứ, niên đại.\n"
             f"2. Đối chiếu chéo giữa nhiều nguồn.\n"

@@ -1,5 +1,7 @@
 import time
 import os
+import sys
+import subprocess
 import logging
 import re
 import shutil
@@ -67,8 +69,6 @@ def _build_chrome_options():
         # yet it remains a fully functional real browser, avoiding CAPTCHA and bot detection.
         chrome_options.add_argument("--window-position=-2000,0")
     chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-    chrome_options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    chrome_options.add_experimental_option("useAutomationExtension", False)
     chrome_options.add_argument("--window-size=1920,1080")
     chrome_options.add_argument("--lang=vi,en-US;q=0.9,en;q=0.8")
     chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36")
@@ -78,6 +78,105 @@ def _build_chrome_options():
     chrome_options.add_argument("--log-level=3")
     chrome_options.add_argument("--silent")
     return chrome_options
+
+
+def get_chrome_major_version():
+    try:
+        import undetected_chromedriver as uc
+        chrome_path = uc.find_chrome_executable()
+    except Exception:
+        chrome_path = None
+
+    version_str = ""
+
+    if sys.platform == "win32":
+        import winreg
+        for hkey in (winreg.HKEY_CURRENT_USER, winreg.HKEY_LOCAL_MACHINE):
+            try:
+                key = winreg.OpenKey(hkey, r"Software\Google\Chrome\BLBeacon")
+                val, _ = winreg.QueryValueEx(key, "version")
+                if val:
+                    version_str = val
+                    break
+            except Exception:
+                pass
+        
+        if not version_str and chrome_path and os.path.exists(chrome_path):
+            try:
+                import ctypes
+                size = ctypes.windll.version.GetFileVersionInfoSizeW(chrome_path, None)
+                if size > 0:
+                    res = ctypes.create_string_buffer(size)
+                    ctypes.windll.version.GetFileVersionInfoW(chrome_path, None, size, res)
+                    rVal = ctypes.c_void_p(0)
+                    rLen = ctypes.c_uint(0)
+                    if ctypes.windll.version.VerQueryValueW(res, "\\", ctypes.byref(rVal), ctypes.byref(rLen)):
+                        if rLen.value > 0:
+                            import struct
+                            info = ctypes.string_at(rVal.value, rLen.value)
+                            unpacked = struct.unpack('<IIIIIIIIIIIII', info[:52])
+                            file_ver_ms = unpacked[2]
+                            file_ver_ls = unpacked[3]
+                            major = file_ver_ms >> 16
+                            minor = file_ver_ms & 0xFFFF
+                            build = file_ver_ls >> 16
+                            patch = file_ver_ls & 0xFFFF
+                            version_str = f"{major}.{minor}.{build}.{patch}"
+            except Exception as e:
+                logger.warning(f"[Lens] ctypes version error: {e}")
+
+    else:
+        if chrome_path:
+            try:
+                output = subprocess.check_output([chrome_path, "--version"], stderr=subprocess.STDOUT)
+                out_str = output.decode("utf-8", errors="ignore")
+                match = re.search(r"(\d+)\.\d+\.\d+\.\d+", out_str)
+                if match:
+                    version_str = match.group(0)
+            except Exception as e:
+                logger.warning(f"[Lens] path --version error: {e}")
+
+    if not version_str:
+        for cmd in ("google-chrome", "chrome", "chromium", "google-chrome-stable"):
+            try:
+                output = subprocess.check_output([cmd, "--version"], stderr=subprocess.STDOUT)
+                out_str = output.decode("utf-8", errors="ignore")
+                match = re.search(r"(\d+)\.\d+\.\d+\.\d+", out_str)
+                if match:
+                    version_str = match.group(0)
+                    break
+            except Exception:
+                continue
+
+    if version_str:
+        match = re.match(r"^(\d+)", version_str)
+        if match:
+            return int(match.group(1))
+
+    return None
+
+
+def _upload_to_imgbb(file_path: str) -> str:
+    api_key = os.getenv("IMGBB_API_KEY")
+    if not api_key:
+        return ""
+    try:
+        with open(file_path, "rb") as f:
+            resp = http_requests.post(
+                "https://api.imgbb.com/1/upload",
+                params={"key": api_key},
+                files={"image": f},
+                timeout=30
+            )
+        if resp.status_code == 200:
+            data = resp.json()
+            url = data.get("data", {}).get("url", "")
+            if url:
+                logger.info(f"[Lens] ImgBB upload thành công: {url}")
+                return url
+    except Exception as e:
+        logger.warning(f"[Lens] ImgBB upload lỗi: {e}")
+    return ""
 
 
 def setup_driver():
@@ -98,10 +197,24 @@ def setup_driver():
             if remote_only:
                 raise
 
-    logger.info("[Lens] Launching local Chrome...")
-    driver = webdriver.Chrome(options=chrome_options)
-    stealth_js = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
-    driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_js})
+    logger.info("[Lens] Launching local Chrome using undetected_chromedriver...")
+    try:
+        import undetected_chromedriver as uc
+        major_version = get_chrome_major_version()
+        if major_version:
+            logger.info(f"[Lens] Detected Chrome major version: {major_version}")
+            driver = uc.Chrome(options=chrome_options, version_main=major_version)
+        else:
+            logger.info("[Lens] Chrome major version not detected, letting uc auto-detect")
+            driver = uc.Chrome(options=chrome_options)
+    except Exception as uc_err:
+        logger.warning(f"[Lens] undetected_chromedriver failed to launch: {uc_err}. Falling back to standard selenium...")
+        driver = webdriver.Chrome(options=chrome_options)
+        stealth_js = "Object.defineProperty(navigator, 'webdriver', {get: () => undefined});"
+        try:
+            driver.execute_cdp_cmd("Page.addScriptToEvaluateOnNewDocument", {"source": stealth_js})
+        except Exception as cdp_err:
+            logger.warning(f"[Lens] Failed to execute CDP stealth script: {cdp_err}")
         
     driver.set_page_load_timeout(60)
     return driver
@@ -219,12 +332,22 @@ def search_google_lens(image_path: str, max_results: int = 10):
         shutil.copy2(abs_path, safe_path)
         safe_path = os.path.abspath(safe_path)
 
-        # Upload lên catbox
-        logger.info("[Lens] Upload ảnh lên catbox...")
-        public_url = _upload_to_catbox(safe_path)
+        # Upload ảnh lên máy chủ công khai
+        public_url = ""
+        # 1. Thử ImgBB trước nếu có cấu hình API Key
+        if os.getenv("IMGBB_API_KEY"):
+            logger.info("[Lens] Upload ảnh lên ImgBB...")
+            public_url = _upload_to_imgbb(safe_path)
+            
+        # 2. Fallback về Catbox nếu không có ImgBB hoặc ImgBB lỗi
         if not public_url:
+            logger.info("[Lens] Upload ảnh lên catbox...")
+            public_url = _upload_to_catbox(safe_path)
+            
+        if not public_url:
+            logger.warning("[Lens] Không thể upload ảnh lên bất kỳ dịch vụ nào! (Vui lòng kiểm tra mạng hoặc cấu hình IMGBB_API_KEY)")
             return []
-        logger.info(f"[Lens] ✓ URL: {public_url}")
+        logger.info(f"[Lens] ✓ URL ảnh công khai: {public_url}")
 
         # Mở Chrome
         driver = setup_driver()
@@ -345,3 +468,226 @@ def search_google_lens(image_path: str, max_results: int = 10):
                 driver.quit()
             except:
                 pass
+
+
+def analyze_lens_keywords(lens_results: list) -> str:
+    if not lens_results:
+        return ""
+    
+    # Define mapping of keywords to ceramic lines and details
+    mappings = {
+        # Việt Nam
+        "chu đậu": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Gốm Chu Đậu cổ, hoa văn vẽ lam hoặc vẽ nhiều màu dưới men"),
+        "chu dau": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Gốm Chu Đậu cổ, hoa văn vẽ lam hoặc vẽ nhiều màu dưới men"),
+        "cù lao chàm": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Gốm cổ Chu Đậu trục vớt từ tàu đắm Cù Lao Chàm"),
+        "cu lao cham": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Gốm cổ Chu Đậu trục vớt từ tàu đắm Cù Lao Chàm"),
+        "thiên nga": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Bình gốm Chu Đậu vẽ thiên nga / Bảo vật quốc gia"),
+        "bình tỳ bà": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Bình tỳ bà gốm Chu Đậu cổ"),
+        "bình tì bà": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Bình tỳ bà gốm Chu Đậu cổ"),
+        
+        "bát tràng": ("Bat Trang", "Việt Nam", "Thế kỷ 14 đến nay", "Gốm sứ Bát Tràng"),
+        "bat trang": ("Bat Trang", "Việt Nam", "Thế kỷ 14 đến nay", "Gốm sứ Bát Tràng"),
+        "men rạn": ("Bat Trang", "Việt Nam", "Thế kỷ 16 đến nay", "Gốm men rạn Bát Tràng cổ"),
+        
+        "phù lãng": ("Phu Lang", "Việt Nam", "Thế kỷ 14 đến nay", "Gốm Phù Lãng men da lươn"),
+        "phu lang": ("Phu Lang", "Việt Nam", "Thế kỷ 14 đến nay", "Gốm Phù Lãng men da lươn"),
+        
+        "lái thiêu": ("Lai Thieu", "Việt Nam", "Thế kỷ 19-20", "Gốm Lái Thiêu Nam Bộ"),
+        "lai thieu": ("Lai Thieu", "Việt Nam", "Thế kỷ 19-20", "Gốm Lái Thiêu Nam Bộ"),
+        
+        "biên hòa": ("Bien Hoa", "Việt Nam", "Thế kỷ 19-20", "Gốm Biên Hòa"),
+        "bien hoa": ("Bien Hoa", "Việt Nam", "Thế kỷ 19-20", "Gốm Biên Hòa"),
+        
+        "gò sành": ("Go Sanh", "Việt Nam", "Thế kỷ 15 (Chăm pa)", "Gốm Gò Sành Bình Định thời Chăm Pa"),
+        "go sanh": ("Go Sanh", "Việt Nam", "Thế kỷ 15 (Chăm pa)", "Gốm Gò Sành Bình Định thời Chăm Pa"),
+        
+        "cây mai": ("Cay Mai", "Việt Nam", "Thế kỷ 19-20", "Gốm Cây Mai Sài Gòn xưa"),
+        "cay mai": ("Cay Mai", "Việt Nam", "Thế kỷ 19-20", "Gốm Cây Mai Sài Gòn xưa"),
+        
+        "thanh hà": ("Thanh Ha", "Việt Nam", "Thế kỷ 15 đến nay", "Gốm Thanh Hà Hội An"),
+        "thanh ha": ("Thanh Ha", "Việt Nam", "Thế kỷ 15 đến nay", "Gốm Thanh Hà Hội An"),
+        
+        "bầu trúc": ("Bau Truc", "Việt Nam", "Thời tiền sử đến nay", "Gốm mộc vuốt tay Bàu Trúc nung lộ thiên"),
+        "bau truc": ("Bau Truc", "Việt Nam", "Thời tiền sử đến nay", "Gốm mộc vuốt tay Bàu Trúc nung lộ thiên"),
+        
+        "thổ hà": ("Tho Ha", "Việt Nam", "Thế kỷ 14-20", "Gốm sành Thổ Hà Bắc Giang xưa"),
+        "tho ha": ("Tho Ha", "Việt Nam", "Thế kỷ 14-20", "Gốm sành Thổ Hà Bắc Giang xưa"),
+        
+        # Trung Quốc
+        "cảnh đức trấn": ("Jingdezhen", "Trung Quốc", "Đường, Tống, Nguyên, Minh, Thanh", "Gốm sứ Cảnh Đức Trấn Trung Quốc"),
+        "jingdezhen": ("Jingdezhen", "Trung Quốc", "Đường, Tống, Nguyên, Minh, Thanh", "Gốm sứ Cảnh Đức Trấn Trung Quốc"),
+        
+        "longquan": ("Longquan", "Trung Quốc", "Tống, Nguyên, Minh", "Gốm men ngọc Long Tuyền celadon"),
+        "long tuyền": ("Longquan", "Trung Quốc", "Tống, Nguyên, Minh", "Gốm men ngọc Long Tuyền celadon"),
+        
+        "dehua": ("Dehua", "Trung Quốc", "Minh, Thanh", "Sứ trắng Đức Hóa (Blanc de Chine)"),
+        "đức hóa": ("Dehua", "Trung Quốc", "Minh, Thanh", "Sứ trắng Đức Hóa (Blanc de Chine)"),
+        
+        "yixing": ("Yixing", "Trung Quốc", "Minh, Thanh đến nay", "Đất nung Nghi Hưng / Ấm Tử Sa"),
+        "nghi hưng": ("Yixing", "Trung Quốc", "Minh, Thanh đến nay", "Đất nung Nghi Hưng / Ấm Tử Sa"),
+        
+        "cizhou": ("Cizhou", "Trung Quốc", "Tống, Kim, Nguyên", "Gốm Từ Châu vẽ nâu đen trên nền trắng"),
+        "từ châu": ("Cizhou", "Trung Quốc", "Tống, Kim, Nguyên", "Gốm Từ Châu vẽ nâu đen trên nền trắng"),
+        
+        # Nhật Bản
+        "imari": ("Arita/Imari", "Nhật Bản", "Thế kỷ 17 đến nay", "Gốm sứ Imari / Arita Nhật Bản"),
+        "arita": ("Arita/Imari", "Nhật Bản", "Thế kỷ 17 đến nay", "Gốm sứ Arita Nhật Bản"),
+        "satsuma": ("Satsuma", "Nhật Bản", "Thế kỷ 16 đến nay", "Gốm Satsuma Nhật Bản"),
+        "kutani": ("Kutani", "Nhật Bản", "Thế kỷ 17 đến nay", "Gốm sứ Kutani Nhật Bản"),
+        "raku": ("Raku", "Nhật Bản", "Thế kỷ 16 đến nay", "Gốm Raku trà đạo Nhật Bản"),
+        "bizen": ("Bizen", "Nhật Bản", "Thế kỷ 14 đến nay", "Gốm mộc Bizen nung củi"),
+        
+        # Đông Nam Á
+        "sawankhalok": ("Sawankhalok", "Thái Lan", "Thế kỷ 14-16", "Gốm Sawankhalok Thái Lan cổ"),
+        "sukhothai": ("Sukhothai", "Thái Lan", "Thế kỷ 14-16", "Gốm Sukhothai Thái Lan cổ"),
+        "bencharong": ("Bencharong", "Thái Lan", "Thế kỷ 18-19", "Gốm sứ ngũ sắc Bencharong Thái Lan hoàng gia"),
+        
+        # Hàn Quốc
+        "goryeo": ("Goryeo celadon", "Hàn Quốc", "Thế kỷ 10-14", "Gốm men ngọc Cao Ly (Goryeo Celadon)"),
+        "buncheong": ("Buncheong", "Hàn Quốc", "Thế kỷ 15-16", "Gốm Buncheong Hàn Quốc"),
+        
+        # Châu Âu
+        "delft": ("Delftware", "Hà Lan", "Thế kỷ 17 đến nay", "Gốm sứ Delft lam trắng"),
+        "meissen": ("Meissen", "Đức", "Thế kỷ 18 đến nay", "Sứ cổ Meissen Đức"),
+        "sevres": ("Sèvres", "Pháp", "Thế kỷ 18 đến nay", "Sứ cổ Sèvres Pháp"),
+        "wedgwood": ("Wedgwood", "Anh", "Thế kỷ 18 đến nay", "Gốm sứ Wedgwood Anh (Jasperware)"),
+        "limoges": ("Limoges", "Pháp", "Thế kỷ 18 đến nay", "Sứ trắng cao cấp Limoges Pháp"),
+        "royal copenhagen": ("Royal Copenhagen", "Đan Mạch", "Thế kỷ 18 đến nay", "Sứ vẽ tay lam Đan Mạch"),
+        "majolica": ("Majolica", "Ý/Tây Ban Nha", "Thế kỷ 15 đến nay", "Gốm tráng men thiếc Majolica"),
+        "deruta": ("Majolica", "Ý", "Thế kỷ 15 đến nay", "Gốm truyền thống Deruta Ý"),
+        "talavera": ("Talavera", "Mexico/Tây Ban Nha", "Thế kỷ 16 đến nay", "Gốm Talavera tráng men đa sắc"),
+        "capodimonte": ("Capodimonte", "Ý", "Thế kỷ 18 đến nay", "Sứ Capodimonte đắp nổi hoa lá Ý"),
+        
+        # Trung Đông
+        "iznik": ("Iznik", "Thổ Nhĩ Kỳ", "Thế kỷ 15-17", "Gốm Iznik Thổ Nhĩ Kỳ hoa văn Hồi giáo"),
+        
+        # Mỹ Latinh & Khác
+        "barro negro": ("Barro Negro", "Mexico", "Thế kỷ 15 đến nay", "Gốm mộc màu đen bóng Oaxaca Mexico"),
+        "mata ortiz": ("Mata Ortiz", "Mexico", "Thế kỷ 20 đến nay", "Gốm đắp vẽ Mata Ortiz Chihuahua Mexico"),
+    }
+    
+    # Define mapping of country indicators
+    country_indicators = {
+        "việt nam": "Việt Nam (Vietnam)",
+        "vietnam": "Việt Nam (Vietnam)",
+        "vietnamese": "Việt Nam (Vietnam)",
+        
+        "trung quốc": "Trung Quốc (China)",
+        "china": "Trung Quốc (China)",
+        "chinese": "Trung Quốc (China)",
+        
+        "nhật bản": "Nhật Bản (Japan)",
+        "japan": "Nhật Bản (Japan)",
+        "japanese": "Nhật Bản (Japan)",
+        
+        "thái lan": "Thái Lan (Thailand)",
+        "thailand": "Thái Lan (Thailand)",
+        "thai": "Thái Lan (Thailand)",
+        
+        "hàn quốc": "Hàn Quốc (Korea)",
+        "korea": "Hàn Quốc (Korea)",
+        "korean": "Hàn Quốc (Korea)",
+        
+        "hà lan": "Hà Lan (Netherlands/Dutch)",
+        "dutch": "Hà Lan (Netherlands/Dutch)",
+        "delft": "Hà Lan (Netherlands/Dutch)",
+        
+        "nước đức": "Đức (Germany/German)",
+        "germany": "Đức (Germany/German)",
+        "german": "Đức (Germany/German)",
+        
+        "nước pháp": "Pháp (France/French)",
+        "france": "Pháp (France/French)",
+        "french": "Pháp (France/French)",
+        "limoges": "Pháp (France/French)",
+        
+        "nước anh": "Anh (England/UK/British)",
+        "england": "Anh (England/UK/British)",
+        "english": "Anh (England/UK/British)",
+        "wedgwood": "Anh (England/UK/British)",
+        
+        "ý": "Ý (Italy/Italian)",
+        "italy": "Ý (Italy/Italian)",
+        "italian": "Ý (Italy/Italian)",
+        
+        "tây ban nha": "Tây Ban Nha (Spain/Spanish)",
+        "spain": "Tây Ban Nha (Spain/Spanish)",
+        "spanish": "Tây Ban Nha (Spain/Spanish)",
+        
+        "mexico": "Mexico (Mexican)",
+        "mexican": "Mexico (Mexican)",
+        
+        "thổ nhĩ kỳ": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
+        "turkey": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
+        "turkish": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
+        "iznik": "Thổ Nhĩ Kỳ (Turkey/Turkish)",
+    }
+
+    # Define ceramic type/material indicators
+    material_indicators = {
+        "celadon": "Men ngọc (Celadon)",
+        "men ngọc": "Men ngọc (Celadon)",
+        "porcelain": "Sứ (Porcelain)",
+        "đất nung": "Đất nung / Gốm mộc (Earthenware/Terracotta)",
+        "terracotta": "Đất nung / Gốm mộc (Earthenware/Terracotta)",
+        "stoneware": "Sành / Gốm đá (Stoneware)",
+        "gốm sành": "Sành / Gốm đá (Stoneware)",
+        "majolica": "Gốm tráng men thiếc đa sắc (Majolica)",
+        "faience": "Gốm tráng men Faience",
+        "slipware": "Gốm phủ đất sét màu (Slipware)",
+    }
+    
+    ceramic_matches = {}
+    country_matches = {}
+    material_matches = {}
+    
+    for r in lens_results:
+        text = f"{r.get('title', '')} {r.get('url', '')}".lower()
+        
+        # Check specific ceramic line mapping
+        for kw, info in mappings.items():
+            if kw in text:
+                ceramic_matches[info] = ceramic_matches.get(info, 0) + 1
+        
+        # Check country indicators
+        for kw, country in country_indicators.items():
+            if kw in text:
+                country_matches[country] = country_matches.get(country, 0) + 1
+                
+        # Check material/type indicators
+        for kw, mat in material_indicators.items():
+            if kw in text:
+                material_matches[mat] = material_matches.get(mat, 0) + 1
+                
+    if not ceramic_matches and not country_matches and not material_matches:
+        return ""
+        
+    analysis_str = "\n--- GOOGLE LENS REVERSE-IMAGE DETECTED SIGNALS ---\n"
+    
+    if ceramic_matches:
+        analysis_str += "1. SPECIFIC CERAMIC LINE MATCHES:\n"
+        sorted_ceramics = sorted(ceramic_matches.items(), key=lambda x: x[1], reverse=True)
+        for info, count in sorted_ceramics:
+            line, country, era, desc = info
+            analysis_str += f"   - Match for '{line}' ({desc}): found {count} time(s). Expected Country: {country}, Expected Era: {era}\n"
+            
+    if country_matches:
+        analysis_str += "2. GEOGRAPHIC / ORIGIN SIGNALS:\n"
+        sorted_countries = sorted(country_matches.items(), key=lambda x: x[1], reverse=True)
+        for country, count in sorted_countries:
+            analysis_str += f"   - Origin related to '{country}': {count} mention(s) in titles.\n"
+            
+    if material_matches:
+        analysis_str += "3. MATERIAL / TYPOLOGY SIGNALS:\n"
+        sorted_materials = sorted(material_matches.items(), key=lambda x: x[1], reverse=True)
+        for mat, count in sorted_materials:
+            analysis_str += f"   - Material category '{mat}': {count} mention(s).\n"
+            
+    analysis_str += (
+        "\nCRITICAL RULES FOR LLM SYNTHESIS:\n"
+        "1. PRIORITIZE EXACT MATCHES: If a specific ceramic line (e.g. Delftware, Sawankhalok, Chu Dau, Satsuma, Meissen) has clear matches, strongly favor it.\n"
+        "2. GEOGRAPHIC CONSISTENCY: Align your prediction, country, and era with the detected geographic signals. If the matches point to Japan, the country MUST be Japan, era must correspond to Japanese periods (e.g., Edo, Meiji). If the matches point to England/Wedgwood, country must be England, era must be 18th century to present. NEVER mix different countries (e.g., do not predict 'Limoges porcelain from England').\n"
+        "3. GLOBAL SCALE: Treat both Vietnamese and all international ceramic traditions with equal weight based on the evidence.\n"
+    )
+    analysis_str += "---------------------------------------------------\n\n"
+    return analysis_str

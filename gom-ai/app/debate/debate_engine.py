@@ -11,6 +11,15 @@ except ModuleNotFoundError:
     from agents.specialists import GPTAgent, GrokAgent, GeminiAgent
     from agents.vision_agent import VisionAgent
 
+try:
+    from app.google_lens_service import analyze_lens_keywords
+except ModuleNotFoundError:
+    try:
+        from google_lens_service import analyze_lens_keywords
+    except ModuleNotFoundError:
+        def analyze_lens_keywords(lens_results):
+            return ""
+
 logger = logging.getLogger("gom-ai.debate.engine")
 
 
@@ -354,10 +363,12 @@ class JudgeAgent(BaseAgent):
     async def evaluate(self, predictions: list, visual_features: dict, lens_results: list = None, lang: str = "vi") -> dict:
         lens_context = ""
         if lens_results:
+            signals = analyze_lens_keywords(lens_results)
             lens_context = (
                 "Google Lens visual search matched these web pages for this image (EXTREMELY IMPORTANT source of truth to cross-reference):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
+                + signals
             )
 
         is_en = lang == "en"

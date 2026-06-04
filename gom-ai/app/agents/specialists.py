@@ -6,6 +6,15 @@ try:
 except ModuleNotFoundError:
     from agents.base_agent import BaseAgent
 
+try:
+    from app.google_lens_service import analyze_lens_keywords
+except ModuleNotFoundError:
+    try:
+        from google_lens_service import analyze_lens_keywords
+    except ModuleNotFoundError:
+        def analyze_lens_keywords(lens_results):
+            return ""
+
 logger = logging.getLogger("gom-ai.agents.specialists")
 
 # All agents use Groq Llama 3.3-70b for text reasoning
@@ -25,10 +34,12 @@ class GPTAgent(BaseAgent):
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi") -> dict:
         lens_context = ""
         if lens_results:
+            signals = analyze_lens_keywords(lens_results)
             lens_context = (
                 "Google Lens visual search matched these web pages for this image (VERY IMPORTANT REFERENCE):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
+                + signals
             )
 
         lang_instruction = "IMPORTANT: Response must be entirely in English." if lang == "en" else "IMPORTANT: Response must be entirely in Vietnamese with full diacritics."
@@ -84,10 +95,12 @@ class GrokAgent(BaseAgent):
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi") -> dict:
         lens_context = ""
         if lens_results:
+            signals = analyze_lens_keywords(lens_results)
             lens_context = (
                 "Google Lens visual search matched these web pages for this image (VERY IMPORTANT REFERENCE):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
+                + signals
             )
 
         lang_instruction = "IMPORTANT: Response must be entirely in English." if lang == "en" else "IMPORTANT: Response must be entirely in Vietnamese with full diacritics."
@@ -137,10 +150,12 @@ class GeminiAgent(BaseAgent):
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi") -> dict:
         lens_context = ""
         if lens_results:
+            signals = analyze_lens_keywords(lens_results)
             lens_context = (
                 "Google Lens visual search matched these web pages for this image (VERY IMPORTANT REFERENCE):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
                 + "\n\n"
+                + signals
             )
 
         lang_instruction = "IMPORTANT: Response must be entirely in English." if lang == "en" else "IMPORTANT: Response must be entirely in Vietnamese with full diacritics."
