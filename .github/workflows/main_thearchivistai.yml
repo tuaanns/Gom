@@ -1,12 +1,6 @@
 name: Build and deploy Python app to Azure Web App - TheArchivistAI
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - "gom-ai/**"
-      - ".github/workflows/main_thearchivistai.yml"
   workflow_dispatch:
 
 jobs:
