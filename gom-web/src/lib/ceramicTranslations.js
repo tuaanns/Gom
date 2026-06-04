@@ -15,7 +15,7 @@ const VI_TO_EN = {
 
   // === Agent / section names ===
   'Lịch Sử Gốm': 'Ceramic History',
-  'Chuyên gia Chủ ký Lò và Hình thái Gốm': 'Kiln Signature and Ceramic Morphology Expert',
+  'Chuyên gia Chữ ký Lò và Hình thái Gốm': 'Kiln Signature and Ceramic Morphology Expert',
   'Chuyên Gia Gốm Toàn Cầu': 'Global Ceramics Expert',
 
   'Gốm Bát Tràng': 'Bat Trang Ceramics',
