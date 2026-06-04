@@ -93,7 +93,8 @@ jobs:
                     IMGBB_API_KEY="${{ secrets.IMGBB_API_KEY }}" \
                     BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
                     GOOGLE_LENS_HEADLESS="true" \
-                    GOOGLE_LENS_REMOTE_ONLY="true"
+                    GOOGLE_LENS_REMOTE_ONLY="true" \
+                    WEBSITES_PORT="8000"
                   echo "Waiting 60 seconds for Azure App Service to process configuration changes and restart SCM container..."
                   sleep 60
 
