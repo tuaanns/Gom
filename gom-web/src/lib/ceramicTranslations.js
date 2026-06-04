@@ -247,15 +247,49 @@ export function translateCeramicTerm(text, lang) {
   if (VI_TO_EN[trimmed]) return VI_TO_EN[trimmed];
   if (VI_TO_EN[text]) return VI_TO_EN[text];
 
-  // Try partial match for era patterns like "thế kỷ X"
-  let result = text;
+  // --- Dynamic ceramic name pattern translation ---
+  // "Gốm X" → "X Ceramics", "Sứ X" → "X Porcelain", etc.
+  let result = trimmed;
+
+  // Ceramic name patterns (only apply when the text IS a ceramic name, not a long sentence)
+  if (result.length < 80) {
+    // "Gốm men xanh lá cây thời X" — complex descriptive names: keep as-is after word replacements
+    // "Gốm X (Y)" → "X (Y) Ceramics"
+    const ceramicNamePatterns = [
+      { regex: /^Gốm sứ\s+(.+)$/i, suffix: 'Ceramics' },
+      { regex: /^Đồ gốm\s+(.+)$/i, suffix: 'Pottery' },
+      { regex: /^Đồ sứ\s+(.+)$/i, suffix: 'Porcelain' },
+      { regex: /^Gốm\s+(.+)$/i, suffix: 'Ceramics' },
+      { regex: /^Sứ\s+(.+)$/i, suffix: 'Porcelain' },
+    ];
+
+    for (const { regex, suffix } of ceramicNamePatterns) {
+      const match = result.match(regex);
+      if (match) {
+        let name = match[1].trim();
+        // Translate known sub-parts of the name
+        name = name
+          .replace(/^men\s+/i, '')  // remove "men" (glaze) prefix
+          .replace(/trắng/gi, 'White')
+          .replace(/xanh/gi, 'Blue-Green')
+          .replace(/đỏ/gi, 'Red')
+          .replace(/nâu/gi, 'Brown')
+          .replace(/đen/gi, 'Black')
+          .replace(/vàng/gi, 'Yellow');
+        result = `${name} ${suffix}`;
+        break;
+      }
+    }
+  }
+
   // Replace "thế kỷ" patterns (case-insensitive, handles various capitalizations)
   result = result.replace(/(?:thế kỷ|Thế kỷ) (\d+)/gi, (_, num) => {
     const n = parseInt(num);
     const suffix = n === 1 ? 'st' : n === 2 ? 'nd' : n === 3 ? 'rd' : 'th';
     return `${n}${suffix} Century`;
   });
-  // Replace common Vietnamese words
+
+  // Replace common Vietnamese words (ordered: longer/more specific patterns first)
   result = result
     .replace(/giai đoạn Victoria/gi, 'Victorian Period')
     .replace(/giai đoạn/gi, 'Period')
@@ -266,10 +300,14 @@ export function translateCeramicTerm(text, lang) {
     .replace(/Thời Nguyễn/gi, 'Nguyen Dynasty')
     .replace(/Thời Trần/gi, 'Tran Dynasty')
     .replace(/Thời Lý/gi, 'Ly Dynasty')
+    .replace(/Thời kỳ Nguyên/gi, 'Yuan Dynasty')
+    .replace(/Thời kỳ Minh/gi, 'Ming Dynasty')
+    .replace(/Thời kỳ Đông Hán/gi, 'Eastern Han Dynasty')
     .replace(/TCN/g, 'BC')
     .replace(/SCN/g, 'AD')
     .replace(/đến/g, 'to')
     .replace(/hoặc/g, 'or')
+    .replace(/khoảng/gi, 'circa')
     .replace(/Thời đại đương đại/gi, 'Contemporary era')
     .replace(/thời đại đương đại/gi, 'Contemporary era')
     .replace(/Đương đại/gi, 'Contemporary')
@@ -283,7 +321,17 @@ export function translateCeramicTerm(text, lang) {
     .replace(/trở lại đây/gi, 'onwards')
     .replace(/từ những năm/gi, 'from the')
     .replace(/Vui lòng thử lại/gi, 'Please try again')
-    .replace(/Lỗi hệ thống AI/gi, 'AI System Error');
+    .replace(/Lỗi hệ thống AI/gi, 'AI System Error')
+    // Country names that may appear in labels
+    .replace(/\bViệt Nam\b/g, 'Vietnam')
+    .replace(/\bTrung Quốc\b/g, 'China')
+    .replace(/\bNhật Bản\b/g, 'Japan')
+    .replace(/\bHàn Quốc\b/g, 'South Korea')
+    .replace(/\bThái Lan\b/g, 'Thailand')
+    .replace(/\bPháp\b/g, 'France')
+    .replace(/\bĐức\b/g, 'Germany')
+    .replace(/\bAnh\b/g, 'United Kingdom')
+    .replace(/\bHà Lan\b/g, 'Netherlands');
 
   return result;
 }
