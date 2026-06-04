@@ -30,6 +30,8 @@ jobs:
               run: |
                   echo "GOOGLE_API_KEY=${{ secrets.GOOGLE_API_KEY }}" > .env
                   echo "GROQ_API_KEY=${{ secrets.GROQ_API_KEY }}" >> .env
+                  echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+                  echo "IMGBB_API_KEY=${{ secrets.IMGBB_API_KEY }}" >> .env
                   echo "GOOGLE_LENS_HEADLESS=true" >> .env
                   echo "BROWSERLESS_TOKEN=${{ secrets.BROWSERLESS_TOKEN }}" >> .env
                   echo "GOOGLE_LENS_REMOTE_ONLY=true" >> .env
@@ -76,12 +78,19 @@ jobs:
 
             - name: Set Azure App Settings
               run: |
+                  az webapp config set \
+                    --resource-group gom-images-public \
+                    --name TheArchivistAI \
+                    --linux-fx-version "PYTHON|3.12" \
+                    --startup-file "uvicorn app.main:app --host 0.0.0.0 --port 8000"
                   az webapp config appsettings set \
                     --resource-group gom-images-public \
                     --name TheArchivistAI \
                     --settings \
                     GOOGLE_API_KEY="${{ secrets.GOOGLE_API_KEY }}" \
                     GROQ_API_KEY="${{ secrets.GROQ_API_KEY }}" \
+                    OPENAI_API_KEY="${{ secrets.OPENAI_API_KEY }}" \
+                    IMGBB_API_KEY="${{ secrets.IMGBB_API_KEY }}" \
                     BROWSERLESS_TOKEN="${{ secrets.BROWSERLESS_TOKEN }}" \
                     GOOGLE_LENS_HEADLESS="true" \
                     GOOGLE_LENS_REMOTE_ONLY="true"
