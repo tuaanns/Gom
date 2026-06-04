@@ -415,10 +415,15 @@ def fallback_vision_google_lens(image_bytes: bytes, max_results: int = 10) -> li
                 # Ensure titles and urls are present
                 clean_results = []
                 for r in results:
-                    if isinstance(r, dict) and "title" in r and "url" in r:
+                    if isinstance(r, dict) and "title" in r:
+                        from urllib.parse import quote
+                        title_str = str(r["title"])
+                        # To avoid 404 dead links from hallucinated/simulated URLs,
+                        # we construct a Google Search URL using the title.
+                        google_search_url = f"https://www.google.com/search?q={quote(title_str)}"
                         clean_results.append({
-                            "title": str(r["title"]),
-                            "url": str(r["url"])
+                            "title": title_str,
+                            "url": google_search_url
                         })
                 logger.info(f"[Lens Fallback] Successfully simulated {len(clean_results)} Lens results using Gemini Vision!")
                 return clean_results[:max_results]
