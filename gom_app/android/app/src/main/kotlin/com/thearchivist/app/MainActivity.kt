@@ -1,4 +1,4 @@
-package com.example.gom_app
+package com.thearchivist.app
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -56,6 +56,9 @@ class DebateScreenState extends State<DebateScreen> {
   List<dynamic> _ceramicLines = [];
   bool _loadingCeramics = true;
 
+  // Track expand/collapse state for each agent card (matching web's isExpanded)
+  final Map<int, bool> _expandedAgents = {};
+
   @override
   void initState() {
     super.initState();
@@ -275,7 +278,6 @@ class DebateScreenState extends State<DebateScreen> {
                 ),
                 _buildLensSourcesSection(),
                 _buildSpecialistSection(),
-                _buildDebateLogSection(),
 
                 // --- Nút Nhận Dạng Tiếp ---
                 Padding(
@@ -918,327 +920,186 @@ class DebateScreenState extends State<DebateScreen> {
     return agent['era']?.toString() ?? '';
   }
 
-  String _getAgentStyle(Map<String, dynamic> agent) {
-    final pred = agent['prediction'];
-    if (pred is Map && pred['style'] != null) return pred['style'].toString();
-    return agent['style']?.toString() ?? '';
+  int? _getConfidencePercent(dynamic value) {
+    if (value == null) return null;
+    if (value is num) {
+      return value <= 1 ? (value * 100).round() : value.round();
+    }
+    final parsed = double.tryParse(value.toString());
+    if (parsed == null) return null;
+    return parsed <= 1 ? (parsed * 100).round() : parsed.round();
   }
 
   Widget _buildSpecialistSection() {
     if (debateData?['isLensMode'] == true) return const SizedBox();
     final List<dynamic> agents = debateData?['agent_predictions'] ?? [];
     if (agents.isEmpty) return const SizedBox();
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), child: Text(AppLang.tr('GÓC NHÌN CHUYÊN GIA', 'SPECIALIST PERSPECTIVES'), style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.textMuted))),
-      SizedBox(
-        height: 330,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal, padding: const EdgeInsets.symmetric(horizontal: 12),
-          itemCount: agents.length,
-          itemBuilder: (context, i) {
-            final agent = agents[i] as Map<String, dynamic>? ?? {};
-            final colors = [Colors.indigo, Colors.teal, Colors.deepPurple, Colors.orange];
-            final color = colors[i % colors.length];
-            final predName = _getAgentPrediction(agent);
-            final country = _getAgentCountry(agent);
-            final era = _getAgentEra(agent);
-            final style = _getAgentStyle(agent);
-            
-            // Lấy 75% chiều rộng màn hình cho mỗi card chuyên gia trên mobile
-            double cardWidth = MediaQuery.of(context).size.width * 0.75;
-            if (cardWidth > 320) cardWidth = 320;
-
-            return Container(
-              width: cardWidth,
-              margin: const EdgeInsets.symmetric(horizontal: 6),
-              child: Card(
-                color: AppTheme.cardBg,
-                shadowColor: AppTheme.shadowColor,
-                elevation: 3, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Row(children: [
-                      Container(width: 36, height: 36, decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle), child: Icon(Icons.psychology, color: color, size: 20)),
-                      const SizedBox(width: 10),
-                      Expanded(child: Text(agent['agent_name']?.toString() ?? 'Agent ${i + 1}', style: TextStyle(fontWeight: FontWeight.bold, color: color), maxLines: 1, overflow: TextOverflow.ellipsis)),
-                    ]),
-                    const SizedBox(height: 10),
-                    TranslateText(predName.isNotEmpty ? predName : AppLang.tr('Chưa xác định', 'Undetermined'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: AppTheme.textPrimary), maxLines: 2, overflow: TextOverflow.ellipsis),
-                    const SizedBox(height: 4),
-                    if (country.isNotEmpty || era.isNotEmpty)
-                      Row(
-                        children: [
-                          Expanded(
-                            child: SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(
-                                children: [
-                                  TranslateText(country.isNotEmpty ? country : "N/A", style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
-                                  Text(' - ', style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
-                                  TranslateText(era.isNotEmpty ? era : "N/A", style: TextStyle(color: AppTheme.textMuted, fontSize: 12)),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    if (style.isNotEmpty) ...[
-                      const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Text(AppLang.tr('Phong cách: ', 'Style: '), style: TextStyle(color: AppTheme.textMuted, fontSize: 11, fontStyle: FontStyle.italic)),
-                          Expanded(child: TranslateText(style, style: TextStyle(color: AppTheme.textMuted, fontSize: 11, fontStyle: FontStyle.italic), maxLines: 2, overflow: TextOverflow.ellipsis)),
-                        ],
-                      ),
-                    ],
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: color.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
-                      child: Text(AppLang.tr('Tin cậy: ', 'Confidence: ') + _formatConfidence(agent['certainty'] ?? agent['confidence']), style: TextStyle(color: color, fontSize: 11, fontWeight: FontWeight.bold)),
-                    ),
-                  ]),
-                ),
-              ),
-            );
-          },
-        ),
-      ),
-    ]);
-  }
-
-  Widget _buildDebateLogSection() {
-    if (debateData?['isLensMode'] == true) return const SizedBox();
-    final List<dynamic> agents = debateData?['agent_predictions'] ?? [];
-    final hasDebate = agents.any((a) => a is Map && a['debate_details'] != null);
-    if (!hasDebate) return const SizedBox();
-
-    final agentColorMap = {
-      'GPT': const Color(0xFF3F51B5),
-      'Grok': const Color(0xFF009688),
-      'Gemini': const Color(0xFF7B1FA2),
-    };
-    Color _getColor(String name) => agentColorMap.entries
-        .firstWhere((e) => name.toLowerCase().contains(e.key.toLowerCase()), orElse: () => const MapEntry('', Color(0xFF607D8B)))
-        .value;
-
-    final agentIcons = {
-      'GPT': Icons.auto_stories,
-      'Grok': Icons.biotech,
-      'Gemini': Icons.public,
-    };
-    IconData _getIcon(String name) => agentIcons.entries
-        .firstWhere((e) => name.toLowerCase().contains(e.key.toLowerCase()), orElse: () => const MapEntry('', Icons.psychology))
-        .value;
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        // Header
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(
-            gradient: const LinearGradient(colors: [Color(0xFF1A237E), Color(0xFF283593)], begin: Alignment.topLeft, end: Alignment.bottomRight),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [BoxShadow(color: const Color(0xFF1A237E).withOpacity(0.3), blurRadius: 12, offset: const Offset(0, 6))],
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Row(
+              children: [
+                Icon(Icons.auto_awesome, size: 16, color: AppTheme.isDark ? const Color(0xFFD4A574) : const Color(0xFF8B6914)),
+                const SizedBox(width: 8),
+                Text(
+                  '${AppLang.tr('GÓC NHÌN CHUYÊN GIA', 'SPECIALIST PERSPECTIVES')} (${agents.length})',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.textPrimary, letterSpacing: 0.5),
+                ),
+              ],
+            ),
           ),
-          child: Row(children: [
-            Container(
-              width: 50, height: 50,
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.15), borderRadius: BorderRadius.circular(14)),
-              child: const Icon(Icons.forum_rounded, color: Colors.white, size: 26),
-            ),
-            const SizedBox(width: 16),
-            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(AppLang.tr('Phòng Tranh Luận', 'Debate Room'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white, letterSpacing: 0.5)),
-              Text('${agents.where((a) => a is Map && a['debate_details'] != null).length}' + AppLang.tr(' chuyên gia AI đang trao đổi', ' AI experts debating'), style: const TextStyle(fontSize: 12, color: Colors.white70)),
-            ])),
-            // Avatars overlap
-            SizedBox(
-              width: 80, height: 36,
-              child: Stack(
-                children: List.generate(agents.length.clamp(0, 3), (i) {
-                  final name = (agents[i] as Map?)?['agent_name']?.toString() ?? '';
-                  return Positioned(
-                    left: i * 22.0,
-                    child: Container(
-                      width: 36, height: 36,
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: _getColor(name), border: Border.all(color: Colors.white, width: 2)),
-                      child: Icon(_getIcon(name), color: Colors.white, size: 16),
-                    ),
-                  );
-                }),
-              ),
-            ),
-          ]),
-        ),
-        const SizedBox(height: 20),
+          Column(
+            children: List.generate(agents.length, (i) {
+              final agent = agents[i] is Map<String, dynamic> ? agents[i] as Map<String, dynamic> : <String, dynamic>{};
+              final colors = [Colors.indigo, Colors.teal, Colors.deepPurple, Colors.orange];
+              final color = colors[i % colors.length];
 
-        // Debate timeline
-        ...agents.asMap().entries.map((entry) {
-          final i = entry.key;
-          final agentData = entry.value;
-          if (agentData is! Map) return const SizedBox();
-          final agent = agentData as Map<String, dynamic>;
-          final agentName = agent['agent_name']?.toString() ?? 'Agent';
-          final debateDetails = agent['debate_details'];
-          if (debateDetails == null || debateDetails is! Map) return const SizedBox();
+              final name = agent['agent_name']?.toString() ?? 'Agent ${i + 1}';
+              final predName = _getAgentPrediction(agent);
+              final country = _getAgentCountry(agent);
+              final era = _getAgentEra(agent);
+              final evidence = agent['evidence']?.toString() ?? agent['reasoning']?.toString() ?? '';
+              final confPercent = _getConfidencePercent(agent['confidence'] ?? agent['certainty']);
+              final isExpanded = _expandedAgents[i] ?? false;
 
-          final debate = debateDetails as Map<String, dynamic>;
-          final argument = debate['argument']?.toString() ?? '';
-          final defense = debate['defense']?.toString() ?? '';
-          final attacks = (debate['attacks'] is List) ? (debate['attacks'] as List) : [];
-          final confAdj = debate['confidence_adjustment']?.toString() ?? '';
-          final color = _getColor(agentName);
-          final icon = _getIcon(agentName);
-          final isLast = i == agents.length - 1;
-
-          return Stack(
-            children: [
-              // Timeline line
-              if (!isLast)
-                Positioned(
-                  top: 40,
-                  bottom: 0,
-                  left: 19, // Center of the 40x40 circle
-                  child: Container(width: 2, color: color.withOpacity(0.15)),
-                ),
-              // The dot/icon
-              Positioned(
-                top: 0,
-                left: 0,
-                child: Container(
-                  width: 40, height: 40,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(colors: [color, color.withOpacity(0.7)]),
-                    shape: BoxShape.circle,
-                    boxShadow: [BoxShadow(color: color.withOpacity(0.3), blurRadius: 8, offset: const Offset(0, 3))],
+              return Container(
+                margin: const EdgeInsets.only(bottom: 12),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: AppTheme.cardBg,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppTheme.dividerColor, width: 2),
+                  gradient: LinearGradient(
+                    colors: AppTheme.isDark
+                        ? [AppTheme.cardBg, AppTheme.cardBg.withOpacity(0.8)]
+                        : [Colors.white, Colors.grey.shade50],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
-                  child: Icon(icon, color: Colors.white, size: 20),
+                  boxShadow: [BoxShadow(color: AppTheme.shadowColor, blurRadius: 8, offset: const Offset(0, 3))],
                 ),
-              ),
-              // Card content
-              Padding(
-                padding: const EdgeInsets.only(left: 60),
-                child: Container(
-                  margin: const EdgeInsets.only(bottom: 20),
-                  decoration: BoxDecoration(
-                    color: AppTheme.cardBg,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [BoxShadow(color: AppTheme.shadowColor, blurRadius: 12, offset: const Offset(0, 4))],
-                  ),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    // Agent name header
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [color.withOpacity(0.08), color.withOpacity(0.02)]),
-                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
-                      ),
-                      child: Row(children: [
-                        Text(agentName, style: TextStyle(fontWeight: FontWeight.bold, color: color, fontSize: 15)),
-                        const Spacer(),
-                        if (confAdj.isNotEmpty)
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 
-                                  ? (AppTheme.isDark ? const Color(0xFF1E3524) : Colors.green.shade50)
-                                  : (AppTheme.isDark ? const Color(0xFF3B1E1E) : Colors.red.shade50),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Row(mainAxisSize: MainAxisSize.min, children: [
-                              Icon(
-                                double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 ? Icons.trending_up : Icons.trending_down, 
-                                size: 14, 
-                                color: double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 
-                                    ? (AppTheme.isDark ? Colors.green.shade300 : Colors.green) 
-                                    : (AppTheme.isDark ? Colors.red.shade300 : Colors.red),
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                              name,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppTheme.isDark ? const Color(0xFFD4A574) : color,
+                                fontSize: 12,
                               ),
-                              const SizedBox(width: 4),
-                              Text(
-                                confAdj, 
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          if (confPercent != null) ...[
+                            const SizedBox(width: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFFD4A574).withOpacity(0.15),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                '$confPercent%',
                                 style: TextStyle(
-                                  fontSize: 11, 
-                                  fontWeight: FontWeight.bold, 
-                                  color: double.tryParse(confAdj) != null && double.parse(confAdj) >= 0 
-                                      ? (AppTheme.isDark ? Colors.green.shade300 : Colors.green) 
-                                      : (AppTheme.isDark ? Colors.red.shade300 : Colors.red),
+                                  color: AppTheme.isDark ? const Color(0xFFD4A574) : const Color(0xFF8B6914),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ]),
-                          ),
-                      ]),
-                    ),
-
-                    Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                        // Argument
-                        if (argument.isNotEmpty) ...[
-                          Row(children: [
-                            Icon(Icons.lightbulb_outline, size: 16, color: color),
-                            const SizedBox(width: 6),
-                            Text(AppLang.tr('Lập luận chính', 'Main Argument'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: color)),
-                          ]),
-                          const SizedBox(height: 6),
-                          TranslateText(argument, style: TextStyle(fontSize: 13, height: 1.5, color: AppTheme.textSecondary)),
-                          const SizedBox(height: 14),
-                        ],
-
-                        // Attacks
-                        if (attacks.isNotEmpty) ...[
-                          Row(children: [
-                            Icon(Icons.gavel, size: 16, color: Colors.red.shade400),
-                            const SizedBox(width: 6),
-                            Text(AppLang.tr('Phản bác đối thủ', 'Counter-argument'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.red.shade400)),
-                          ]),
-                          const SizedBox(height: 6),
-                          ...attacks.map((atk) => Container(
-                            margin: const EdgeInsets.only(bottom: 6),
-                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                            decoration: BoxDecoration(
-                              color: AppTheme.isDark ? const Color(0xFF3B1E1E) : Colors.red.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppTheme.isDark ? const Color(0xFF5E2B2B) : Colors.red.shade100),
                             ),
-                            child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Container(width: 6, height: 6, margin: const EdgeInsets.only(top: 5), decoration: BoxDecoration(color: Colors.red.shade300, shape: BoxShape.circle)),
-                              const SizedBox(width: 10),
-                              Expanded(child: TranslateText(atk.toString(), style: TextStyle(fontSize: 12, height: 1.4, color: AppTheme.isDark ? Colors.red.shade200 : Colors.red.shade900))),
-                            ]),
-                          )),
-                          const SizedBox(height: 14),
+                          ],
                         ],
-
-                        // Defense
-                        if (defense.isNotEmpty) ...[
-                          Row(children: [
-                            Icon(Icons.shield_outlined, size: 16, color: Colors.green.shade600),
-                            const SizedBox(width: 6),
-                            Text(AppLang.tr('Bảo vệ quan điểm', 'Defense Argument'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Colors.green.shade600)),
-                          ]),
-                          const SizedBox(height: 6),
-                          Container(
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: AppTheme.isDark ? const Color(0xFF1E3524) : Colors.green.shade50,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(color: AppTheme.isDark ? const Color(0xFF2E5E3D) : Colors.green.shade100),
+                      ),
+                      const SizedBox(height: 8),
+                      TranslateText(
+                        predName.isNotEmpty ? predName : AppLang.tr('Chưa xác định', 'Undetermined'),
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14, color: AppTheme.textPrimary),
+                      ),
+                      const SizedBox(height: 8),
+                      if (country.isNotEmpty || era.isNotEmpty)
+                        Wrap(
+                          spacing: 6,
+                          runSpacing: 6,
+                          children: [
+                            if (country.isNotEmpty)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFD4A574).withOpacity(0.2),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: TranslateText(
+                                  country,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.isDark ? const Color(0xFFD4A574) : const Color(0xFF8B6914),
+                                  ),
+                                ),
+                              ),
+                            if (era.isNotEmpty)
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: (AppTheme.isDark ? Colors.white : const Color(0xFF1A237E)).withOpacity(0.1),
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: TranslateText(
+                                  era,
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.isDark ? Colors.white70 : const Color(0xFF1A237E),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      if (evidence.isNotEmpty) ...[
+                        const SizedBox(height: 10),
+                        TranslateText(
+                          evidence,
+                          style: TextStyle(fontSize: 12, height: 1.5, color: AppTheme.textMuted),
+                          maxLines: isExpanded ? null : 3,
+                          overflow: isExpanded ? null : TextOverflow.ellipsis,
+                        ),
+                        if (evidence.length > 150)
+                          GestureDetector(
+                            onTap: () => setState(() => _expandedAgents[i] = !isExpanded),
+                            child: Padding(
+                              padding: const EdgeInsets.only(top: 6),
+                              child: Text(
+                                isExpanded ? AppLang.tr('Thu gọn', 'Show less') : AppLang.tr('Xem thêm', 'Show more'),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppTheme.isDark ? const Color(0xFFD4A574) : const Color(0xFF8B6914),
+                                ),
+                              ),
                             ),
-                            child: TranslateText(defense, style: TextStyle(fontSize: 13, height: 1.5, color: AppTheme.isDark ? Colors.green.shade200 : const Color(0xFF2E7D32))),
                           ),
-                        ],
-                      ]),
-                    ),
-                  ]),
+                      ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          );
-        }),
-      ]),
+              );
+            }),
+          ),
+        ],
+      ),
     );
   }
 

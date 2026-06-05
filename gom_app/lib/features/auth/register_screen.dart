@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:gom_app/api_config.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:gom_app/main.dart';
 import 'package:gom_app/auth_state.dart';
+import 'package:gom_app/lang_storage.dart';
 import 'package:gom_app/google_btn.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -13,11 +16,55 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  static const String _googleServerClientId = String.fromEnvironment('GOOGLE_SERVER_CLIENT_ID');
+
   final _name = TextEditingController();
   final _email = TextEditingController();
   final _pass = TextEditingController();
   final _passConfirm = TextEditingController();
   bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initGoogleSignInListener();
+  }
+
+  Future<void> _initGoogleSignInListener() async {
+    try {
+      final canUseGoogleSignIn = await _initializeGoogleSignIn();
+      if (!canUseGoogleSignIn) return;
+      GoogleSignIn.instance.authenticationEvents.listen((event) async {
+        if (event is GoogleSignInAuthenticationEventSignIn) {
+          final account = event.user;
+          final auth = account.authentication;
+          _sendSocialTokenToBackend('Google', auth.idToken ?? '');
+        }
+      });
+    } catch (_) {}
+  }
+
+  bool get _needsGoogleServerClientId {
+    return !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
+  }
+
+  String get _trimmedGoogleServerClientId {
+    final val = _googleServerClientId.trim();
+    if (val.isNotEmpty) return val;
+    return '208231172368-34f26e0l7771ngcqa89j9ufj01gm6mtt.apps.googleusercontent.com';
+  }
+
+  Future<bool> _initializeGoogleSignIn() async {
+    final serverClientId = _trimmedGoogleServerClientId;
+    if (_needsGoogleServerClientId && serverClientId.isEmpty) {
+      return false;
+    }
+
+    await GoogleSignIn.instance.initialize(
+      serverClientId: serverClientId.isEmpty ? null : serverClientId,
+    );
+    return true;
+  }
 
   Future<void> _register() async {
     if (_name.text.trim().isEmpty || _email.text.trim().isEmpty || _pass.text.isEmpty) {
@@ -65,11 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
-  Future<void> _handleSocialLogin(String title) async {
-    // Just mock or delegate to the identical login logic for simplicity,
-    // usually OIDC auth covers both login and registration exactly the same way.
-    showGomNotification(context, AppLang.tr("Tính năng đăng nhập/đăng ký một chạm bằng $title đang mở rộng.", "One-touch login/registration using $title is being expanded."), type: GomNotificationType.success);
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -237,20 +280,40 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   const SizedBox(height: 24),
 
-                  // Social Buttons
-                  Row(
-                    children: [
-                      Expanded(
-                        child: buildCrossPlatformGoogleButton(
-                          onPressed: () => _handleSocialLogin('Google'),
-                          customButton: _buildSocialBtn('Google', 'google_logo.png'),
+                  buildCrossPlatformGoogleButton(
+                    onPressed: _handleGoogleLogin,
+                    customButton: InkWell(
+                      onTap: _handleGoogleLogin,
+                      borderRadius: BorderRadius.circular(8),
+                      child: Container(
+                        height: 52,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          border: Border.all(color: const Color(0xFFDADCE0), width: 1.5),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.network(
+                              'https://www.gstatic.com/images/branding/product/2x/googleg_32dp.png',
+                              width: 24,
+                              height: 24,
+                            ),
+                            const SizedBox(width: 12),
+                            Text(
+                              AppLang.tr('Tiếp tục với Google', 'Continue with Google'),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                color: Color(0xFF3C4043),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: _buildSocialBtn('Facebook', null, icon: Icons.facebook, iconColor: Colors.blue.shade700),
-                      ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 48),
 
@@ -281,37 +344,82 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildSocialBtn(String title, String? imagePath, {IconData? icon, Color? iconColor}) {
-    return InkWell(
-      onTap: () => _handleSocialLogin(title),
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        height: 40, // Match Google button
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: const Color(0xFFDADCE0), width: 1.0),
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (imagePath != null)
-              Image.network(imagePath, width: 18, height: 18)
-            else if (icon != null)
-              Icon(icon, color: iconColor, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500,
-                fontFamily: 'Roboto',
-                fontSize: 14,
-                color: Color(0xFF3C4043),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+  Future<void> _handleGoogleLogin() async {
+    setState(() => isLoading = true);
+    try {
+      final canUseGoogleSignIn = await _initializeGoogleSignIn();
+      if (!canUseGoogleSignIn) {
+        if (!mounted) return;
+        setState(() => isLoading = false);
+        showGomNotification(
+          context,
+          AppLang.tr(
+            'Thiếu GOOGLE_SERVER_CLIENT_ID cho Google Sign-In Android.',
+            'Missing GOOGLE_SERVER_CLIENT_ID for Android Google Sign-In.',
+          ),
+          type: GomNotificationType.error,
+        );
+        return;
+      }
+
+      late final GoogleSignInAccount account;
+      try {
+        final acc = await GoogleSignIn.instance.authenticate();
+        if (acc == null) {
+          setState(() => isLoading = false);
+          return;
+        }
+        account = acc;
+      } catch (e) {
+        setState(() => isLoading = false);
+        print("GOOGLE LOGIN ERROR: $e");
+        showGomNotification(context, AppLang.tr("Lỗi Google Sign In: $e", "Google Sign In error: $e"), type: GomNotificationType.error);
+        return;
+      }
+
+      final auth = account.authentication;
+      _sendSocialTokenToBackend('Google', auth.idToken ?? '');
+    } catch (e) {
+      if (!mounted) return;
+      setState(() => isLoading = false);
+      showGomNotification(context, AppLang.tr("Cấu hình Google chưa hoàn thiện hoặc bị hủy ($e).", "Google configuration is incomplete or cancelled ($e)."), type: GomNotificationType.error);
+    }
+  }
+
+  Future<void> _sendSocialTokenToBackend(String provider, String token) async {
+    try {
+      final res = await http.post(
+        ApiConfig.uri('/api/login/social'),
+        body: {
+          'provider': provider.toLowerCase(),
+          'token': token,
+        },
+      );
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        final data = jsonDecode(res.body);
+        AuthState.token = data['token'];
+        AuthState.user = data['user'];
+        final userLang = data['user']?['language']?.toString();
+        if (userLang == 'vi' || userLang == 'en') {
+          AppLang.current = userLang as String;
+          saveLocale(userLang);
+        }
+        if (!mounted) return;
+        showGomNotification(context, AppLang.tr("Chào mừng ${data['user']?['name'] ?? 'bạn'} đã đăng ký qua $provider!", "Welcome, ${data['user']?['name'] ?? 'user'} registered via $provider!"), type: GomNotificationType.success);
+        Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => MainGate()),
+          (route) => false,
+        );
+      } else {
+        if (!mounted) return;
+        final actualEMsg = parseErrorMessage(res.body, res.statusCode);
+        showGomNotification(context, actualEMsg, type: GomNotificationType.error);
+      }
+    } catch (e) {
+      if (!mounted) return;
+      showGomNotification(context, AppLang.tr("Không thể xác thực token $provider với máy chủ backend.", "Cannot authenticate $provider token with the backend server."), type: GomNotificationType.error);
+    } finally {
+      if (mounted) setState(() => isLoading = false);
+    }
   }
 }

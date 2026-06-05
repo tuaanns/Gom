@@ -58,10 +58,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Xác nhận đăng xuất'),
-        content: const Text('Bạn có chắc chắn muốn đăng xuất?'),
+        title: Text(AppLang.tr('Xác nhận đăng xuất', 'Confirm Logout')),
+        content: Text(AppLang.tr('Bạn có chắc chắn muốn đăng xuất?', 'Are you sure you want to log out?')),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(ctx), child: const Text('Hủy')),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppLang.tr('Hủy', 'Cancel')),
+          ),
           ElevatedButton(
             onPressed: () {
               AuthState.clear();
@@ -72,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               );
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
-            child: const Text('Đăng xuất'),
+            child: Text(AppLang.tr('Đăng xuất', 'Logout')),
           ),
         ],
       ),

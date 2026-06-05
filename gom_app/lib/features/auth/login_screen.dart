@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:gom_app/api_config.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:gom_app/main.dart';
 import 'package:gom_app/auth_state.dart';
 import 'package:gom_app/lang_storage.dart';
@@ -319,17 +318,40 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 const SizedBox(height: 24),
 
-                // Social Buttons side by side
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center, // Center items compactly
-                  children: [
-                    buildCrossPlatformGoogleButton(
-                      onPressed: () => _handleSocialLogin('Google'),
-                      customButton: _buildSocialBtn('Google', 'google_logo.png'),
+                buildCrossPlatformGoogleButton(
+                  onPressed: _handleGoogleLogin,
+                  customButton: InkWell(
+                    onTap: _handleGoogleLogin,
+                    borderRadius: BorderRadius.circular(8),
+                    child: Container(
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(color: const Color(0xFFDADCE0), width: 1.5),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.network(
+                            'https://www.gstatic.com/images/branding/product/2x/googleg_32dp.png',
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(width: 12),
+                          Text(
+                            AppLang.tr('Tiếp tục với Google', 'Continue with Google'),
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Roboto',
+                              fontSize: 15,
+                              color: Color(0xFF3C4043),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 16),
-                    _buildSocialBtn('Facebook', null, icon: Icons.facebook, iconColor: Colors.blue.shade700),
-                  ],
+                  ),
                 ),
                 const SizedBox(height: 48),
 
@@ -355,97 +377,45 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSocialBtn(String title, String? imagePath, {IconData? icon, Color? iconColor}) {
-    return InkWell(
-      onTap: () => _handleSocialLogin(title),
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        height: 40, // Match Google button height
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: const Color(0xFFDADCE0), width: 1.0), // Standard Google outline
-          borderRadius: BorderRadius.circular(4), // Match GSI rectangular radius
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min, // Wrap content compactly
-          children: [
-            if (imagePath != null)
-              Image.network(imagePath, width: 18, height: 18)
-            else if (icon != null)
-              Icon(icon, color: iconColor, size: 20),
-            const SizedBox(width: 8),
-            Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w500, // Match Google font weight
-                fontFamily: 'Roboto',
-                fontSize: 14,
-                color: Color(0xFF3C4043),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Future<void> _handleSocialLogin(String provider) async {
+  Future<void> _handleGoogleLogin() async {
     setState(() => isLoading = true);
     try {
-      if (provider == 'Google') {
-        // Google Sign-In on Web is handled by the rendered button listener.
-        // Tr锚n mobile, d霉ng authenticate()
-        final canUseGoogleSignIn = await _initializeGoogleSignIn();
-        if (!canUseGoogleSignIn) {
-          if (!mounted) return;
-          setState(() => isLoading = false);
-          showGomNotification(
-            context,
-            AppLang.tr(
-              'Thiếu GOOGLE_SERVER_CLIENT_ID cho Google Sign-In Android.',
-              'Missing GOOGLE_SERVER_CLIENT_ID for Android Google Sign-In.',
-            ),
-            type: GomNotificationType.error,
-          );
-          return;
-        }
-
-        late final GoogleSignInAccount account;
-        try {
-          final acc = await GoogleSignIn.instance.authenticate();
-          if (acc == null) {
-            setState(() => isLoading = false);
-            return;
-          }
-          account = acc;
-        } catch (e) {
-          setState(() => isLoading = false);
-          print("GOOGLE LOGIN ERROR: $e");
-          showGomNotification(context, AppLang.tr("Lỗi Google Sign In: $e", "Google Sign In error: $e"), type: GomNotificationType.error);
-          return;
-        }
-
-        final auth = account.authentication;
-        _sendSocialTokenToBackend(provider, auth.idToken ?? '');
-
-      } else if (provider == 'Facebook') {
-        final LoginResult result = await FacebookAuth.instance.login(permissions: ['email', 'public_profile']);
-        if (result.status == LoginStatus.success) {
-          final AccessToken accessToken = result.accessToken!;
-          _sendSocialTokenToBackend(provider, accessToken.token);
-        } else if (result.status == LoginStatus.cancelled) {
-          setState(() => isLoading = false);
-        } else {
-          showGomNotification(context, AppLang.tr("Lỗi đăng nhập Facebook: ${result.message}", "Facebook login error: ${result.message}"), type: GomNotificationType.error);
-          setState(() => isLoading = false);
-        }
+      final canUseGoogleSignIn = await _initializeGoogleSignIn();
+      if (!canUseGoogleSignIn) {
+        if (!mounted) return;
+        setState(() => isLoading = false);
+        showGomNotification(
+          context,
+          AppLang.tr(
+            'Thiếu GOOGLE_SERVER_CLIENT_ID cho Google Sign-In Android.',
+            'Missing GOOGLE_SERVER_CLIENT_ID for Android Google Sign-In.',
+          ),
+          type: GomNotificationType.error,
+        );
+        return;
       }
+
+      late final GoogleSignInAccount account;
+      try {
+        final acc = await GoogleSignIn.instance.authenticate();
+        if (acc == null) {
+          setState(() => isLoading = false);
+          return;
+        }
+        account = acc;
+      } catch (e) {
+        setState(() => isLoading = false);
+        print("GOOGLE LOGIN ERROR: $e");
+        showGomNotification(context, AppLang.tr("Lỗi Google Sign In: $e", "Google Sign In error: $e"), type: GomNotificationType.error);
+        return;
+      }
+
+      final auth = account.authentication;
+      _sendSocialTokenToBackend('Google', auth.idToken ?? '');
     } catch (e) {
       if (!mounted) return;
       setState(() => isLoading = false);
-      showGomNotification(context, AppLang.tr("Cấu hình $provider chưa hoàn thiện hoặc bị hủy ($e).", "$provider configuration is incomplete or cancelled ($e)."), type: GomNotificationType.error);
+      showGomNotification(context, AppLang.tr("Cấu hình Google chưa hoàn thiện hoặc bị hủy ($e).", "Google configuration is incomplete or cancelled ($e)."), type: GomNotificationType.error);
     }
   }
 

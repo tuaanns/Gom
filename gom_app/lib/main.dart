@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'auth_state.dart';
 import 'payment_screen.dart';
 import 'chatbot_screen.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'app_theme.dart';
 
 // Feature screens
@@ -16,14 +14,6 @@ import 'package:gom_app/features/ceramics/ceramic_lines_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await FacebookAuth.i.webAndDesktopInitialize(
-      appId: "34850681257911333",
-      cookie: true,
-      xfbml: true,
-      version: "v18.0",
-    );
-  }
   runApp(const MultiAgentGomApp());
 }
 
