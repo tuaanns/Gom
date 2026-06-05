@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:gom_app/api_config.dart';
+import 'package:gom_app/lang_storage.dart';
 import 'auth_state.dart';
 import 'app_theme.dart';
 
@@ -33,13 +34,31 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     // Add initial greeting message
     final name = AuthState.user?['name'] ?? AppLang.tr('bạn', 'you');
     final greeting = AppLang.tr(
-      "Xin chào $name.\nTôi là Trợ lý AI giám định gốm sứ The Archivist. Bạn cần hỗ trợ gì về lịch sử, nguồn gốc hay định giá loại gốm nào?",
-      "Hello $name.\nI am the AI Ceramic Appraisal Assistant, The Archivist. How can I help you with the history, origin, or valuation of ceramics?",
+      "Xin chào $name! 👋\nTôi là Trợ lý AI của The Archivist, chuyên về gốm sứ cổ. Hãy hỏi tôi bất cứ điều gì!",
+      "Hello $name! 👋\nI am the AI assistant of The Archivist, specialized in ancient ceramics. Ask me anything!",
     );
     _messages.add(ChatMessage(
       text: greeting,
       isUser: false,
     ));
+    _fetchLatestUserData();
+  }
+
+  Future<void> _fetchLatestUserData() async {
+    try {
+      final res = await http.get(
+        ApiConfig.uri('/api/user'),
+        headers: {'Authorization': 'Bearer ${AuthState.token}'},
+      );
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        if (mounted) {
+          setState(() {
+            AuthState.user = data['user'] ?? data;
+          });
+        }
+      }
+    } catch (_) {}
   }
 
   Future<void> _sendMessage() async {
@@ -82,6 +101,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               tokensCharged: data['tokens_charged'] != null ? double.tryParse(data['tokens_charged'].toString()) : null,
             ));
           });
+          _fetchLatestUserData();
         }
       } else if (res.statusCode == 402) {
         // Handle out of tokens
@@ -146,33 +166,91 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.chatBg,
+      backgroundColor: const Color(0xFFFAF9F4), // Light background to match web chat
       appBar: AppBar(
-        title: Text(AppLang.tr('Tro ly AI Gom Su', 'AI Ceramic Assistant'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16)),
-        backgroundColor: const Color(0xFF1A2344),
+        backgroundColor: const Color(0xFF0F265C), // Dark blue matching web
         automaticallyImplyLeading: false,
+        titleSpacing: 16,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.refresh, color: Colors.white),
-            onPressed: () {
-              setState(() {
-                _messages.clear();
-                _messages.add(ChatMessage(
-                  text: AppLang.tr(
-                    "Cuộc trò chuyện đã được làm mới. Tôi có thể giúp gì cho bạn?",
-                    "The conversation has been refreshed. How can I help you?",
+        title: Row(
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                shape: BoxShape.circle,
+              ),
+              child: const Center(
+                child: Icon(Icons.auto_awesome, color: Colors.white, size: 20),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'The Archivist AI',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
-                  isUser: false,
-                ));
-              });
-            },
-            tooltip: AppLang.tr('Làm mới', 'Refresh'),
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFF4CAF50), // Green dot
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        AppLang.tr('Trực tuyến • 0.1 token/câu hỏi', 'Online • 0.1 token/question'),
+                        style: const TextStyle(color: Colors.white70, fontSize: 10.5),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          // Token balance badge
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+            decoration: BoxDecoration(
+              color: Colors.amber.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.amber.shade300, width: 1),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.monetization_on, color: Colors.amber, size: 14),
+                const SizedBox(width: 4),
+                Text(
+                  '${double.tryParse(AuthState.user?['token_balance']?.toString() ?? '0')?.toStringAsFixed(1) ?? '0.0'}',
+                  style: const TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12,
+                  ),
+                ),
+              ],
+            ),
           ),
           IconButton(
-            icon: const Icon(Icons.close, color: Colors.white),
+            icon: const Icon(Icons.close, color: Colors.white, size: 20),
             onPressed: () => Navigator.pop(context),
             tooltip: AppLang.tr('Đóng', 'Close'),
           ),
@@ -197,25 +275,29 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               child: Row(
                 children: [
                   Container(
-                    width: 32,
-                    height: 32,
-                    decoration: const BoxDecoration(color: Color(0xFF1A2344), shape: BoxShape.circle),
-                    child: const Center(child: Icon(Icons.smart_toy, color: Colors.amber, size: 18)),
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade100,
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.grey.shade200, width: 1),
+                    ),
+                    child: const Center(child: Icon(Icons.auto_awesome, color: Color(0xFF0F265C), size: 18)),
                   ),
                   const SizedBox(width: 12),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: AppTheme.cardBg,
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: AppTheme.dividerColor),
+                      border: Border.all(color: Colors.grey.shade200),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF1A2344))),
+                        const SizedBox(width: 14, height: 14, child: CircularProgressIndicator(strokeWidth: 2, color: Color(0xFF0F265C))),
                         const SizedBox(width: 10),
-                        Text(AppLang.tr('AI đang suy nghĩ...', 'AI is thinking...'), style: TextStyle(fontSize: 13, color: AppTheme.textMuted, fontStyle: FontStyle.italic)),
+                        Text(AppLang.tr('AI đang suy nghĩ...', 'AI is thinking...'), style: TextStyle(fontSize: 13, color: Colors.grey.shade500, fontStyle: FontStyle.italic)),
                       ],
                     ),
                   ),
@@ -239,12 +321,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             Container(
               width: 36,
               height: 36,
-              decoration: const BoxDecoration(
-                color: Color(0xFF1A2344),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade100,
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
+                border: Border.all(color: Colors.grey.shade200, width: 1),
               ),
-              child: const Center(child: Icon(Icons.smart_toy, color: Colors.amber, size: 20)),
+              child: const Center(child: Icon(Icons.auto_awesome, color: Color(0xFF0F265C), size: 18)),
             ),
             const SizedBox(width: 10),
           ],
@@ -252,14 +334,17 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: msg.isUser ? const Color(0xFF1A2344) : AppTheme.cardBg,
+                color: msg.isUser ? const Color(0xFF0F265C) : Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(16),
                   topRight: const Radius.circular(16),
                   bottomLeft: Radius.circular(msg.isUser ? 16 : 4),
                   bottomRight: Radius.circular(msg.isUser ? 4 : 16),
                 ),
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 8, offset: const Offset(0, 2))],
+                border: msg.isUser ? null : Border.all(color: Colors.grey.shade200, width: 1),
+                boxShadow: msg.isUser
+                    ? [BoxShadow(color: const Color(0xFF0F265C).withOpacity(0.15), blurRadius: 6, offset: const Offset(0, 2))]
+                    : [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 6, offset: const Offset(0, 2))],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +352,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   Text(
                     msg.text,
                     style: TextStyle(
-                      color: msg.isUser ? Colors.white : AppTheme.textPrimary,
+                      color: msg.isUser ? Colors.white : const Color(0xFF212529),
                       fontSize: 14.5,
                       height: 1.4,
                     ),
@@ -283,7 +368,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                         Expanded(
                           child: Text(
                             AppLang.tr("Nguồn: ${msg.sources}", "Sources: ${msg.sources}"),
-                            style: TextStyle(fontSize: 11, color: AppTheme.textMuted, fontStyle: FontStyle.italic),
+                            style: TextStyle(fontSize: 11, color: Colors.grey.shade500, fontStyle: FontStyle.italic),
                           ),
                         ),
                       ],
@@ -306,13 +391,14 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               width: 36,
               height: 36,
               decoration: BoxDecoration(
-                color: AppTheme.isDark ? Colors.grey.shade700 : Colors.grey.shade300,
+                color: Colors.grey.shade200,
                 shape: BoxShape.circle,
+                border: Border.all(color: Colors.grey.shade300, width: 1),
               ),
               child: Center(
                 child: Text(
                   AuthState.user?['name']?.toString().isNotEmpty == true ? AuthState.user!['name'][0].toUpperCase() : 'U',
-                  style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.isDark ? Colors.white70 : Colors.black54),
+                  style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0F265C)),
                 ),
               ),
             ),
@@ -324,50 +410,85 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
 
   Widget _buildInputArea() {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
       decoration: BoxDecoration(
-        color: AppTheme.cardBg,
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, -2))],
+        color: Colors.white,
+        border: Border(top: BorderSide(color: Colors.grey.shade200, width: 1)),
       ),
       child: SafeArea(
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                enabled: !_isLoading,
-                maxLines: 3,
-                minLines: 1,
-                style: TextStyle(color: AppTheme.textPrimary, fontSize: 15),
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => _sendMessage(),
-                decoration: InputDecoration(
-                  hintText: AppLang.tr('Nhập câu hỏi của bạn...', 'Type your question...'),
-                  hintStyle: TextStyle(color: AppTheme.textMuted, fontSize: 14),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
-                  filled: true,
-                  fillColor: AppTheme.inputBg,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide.none,
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    enabled: !_isLoading,
+                    maxLines: 3,
+                    minLines: 1,
+                    style: const TextStyle(color: Color(0xFF212529), fontSize: 14.5),
+                    textInputAction: TextInputAction.send,
+                    onSubmitted: (_) => _sendMessage(),
+                    decoration: InputDecoration(
+                      hintText: AppLang.tr('Hỏi về gốm sứ...', 'Ask about ceramics...'),
+                      hintStyle: TextStyle(color: Colors.grey.shade500, fontSize: 14),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+                      filled: true,
+                      fillColor: const Color(0xFFF8F9FA),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: Colors.grey.shade300, width: 1),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: Colors.grey.shade200, width: 1),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(24),
+                        borderSide: BorderSide(color: Colors.grey.shade300, width: 1.2),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 12),
-            Material(
-              color: _controller.text.trim().isEmpty || _isLoading
-                  ? (AppTheme.isDark ? Colors.grey.shade800 : Colors.grey.shade300)
-                  : const Color(0xFF1A2344),
-              shape: const CircleBorder(),
-              child: InkWell(
-                onTap: _isLoading ? null : _sendMessage,
-                customBorder: const CircleBorder(),
-                child: const Padding(
-                  padding: EdgeInsets.all(14),
-                  child: Icon(Icons.send_rounded, color: Colors.white, size: 20),
+                const SizedBox(width: 10),
+                Material(
+                  color: _controller.text.trim().isEmpty || _isLoading
+                      ? Colors.grey.shade200
+                      : const Color(0xFF0F265C),
+                  shape: const CircleBorder(),
+                  child: InkWell(
+                    onTap: _isLoading ? null : _sendMessage,
+                    customBorder: const CircleBorder(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Icon(
+                        Icons.send,
+                        color: _controller.text.trim().isEmpty || _isLoading
+                            ? Colors.grey.shade400
+                            : Colors.white,
+                        size: 18,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.monetization_on, color: Colors.orange, size: 13),
+                const SizedBox(width: 4),
+                Text(
+                  AppLang.tr('Mỗi câu hỏi trừ 0.1 token', 'Each question charges 0.1 token'),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
             ),
           ],
         ),

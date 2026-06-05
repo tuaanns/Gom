@@ -162,7 +162,8 @@ final GlobalKey<MainGateState> mainGateKey = GlobalKey<MainGateState>();
 
 // --- MAIN GATE (Bottom Nav) ---
 class MainGate extends StatefulWidget {
-  MainGate({Key? key}) : super(key: key);
+  final String? welcomeMessage;
+  MainGate({Key? key, this.welcomeMessage}) : super(key: key);
 
   static MainGateState? get currentInstance => MainGateState._instance;
 
@@ -178,6 +179,11 @@ class MainGateState extends State<MainGate> {
   void initState() {
     super.initState();
     _instance = this;
+    if (widget.welcomeMessage != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showGomNotification(context, widget.welcomeMessage!, type: GomNotificationType.success);
+      });
+    }
   }
 
   @override

@@ -88,8 +88,16 @@ class _LoginScreenState extends State<LoginScreen> {
           saveLocale(userLang);
         }
         if (!mounted) return;
-        showGomNotification(context, AppLang.tr("Chào mừng ${data['user']?['name'] ?? 'bạn'} quay trở lại!", "Welcome back, ${data['user']?['name'] ?? 'user'}!"), type: GomNotificationType.success);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => MainGate()));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => MainGate(
+              welcomeMessage: AppLang.tr(
+                "Chào mừng ${data['user']?['name'] ?? 'bạn'} quay trở lại!",
+                "Welcome back, ${data['user']?['name'] ?? 'user'}!",
+              ),
+            ),
+          ),
+        );
       } else {
         if (!mounted) return;
         showGomNotification(context, parseErrorMessage(res.body, res.statusCode), type: GomNotificationType.error);
@@ -438,8 +446,16 @@ class _LoginScreenState extends State<LoginScreen> {
           saveLocale(userLang);
         }
         if (!mounted) return;
-        showGomNotification(context, AppLang.tr("Chào mừng ${data['user']?['name'] ?? 'bạn'} quay trở lại qua $provider!", "Welcome back, ${data['user']?['name'] ?? 'user'} via $provider!"), type: GomNotificationType.success);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => MainGate()));
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (_) => MainGate(
+              welcomeMessage: AppLang.tr(
+                "Chào mừng ${data['user']?['name'] ?? 'bạn'} quay trở lại qua $provider!",
+                "Welcome back, ${data['user']?['name'] ?? 'user'} via $provider!",
+              ),
+            ),
+          ),
+        );
       } else {
         if (!mounted) return;
         final actualEMsg = parseErrorMessage(res.body, res.statusCode);

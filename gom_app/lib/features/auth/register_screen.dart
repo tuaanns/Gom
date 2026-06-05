@@ -95,9 +95,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
         AuthState.token = data['token'];
         AuthState.user = data['user'];
         if (!mounted) return;
-        showGomNotification(context, AppLang.tr("Đăng ký thành công! Chào mừng ${data['user']?['name'] ?? 'bạn'}!", "Registration successful! Welcome ${data['user']?['name'] ?? 'user'}!"), type: GomNotificationType.success);
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => MainGate()),
+          MaterialPageRoute(
+            builder: (_) => MainGate(
+              welcomeMessage: AppLang.tr(
+                "Đăng ký thành công! Chào mừng ${data['user']?['name'] ?? 'bạn'}!",
+                "Registration successful! Welcome ${data['user']?['name'] ?? 'user'}!",
+              ),
+            ),
+          ),
           (route) => false,
         );
       } else {
@@ -405,9 +411,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
           saveLocale(userLang);
         }
         if (!mounted) return;
-        showGomNotification(context, AppLang.tr("Chào mừng ${data['user']?['name'] ?? 'bạn'} đã đăng ký qua $provider!", "Welcome, ${data['user']?['name'] ?? 'user'} registered via $provider!"), type: GomNotificationType.success);
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) => MainGate()),
+          MaterialPageRoute(
+            builder: (_) => MainGate(
+              welcomeMessage: AppLang.tr(
+                "Chào mừng ${data['user']?['name'] ?? 'bạn'} đã đăng ký qua $provider!",
+                "Welcome, ${data['user']?['name'] ?? 'user'} registered via $provider!",
+              ),
+            ),
+          ),
           (route) => false,
         );
       } else {
