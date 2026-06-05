@@ -21,7 +21,7 @@ export const ModelShowcaseSection = () => {
     environmentPreset: "sunset",
     autoRotate: true,
     autoRotateSpeed: 0.3,
-    showScreenshotButton: true,
+    showScreenshotButton: false,
   }), []);
 
   return (

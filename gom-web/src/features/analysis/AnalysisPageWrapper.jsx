@@ -11,7 +11,7 @@ export const AnalysisPageWrapper = () => {
   const navigate = useNavigate();
 
   // Convert navigate to setView for backward compatibility
-  const setView = (view) => {
+  const setView = (view, search) => {
     const viewMap = {
       'payment': '/payment',
       'lines': '/ceramics',
@@ -24,7 +24,10 @@ export const AnalysisPageWrapper = () => {
       'privacy': '/privacy',
       'admin_dashboard': '/admin',
     };
-    const path = viewMap[view] || '/';
+    let path = viewMap[view] || '/';
+    if (search) {
+      path += search;
+    }
     navigate(path);
   };
 

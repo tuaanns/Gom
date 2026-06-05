@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { Search, Filter, ChevronDown, Check } from 'lucide-react';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { PageHeader } from '../../components/layout/PageHeader';
@@ -17,6 +18,8 @@ import { SEO } from '../../components/SEO';
 export const CeramicsPage = ({ notify }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
+  const [searchParams, setSearchParams] = useSearchParams();
+  const openId = searchParams.get('openId');
   const [list, setList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -59,6 +62,18 @@ export const CeramicsPage = ({ notify }) => {
       cancelled = true;
     };
   }, [notify]);
+
+  useEffect(() => {
+    if (list.length > 0 && openId) {
+      const matched = list.find((it) => it.id.toString() === openId.toString());
+      if (matched) {
+        setSelected(matched);
+        const newParams = new URLSearchParams(searchParams);
+        newParams.delete('openId');
+        setSearchParams(newParams, { replace: true });
+      }
+    }
+  }, [list, openId, searchParams, setSearchParams]);
 
   const countries = useMemo(() => {
     const set = new Set(list.map((it) => it.country).filter(Boolean));

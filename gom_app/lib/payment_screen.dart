@@ -211,6 +211,48 @@ class _PaymentScreenState extends State<PaymentScreen> {
     int price,
     {String? badgeText, Key? widgetKey}
   ) {
+    final isRecommended = id == 2;
+    
+    final cardBorder = isRecommended
+        ? Border.all(color: AppTheme.isDark ? const Color(0xFFC5A85A) : const Color(0xFF0F265C), width: 2.0)
+        : Border.all(color: AppTheme.isDark ? Colors.white.withOpacity(0.08) : Colors.grey.shade200, width: 1.0);
+        
+    final cardShadows = [
+      isRecommended
+          ? BoxShadow(
+              color: (AppTheme.isDark ? const Color(0xFFC5A85A) : const Color(0xFF0F265C)).withOpacity(AppTheme.isDark ? 0.15 : 0.05),
+              blurRadius: 24,
+              offset: const Offset(0, 8),
+            )
+          : BoxShadow(
+              color: AppTheme.shadowColor,
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            )
+    ];
+
+    final badgeBg = isRecommended
+        ? (AppTheme.isDark ? const Color(0xFFC5A85A) : const Color(0xFF0F265C))
+        : (AppTheme.isDark ? Colors.grey.shade800 : Colors.grey.shade200);
+
+    final badgeTextColor = isRecommended
+        ? (AppTheme.isDark ? Colors.black : Colors.white)
+        : AppTheme.textSecondary;
+
+    final iconColor = isRecommended
+        ? (AppTheme.isDark ? const Color(0xFFC5A85A) : const Color(0xFF0F265C))
+        : (AppTheme.isDark ? Colors.grey.shade600 : Colors.grey.shade300);
+
+    final buttonBg = isRecommended
+        ? (AppTheme.isDark ? const Color(0xFFC5A85A) : const Color(0xFF0F265C))
+        : (AppTheme.isDark ? Colors.white.withOpacity(0.08) : AppTheme.menuBg);
+
+    final buttonTextColor = isRecommended
+        ? (AppTheme.isDark ? Colors.black : Colors.white)
+        : AppTheme.textPrimary;
+
+    final buttonFontWeight = isRecommended ? FontWeight.w800 : FontWeight.bold;
+
     return Container(
       key: widgetKey,
       margin: const EdgeInsets.only(bottom: 16),
@@ -218,7 +260,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       decoration: BoxDecoration(
         color: AppTheme.cardBg,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [BoxShadow(color: AppTheme.shadowColor, blurRadius: 20, offset: const Offset(0, 10))]
+        border: cardBorder,
+        boxShadow: cardShadows,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -236,9 +279,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       if (badgeText != null) ...[
                         const SizedBox(width: 8),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                          decoration: BoxDecoration(color: const Color(0xFFD32F2F), borderRadius: BorderRadius.circular(6)),
-                          child: Text(badgeText, style: const TextStyle(fontSize: 9, fontWeight: FontWeight.bold, color: Colors.white)),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                          decoration: BoxDecoration(color: badgeBg, borderRadius: BorderRadius.circular(6)),
+                          child: Text(
+                            badgeText, 
+                            style: TextStyle(
+                              fontSize: 9, 
+                              fontWeight: FontWeight.bold, 
+                              color: badgeTextColor,
+                            ),
+                          ),
                         ),
                       ],
                     ],
@@ -249,7 +299,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   Text(pricePerCredit, style: TextStyle(fontSize: 12, color: AppTheme.textMuted)),
                 ],
               ),
-              Icon(icon, color: AppTheme.isDark ? Colors.grey.shade700 : Colors.grey.shade300, size: 40),
+              Icon(
+                isRecommended ? Icons.star : icon, 
+                color: iconColor, 
+                size: 40,
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -265,8 +319,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   _showPaymentMethodSelection(id, name, credits, price);
                 }
               },
-              style: ElevatedButton.styleFrom(backgroundColor: AppTheme.menuBg, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), elevation: 0),
-              child: Text(AppLang.tr('Chọn gói', 'Select Pack'), style: TextStyle(color: AppTheme.textPrimary, fontWeight: FontWeight.bold, fontSize: 16)),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: buttonBg, 
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)), 
+                elevation: 0,
+              ),
+              child: Text(
+                AppLang.tr('Chọn gói', 'Select Pack'), 
+                style: TextStyle(
+                  color: buttonTextColor, 
+                  fontWeight: buttonFontWeight, 
+                  fontSize: 16,
+                ),
+              ),
             ),
           ),
         ],
@@ -294,7 +359,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
-        title: Image.asset('assets/logo.png', height: 60),
+        title: Image.asset(
+          'assets/logo.png',
+          height: 48,
+          color: AppTheme.isDark ? Colors.white : null,
+          colorBlendMode: AppTheme.isDark ? BlendMode.srcIn : null,
+        ),
       ),
       body: CustomScrollView(
         slivers: [

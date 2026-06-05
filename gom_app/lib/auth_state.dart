@@ -19,6 +19,12 @@ class AppLang {
   static String tr(String vi, String en) => current == 'vi' ? vi : en;
 
   static final Map<String, String> _dict = {
+    // Packages
+    'Cơ Bản': 'Basic',
+    'Phổ Biến': 'Popular',
+    'Chuyên Gia': 'Expert',
+    'Nạp lượt': 'Top Up',
+
     // Names
     'Gốm Bát Tràng': 'Bat Trang Ceramics',
     'Gốm Biên Hòa': 'Bien Hoa Ceramics',
@@ -198,6 +204,22 @@ class AppLang {
     if (text == null || text.isEmpty) return '';
     if (current == 'vi') return text;
     final trimmed = text.trim();
+
+    // Quick keyword matching for package names to avoid any encoding/formatting differences
+    final lower = trimmed.toLowerCase();
+    if (lower.contains('phổ biến') || lower.contains('pho bien') || lower.contains('popular')) {
+      return lower.contains('gói') || lower.contains('pack') ? 'Popular Pack' : 'Popular';
+    }
+    if (lower.contains('cơ bản') || lower.contains('co ban') || lower.contains('basic')) {
+      return lower.contains('gói') || lower.contains('pack') ? 'Basic Pack' : 'Basic';
+    }
+    if (lower.contains('chuyên gia') || lower.contains('chuyen gia') || lower.contains('expert')) {
+      return lower.contains('gói') || lower.contains('pack') ? 'Expert Pack' : 'Expert';
+    }
+    if (lower.contains('nạp lượt') || lower.contains('nap luot') || lower.contains('top up')) {
+      return 'Top Up';
+    }
+
     if (_dict.containsKey(trimmed)) return _dict[trimmed]!;
     if (_dict.containsKey(text)) return _dict[text]!;
 

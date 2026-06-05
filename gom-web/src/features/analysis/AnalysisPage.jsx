@@ -284,7 +284,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
               >
                 <FeaturedCeramicMotionCard
                   item={line}
-                  onClick={() => setView?.(VIEWS.LINES)}
+                  onClick={() => setView?.(VIEWS.LINES, '?openId=' + line.id)}
                 />
               </motion.div>
             ))}
