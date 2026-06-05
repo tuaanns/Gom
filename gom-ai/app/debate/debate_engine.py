@@ -119,7 +119,7 @@ class DebateEngine:
             message = f"{message} ({str(error)[:180]})"
         return {"error": message}
 
-    async def start_debate(self, image_bytes: bytes, lang: str = "vi") -> dict:
+    async def start_debate(self, image_bytes: bytes, lang: str = "vi", visual_features: dict = None) -> dict:
         # Initialize temporary file variables for parallel Google Lens search
         import uuid
         import os
@@ -151,15 +151,16 @@ class DebateEngine:
             lens_task = asyncio.create_task(run_lens_async(temp_image_path))
 
         # Phase 0: Vision Analysis
-        try:
-            visual_features = await self.vision_agent.analyze(image_bytes)
-        except Exception as e:
-            error_str = str(e)
-            logger.error(f"[DebateEngine] Vision analysis failed after retries: {e}")
-            # Cancel lens task if running
-            if lens_task:
-                lens_task.cancel()
-            return {"error": "API đã hết quota. Vui lòng thử lại sau vài phút."}
+        if visual_features is None:
+            try:
+                visual_features = await self.vision_agent.analyze(image_bytes)
+            except Exception as e:
+                error_str = str(e)
+                logger.error(f"[DebateEngine] Vision analysis failed after retries: {e}")
+                # Cancel lens task if running
+                if lens_task:
+                    lens_task.cancel()
+                return {"error": "API đã hết quota. Vui lòng thử lại sau vài phút."}
 
         if "error" in visual_features:
             if lens_task:

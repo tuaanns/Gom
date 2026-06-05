@@ -50,7 +50,11 @@ class _LoginScreenState extends State<LoginScreen> {
     return !kIsWeb && defaultTargetPlatform == TargetPlatform.android;
   }
 
-  String get _trimmedGoogleServerClientId => _googleServerClientId.trim();
+  String get _trimmedGoogleServerClientId {
+    final val = _googleServerClientId.trim();
+    if (val.isNotEmpty) return val;
+    return '208231172368-34f26e0l7771ngcqa89j9ufj01gm6mtt.apps.googleusercontent.com';
+  }
 
   Future<bool> _initializeGoogleSignIn() async {
     final serverClientId = _trimmedGoogleServerClientId;

@@ -46,6 +46,8 @@ class DebateScreenState extends State<DebateScreen> {
   final ImagePicker _picker = ImagePicker();
 
   Map<String, dynamic>? debateData;
+  String? lastPredictionId;
+  String? lastCreatedAt;
   bool isAnalyzing = false;
   Uint8List? _previewBytes;
   int freeUsed = 0;
@@ -164,13 +166,24 @@ class DebateScreenState extends State<DebateScreen> {
           });
         }
 
+        final dbId = data['db_id']?.toString() ?? '';
+        final now = DateTime.now().toIso8601String();
+
         if (isLens) {
           final lensData = data['data'] as Map<String, dynamic>? ?? {};
           lensData['isLensMode'] = true;
-          setState(() => debateData = lensData);
+          setState(() {
+            debateData = lensData;
+            lastPredictionId = dbId;
+            lastCreatedAt = now;
+          });
         } else {
           final aiData = data['data'] as Map<String, dynamic>? ?? {};
-          setState(() => debateData = aiData);
+          setState(() {
+            debateData = aiData;
+            lastPredictionId = dbId;
+            lastCreatedAt = now;
+          });
         }
         
         // Cập nhật lại lịch sử đồng thời ngầm bên dưới
@@ -253,6 +266,13 @@ class DebateScreenState extends State<DebateScreen> {
               if (isAnalyzing) _buildLoading(),
               if (debateData != null) ...[
                 _buildFinalResultCard(),
+                _buildInfoCards(
+                  lastCreatedAt ?? '',
+                  lastPredictionId ?? '',
+                  debateData?['isLensMode'] == true
+                      ? (debateData?['certainty'] ?? debateData?['confidence'] ?? 0.0)
+                      : (debateData?['final_report']?['certainty'] ?? debateData?['final_report']?['confidence'] ?? 0.0)
+                ),
                 _buildLensSourcesSection(),
                 _buildSpecialistSection(),
                 _buildDebateLogSection(),
@@ -777,6 +797,97 @@ class DebateScreenState extends State<DebateScreen> {
     );
   }
 
+  // DATE & CONFIDENCE INFO CARDS - Synced with Web / Detail Screen
+  Widget _buildInfoCards(String createdAt, String predictionId, dynamic confidence) {
+    String formattedDate = '';
+    if (createdAt.isNotEmpty) {
+      try {
+        final d = DateTime.parse(createdAt);
+        formattedDate = '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')} ${d.day}/${d.month}/${d.year}';
+      } catch (_) {
+        formattedDate = createdAt;
+      }
+    }
+
+    double confValue = 0;
+    if (confidence is num) {
+      confValue = confidence <= 1 ? confidence * 100 : confidence.toDouble();
+    } else if (confidence != null) {
+      confValue = double.tryParse(confidence.toString()) ?? 0;
+      if (confValue <= 1) confValue *= 100;
+    }
+
+    Color confColor = confValue >= 80
+        ? Colors.green
+        : confValue >= 60
+            ? Colors.orange
+            : Colors.red;
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+      child: Row(
+        children: [
+          // Date Card
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.dividerColor),
+              ),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(children: [
+                  Icon(Icons.calendar_today, size: 14, color: AppTheme.textMuted),
+                  const SizedBox(width: 6),
+                  Text(AppLang.tr('Ngày', 'Date'), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.textMuted, letterSpacing: 0.5)),
+                ]),
+                const SizedBox(height: 6),
+                Text(formattedDate.isNotEmpty ? formattedDate : '—', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                if (predictionId.isNotEmpty) ...[
+                  const SizedBox(height: 2),
+                  Text('ID: #$predictionId', style: TextStyle(fontSize: 10, color: AppTheme.textMuted)),
+                ],
+              ]),
+            ),
+          ),
+          const SizedBox(width: 12),
+          // Confidence Card with Progress Bar
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: AppTheme.cardBg,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppTheme.dividerColor),
+              ),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                  Row(mainAxisSize: MainAxisSize.min, children: [
+                    Icon(Icons.trending_up, size: 14, color: AppTheme.textMuted),
+                    const SizedBox(width: 6),
+                    Text(AppLang.tr('Độ tin cậy', 'Confidence'), style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold, color: AppTheme.textMuted, letterSpacing: 0.5)),
+                  ]),
+                  Text('${confValue.toStringAsFixed(0)}%', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: confColor)),
+                ]),
+                const SizedBox(height: 8),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: LinearProgressIndicator(
+                    value: confValue / 100,
+                    minHeight: 8,
+                    backgroundColor: AppTheme.dividerColor,
+                    valueColor: AlwaysStoppedAnimation<Color>(confColor),
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // Helper: format confidence (float 0-1 ??percentage, int ??as-is)
   String _formatConfidence(dynamic value) {
     if (value == null) return 'N/A';
@@ -1132,7 +1243,6 @@ class DebateScreenState extends State<DebateScreen> {
   }
 
   Widget _buildLensSourcesSection() {
-    if (debateData?['isLensMode'] != true) return const SizedBox();
     final List<dynamic> sources = debateData?['lens_results'] ?? [];
     if (sources.isEmpty) return const SizedBox.shrink();
 

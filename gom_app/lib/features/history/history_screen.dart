@@ -48,7 +48,7 @@ class HistoryScreenState extends State<HistoryScreen> {
       }
     } catch (_) {
       if (mounted) {
-        showGomNotification(context, AppLang.tr('Khong the tai lich su', 'Cannot load history'), type: GomNotificationType.error);
+        showGomNotification(context, AppLang.tr('Không thể tải lịch sử', 'Cannot load history'), type: GomNotificationType.error);
       }
     } finally {
       if (mounted) setState(() => isLoading = false);
@@ -84,12 +84,12 @@ class HistoryScreenState extends State<HistoryScreen> {
         final detail = body['data'] is Map<String, dynamic> ? body['data'] as Map<String, dynamic> : item;
         Navigator.push(context, MaterialPageRoute(builder: (_) => HistoryDetailScreen(data: detail, imageUrl: _imageUrl(detail['image_url']?.toString()))));
       } else {
-        showGomNotification(context, AppLang.tr('Khong the lay chi tiet', 'Cannot load detail'), type: GomNotificationType.error);
+        showGomNotification(context, AppLang.tr('Không thể lấy chi tiết', 'Cannot load detail'), type: GomNotificationType.error);
       }
     } catch (_) {
       if (!mounted) return;
       Navigator.pop(context);
-      showGomNotification(context, AppLang.tr('Loi ket noi', 'Connection error'), type: GomNotificationType.error);
+      showGomNotification(context, AppLang.tr('Lỗi kết nối', 'Connection error'), type: GomNotificationType.error);
     }
   }
 
@@ -113,15 +113,15 @@ class HistoryScreenState extends State<HistoryScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(AppLang.tr('Lich su giam dinh', 'Appraisal Log'), style: TextStyle(fontFamily: 'Serif', fontSize: 30, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
+                    Text(AppLang.tr('Lịch sử giám định', 'Appraisal Log'), style: TextStyle(fontFamily: 'Serif', fontSize: 30, fontWeight: FontWeight.bold, color: AppTheme.textPrimary)),
                     const SizedBox(height: 8),
-                    Text(AppLang.tr('Xem lai cac hien vat da phan tich.', 'Review artifacts analyzed by AI.'), style: TextStyle(fontSize: 14, color: AppTheme.textMuted, height: 1.5)),
+                    Text(AppLang.tr('Xem lại các hiện vật đã phân tích.', 'Review artifacts analyzed by AI.'), style: TextStyle(fontSize: 14, color: AppTheme.textMuted, height: 1.5)),
                     const SizedBox(height: 20),
                     TextField(
                       onChanged: (value) => setState(() => searchQuery = value),
                       style: TextStyle(color: AppTheme.textPrimary),
                       decoration: InputDecoration(
-                        hintText: AppLang.tr('Tim kiem...', 'Search...'),
+                        hintText: AppLang.tr('Tìm kiếm...', 'Search...'),
                         prefixIcon: Icon(Icons.search, color: AppTheme.textMuted),
                         filled: true,
                         fillColor: AppTheme.cardBg,
@@ -139,7 +139,7 @@ class HistoryScreenState extends State<HistoryScreen> {
             else if (filteredHistory.isEmpty)
               SliverFillRemaining(
                 child: Center(
-                  child: Text(AppLang.tr('Chua co lich su giam dinh', 'No appraisal history yet'), style: TextStyle(color: AppTheme.textMuted)),
+                  child: Text(AppLang.tr('Chưa có lịch sử giám định', 'No appraisal history yet'), style: TextStyle(color: AppTheme.textMuted)),
                 ),
               )
             else
@@ -311,13 +311,26 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
           children: [
             // --- Image ---
             if (imageUrl.isNotEmpty)
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(imageUrl, width: double.infinity, fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => Container(
-                    height: 200, width: double.infinity,
-                    decoration: BoxDecoration(color: AppTheme.inputBg, borderRadius: BorderRadius.circular(20)),
-                    child: Icon(Icons.image_outlined, size: 48, color: AppTheme.textMuted),
+              Container(
+                height: 240,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [BoxShadow(color: AppTheme.shadowColor, blurRadius: 10, offset: const Offset(0, 4))],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    imageUrl,
+                    width: double.infinity,
+                    height: 240,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, __, ___) => Container(
+                      height: 240,
+                      width: double.infinity,
+                      decoration: BoxDecoration(color: AppTheme.inputBg, borderRadius: BorderRadius.circular(20)),
+                      child: Icon(Icons.image_outlined, size: 48, color: AppTheme.textMuted),
+                    ),
                   ),
                 ),
               ),
@@ -457,7 +470,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
         Divider(height: 30, color: AppTheme.dividerColor),
 
         // Prediction title
-        Text(AppLang.tr('T\u00ean hi\u1ec7n v\u1eadt:', 'Artifact Name:'), style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.textPrimary.withOpacity(0.5), letterSpacing: 0.5)),
+        Text(AppLang.tr('Tên hiện vật:', 'Artifact Name:'), style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.textPrimary.withOpacity(0.5), letterSpacing: 0.5)),
         const SizedBox(height: 4),
         TranslateText(prediction, style: TextStyle(fontFamily: 'Serif', fontSize: 22, fontWeight: FontWeight.w900, color: AppTheme.textPrimary)),
         const SizedBox(height: 16),
@@ -467,12 +480,12 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
           Wrap(spacing: 12, runSpacing: 6, children: [
             if (country.isNotEmpty)
               Row(mainAxisSize: MainAxisSize.min, children: [
-                Text(AppLang.tr('Qu\u1ed1c gia: ', 'Country: '), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textPrimary)),
+                Text(AppLang.tr('Quốc gia: ', 'Country: '), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textPrimary)),
                 TranslateText(country, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textSecondary)),
               ]),
             if (era.isNotEmpty)
               Row(mainAxisSize: MainAxisSize.min, children: [
-                Text(AppLang.tr('Ni\u00ean \u0111\u1ea1i: ', 'Era: '), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textPrimary)),
+                Text(AppLang.tr('Niên đại: ', 'Era: '), style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textPrimary)),
                 TranslateText(era, style: TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textSecondary)),
               ]),
           ]),
@@ -480,7 +493,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
         // Reasoning
         if (reasoning.isNotEmpty) ...[
           const SizedBox(height: 20),
-          Text(AppLang.tr('L\u1eadp lu\u1eadn t\u00f3m t\u1eaft:', 'Summary reasoning:'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.textMuted)),
+          Text(AppLang.tr('Lập luận tóm tắt:', 'Summary reasoning:'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.textMuted)),
           const SizedBox(height: 8),
           TranslateText(reasoning, style: TextStyle(fontSize: 14, height: 1.6, color: AppTheme.textSecondary)),
         ],
@@ -488,7 +501,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
         // Verdict (for Lens mode)
         if (verdict.isNotEmpty && reasoning.isEmpty) ...[
           const SizedBox(height: 20),
-          Text(AppLang.tr('Th\u00f4ng tin chi ti\u1ebft:', 'Detailed Information:'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.textMuted)),
+          Text(AppLang.tr('Thông tin chi tiết:', 'Detailed Information:'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: AppTheme.textMuted)),
           const SizedBox(height: 8),
           TranslateText(verdict, style: TextStyle(fontSize: 14, height: 1.6, color: AppTheme.textSecondary)),
         ],
@@ -689,7 +702,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
           Icon(Icons.search, size: 16, color: AppTheme.textPrimary.withOpacity(0.7)),
           const SizedBox(width: 8),
           Text(
-            AppLang.tr('Ngu\u1ed3n tham kh\u1ea3o (${sources.length})', 'Reference Sources (${sources.length})'),
+            AppLang.tr('Nguồn tham khảo (${sources.length})', 'Reference Sources (${sources.length})'),
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
           ),
         ]),

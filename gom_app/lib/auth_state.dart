@@ -203,7 +203,7 @@ class AppLang {
 
     // Perform regex replacements for common phrases
     String result = text;
-    result = result.replaceAllMapped(RegExp(r'(?:thế kỷ|th??k?) ?(\d+)', caseSensitive: false), (match) {
+    result = result.replaceAllMapped(RegExp(r'(?:thế\s+kỷ|thế\s*kỉ|tk|thk|th\.kỷ) ?(\d+)', caseSensitive: false), (match) {
       final n = int.tryParse(match.group(1) ?? '') ?? 0;
       if (n == 0) return match.group(0)!;
       final suffix = n == 1 ? 'st' : n == 2 ? 'nd' : n == 3 ? 'rd' : 'th';

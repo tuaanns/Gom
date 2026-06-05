@@ -1,0 +1,107 @@
+{
+  "vision_solo": {
+    "total": 195,
+    "correct": 18,
+    "errors": 174,
+    "accuracy": 9.23,
+    "avg_confidence": 0.1037,
+    "avg_time": 1.44,
+    "per_class": {
+      "Arita-Imari": {
+        "total": 10,
+        "correct": 9,
+        "accuracy": 90.0
+      },
+      "Biên Hòa": {
+        "total": 14,
+        "correct": 7,
+        "accuracy": 50.0
+      },
+      "Bàu Trúc": {
+        "total": 7,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Bát Tràng": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Chu Đậu": {
+        "total": 17,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Delftware": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Goryeo Celadon": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Iznik": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Jingdezhen": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Longquan": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Lái Thiêu": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Meissen": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Phù Lãng": {
+        "total": 13,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Satsuma": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Sawankhalok": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Thanh Hà": {
+        "total": 10,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Thổ Hà": {
+        "total": 5,
+        "correct": 0,
+        "accuracy": 0.0
+      },
+      "Wedgwood": {
+        "total": 10,
+        "correct": 2,
+        "accuracy": 20.0
+      },
+      "Đông Triều": {
+        "total": 9,
+        "correct": 0,
+        "accuracy": 0.0
+      }
+    }
+  }
+}

@@ -1,0 +1,983 @@
+[
+  {
+    "filename": "Arita-Imari/Bowl 2, Imari ware, Edo period, 17th-18th century, stormy seascape design in ove.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 14.34
+  },
+  {
+    "filename": "Arita-Imari/Dish imari style 01.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.98,
+    "is_correct": true,
+    "time_s": 11.39
+  },
+  {
+    "filename": "Arita-Imari/Imari Jar in Pollard Memorial Library, Lowell, MA.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 12.78
+  },
+  {
+    "filename": "Arita-Imari/Large dish with camellia design, Imari ware, Edo period, 1600s AD, porcelain, ov.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 16.49
+  },
+  {
+    "filename": "Arita-Imari/Plate decorated with Dutch traders and ships, Imari ware, Japan, 19th century, p.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 14.94
+  },
+  {
+    "filename": "Arita-Imari/Sake flask with cherry blossom and stream design, Imari ware, Edo period, 1600s .jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 16.95
+  },
+  {
+    "filename": "Arita-Imari/Somenishiki-Okakarakomon-Tetsukibin from above Imari ware Saga Prefectural Museu.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 17.96
+  },
+  {
+    "filename": "Arita-Imari/Somenishiki-Okakarakomon-Tetsukibin from side Imari ware Saga Prefectural Museum.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 15.82
+  },
+  {
+    "filename": "Arita-Imari/WLA brooklynmuseum Ko-Imari Ware Octagonal Dish.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 11.41
+  },
+  {
+    "filename": "Biên Hòa/hủ gốm sứ biên hòa.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 18.31
+  },
+  {
+    "filename": "Biên Hòa/ly có quai.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 8.41
+  },
+  {
+    "filename": "Biên Hòa/lọ gốm trắng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Buncheong",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 18.96
+  },
+  {
+    "filename": "Biên Hòa/lọ gốm xanh.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Longquan Celadon",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 13.72
+  },
+  {
+    "filename": "Biên Hòa/nắp gốm.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 14.11
+  },
+  {
+    "filename": "Biên Hòa/quan vi hành.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 10.46
+  },
+  {
+    "filename": "Biên Hòa/thố dây lá.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 7.58
+  },
+  {
+    "filename": "Biên Hòa/thố sen.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 7.1
+  },
+  {
+    "filename": "Biên Hòa/thổ chim phụng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 10.1
+  },
+  {
+    "filename": "Biên Hòa/tượng thỏ bách hoa.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 18.92
+  },
+  {
+    "filename": "Wedgwood/British Museum Wedgwood plaque Jasperware cameo Votaries of Diana 21022019 7728.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 10.88
+  },
+  {
+    "filename": "Wedgwood/Flower Pot, Josiah Wedgwood and Sons, 1810-1820, white jasperware - Chazen Museu.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 10.02
+  },
+  {
+    "filename": "Arita-Imari/Imari porcelain bowl Japan circa 1640.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita-Imari",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 15.58
+  },
+  {
+    "filename": "Biên Hòa/tượng phật.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Jingdezhen",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 5.22
+  },
+  {
+    "filename": "Biên Hòa/tượng ông thọ.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 7.13
+  },
+  {
+    "filename": "Bàu Trúc/Gốm Bàu Trúc.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Bàu Trúc",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 17.9
+  },
+  {
+    "filename": "Bàu Trúc/tượng phật.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Biên Hòa",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 5.53
+  },
+  {
+    "filename": "Bàu Trúc/tượng thiền sư.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Biên Hòa",
+    "confidence": 0.7,
+    "is_correct": false,
+    "time_s": 5.64
+  },
+  {
+    "filename": "Bàu Trúc/tượng voi.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Biên Hòa",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 5.87
+  },
+  {
+    "filename": "Bàu Trúc/tượng vô diện.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Biên Hòa",
+    "confidence": 0.7,
+    "is_correct": false,
+    "time_s": 9.92
+  },
+  {
+    "filename": "Bàu Trúc/tượng.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Biên Hòa",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 9.03
+  },
+  {
+    "filename": "Biên Hòa/tượng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Phù Lãng",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 21.21
+  },
+  {
+    "filename": "Biên Hòa/xông trầm.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Biên Hòa",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 11.91
+  },
+  {
+    "filename": "Bàu Trúc/tượng dudngws.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Bàu Trúc",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 15.3
+  },
+  {
+    "filename": "Bát Tràng/Bat-Trang-Ceramic-Village1.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 19.46
+  },
+  {
+    "filename": "Bát Tràng/Bat-Trang-Ceramic-Village16.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 34.15
+  },
+  {
+    "filename": "Bát Tràng/Tượng quan âm Bát Tràng.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Satsuma",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 25.4
+  },
+  {
+    "filename": "Bát Tràng/Tượng rắn đầu người.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Sawankhalok",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 29.31
+  },
+  {
+    "filename": "Bát Tràng/Tượng tam đa Phúc lộc thọ loại 1.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 34.49
+  },
+  {
+    "filename": "Bát Tràng/Tượng tam đa phúc lộc thọ loại 2.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Jingdezhen",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 35.68
+  },
+  {
+    "filename": "Bát Tràng/Tượng Tam đa Phúc lộc thọ.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Satsuma",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 30.42
+  },
+  {
+    "filename": "Bát Tràng/Tượng voi.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Longquan",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 37.51
+  },
+  {
+    "filename": "Bát Tràng/Vại bình muối biến thể.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Biên Hòa",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 25.79
+  },
+  {
+    "filename": "Bát Tràng/Vại bình muối.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 23.26
+  },
+  {
+    "filename": "Chu Đậu/Hiện vật gốm Chu Đậu.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 22.38
+  },
+  {
+    "filename": "Chu Đậu/hiện vật gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Đông Triều",
+    "confidence": 0.65,
+    "is_correct": false,
+    "time_s": 35.42
+  },
+  {
+    "filename": "Chu Đậu/hu nho.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Sawankhalok",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 17.32
+  },
+  {
+    "filename": "Chu Đậu/Hộp gốm Chu Đậu.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 26.5
+  },
+  {
+    "filename": "Chu Đậu/hộp gốm màu xanh trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Jingdezhen",
+    "confidence": 0.7,
+    "is_correct": false,
+    "time_s": 19.96
+  },
+  {
+    "filename": "Chu Đậu/Hộp mực sứ trắng xanh.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Jingdezhen",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 23.39
+  },
+  {
+    "filename": "Chu Đậu/Hủ gốm Chu Đậu men lam trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 34.7
+  },
+  {
+    "filename": "Chu Đậu/Hủ gốm sứ cổ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 24.33
+  },
+  {
+    "filename": "Chu Đậu/Lọ gốm hoa văn xanh trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 27.28
+  },
+  {
+    "filename": "Chu Đậu/lộc bình gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 13.65
+  },
+  {
+    "filename": "Chu Đậu/mâm bồng gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 12.49
+  },
+  {
+    "filename": "Chu Đậu/nắp gốm sứ cổ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.8,
+    "is_correct": true,
+    "time_s": 5.24
+  },
+  {
+    "filename": "Chu Đậu/nắp đậy gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Lái Thiêu",
+    "confidence": 0.7,
+    "is_correct": false,
+    "time_s": 12.8
+  },
+  {
+    "filename": "Chu Đậu/Tách sứ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Bát Tràng",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 11.73
+  },
+  {
+    "filename": "Chu Đậu/tô sứ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Sawankhalok",
+    "confidence": 0.7,
+    "is_correct": false,
+    "time_s": 4.92
+  },
+  {
+    "filename": "Chu Đậu/ống hương gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Chu Đậu/Ống nhỏ nước.jpg",
+    "label": "Chu Đậu",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Delftware/02023 0601 Collection of Delftware in Grodzietz Castle.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 10.77
+  },
+  {
+    "filename": "Delftware/DelftChina18thCenturyCompanieDesIndes.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 11.16
+  },
+  {
+    "filename": "Delftware/Delftware (PSF).png",
+    "label": "Delftware",
+    "predicted": "Jingdezhen",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 7.95
+  },
+  {
+    "filename": "Delftware/Delftware in Room 2.22 of Rijksmuseum Amsterdam (01).jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 18.95
+  },
+  {
+    "filename": "Delftware/Delftware in Room 2.22 of Rijksmuseum Amsterdam (02).jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 17.46
+  },
+  {
+    "filename": "Delftware/Delftware in Room 2.22 of Rijksmuseum Amsterdam (03).jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 11.64
+  },
+  {
+    "filename": "Delftware/Delftware souvenir shop with Delftware door.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 11.07
+  },
+  {
+    "filename": "Delftware/Edams Museum (1530) - Delft Blue Earthenware, Glass and Crocodile.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 15.25
+  },
+  {
+    "filename": "Delftware/Edams Museum (1530) - Room at Street Side - Delftware.jpg",
+    "label": "Delftware",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Delftware/WLANL - MicheleLovesArt - Princessehof - Vitrinekast met Delfts aardewerk.jpg",
+    "label": "Delftware",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo celadon 12C Korean incense burner with a duck lid and lotus.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Celadon BNC.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Celadon.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 11.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 121.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 1234.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Korea - Seoul - National Museum - Incense Burner 0252-06a.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/Korea-Goryeo celadon-07.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/청자 거북이 모양 주자.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Goryeo Celadon/청자 어룡 모양 주전자.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53476810052.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713551.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash:  | gemini-2.5-flash-lite: [Errno 11001] getaddrinfo failed"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713566.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 18.27
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713626.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713681.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857928.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857943.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857973.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53478027919.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53478122815.jpg",
+    "label": "Iznik",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Chenghua Reign 05.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Hongzhi Reign 03.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Wanli Reign 10.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Xuande Reign 14.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Xuande Reign 18.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Zhengde Reign 03.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Daoguang Reign 01.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Kangxi Reign 22.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Xianfeng Reign 01.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Yongzheng Reign 02.jpg",
+    "label": "Jingdezhen",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Plate, Longquan Kiln, Yuan Dynasty 01.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Plate, Longquan Kiln, Yuan Dynasty 02.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Tripod Censer, Longquan Kiln, Yuan Dynasty.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Vase, Longquan Kiln, Yuan Dynasty.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/Song Dynasty Celadon Vase.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/Song Longquan Ware Celadon Jar.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Censer.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Cong-shaped Vase.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Vase 1.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Vase 2.jpg",
+    "label": "Longquan",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Lái Thiêu/Lai Thieu Ceramics (9997439653).jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Lái Thiêu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 9.79
+  },
+  {
+    "filename": "Lái Thiêu/thố gốm.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Jingdezhen",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 5.84
+  },
+  {
+    "filename": "Lái Thiêu/thố xanh.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Lái Thiêu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 19.16
+  },
+  {
+    "filename": "Lái Thiêu/thố.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Lái Thiêu",
+    "confidence": 0.8,
+    "is_correct": true,
+    "time_s": 5.24
+  },
+  {
+    "filename": "Lái Thiêu/thố.png",
+    "label": "Lái Thiêu",
+    "predicted": "Bát Tràng",
+    "confidence": 0.8,
+    "is_correct": false,
+    "time_s": 6.7
+  },
+  {
+    "filename": "Lái Thiêu/tô sứ.jpg",
+    "label": "Lái Thiêu",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  },
+  {
+    "filename": "Lái Thiêu/tượng bà nguyệt.jpg",
+    "label": "Lái Thiêu",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+  }
+]

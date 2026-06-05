@@ -8,10 +8,7 @@ class ApiConfig {
   static String get baseUrl {
     if (_overrideBaseUrl.isNotEmpty) return _overrideBaseUrl;
     if (kIsWeb) return _webBaseUrl;
-    if (defaultTargetPlatform == TargetPlatform.android) {
-      return _androidEmulatorBaseUrl;
-    }
-    return _webBaseUrl;
+    return 'https://thearchivist-edemdeeaf4ahamgs.southeastasia-01.azurewebsites.net';
   }
 
   static Uri uri(String path) {
