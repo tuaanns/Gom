@@ -190,9 +190,9 @@ class HistoryScreenState extends State<HistoryScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(prediction, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
+                  TranslateText(prediction, maxLines: 2, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: AppTheme.textPrimary)),
                   const SizedBox(height: 6),
-                  Text([country, era].where((v) => v.isNotEmpty).join(' - '), maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: AppTheme.textMuted)),
+                  TranslateText([country, era].where((v) => v.isNotEmpty).join(' - '), maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontSize: 12, color: AppTheme.textMuted)),
                   const SizedBox(height: 8),
                   Text(date, style: TextStyle(fontSize: 12, color: AppTheme.textMuted)),
                 ],

@@ -238,7 +238,8 @@ const VI_TO_EN = {
  * @returns {string} Translated or original text
  */
 export function translateCeramicTerm(text, lang) {
-  if (!text || lang === 'vi') return text;
+  const isEn = String(lang || '').toLowerCase().startsWith('en');
+  if (!text || !isEn) return text;
 
   // Trim to avoid whitespace mismatches
   const trimmed = text.trim();
