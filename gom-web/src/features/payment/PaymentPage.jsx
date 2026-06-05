@@ -223,7 +223,7 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
           payment_method: 'vnpay',
         });
         setStage(2);
-        notify?.('Đơn hàng VNPay đã được tạo!', 'success');
+        notify?.(t('payment.vnpay.created'), 'success');
       } else {
         const content = serverData?.transfer_content || `GOM NAP ${pkg.id}`;
         const bankInfo = serverData?.bank_info || {};
@@ -291,7 +291,7 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
         fetchUser?.();
       }
     } catch (err) {
-      notify?.(getErrorMessage(err, 'Lỗi khi giả lập thanh toán'), 'error');
+      notify?.(getErrorMessage(err, t('payment.simulateError')), 'error');
     }
   };
 

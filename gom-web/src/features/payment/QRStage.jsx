@@ -4,7 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Loader2, Copy, FlaskConical, CreditCard } from 'lucide-react';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
-import { copyToClipboard, formatNumber } from '../../lib/utils';
+import { copyToClipboard, formatNumber, getLocalisedPackageName } from '../../lib/utils';
 
 const isDevelopment = process.env.NODE_ENV !== 'production';
 
@@ -52,7 +52,7 @@ export const QRStage = ({ qrData, purchasing, notify, onConfirm, onCancel, onSim
               {t('payment.vnpay.title')}
             </h3>
             <p className="mt-2 text-sm text-muted dark:text-dark-text-muted">
-              {t('payment.qr.details')}: <span className="font-bold">{qrData?.package?.name}</span> — {formatNumber(qrData?.package?.credits)} {t('payment.credits')}
+              {t('payment.qr.details')}: <span className="font-bold">{getLocalisedPackageName(qrData?.package?.name_en || qrData?.package?.name)}</span> — {formatNumber(qrData?.package?.credits)} {t('payment.credits')}
             </p>
           </div>
 

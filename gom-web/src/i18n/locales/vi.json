@@ -350,8 +350,10 @@
     "scanInvite": "Xin mời quét mã QR để thanh toán!",
     "checking": "Chưa nhận được thanh toán. Vui lòng thử lại sau 30s!",
     "failed": "Hệ thống thanh toán đang gặp sự cố. Vui lòng thử lại sau!",
+    "simulateError": "Lỗi khi giả lập thanh toán",
     "vnpay": {
       "title": "Thanh toán qua VNPay",
+      "created": "Đơn hàng VNPay đã được tạo!",
       "amount": "Số tiền cần thanh toán",
       "payBtn": "Mở cổng thanh toán VNPay",
       "payDirectBtn": "Thanh toán trực tiếp tại Website",

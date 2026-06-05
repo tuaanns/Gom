@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import i18n from '../i18n';
 
 // Combine class names with Tailwind merge
 export function cn(...inputs) {
@@ -18,11 +19,13 @@ export function formatNumber(value) {
   return new Intl.NumberFormat('vi-VN').format(value);
 }
 
-// Format date Vietnamese
+// Format date dynamically based on active locale
 export function formatDate(date, opts = { dateStyle: 'medium', timeStyle: 'short' }) {
   if (!date) return '—';
   try {
-    return new Intl.DateTimeFormat('vi-VN', opts).format(new Date(date));
+    const lang = i18n?.language || 'vi';
+    const locale = String(lang).toLowerCase().startsWith('en') ? 'en-US' : 'vi-VN';
+    return new Intl.DateTimeFormat(locale, opts).format(new Date(date));
   } catch {
     return '—';
   }
@@ -91,3 +94,15 @@ export function getErrorMessage(err, fallback = 'Đã có lỗi xảy ra') {
   );
 }
 
+// Localize package name based on current language
+export function getLocalisedPackageName(name) {
+  if (!name) return '—';
+  const lang = i18n?.language || 'vi';
+  const isEn = String(lang).toLowerCase().startsWith('en');
+  if (!isEn) return name;
+  const lower = name.toLowerCase().trim();
+  if (lower === 'cơ bản' || lower === 'basic') return 'Basic';
+  if (lower === 'phổ biến' || lower === 'popular') return 'Popular';
+  if (lower === 'chuyên gia' || lower === 'expert') return 'Expert';
+  return name;
+}

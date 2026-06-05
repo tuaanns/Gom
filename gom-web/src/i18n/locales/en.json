@@ -350,8 +350,10 @@
     "scanInvite": "Please scan the QR to pay!",
     "checking": "Payment not received yet. Please retry in 30s!",
     "failed": "The payment system is currently unavailable. Please try again later!",
+    "simulateError": "Error simulating payment",
     "vnpay": {
       "title": "Payment via VNPay",
+      "created": "VNPay order has been created successfully!",
       "amount": "Amount to pay",
       "payBtn": "Open VNPay Gateway",
       "payDirectBtn": "Pay directly on Website",

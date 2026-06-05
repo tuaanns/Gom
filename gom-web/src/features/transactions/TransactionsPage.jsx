@@ -8,7 +8,7 @@ import { Badge } from '../../components/ui/Badge';
 import { Button } from '../../components/ui/Button';
 import { LoadingState, EmptyState, ErrorState } from '../../components/ui/states';
 import { paymentApi } from '../payment/api';
-import { formatVND, formatDate, formatNumber, getErrorMessage } from '../../lib/utils';
+import { formatVND, formatDate, formatNumber, getErrorMessage, getLocalisedPackageName } from '../../lib/utils';
 import { VIEWS } from '../../lib/constants';
 
 const STATUS_VARIANT = {
@@ -95,7 +95,7 @@ export const TransactionsPage = ({ setView, notify }) => {
                       #{tx.id}
                     </td>
                     <td className="px-4 py-3 font-semibold text-navy dark:text-ivory">
-                      {tx.package_name || tx.package_id || '—'}
+                      {getLocalisedPackageName(tx.package_name) || tx.package_id || '—'}
                     </td>
                     <td className="px-4 py-3 font-bold text-navy dark:text-ivory">
                       {formatVND(tx.amount)}
