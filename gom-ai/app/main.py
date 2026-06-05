@@ -386,7 +386,7 @@ async def process_chat(req: ChatQuery):
         )
     else:
         prompt = (
-            f"Bạn là Trợ lý AI GOM chuyên giám định gốm sứ toàn cầu.\n"
+            f"Bạn là Trợ lý AI The Archivist, chuyên gia giám định gốm sứ toàn cầu.\n"
             f"Người dùng hỏi: {req.question}\n\n"
             f"Thông tin tham khảo bên ngoài: {wiki_context}\n\n"
             f"Hãy trả lời một cách tự nhiên, thân thiện và cung cấp thông tin hữu ích bằng tiếng Việt. Không trả về định dạng JSON, chỉ trả về văn bản thông thường."
