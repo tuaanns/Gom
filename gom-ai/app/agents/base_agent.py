@@ -142,6 +142,9 @@ class BaseAgent:
                 logger.error(f"[{self.name}] Gemini Error: {e}")
                 key_rotator.rotate_key(self.provider, self.api_key)
                 
+                if getattr(self, "disable_fallback", False):
+                    raise e
+                
                 # Fallback to Groq if key is available
                 groq_key = self.get_api_key("groq")
                 if groq_key:
@@ -180,6 +183,9 @@ class BaseAgent:
                 except Exception as e:
                     logger.error(f"[{self.name}] {self.provider.capitalize()} Error: {e}")
                     key_rotator.rotate_key(self.provider, self.api_key)
+                    
+                    if getattr(self, "disable_fallback", False):
+                        raise e
                     
                     # Try fallback to google gemini if key is available
                     google_key = self.get_api_key("google")

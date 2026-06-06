@@ -24,11 +24,10 @@ class VisionAgent:
     # Priority: Gemini 3 > Gemini 2.5 Pro > Gemini 2.5 Flash > Gemini 2.0 Flash
     # All models support vision capabilities
     MODELS = [
-        "gemini-3.1-flash-lite",      # Best: Gemini 3 with agentic vision & reasoning
+        "gemini-3.1-flash-lite",        # Best: Gemini 3.1 with agentic vision & reasoning
         "gemini-2.5-pro",               # Strongest reasoning & multimodal (1M context)
         "gemini-2.5-flash",             # Fast & efficient with good vision
         "gemini-2.5-flash-lite",        # Cost-effective fallback
-        "gemini-2.0-flash-exp",         # Legacy fallback (deprecated soon)
     ]
 
     def __init__(self):

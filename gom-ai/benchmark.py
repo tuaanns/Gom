@@ -217,7 +217,7 @@ async def extract_visual_features(images: list[dict]) -> dict:
 
     for idx, img in enumerate(images):
         key = img["filename"]
-        if key in cache:
+        if key in cache and "error" not in cache[key]:
             continue
 
         new_count += 1
@@ -274,6 +274,11 @@ async def run_single_agent(method_name: str, agent, images: list[dict],
             continue
 
         features = visual_cache.get(key, {})
+        if isinstance(features, list):
+            features = features[0] if len(features) > 0 else {}
+        if not isinstance(features, dict):
+            features = {"error": "Invalid features format"}
+
         if "error" in features or features.get("is_pottery") is False:
             result = {
                 "filename": key,
@@ -393,7 +398,7 @@ async def run_vision_solo_method(images: list[dict]) -> list[dict]:
 
     configured_models = os.getenv(
         "BENCHMARK_VISION_MODELS",
-        "gemini-2.5-flash,gemini-2.5-flash-lite",
+        "gemini-3.1-flash-lite,gemini-2.5-flash,gemini-2.5-flash-lite",
     )
     models_to_try = [
         model.strip()
@@ -506,6 +511,10 @@ async def run_debate_method(images: list[dict], enable_lens: bool, visual_cache:
         lens_mod.search_google_lens = lambda *a, **kw: []
 
     engine = DebateEngine()
+    engine.gpt.disable_fallback = True
+    engine.grok.disable_fallback = True
+    engine.gemini.disable_fallback = True
+    engine.judge.disable_fallback = True
 
     existing, retry_count = load_resumable_results(results_file)
     if existing or retry_count:
@@ -524,6 +533,11 @@ async def run_debate_method(images: list[dict], enable_lens: bool, visual_cache:
             continue
 
         features = visual_cache.get(key, {})
+        if isinstance(features, list):
+            features = features[0] if len(features) > 0 else {}
+        if not isinstance(features, dict):
+            features = {"error": "Invalid features format"}
+
         if "error" in features or features.get("is_pottery") is False:
             result = {
                 "filename": key,
@@ -781,14 +795,17 @@ async def main(methods: list[str] | None = None, enable_lens: bool = False):
 
         if method == "gpt_solo":
             agent = GPTAgent()
+            agent.disable_fallback = True
             await run_single_agent(method, agent, images, visual_cache)
 
         elif method == "grok_solo":
             agent = GrokAgent()
+            agent.disable_fallback = True
             await run_single_agent(method, agent, images, visual_cache)
 
         elif method == "gemini_solo":
             agent = GeminiAgent()
+            agent.disable_fallback = True
             await run_single_agent(method, agent, images, visual_cache)
 
         elif method == "vision_solo":

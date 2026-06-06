@@ -399,6 +399,96 @@ class PaymentController extends Controller
                 'amount'      => $payment->credit_amount,
                 'description' => $prefix . 'Nạp tiền: ' . $payment->package_name,
             ]);
+
+            try {
+                $this->sendPaymentSuccessEmail($payment, $user);
+            } catch (\Throwable $e) {
+                Log::error('Failed to send payment success email', [
+                    'payment_id' => $payment->id,
+                    'error' => $e->getMessage()
+                ]);
+            }
         }
+    }
+
+    private function sendPaymentSuccessEmail(Payment $payment, \App\Models\User $user): void
+    {
+        $formattedAmount = number_format($payment->amount_vnd, 0, ',', '.');
+        $dateStr = $payment->created_at ? $payment->created_at->format('H:i d/m/Y') : now()->format('H:i d/m/Y');
+        
+        $htmlContent = "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='utf-8'>
+            <title>Thanh toán thành công</title>
+            <style>
+                body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f5f7; color: #1e293b; padding: 40px; margin: 0; }
+                .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+                .header { background: linear-gradient(135deg, #1e1b4b, #312e81); padding: 32px; text-align: center; color: #ffffff; }
+                .logo { font-size: 24px; font-weight: 800; letter-spacing: 1px; color: #e2e8f0; }
+                .logo span { color: #f59e0b; }
+                .content { padding: 32px; }
+                h2 { font-size: 20px; font-weight: 700; margin-top: 0; color: #0f172a; }
+                .success-banner { background-color: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 16px; border-radius: 8px; font-weight: 600; margin-bottom: 24px; text-align: center; }
+                .details-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+                .details-table th, .details-table td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+                .details-table th { color: #64748b; font-weight: 600; font-size: 14px; width: 35%; }
+                .details-table td { color: #334155; font-weight: 500; }
+                .total-row td { font-size: 18px; font-weight: 700; color: #1e1b4b; border-bottom: none; }
+                .footer { background-color: #f8fafc; padding: 24px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
+                .btn { display: inline-block; background-color: #312e81; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; margin-top: 8px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <div class='logo'>THE <span>ARCHIVIST</span></div>
+                </div>
+                <div class='content'>
+                    <div class='success-banner'>✓ Giao dịch đã được thanh toán thành công</div>
+                    <p>Chào <strong>{$user->name}</strong>,</p>
+                    <p>Cảm ơn bạn đã tin dùng dịch vụ của <strong>The Archivist</strong>. Giao dịch mua gói của bạn đã hoàn tất. Token đã được cộng trực tiếp vào tài khoản của bạn.</p>
+                    
+                    <table class='details-table'>
+                        <tr>
+                            <th>Mã hóa đơn</th>
+                            <td>#{$payment->hex_id}</td>
+                        </tr>
+                        <tr>
+                            <th>Gói dịch vụ</th>
+                            <td>{$payment->package_name}</td>
+                        </tr>
+                        <tr>
+                            <th>Số lượng Token</th>
+                            <td>+{$payment->credit_amount} Tokens</td>
+                        </tr>
+                        <tr>
+                            <th>Thời gian</th>
+                            <td>{$dateStr}</td>
+                        </tr>
+                        <tr class='total-row'>
+                            <th>Tổng thanh toán</th>
+                            <td>{$formattedAmount} VND</td>
+                        </tr>
+                    </table>
+                    
+                    <p style='text-align: center;'>
+                        <a href='https://gomai.tuaanns.io/history' class='btn'>Xem lịch sử giao dịch</a>
+                    </p>
+                </div>
+                <div class='footer'>
+                    Email này được gửi tự động từ hệ thống The Archivist.<br>
+                    Nếu bạn cần hỗ trợ, vui lòng liên hệ qua email support@tuaanns.io.
+                </div>
+            </div>
+        </body>
+        </html>
+        ";
+
+        \Illuminate\Support\Facades\Mail::html($htmlContent, function ($message) use ($user) {
+            $message->to($user->email)
+                ->subject('Thanh toán thành công - The Archivist');
+        });
     }
 }

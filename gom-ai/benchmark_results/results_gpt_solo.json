@@ -1,0 +1,1564 @@
+[
+  {
+    "filename": "Arita-Imari/Bowl 2, Imari ware, Edo period, 17th-18th century, stormy seascape design in ove.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.78
+  },
+  {
+    "filename": "Arita-Imari/Dish imari style 01.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.96
+  },
+  {
+    "filename": "Arita-Imari/Imari Jar in Pollard Memorial Library, Lowell, MA.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.46
+  },
+  {
+    "filename": "Arita-Imari/Imari porcelain bowl Japan circa 1640.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita (Kakiemon)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 6.91
+  },
+  {
+    "filename": "Arita-Imari/Large dish with camellia design, Imari ware, Edo period, 1600s AD, porcelain, ov.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.38
+  },
+  {
+    "filename": "Arita-Imari/Plate decorated with Dutch traders and ships, Imari ware, Japan, 19th century, p.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.82
+  },
+  {
+    "filename": "Arita-Imari/Sake flask with cherry blossom and stream design, Imari ware, Edo period, 1600s .jpg",
+    "label": "Arita-Imari",
+    "predicted": "Kutani",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 16.19
+  },
+  {
+    "filename": "Arita-Imari/Somenishiki-Okakarakomon-Tetsukibin from above Imari ware Saga Prefectural Museu.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.59
+  },
+  {
+    "filename": "Arita-Imari/Somenishiki-Okakarakomon-Tetsukibin from side Imari ware Saga Prefectural Museum.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.4
+  },
+  {
+    "filename": "Arita-Imari/WLA brooklynmuseum Ko-Imari Ware Octagonal Dish.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita ware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.56
+  },
+  {
+    "filename": "Biên Hòa/hủ gốm sứ biên hòa.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm men trắng Lý-Trần",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.99
+  },
+  {
+    "filename": "Biên Hòa/ly có quai.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 8.49
+  },
+  {
+    "filename": "Biên Hòa/lọ gốm trắng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.39
+  },
+  {
+    "filename": "Biên Hòa/lọ gốm xanh.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.5
+  },
+  {
+    "filename": "Biên Hòa/nắp gốm.jpg",
+    "label": "Biên Hòa",
+    "predicted": "gốm Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.77
+  },
+  {
+    "filename": "Biên Hòa/quan vi hành.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.35
+  },
+  {
+    "filename": "Biên Hòa/thố dây lá.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 7.16
+  },
+  {
+    "filename": "Biên Hòa/thố sen.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 4.41
+  },
+  {
+    "filename": "Biên Hòa/thổ chim phụng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 4.4
+  },
+  {
+    "filename": "Biên Hòa/tượng phật.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Shiwan",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 8.73
+  },
+  {
+    "filename": "Biên Hòa/tượng thỏ bách hoa.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.45
+  },
+  {
+    "filename": "Biên Hòa/tượng ông thọ.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 6.12
+  },
+  {
+    "filename": "Biên Hòa/tượng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.13
+  },
+  {
+    "filename": "Biên Hòa/xông trầm.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 4.86
+  },
+  {
+    "filename": "Bàu Trúc/Gốm Bàu Trúc.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 8.96
+  },
+  {
+    "filename": "Bàu Trúc/tượng dudngws.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.39
+  },
+  {
+    "filename": "Bàu Trúc/tượng phật.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm Vĩnh Long",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.56
+  },
+  {
+    "filename": "Bàu Trúc/tượng thiền sư.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm Chăm",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.59
+  },
+  {
+    "filename": "Bàu Trúc/tượng voi.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 9.19
+  },
+  {
+    "filename": "Bàu Trúc/tượng vô diện.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm Chăm Pa",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.76
+  },
+  {
+    "filename": "Bàu Trúc/tượng.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm thủ công Việt Nam hiện đại",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.25
+  },
+  {
+    "filename": "Bát Tràng/Bat-Trang-Ceramic-Village1.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 7.81
+  },
+  {
+    "filename": "Bát Tràng/Bat-Trang-Ceramic-Village16.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 6.71
+  },
+  {
+    "filename": "Bát Tràng/Tượng quan âm Bát Tràng.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Dehua",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.43
+  },
+  {
+    "filename": "Bát Tràng/Tượng rắn đầu người.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm men trắng Thăng Long",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.75
+  },
+  {
+    "filename": "Bát Tràng/Tượng tam đa Phúc lộc thọ loại 1.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.09
+  },
+  {
+    "filename": "Bát Tràng/Tượng tam đa phúc lộc thọ loại 2.jpg",
+    "label": "Bát Tràng",
+    "predicted": "gốm Quảng Đông",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 7.99
+  },
+  {
+    "filename": "Bát Tràng/Tượng Tam đa Phúc lộc thọ.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 7.08
+  },
+  {
+    "filename": "Bát Tràng/Tượng voi.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 6.43
+  },
+  {
+    "filename": "Bát Tràng/Vại bình muối biến thể.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.23
+  },
+  {
+    "filename": "Bát Tràng/Vại bình muối.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 4.53
+  },
+  {
+    "filename": "Chu Đậu/Hiện vật gốm Chu Đậu.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 6.0
+  },
+  {
+    "filename": "Chu Đậu/hiện vật gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Đông Sơn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.29
+  },
+  {
+    "filename": "Chu Đậu/hu nho.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.51
+  },
+  {
+    "filename": "Chu Đậu/Hộp gốm Chu Đậu.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 6.54
+  },
+  {
+    "filename": "Chu Đậu/hộp gốm màu xanh trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.53
+  },
+  {
+    "filename": "Chu Đậu/Hộp mực sứ trắng xanh.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 8.88
+  },
+  {
+    "filename": "Chu Đậu/Hủ gốm Chu Đậu men lam trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.31
+  },
+  {
+    "filename": "Chu Đậu/Hủ gốm sứ cổ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 7.57
+  },
+  {
+    "filename": "Chu Đậu/Lọ gốm hoa văn xanh trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.5
+  },
+  {
+    "filename": "Chu Đậu/lộc bình gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 4.48
+  },
+  {
+    "filename": "Chu Đậu/mâm bồng gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.26
+  },
+  {
+    "filename": "Chu Đậu/nắp gốm sứ cổ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 6.53
+  },
+  {
+    "filename": "Chu Đậu/nắp đậy gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 4.82
+  },
+  {
+    "filename": "Chu Đậu/Tách sứ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.66
+  },
+  {
+    "filename": "Chu Đậu/tô sứ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.69
+  },
+  {
+    "filename": "Chu Đậu/ống hương gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.01
+  },
+  {
+    "filename": "Chu Đậu/Ống nhỏ nước.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.07
+  },
+  {
+    "filename": "Delftware/02023 0601 Collection of Delftware in Grodzietz Castle.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.81
+  },
+  {
+    "filename": "Delftware/DelftChina18thCenturyCompanieDesIndes.jpg",
+    "label": "Delftware",
+    "predicted": "Kraakware",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.65
+  },
+  {
+    "filename": "Delftware/Delftware (PSF).png",
+    "label": "Delftware",
+    "predicted": "Staffordshire",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.56
+  },
+  {
+    "filename": "Delftware/Delftware in Room 2.22 of Rijksmuseum Amsterdam (01).jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.29
+  },
+  {
+    "filename": "Delftware/Delftware in Room 2.22 of Rijksmuseum Amsterdam (02).jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.37
+  },
+  {
+    "filename": "Delftware/Delftware in Room 2.22 of Rijksmuseum Amsterdam (03).jpg",
+    "label": "Delftware",
+    "predicted": "De Grieksche A",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 6.32
+  },
+  {
+    "filename": "Delftware/Delftware souvenir shop with Delftware door.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 9.72
+  },
+  {
+    "filename": "Delftware/Edams Museum (1530) - Delft Blue Earthenware, Glass and Crocodile.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.15
+  },
+  {
+    "filename": "Delftware/Edams Museum (1530) - Room at Street Side - Delftware.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.25
+  },
+  {
+    "filename": "Delftware/WLANL - MicheleLovesArt - Princessehof - Vitrinekast met Delfts aardewerk.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.38
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo celadon 12C Korean incense burner with a duck lid and lotus.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo Celadon",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.02
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Celadon BNC.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo Celadon",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.47
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Celadon.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo Celadon",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.07
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 11.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo celadon",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 8.02
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 121.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.25
+  },
+  {
+    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 1234.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.21
+  },
+  {
+    "filename": "Goryeo Celadon/Korea - Seoul - National Museum - Incense Burner 0252-06a.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Goryeo celadon",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.72
+  },
+  {
+    "filename": "Goryeo Celadon/Korea-Goryeo celadon-07.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Longquan",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 5.31
+  },
+  {
+    "filename": "Goryeo Celadon/청자 거북이 모양 주자.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Lò gốm Thăng Long",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.06
+  },
+  {
+    "filename": "Goryeo Celadon/청자 어룡 모양 주전자.jpg",
+    "label": "Goryeo Celadon",
+    "predicted": "Longquan",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 4.99
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53476810052.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.06
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713551.jpg",
+    "label": "Iznik",
+    "predicted": "Gốm Iznik",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 6.21
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713566.jpg",
+    "label": "Iznik",
+    "predicted": "Kashan",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 6.32
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713626.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.34
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713681.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.51
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857928.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.12
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857943.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.88
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857973.jpg",
+    "label": "Iznik",
+    "predicted": "Tabriz",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 7.84
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53478027919.jpg",
+    "label": "Iznik",
+    "predicted": "Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.94
+  },
+  {
+    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53478122815.jpg",
+    "label": "Iznik",
+    "predicted": "Gốm Iznik",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.61
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Chenghua Reign 05.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Ge Yao",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 6.17
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Hongzhi Reign 03.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 6.73
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Wanli Reign 10.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.18
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Xuande Reign 14.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn (Jingdezhen)",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 4.42
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Xuande Reign 18.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn (Jingdezhen)",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.28
+  },
+  {
+    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Zhengde Reign 03.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn (Jingdezhen)",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 6.05
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Daoguang Reign 01.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn (Jingdezhen)",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.12
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Kangxi Reign 22.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 7.69
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Xianfeng Reign 01.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 4.62
+  },
+  {
+    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Yongzheng Reign 02.jpg",
+    "label": "Jingdezhen",
+    "predicted": "Long Tuyền",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 5.47
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Plate, Longquan Kiln, Yuan Dynasty 01.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.04
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Plate, Longquan Kiln, Yuan Dynasty 02.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.14
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Tripod Censer, Longquan Kiln, Yuan Dynasty.jpg",
+    "label": "Longquan",
+    "predicted": "Lò Long Tuyền",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 8.44
+  },
+  {
+    "filename": "Longquan/20241025 Celadon Vase, Longquan Kiln, Yuan Dynasty.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 6.74
+  },
+  {
+    "filename": "Longquan/Song Dynasty Celadon Vase.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.51
+  },
+  {
+    "filename": "Longquan/Song Longquan Ware Celadon Jar.jpg",
+    "label": "Longquan",
+    "predicted": "Gốm Lý Thăng Long",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.57
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Censer.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.21
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Cong-shaped Vase.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 6.49
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Vase 1.jpg",
+    "label": "Longquan",
+    "predicted": "Gangjin",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 6.02
+  },
+  {
+    "filename": "Longquan/Southern Song Longquan Ware Celadon Vase 2.jpg",
+    "label": "Longquan",
+    "predicted": "Longquan",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 7.85
+  },
+  {
+    "filename": "Lái Thiêu/Lai Thieu Ceramics (9997439653).jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Lai Thiêu",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 4.44
+  },
+  {
+    "filename": "Lái Thiêu/thố gốm.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Chinese Export Porcelain",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.16
+  },
+  {
+    "filename": "Lái Thiêu/thố xanh.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Nabeul pottery",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.53
+  },
+  {
+    "filename": "Lái Thiêu/thố.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Faience",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.76
+  },
+  {
+    "filename": "Lái Thiêu/thố.png",
+    "label": "Lái Thiêu",
+    "predicted": "Gốm Cây Mai",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.28
+  },
+  {
+    "filename": "Lái Thiêu/tô sứ.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Quảng Đông",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.59
+  },
+  {
+    "filename": "Lái Thiêu/tượng bà nguyệt.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Gốm Quảng Đông",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.61
+  },
+  {
+    "filename": "Lái Thiêu/tượng gốm men nhiều màu.png",
+    "label": "Lái Thiêu",
+    "predicted": "Gốm Thạch Loan (Shiwan)",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.25
+  },
+  {
+    "filename": "Lái Thiêu/tượng phật lái thiêu.jpg",
+    "label": "Lái Thiêu",
+    "predicted": "Trung Quốc hiện đại",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 5.43
+  },
+  {
+    "filename": "Lái Thiêu/tượng phật.png",
+    "label": "Lái Thiêu",
+    "predicted": "Shiwan",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 9.53
+  },
+  {
+    "filename": "Meissen/Detail of Meissen Porcelain Urn.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 7.48
+  },
+  {
+    "filename": "Meissen/Laughing Buddha (nodder, Meissen Porcelain).jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 7.91
+  },
+  {
+    "filename": "Meissen/Meissen Böttger 1935.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.23
+  },
+  {
+    "filename": "Meissen/Meissen Frick 07 2025 01.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.48
+  },
+  {
+    "filename": "Meissen/Meissen Porcelain Urns.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.71
+  },
+  {
+    "filename": "Meissen/Meissen-Porcelain-Tile.Frauenkirche.Dresden.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 4.77
+  },
+  {
+    "filename": "Meissen/Meissen-Porcelain-Tiles.jpg",
+    "label": "Meissen",
+    "predicted": "Royal Copenhagen",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.1
+  },
+  {
+    "filename": "Meissen/MeissenGroup-JohannKaendler-BMA.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen Porcelain",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.96
+  },
+  {
+    "filename": "Meissen/Piece from the Meissen porcelain collection.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen Porcelain Manufactory",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.68
+  },
+  {
+    "filename": "Meissen/Sculpture 'Money match' in Meissen porcelain museum.jpg",
+    "label": "Meissen",
+    "predicted": "Meissen",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.5
+  },
+  {
+    "filename": "Phù Lãng/hủ sành.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.95
+  },
+  {
+    "filename": "Phù Lãng/hủ.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 7.26
+  },
+  {
+    "filename": "Phù Lãng/lư hương hình chữ nhật.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.18
+  },
+  {
+    "filename": "Phù Lãng/lọ hoa.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.13
+  },
+  {
+    "filename": "Phù Lãng/lọ tăm.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Gốm Minh Tâm",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.58
+  },
+  {
+    "filename": "Phù Lãng/lọ.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Gốm nghệ thuật Việt Nam (có thể là từ các xưởng gốm thủ công tại miền Bắc Việt Nam)",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.66
+  },
+  {
+    "filename": "Phù Lãng/Lục bình.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.61
+  },
+  {
+    "filename": "Phù Lãng/nêu.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bàu Trúc",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.3
+  },
+  {
+    "filename": "Phù Lãng/tranh gốm.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 6.54
+  },
+  {
+    "filename": "Phù Lãng/tranh đĩa.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Gốm Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 8.81
+  },
+  {
+    "filename": "Phù Lãng/Tượng gốm.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 7.5
+  },
+  {
+    "filename": "Phù Lãng/tượng mẹ bồng con.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 4.54
+  },
+  {
+    "filename": "Phù Lãng/tượng nghê.jpg",
+    "label": "Phù Lãng",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.59
+  },
+  {
+    "filename": "Satsuma/Jar, Satsuma ware, Japan, Kinkozan studio, late 1800s, ceramic - Peabody Essex M.jpg",
+    "label": "Satsuma",
+    "predicted": "Satsuma",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.1
+  },
+  {
+    "filename": "Satsuma/Satsuma vase in Peleș Castle-2.jpg",
+    "label": "Satsuma",
+    "predicted": "Satsuma",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.16
+  },
+  {
+    "filename": "Satsuma/Satsuma vase in Peleș Castle.jpg",
+    "label": "Satsuma",
+    "predicted": "Satsuma",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.05
+  },
+  {
+    "filename": "Satsuma/Satsuma ware 19th century Family.jpg",
+    "label": "Satsuma",
+    "predicted": "Sứ Arita (Imari ware)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 5.91
+  },
+  {
+    "filename": "Satsuma/Satsuma ware 400th anniversary Stone pagoda.jpg",
+    "label": "Satsuma",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "Not pottery"
+  },
+  {
+    "filename": "Satsuma/Satsuma ware bowl with monkeys.jpg",
+    "label": "Satsuma",
+    "predicted": "Satsuma-yaki",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.8
+  },
+  {
+    "filename": "Satsuma/Tea Bowl in Shape of Lotus Leaf, Satsuma ware, Edo period, 17th century, white g.jpg",
+    "label": "Satsuma",
+    "predicted": "Hagi",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.8
+  },
+  {
+    "filename": "Satsuma/Tea Storage Jar with Paulownia and Thunder Pattern LACMA M.2007.130a-b.jpg",
+    "label": "Satsuma",
+    "predicted": "Satsuma ware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.05
+  },
+  {
+    "filename": "Satsuma/Trapezoidal jar, Satsuma ware, Japan, Kinkozan studio, late 1800s, ceramic - Pea.jpg",
+    "label": "Satsuma",
+    "predicted": "Satsuma-yaki",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.77
+  },
+  {
+    "filename": "Satsuma/Unknown artist - Jar (Satsuma ware) - 1920.413 - Cleveland Museum of Art.jpg",
+    "label": "Satsuma",
+    "predicted": "Lò gốm Thiên Trường",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.72
+  },
+  {
+    "filename": "Sawankhalok/British Museum Asia 1 (cropped).jpg",
+    "label": "Sawankhalok",
+    "predicted": "Sawankhalok",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.24
+  },
+  {
+    "filename": "Sawankhalok/British Museum Asia 1.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.84
+  },
+  {
+    "filename": "Sawankhalok/Covered Box with Floral Patterns LACMA M.78.126a-b.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Chu Đậu",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 6.93
+  },
+  {
+    "filename": "Sawankhalok/Globular Bottle with Two Shoulder Lugs LACMA M.73.119.8.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Gốm lò Thanh Hóa",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 8.36
+  },
+  {
+    "filename": "Sawankhalok/Incense Burner with Lotus Flowers LACMA M.73.119.27.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Gốm lò Cây Mai",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.85
+  },
+  {
+    "filename": "Sawankhalok/Rabbit-shaped water dropper from Thailand, Sawankhalok ware, 16th century, HAA.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Chu Đậu",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.03
+  },
+  {
+    "filename": "Sawankhalok/Sangkhalok Ceramic Figurines, Ramkhamhaeng Museum, Sukhothai (46732681605).jpg",
+    "label": "Sawankhalok",
+    "predicted": "Sawankhalok",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.78
+  },
+  {
+    "filename": "Sawankhalok/Sangkhalok Figurines for Removal of Bad Omens, Ramkhamhaeng Museum, Sukhothai (4.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Sawankhalok",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 8.23
+  },
+  {
+    "filename": "Sawankhalok/Thailandia, vasi per offerte, dal foro di sawankhalok, xiv-xvi sec, 01.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Sawankhalok",
+    "confidence": 0.85,
+    "is_correct": true,
+    "time_s": 5.79
+  },
+  {
+    "filename": "Sawankhalok/Thailandia, vasi per offerte, dal foro di sawankhalok, xiv-xvi sec, 02.jpg",
+    "label": "Sawankhalok",
+    "predicted": "Thổ Hà",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.24
+  },
+  {
+    "filename": "Thanh Hà/Coupe, M.C. 11028 (1 of 2).jpg",
+    "label": "Thanh Hà",
+    "predicted": "Ding ware",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.95
+  },
+  {
+    "filename": "Thanh Hà/Coupe, M.C. 11028 (2 of 2).jpg",
+    "label": "Thanh Hà",
+    "predicted": "Gốm Đông Nam Á cổ",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.73
+  },
+  {
+    "filename": "Thanh Hà/Quy Hoa 1257 AD battle scene (Ha Bong leader barring the way of Yuan forces), Th.jpg",
+    "label": "Thanh Hà",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "Not pottery"
+  },
+  {
+    "filename": "Thanh Hà/Storage jars for domestic use, Thanh Hoa and Ha Tay provinces, Early Le or Mac d.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.41
+  },
+  {
+    "filename": "Thanh Hà/ThangLong-ConDuongGomSuvenSongHong.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Gốm Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.03
+  },
+  {
+    "filename": "Thanh Hà/tượng gốm.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.77
+  },
+  {
+    "filename": "Thanh Hà/tượng heo.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.61
+  },
+  {
+    "filename": "Thanh Hà/tượng ngựa.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 7.7
+  },
+  {
+    "filename": "Thanh Hà/tượng voi.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.84
+  },
+  {
+    "filename": "Thanh Hà/vòng đệm gốm.jpg",
+    "label": "Thanh Hà",
+    "predicted": "Gốm mộc hiện đại Việt Nam",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.4
+  },
+  {
+    "filename": "Thổ Hà/lư hương.jpg",
+    "label": "Thổ Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.55
+  },
+  {
+    "filename": "Thổ Hà/lư rồng.jpg",
+    "label": "Thổ Hà",
+    "predicted": "Gốm Phù Lãng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.67
+  },
+  {
+    "filename": "Thổ Hà/lư.jpg",
+    "label": "Thổ Hà",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.43
+  },
+  {
+    "filename": "Thổ Hà/thuyền.jpg",
+    "label": "Thổ Hà",
+    "predicted": "Gốm Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.07
+  },
+  {
+    "filename": "Thổ Hà/tượng rồng.jpg",
+    "label": "Thổ Hà",
+    "predicted": "Phù Lãng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 6.73
+  },
+  {
+    "filename": "Wedgwood/British Museum Wedgwood plaque Jasperware cameo Votaries of Diana 21022019 7728.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.89
+  },
+  {
+    "filename": "Wedgwood/Covered Cheese Dish, Josiah Wedgwood and Sons, c. 1900, blue jasperware - Chazen.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.1
+  },
+  {
+    "filename": "Wedgwood/Cream Jug, Josiah Wedgwood and Sons, c. 1840, blue jasperware - Chazen Museum of.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.07
+  },
+  {
+    "filename": "Wedgwood/Flower Pot, Josiah Wedgwood and Sons, 1810-1820, white jasperware - Chazen Museu.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.55
+  },
+  {
+    "filename": "Wedgwood/Goblet or Beaker, Josiah Wedgwood and Sons, c. 1780, red jasperware - Chazen Mus.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.55
+  },
+  {
+    "filename": "Wedgwood/Jug, Josiah Wedgwood and Sons, c. 1895, blue jasperware - Chazen Museum of Art -.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 6.07
+  },
+  {
+    "filename": "Wedgwood/Point Bottle, Josiah Wedgwood and Sons, mid 19th century, green jasperware - Cha.jpg",
+    "label": "Wedgwood",
+    "predicted": "Jasperware",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 4.47
+  },
+  {
+    "filename": "Wedgwood/Teapot, Josiah Wedgwood and Sons, c. 1840, blue jasperware - Chazen Museum of Ar.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.65
+  },
+  {
+    "filename": "Wedgwood/Wedgwood jasperware, view 1 - Joseph Allen Skinner Museum - DSC07908.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.9
+  },
+  {
+    "filename": "Wedgwood/Wedgwood jasperware, view 2 - Joseph Allen Skinner Museum - DSC07910.jpg",
+    "label": "Wedgwood",
+    "predicted": "Wedgwood Jasperware",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 5.64
+  },
+  {
+    "filename": "Đông Triều/Eaves tile with reversed inscription 'wansui' (longevity), Nanyue Kingdom period.jpg",
+    "label": "Đông Triều",
+    "predicted": "Lò gốm vùng đồng bằng miền Trung (Han dynasty eaves tile)",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.5
+  },
+  {
+    "filename": "Đông Triều/Façonnage dobjets en céramique (Dong Trieu) (4375104361).jpg",
+    "label": "Đông Triều",
+    "predicted": "Gốm Bình Dương",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.21
+  },
+  {
+    "filename": "Đông Triều/Façonnage dobjets en céramique (Dong Trieu) (4375855054).jpg",
+    "label": "Đông Triều",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.83
+  },
+  {
+    "filename": "Đông Triều/Fours de cuisson (Dong Trieu) (4375854466).jpg",
+    "label": "Đông Triều",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.8
+  },
+  {
+    "filename": "Đông Triều/lục bình tứ linh.jpg",
+    "label": "Đông Triều",
+    "predicted": "Jingdezhen",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 5.94
+  },
+  {
+    "filename": "Đông Triều/mâm bồng.jpg",
+    "label": "Đông Triều",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 5.84
+  },
+  {
+    "filename": "Đông Triều/nêu.jpg",
+    "label": "Đông Triều",
+    "predicted": "Lò gốm Lái Thiêu",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 7.12
+  },
+  {
+    "filename": "Đông Triều/tranh đắp nổi cá chép.jpg",
+    "label": "Đông Triều",
+    "predicted": "Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 4.45
+  },
+  {
+    "filename": "Đông Triều/ống hương.jpg",
+    "label": "Đông Triều",
+    "predicted": "Cảnh Đức Trấn",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 4.17
+  }
+]

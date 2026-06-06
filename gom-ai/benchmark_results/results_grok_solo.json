@@ -1,0 +1,11 @@
+[
+  {
+    "filename": "Arita-Imari/Bowl 2, Imari ware, Edo period, 17th-18th century, stormy seascape design in ove.jpg",
+    "label": "Arita-Imari",
+    "predicted": null,
+    "confidence": 0,
+    "is_correct": false,
+    "time_s": 0,
+    "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kq718dvffzsb88px82mkgd4w` service tier `on_demand` on tokens per day (TPD): Limit"
+  }
+]
