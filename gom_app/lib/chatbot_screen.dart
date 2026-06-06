@@ -5,6 +5,7 @@ import 'package:gom_app/api_config.dart';
 import 'package:gom_app/lang_storage.dart';
 import 'auth_state.dart';
 import 'app_theme.dart';
+import 'chat_history_manager.dart';
 
 class ChatMessage {
   final String text;
@@ -24,23 +25,27 @@ class ChatbotScreen extends StatefulWidget {
 
 class _ChatbotScreenState extends State<ChatbotScreen> {
   final TextEditingController _controller = TextEditingController();
-  final List<ChatMessage> _messages = [];
+  final ChatHistoryManager _history = ChatHistoryManager();
+  List<ChatMessage> get _messages => _history.messages;
   bool _isLoading = false;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    // Add initial greeting message
-    final name = AuthState.user?['name'] ?? AppLang.tr('bạn', 'you');
-    final greeting = AppLang.tr(
-      "Xin chào $name! 👋\nTôi là Trợ lý AI của The Archivist, chuyên về gốm sứ cổ. Hãy hỏi tôi bất cứ điều gì!",
-      "Hello $name! 👋\nI am the AI assistant of The Archivist, specialized in ancient ceramics. Ask me anything!",
-    );
-    _messages.add(ChatMessage(
-      text: greeting,
-      isUser: false,
-    ));
+    // Only add greeting if this is the first time opening the chatbot
+    if (!_history.greetingAdded) {
+      final name = AuthState.user?['name'] ?? AppLang.tr('bạn', 'you');
+      final greeting = AppLang.tr(
+        "Xin chào $name! 👋\nTôi là Trợ lý AI của The Archivist, chuyên về gốm sứ cổ. Hãy hỏi tôi bất cứ điều gì!",
+        "Hello $name! 👋\nI am the AI assistant of The Archivist, specialized in ancient ceramics. Ask me anything!",
+      );
+      _messages.add(ChatMessage(
+        text: greeting,
+        isUser: false,
+      ));
+      _history.greetingAdded = true;
+    }
     _fetchLatestUserData();
   }
 

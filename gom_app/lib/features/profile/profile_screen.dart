@@ -10,6 +10,7 @@ import 'package:gom_app/main.dart';
 import 'package:gom_app/auth_state.dart';
 import 'package:gom_app/lang_storage.dart';
 import 'package:gom_app/app_theme.dart';
+import 'package:gom_app/chat_history_manager.dart';
 import 'package:gom_app/features/auth/forgot_password_screen.dart';
 import 'package:gom_app/features/profile/transaction_history_screen.dart';
 
@@ -68,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ElevatedButton(
             onPressed: () {
               AuthState.clear();
+              ChatHistoryManager().clear();
               Navigator.of(ctx).pop();
               Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (_) => MainGate()),

@@ -7,11 +7,37 @@ import apiClient from '../../lib/apiClient';
 import { getErrorMessage } from '../../lib/utils';
 
 const CHAT_TOKEN_COST = 0.1;
+const SESSION_STORAGE_KEY = 'gom_chatbot_history';
+
+/* ── Persistent message cache (survives component unmount/remount) ── */
+let persistedMessages = [];
+
+/** Load messages from sessionStorage on first module load */
+try {
+  const stored = sessionStorage.getItem(SESSION_STORAGE_KEY);
+  if (stored) {
+    const parsed = JSON.parse(stored);
+    if (Array.isArray(parsed) && parsed.length > 0) {
+      persistedMessages = parsed.map((m) => ({ ...m, time: new Date(m.time) }));
+    }
+  }
+} catch (_) { /* ignore parse errors */ }
+
+/** Sync messages to both module cache and sessionStorage */
+const syncMessages = (msgs) => {
+  persistedMessages = msgs;
+  try {
+    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(msgs));
+  } catch (_) { /* ignore quota errors */ }
+};
 
 /**
  * FloatingChatbot — A floating chatbot widget rendered via React Portal.
  * Appears as a fixed icon at the bottom-right corner of every page.
  * Each chat message costs 0.1 tokens (deducted by the backend).
+ *
+ * Chat history persists across open/close toggles (module-level cache)
+ * and across page refreshes within the same browser session (sessionStorage).
  *
  * Props:
  *   user  — current authenticated user (null if guest)
@@ -24,7 +50,7 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
   const isEn = lang.startsWith('en');
 
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => persistedMessages.length > 0 ? [...persistedMessages] : []);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const scrollRef = useRef(null);
@@ -44,6 +70,13 @@ export const FloatingChatbot = ({ user, quota, onQuotaChange }) => {
     : (user ? 'Hỏi về gốm sứ...' : 'Đăng nhập để sử dụng chatbot');
   const tokenNoticeText = isEn ? `Each question costs ${CHAT_TOKEN_COST} tokens` : `Mỗi câu hỏi trừ ${CHAT_TOKEN_COST} token`;
   const tokenSuffixText = isEn ? 'tokens/question' : 'token/câu hỏi';
+
+  // Sync messages to persistent cache whenever they change
+  useEffect(() => {
+    if (messages.length > 0) {
+      syncMessages(messages);
+    }
+  }, [messages]);
 
   // Initialize greeting when opening for the first time, or update when language changes
   useEffect(() => {
