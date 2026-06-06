@@ -413,15 +413,53 @@ class PaymentController extends Controller
 
     private function sendPaymentSuccessEmail(Payment $payment, \App\Models\User $user): void
     {
+        $isEn = $user->language === 'en';
+        
         $formattedAmount = number_format($payment->amount_vnd, 0, ',', '.');
         $dateStr = $payment->created_at ? $payment->created_at->format('H:i d/m/Y') : now()->format('H:i d/m/Y');
         
+        $packageName = $payment->package_name;
+        if ($isEn) {
+            $pkg = \App\Models\PaymentPackage::find($payment->package_id);
+            if ($pkg && $pkg->name_en) {
+                $packageName = $pkg->name_en;
+            }
+        }
+        
+        if ($isEn) {
+            $subject = 'Payment Successful - The Archivist';
+            $successBanner = '✓ Payment Processed Successfully';
+            $greeting = "Hello <strong>{$user->name}</strong>,";
+            $introText = "Thank you for using <strong>The Archivist</strong>. Your payment has been completed successfully. Tokens have been credited to your account balance.";
+            
+            $lblInvoice = 'Invoice ID';
+            $lblPackage = 'Package';
+            $lblTokens = 'Tokens Added';
+            $lblTime = 'Date & Time';
+            $lblTotal = 'Total Charged';
+            $lblBtn = 'View Transaction History';
+            $lblFooter = 'This is an automated email from The Archivist system.<br>If you need assistance, please contact us at support@tuaanns.io.';
+        } else {
+            $subject = 'Thanh toán thành công - The Archivist';
+            $successBanner = '✓ Giao dịch đã được thanh toán thành công';
+            $greeting = "Chào <strong>{$user->name}</strong>,";
+            $introText = "Cảm ơn bạn đã tin dùng dịch vụ của <strong>The Archivist</strong>. Giao dịch mua gói của bạn đã hoàn tất. Token đã được cộng trực tiếp vào tài khoản của bạn.";
+            
+            $lblInvoice = 'Mã hóa đơn';
+            $lblPackage = 'Gói dịch vụ';
+            $lblTokens = 'Số lượng Token';
+            $lblTime = 'Thời gian';
+            $lblTotal = 'Tổng thanh toán';
+            $lblBtn = 'Xem lịch sử giao dịch';
+            $lblFooter = 'Email này được gửi tự động từ hệ thống The Archivist.<br>Nếu bạn cần hỗ trợ, vui lòng liên hệ qua email support@tuaanns.io.';
+        }
+
         $htmlContent = "
         <!DOCTYPE html>
         <html>
         <head>
             <meta charset='utf-8'>
-            <title>Thanh toán thành công</title>
+            <title>{$subject}</title>
             <style>
                 body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f5f7; color: #1e293b; padding: 40px; margin: 0; }
                 .container { max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
@@ -446,49 +484,48 @@ class PaymentController extends Controller
                     <div class='logo'>THE <span>ARCHIVIST</span></div>
                 </div>
                 <div class='content'>
-                    <div class='success-banner'>✓ Giao dịch đã được thanh toán thành công</div>
-                    <p>Chào <strong>{$user->name}</strong>,</p>
-                    <p>Cảm ơn bạn đã tin dùng dịch vụ của <strong>The Archivist</strong>. Giao dịch mua gói của bạn đã hoàn tất. Token đã được cộng trực tiếp vào tài khoản của bạn.</p>
+                    <div class='success-banner'>{$successBanner}</div>
+                    <p>{$greeting}</p>
+                    <p>{$introText}</p>
                     
                     <table class='details-table'>
                         <tr>
-                            <th>Mã hóa đơn</th>
+                            <th>{$lblInvoice}</th>
                             <td>#{$payment->hex_id}</td>
                         </tr>
                         <tr>
-                            <th>Gói dịch vụ</th>
-                            <td>{$payment->package_name}</td>
+                            <th>{$lblPackage}</th>
+                            <td>{$packageName}</td>
                         </tr>
                         <tr>
-                            <th>Số lượng Token</th>
+                            <th>{$lblTokens}</th>
                             <td>+{$payment->credit_amount} Tokens</td>
                         </tr>
                         <tr>
-                            <th>Thời gian</th>
+                            <th>{$lblTime}</th>
                             <td>{$dateStr}</td>
                         </tr>
                         <tr class='total-row'>
-                            <th>Tổng thanh toán</th>
+                            <th>{$lblTotal}</th>
                             <td>{$formattedAmount} VND</td>
                         </tr>
                     </table>
                     
                     <p style='text-align: center;'>
-                        <a href='https://gomai.tuaanns.io/history' class='btn'>Xem lịch sử giao dịch</a>
+                        <a href='https://gomai.tuaanns.io/history' class='btn'>{$lblBtn}</a>
                     </p>
                 </div>
                 <div class='footer'>
-                    Email này được gửi tự động từ hệ thống The Archivist.<br>
-                    Nếu bạn cần hỗ trợ, vui lòng liên hệ qua email support@tuaanns.io.
+                    {$lblFooter}
                 </div>
             </div>
         </body>
         </html>
         ";
 
-        \Illuminate\Support\Facades\Mail::html($htmlContent, function ($message) use ($user) {
+        \Illuminate\Support\Facades\Mail::html($htmlContent, function ($message) use ($user, $subject) {
             $message->to($user->email)
-                ->subject('Thanh toán thành công - The Archivist');
+                ->subject($subject);
         });
     }
 }
