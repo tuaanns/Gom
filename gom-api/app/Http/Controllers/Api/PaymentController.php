@@ -512,7 +512,7 @@ class PaymentController extends Controller
                     </table>
                     
                     <p style='text-align: center;'>
-                        <a href='https://gomai.tuaanns.io/history' class='btn'>{$lblBtn}</a>
+                        <a href='https://thearchivistai.vercel.app/history' class='btn'>{$lblBtn}</a>
                     </p>
                 </div>
                 <div class='footer'>
