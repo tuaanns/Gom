@@ -438,7 +438,7 @@ class PaymentController extends Controller
             $lblTime = 'Date & Time';
             $lblTotal = 'Total Charged';
             $lblBtn = 'View Transaction History';
-            $lblFooter = 'This is an automated email from The Archivist system.<br>If you need assistance, please contact us at support@tuaanns.io.';
+            $lblFooter = 'This is an automated email from The Archivist system.<br>If you need assistance, please contact us at <a href="mailto:dongnguyenkh123@gmail.com" style="color: #4f46e5; text-decoration: underline;">dongnguyenkh123@gmail.com</a>.';
         } else {
             $subject = 'Thanh toán thành công - The Archivist';
             $successBanner = '✓ Giao dịch đã được thanh toán thành công';
@@ -451,7 +451,7 @@ class PaymentController extends Controller
             $lblTime = 'Thời gian';
             $lblTotal = 'Tổng thanh toán';
             $lblBtn = 'Xem lịch sử giao dịch';
-            $lblFooter = 'Email này được gửi tự động từ hệ thống The Archivist.<br>Nếu bạn cần hỗ trợ, vui lòng liên hệ qua email support@tuaanns.io.';
+            $lblFooter = 'Email này được gửi tự động từ hệ thống The Archivist.<br>Nếu bạn cần hỗ trợ, vui lòng liên hệ qua email <a href="mailto:dongnguyenkh123@gmail.com" style="color: #4f46e5; text-decoration: underline;">dongnguyenkh123@gmail.com</a>.';
         }
 
         $htmlContent = "
@@ -475,7 +475,7 @@ class PaymentController extends Controller
                 .details-table td { color: #334155; font-weight: 500; }
                 .total-row td { font-size: 18px; font-weight: 700; color: #1e1b4b; border-bottom: none; }
                 .footer { background-color: #f8fafc; padding: 24px; text-align: center; font-size: 12px; color: #64748b; border-top: 1px solid #e2e8f0; }
-                .btn { display: inline-block; background-color: #312e81; color: #ffffff; text-decoration: none; padding: 12px 24px; border-radius: 8px; font-weight: 600; margin-top: 8px; }
+                .btn { display: inline-block; background: linear-gradient(135deg, #312e81 0%, #4f46e5 100%); color: #ffffff; text-decoration: none; padding: 16px 36px; border-radius: 12px; font-weight: 700; font-size: 15px; margin-top: 8px; letter-spacing: 0.5px; box-shadow: 0 4px 14px rgba(79,70,229,0.4); }
             </style>
         </head>
         <body>
@@ -511,8 +511,8 @@ class PaymentController extends Controller
                         </tr>
                     </table>
                     
-                    <p style='text-align: center;'>
-                        <a href='https://thearchivistai.vercel.app/history' class='btn'>{$lblBtn}</a>
+                    <p style='text-align: center; margin-top: 28px; margin-bottom: 12px;'>
+                        <a href='https://thearchivistai.vercel.app/history' class='btn'>{$lblBtn} →</a>
                     </p>
                 </div>
                 <div class='footer'>
