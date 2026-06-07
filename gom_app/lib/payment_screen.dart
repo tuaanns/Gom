@@ -595,32 +595,73 @@ class _PaymentDialogState extends State<PaymentDialog> {
               style: TextStyle(fontSize: 13, color: AppTheme.textMuted, height: 1.4),
             ),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              height: 50,
-              child: ElevatedButton.icon(
-                onPressed: () async {
-                  final uri = Uri.parse(vnpayUrl);
-                  if (await canLaunchUrl(uri)) {
-                    await launchUrl(uri, mode: LaunchMode.externalApplication);
-                  } else {
-                    if (!mounted) return;
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(AppLang.tr('Không thể mở trình duyệt', 'Cannot launch browser'))),
-                    );
-                  }
-                },
-                icon: const Icon(Icons.open_in_browser, color: Colors.white),
-                label: Text(
-                  AppLang.tr('Mở Cổng VNPay', 'Open VNPay Gateway'),
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white),
+            Row(
+              children: [
+                Expanded(
+                  child: SizedBox(
+                    height: 48,
+                    child: ElevatedButton.icon(
+                      onPressed: () async {
+                        final uri = Uri.parse(vnpayUrl);
+                        try {
+                          bool launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+                          if (!launched) {
+                            launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+                          }
+                          if (!launched && mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(AppLang.tr('Không thể mở liên kết trực tiếp.', 'Cannot launch link directly.'))),
+                            );
+                          }
+                        } catch (e) {
+                          try {
+                            await launchUrl(uri);
+                          } catch (err) {
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(AppLang.tr('Lỗi mở trình duyệt: $err', 'Browser launch error: $err'))),
+                            );
+                          }
+                        }
+                      },
+                      icon: const Icon(Icons.open_in_browser, color: Colors.white),
+                      label: Text(
+                        AppLang.tr('Mở VNPay', 'Open VNPay'),
+                        style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 14),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue.shade700,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                        elevation: 0,
+                      ),
+                    ),
+                  ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue.shade700,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                  elevation: 0,
+                const SizedBox(width: 12),
+                Expanded(
+                  child: SizedBox(
+                    height: 48,
+                    child: OutlinedButton.icon(
+                      onPressed: () async {
+                        await Clipboard.setData(ClipboardData(text: vnpayUrl));
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(AppLang.tr('Đã copy link thanh toán!', 'Copied payment link!'))),
+                        );
+                      },
+                      icon: Icon(Icons.copy, color: Colors.blue.shade700, size: 20),
+                      label: Text(
+                        AppLang.tr('Copy Link', 'Copy Link'),
+                        style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue.shade700, fontSize: 14),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(color: Colors.blue.shade700, width: 1.5),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
           ],
         ),
