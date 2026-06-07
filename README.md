@@ -181,7 +181,7 @@ Vận hành **4 Terminal** cùng lúc:
 
 | # | Service | Lệnh | Port |
 |---|---------|-------|------|
-| 1 | AI Engine | `uvicorn main:app --port 8001` | 8001 |
+| 1 | AI Engine | `uvicorn app.main:app --host 0.0.0.0 --port 8001 --reload` | 8001 |
 | 2 | API Gate | `php artisan serve` | 8000 |
 | 3 | Mobile | `flutter run` hoặc `flutter run -d chrome --web-port=63126` | — |
 | 4 | Web | `npm run dev` | 5173 |
