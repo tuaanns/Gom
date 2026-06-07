@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 import os
@@ -124,70 +125,83 @@ class BaseAgent:
     )
     # Call the appropriate LLM provider (Google Gemini, Groq, OpenAI, or DeepSeek)
     async def _call_llm(self, prompt: str) -> str:
-        self.api_key = self.get_api_key(self.provider)
-        if not self.api_key:
-            return f"{{\"error\": \"API Key missing for {self.provider}\"}}"
+        max_retries = 8
+        retry_delay = 45  # seconds
 
-        if self.provider == "google":
-            from google import genai as google_genai
-            from google.genai import types as genai_types
+        for attempt in range(max_retries):
+            self.api_key = self.get_api_key(self.provider)
+            if not self.api_key:
+                return f"{{\"error\": \"API Key missing for {self.provider}\"}}"
+
             try:
-                client = google_genai.Client(api_key=self.api_key)
-                response = await client.aio.models.generate_content(
-                    model=self.model_id,
-                    contents=[genai_types.Part.from_text(text=prompt)],
-                )
-                return response.text or ""
+                if self.provider == "google":
+                    from google import genai as google_genai
+                    from google.genai import types as genai_types
+                    client = google_genai.Client(api_key=self.api_key)
+                    response = await client.aio.models.generate_content(
+                        model=self.model_id,
+                        contents=[genai_types.Part.from_text(text=prompt)],
+                    )
+                    return response.text or ""
+
+                elif self.provider in ["groq", "openai", "deepseek"]:
+                    base_urls = {
+                        "groq": "https://api.groq.com/openai/v1",
+                        "deepseek": "https://api.deepseek.com",
+                    }
+                    base_url = base_urls.get(self.provider)  # None for openai (uses default)
+                    async with AsyncOpenAI(api_key=self.api_key, base_url=base_url) as client:
+                        resp = await client.chat.completions.create(
+                            model=self.model_id,
+                            messages=[{"role": "user", "content": prompt}],
+                            temperature=0.3,
+                        )
+                        return resp.choices[0].message.content or ""
+
             except Exception as e:
-                logger.error(f"[{self.name}] Gemini Error: {e}")
+                err_str = str(e)
+                is_rate_limit = any(x in err_str for x in ["429", "RESOURCE_EXHAUSTED", "rate_limit", "quota", "Limit", "limit"])
+
+                if is_rate_limit and attempt < max_retries - 1:
+                    logger.warning(
+                        f"[{self.name}] Rate limit / 429 encountered for provider '{self.provider}' (attempt {attempt+1}/{max_retries}). "
+                        f"Error: {err_str[:150]}... "
+                        f"Rotating key and sleeping for {retry_delay}s..."
+                    )
+                    key_rotator.rotate_key(self.provider, self.api_key)
+                    await asyncio.sleep(retry_delay)
+                    continue
+
+                # If it's a non-rate-limit error OR we have exhausted all retries, handle error
+                logger.error(f"[{self.name}] {self.provider.capitalize()} final error: {e}")
                 key_rotator.rotate_key(self.provider, self.api_key)
-                
+
                 if getattr(self, "disable_fallback", False):
                     raise e
-                
-                # Fallback to Groq if key is available
-                groq_key = self.get_api_key("groq")
-                if groq_key:
-                    fallback_model = "llama-3.3-70b-versatile"
-                    logger.info(f"[{self.name}] Gemini failed. Falling back to Groq ({fallback_model})...")
-                    try:
-                        base_url = "https://api.groq.com/openai/v1"
-                        async with AsyncOpenAI(api_key=groq_key, base_url=base_url) as client_g:
-                            resp = await client_g.chat.completions.create(
-                                model=fallback_model,
-                                messages=[{"role": "user", "content": prompt}],
-                                temperature=0.3,
-                            )
-                            return resp.choices[0].message.content or ""
-                    except Exception as groq_err:
-                        logger.error(f"[{self.name}] Groq fallback failed: {groq_err}")
-                        key_rotator.rotate_key("groq", groq_key)
-                        raise e
-                else:
-                    raise e
 
-        elif self.provider in ["groq", "openai", "deepseek"]:
-            base_urls = {
-                "groq": "https://api.groq.com/openai/v1",
-                "deepseek": "https://api.deepseek.com",
-            }
-            base_url = base_urls.get(self.provider)  # None for openai (uses default)
-            async with AsyncOpenAI(api_key=self.api_key, base_url=base_url) as client:
-                try:
-                    resp = await client.chat.completions.create(
-                        model=self.model_id,
-                        messages=[{"role": "user", "content": prompt}],
-                        temperature=0.3,
-                    )
-                    return resp.choices[0].message.content or ""
-                except Exception as e:
-                    logger.error(f"[{self.name}] {self.provider.capitalize()} Error: {e}")
-                    key_rotator.rotate_key(self.provider, self.api_key)
-                    
-                    if getattr(self, "disable_fallback", False):
+                # Fallback logic if disable_fallback is False
+                if self.provider == "google":
+                    groq_key = self.get_api_key("groq")
+                    if groq_key:
+                        fallback_model = "llama-3.3-70b-versatile"
+                        logger.info(f"[{self.name}] Gemini failed. Falling back to Groq ({fallback_model})...")
+                        try:
+                            base_url = "https://api.groq.com/openai/v1"
+                            async with AsyncOpenAI(api_key=groq_key, base_url=base_url) as client_g:
+                                resp = await client_g.chat.completions.create(
+                                    model=fallback_model,
+                                    messages=[{"role": "user", "content": prompt}],
+                                    temperature=0.3,
+                                )
+                                return resp.choices[0].message.content or ""
+                        except Exception as groq_err:
+                            logger.error(f"[{self.name}] Groq fallback failed: {groq_err}")
+                            key_rotator.rotate_key("groq", groq_key)
+                            raise e
+                    else:
                         raise e
-                    
-                    # Try fallback to google gemini if key is available
+
+                elif self.provider in ["groq", "openai", "deepseek"]:
                     google_key = self.get_api_key("google")
                     if google_key:
                         fallback_model = "gemini-2.5-flash"
@@ -209,6 +223,7 @@ class BaseAgent:
                         raise e
 
         return ""
+
 
     # Phase 1: Initial prediction based on visual evidence (FALLBACK — specialists override this)
     async def predict(self, visual_features: dict) -> dict:
