@@ -160,11 +160,11 @@ class BaseAgent:
 
             except Exception as e:
                 err_str = str(e)
-                is_rate_limit = any(x in err_str for x in ["429", "RESOURCE_EXHAUSTED", "rate_limit", "quota", "Limit", "limit"])
+                is_retryable = any(x in err_str for x in ["429", "RESOURCE_EXHAUSTED", "rate_limit", "quota", "Limit", "limit", "503", "UNAVAILABLE", "high demand", "temporary"])
 
-                if is_rate_limit and attempt < max_retries - 1:
+                if is_retryable and attempt < max_retries - 1:
                     logger.warning(
-                        f"[{self.name}] Rate limit / 429 encountered for provider '{self.provider}' (attempt {attempt+1}/{max_retries}). "
+                        f"[{self.name}] Retryable error (429/503) encountered for provider '{self.provider}' (attempt {attempt+1}/{max_retries}). "
                         f"Error: {err_str[:150]}... "
                         f"Rotating key and sleeping for {retry_delay}s..."
                     )
