@@ -11,6 +11,18 @@ import os
 import sys
 from pathlib import Path
 
+# Configure stdout/stderr to use UTF-8 to prevent encoding errors on Windows
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+if sys.stderr and hasattr(sys.stderr, "reconfigure"):
+    try:
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 ROOT = Path(__file__).resolve().parent
 RESULTS_DIR = ROOT / "benchmark_results"
 CHARTS_DIR = RESULTS_DIR / "charts"

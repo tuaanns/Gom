@@ -1,106 +1,556 @@
 {
-  "vision_solo": {
+  "gpt_solo": {
     "total": 195,
-    "correct": 18,
-    "errors": 174,
-    "accuracy": 9.23,
-    "avg_confidence": 0.1037,
-    "avg_time": 1.44,
+    "successful": 193,
+    "correct": 93,
+    "errors": 2,
+    "coverage": 98.97,
+    "accuracy": 48.19,
+    "accuracy_on_success": 48.19,
+    "end_to_end_accuracy": 47.69,
+    "avg_confidence": 0.8865,
+    "avg_time": 6.02,
     "per_class": {
       "Arita-Imari": {
         "total": 10,
-        "correct": 9,
-        "accuracy": 90.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 7,
+        "coverage": 100.0,
+        "accuracy": 70.0,
+        "end_to_end_accuracy": 70.0
       },
       "Biên Hòa": {
         "total": 14,
-        "correct": 7,
-        "accuracy": 50.0
+        "successful": 14,
+        "errors": 0,
+        "correct": 5,
+        "coverage": 100.0,
+        "accuracy": 35.7,
+        "end_to_end_accuracy": 35.7
       },
       "Bàu Trúc": {
         "total": 7,
+        "successful": 7,
+        "errors": 0,
         "correct": 0,
-        "accuracy": 0.0
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
       },
       "Bát Tràng": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 6,
+        "coverage": 100.0,
+        "accuracy": 60.0,
+        "end_to_end_accuracy": 60.0
       },
       "Chu Đậu": {
         "total": 17,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 17,
+        "errors": 0,
+        "correct": 13,
+        "coverage": 100.0,
+        "accuracy": 76.5,
+        "end_to_end_accuracy": 76.5
       },
       "Delftware": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 7,
+        "coverage": 100.0,
+        "accuracy": 70.0,
+        "end_to_end_accuracy": 70.0
       },
       "Goryeo Celadon": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 7,
+        "coverage": 100.0,
+        "accuracy": 70.0,
+        "end_to_end_accuracy": 70.0
       },
       "Iznik": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 8,
+        "coverage": 100.0,
+        "accuracy": 80.0,
+        "end_to_end_accuracy": 80.0
       },
       "Jingdezhen": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 4,
+        "coverage": 100.0,
+        "accuracy": 40.0,
+        "end_to_end_accuracy": 40.0
       },
       "Longquan": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 7,
+        "coverage": 100.0,
+        "accuracy": 70.0,
+        "end_to_end_accuracy": 70.0
       },
       "Lái Thiêu": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 1,
+        "coverage": 100.0,
+        "accuracy": 10.0,
+        "end_to_end_accuracy": 10.0
       },
       "Meissen": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 9,
+        "coverage": 100.0,
+        "accuracy": 90.0,
+        "end_to_end_accuracy": 90.0
       },
       "Phù Lãng": {
         "total": 13,
+        "successful": 13,
+        "errors": 0,
         "correct": 0,
-        "accuracy": 0.0
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
       },
       "Satsuma": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 9,
+        "errors": 1,
+        "correct": 6,
+        "coverage": 90.0,
+        "accuracy": 66.7,
+        "end_to_end_accuracy": 60.0
       },
       "Sawankhalok": {
         "total": 10,
-        "correct": 0,
-        "accuracy": 0.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 4,
+        "coverage": 100.0,
+        "accuracy": 40.0,
+        "end_to_end_accuracy": 40.0
       },
       "Thanh Hà": {
         "total": 10,
+        "successful": 9,
+        "errors": 1,
         "correct": 0,
-        "accuracy": 0.0
+        "coverage": 90.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
       },
       "Thổ Hà": {
         "total": 5,
+        "successful": 5,
+        "errors": 0,
         "correct": 0,
-        "accuracy": 0.0
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
       },
       "Wedgwood": {
         "total": 10,
-        "correct": 2,
-        "accuracy": 20.0
+        "successful": 10,
+        "errors": 0,
+        "correct": 9,
+        "coverage": 100.0,
+        "accuracy": 90.0,
+        "end_to_end_accuracy": 90.0
       },
       "Đông Triều": {
         "total": 9,
+        "successful": 9,
+        "errors": 0,
         "correct": 0,
-        "accuracy": 0.0
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
+      }
+    }
+  },
+  "grok_solo": {
+    "total": 195,
+    "successful": 193,
+    "correct": 90,
+    "errors": 2,
+    "coverage": 98.97,
+    "accuracy": 46.63,
+    "accuracy_on_success": 46.63,
+    "end_to_end_accuracy": 46.15,
+    "avg_confidence": 0.8326,
+    "avg_time": 2.26,
+    "per_class": {
+      "Arita-Imari": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 6,
+        "coverage": 100.0,
+        "accuracy": 60.0,
+        "end_to_end_accuracy": 60.0
+      },
+      "Biên Hòa": {
+        "total": 14,
+        "successful": 14,
+        "errors": 0,
+        "correct": 7,
+        "coverage": 100.0,
+        "accuracy": 50.0,
+        "end_to_end_accuracy": 50.0
+      },
+      "Bàu Trúc": {
+        "total": 7,
+        "successful": 7,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Bát Tràng": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 6,
+        "coverage": 100.0,
+        "accuracy": 60.0,
+        "end_to_end_accuracy": 60.0
+      },
+      "Chu Đậu": {
+        "total": 17,
+        "successful": 17,
+        "errors": 0,
+        "correct": 13,
+        "coverage": 100.0,
+        "accuracy": 76.5,
+        "end_to_end_accuracy": 76.5
+      },
+      "Delftware": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 8,
+        "coverage": 100.0,
+        "accuracy": 80.0,
+        "end_to_end_accuracy": 80.0
+      },
+      "Goryeo Celadon": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 7,
+        "coverage": 100.0,
+        "accuracy": 70.0,
+        "end_to_end_accuracy": 70.0
+      },
+      "Iznik": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 8,
+        "coverage": 100.0,
+        "accuracy": 80.0,
+        "end_to_end_accuracy": 80.0
+      },
+      "Jingdezhen": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 2,
+        "coverage": 100.0,
+        "accuracy": 20.0,
+        "end_to_end_accuracy": 20.0
+      },
+      "Longquan": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 3,
+        "coverage": 100.0,
+        "accuracy": 30.0,
+        "end_to_end_accuracy": 30.0
+      },
+      "Lái Thiêu": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 1,
+        "coverage": 100.0,
+        "accuracy": 10.0,
+        "end_to_end_accuracy": 10.0
+      },
+      "Meissen": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 9,
+        "coverage": 100.0,
+        "accuracy": 90.0,
+        "end_to_end_accuracy": 90.0
+      },
+      "Phù Lãng": {
+        "total": 13,
+        "successful": 13,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Satsuma": {
+        "total": 10,
+        "successful": 9,
+        "errors": 1,
+        "correct": 6,
+        "coverage": 90.0,
+        "accuracy": 66.7,
+        "end_to_end_accuracy": 60.0
+      },
+      "Sawankhalok": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 4,
+        "coverage": 100.0,
+        "accuracy": 40.0,
+        "end_to_end_accuracy": 40.0
+      },
+      "Thanh Hà": {
+        "total": 10,
+        "successful": 9,
+        "errors": 1,
+        "correct": 0,
+        "coverage": 90.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Thổ Hà": {
+        "total": 5,
+        "successful": 5,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Wedgwood": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 10,
+        "coverage": 100.0,
+        "accuracy": 100.0,
+        "end_to_end_accuracy": 100.0
+      },
+      "Đông Triều": {
+        "total": 9,
+        "successful": 9,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 100.0,
+        "accuracy": 0.0,
+        "end_to_end_accuracy": 0.0
+      }
+    }
+  },
+  "vision_solo": {
+    "total": 117,
+    "successful": 72,
+    "correct": 45,
+    "errors": 45,
+    "coverage": 61.54,
+    "accuracy": 62.5,
+    "accuracy_on_success": 62.5,
+    "end_to_end_accuracy": 38.46,
+    "avg_confidence": 0.8893,
+    "avg_time": 16.22,
+    "per_class": {
+      "Arita-Imari": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 10,
+        "coverage": 100.0,
+        "accuracy": 100.0,
+        "end_to_end_accuracy": 100.0
+      },
+      "Biên Hòa": {
+        "total": 14,
+        "successful": 14,
+        "errors": 0,
+        "correct": 9,
+        "coverage": 100.0,
+        "accuracy": 64.3,
+        "end_to_end_accuracy": 64.3
+      },
+      "Bàu Trúc": {
+        "total": 7,
+        "successful": 7,
+        "errors": 0,
+        "correct": 2,
+        "coverage": 100.0,
+        "accuracy": 28.6,
+        "end_to_end_accuracy": 28.6
+      },
+      "Bát Tràng": {
+        "total": 10,
+        "successful": 10,
+        "errors": 0,
+        "correct": 4,
+        "coverage": 100.0,
+        "accuracy": 40.0,
+        "end_to_end_accuracy": 40.0
+      },
+      "Chu Đậu": {
+        "total": 17,
+        "successful": 15,
+        "errors": 2,
+        "correct": 7,
+        "coverage": 88.2,
+        "accuracy": 46.7,
+        "end_to_end_accuracy": 41.2
+      },
+      "Delftware": {
+        "total": 10,
+        "successful": 8,
+        "errors": 2,
+        "correct": 7,
+        "coverage": 80.0,
+        "accuracy": 87.5,
+        "end_to_end_accuracy": 70.0
+      },
+      "Goryeo Celadon": {
+        "total": 10,
+        "successful": 0,
+        "errors": 10,
+        "correct": 0,
+        "coverage": 0.0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Iznik": {
+        "total": 10,
+        "successful": 1,
+        "errors": 9,
+        "correct": 1,
+        "coverage": 10.0,
+        "accuracy": 100.0,
+        "end_to_end_accuracy": 10.0
+      },
+      "Jingdezhen": {
+        "total": 10,
+        "successful": 0,
+        "errors": 10,
+        "correct": 0,
+        "coverage": 0.0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Longquan": {
+        "total": 10,
+        "successful": 0,
+        "errors": 10,
+        "correct": 0,
+        "coverage": 0.0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0.0
+      },
+      "Lái Thiêu": {
+        "total": 7,
+        "successful": 5,
+        "errors": 2,
+        "correct": 3,
+        "coverage": 71.4,
+        "accuracy": 60.0,
+        "end_to_end_accuracy": 42.9
+      },
+      "Meissen": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
+      },
+      "Phù Lãng": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
+      },
+      "Satsuma": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
+      },
+      "Sawankhalok": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
+      },
+      "Thanh Hà": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
+      },
+      "Thổ Hà": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
+      },
+      "Wedgwood": {
+        "total": 2,
+        "successful": 2,
+        "errors": 0,
+        "correct": 2,
+        "coverage": 100.0,
+        "accuracy": 100.0,
+        "end_to_end_accuracy": 100.0
+      },
+      "Đông Triều": {
+        "total": 0,
+        "successful": 0,
+        "errors": 0,
+        "correct": 0,
+        "coverage": 0,
+        "accuracy": 0,
+        "end_to_end_accuracy": 0
       }
     }
   }
