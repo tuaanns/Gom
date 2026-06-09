@@ -72,6 +72,34 @@ class PredictionController extends Controller
             $tempPath = $tempDir . '/prediction_' . $prediction->id . '.jpg';
             copy($image->getRealPath(), $tempPath);
 
+            if (function_exists('fastcgi_finish_request')) {
+                $response = $this->ok([
+                    'db_id' => $prediction->id,
+                    'is_async' => true,
+                    'quota' => [
+                        'free_used'     => (int) $user->fresh()->free_predictions_used,
+                        'free_limit'    => self::FREE_LIMIT,
+                        'token_balance' => (float) $user->fresh()->token_balance,
+                    ],
+                ], 'Đã bắt đầu phân tích ngầm');
+
+                $response->send();
+                fastcgi_finish_request();
+
+                try {
+                    \Illuminate\Support\Facades\Artisan::call('app:process-prediction', [
+                        'id' => $prediction->id,
+                        'lang' => $lang,
+                    ]);
+                } catch (\Throwable $e) {
+                    Log::error('Failed to run app:process-prediction via fastcgi_finish_request', [
+                        'prediction_id' => $prediction->id,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+                exit;
+            }
+
             $artisanPath = base_path('artisan');
             $phpPath = PHP_BINARY;
             $cmd = "\"{$phpPath}\" \"{$artisanPath}\" app:process-prediction {$prediction->id} \"{$lang}\"";
@@ -204,6 +232,34 @@ class PredictionController extends Controller
             }
             $tempPath = $tempDir . '/prediction_' . $prediction->id . '.jpg';
             copy($image->getRealPath(), $tempPath);
+
+            if (function_exists('fastcgi_finish_request')) {
+                $response = $this->ok([
+                    'db_id' => $prediction->id,
+                    'is_async' => true,
+                    'quota' => [
+                        'free_used'     => (int) $user->fresh()->free_predictions_used,
+                        'free_limit'    => self::FREE_LIMIT,
+                        'token_balance' => (float) $user->fresh()->token_balance,
+                    ],
+                ], 'Đã bắt đầu phân tích Lens ngầm');
+
+                $response->send();
+                fastcgi_finish_request();
+
+                try {
+                    \Illuminate\Support\Facades\Artisan::call('app:process-prediction', [
+                        'id' => $prediction->id,
+                        'lang' => $lang,
+                    ]);
+                } catch (\Throwable $e) {
+                    Log::error('Failed to run app:process-prediction via fastcgi_finish_request', [
+                        'prediction_id' => $prediction->id,
+                        'error' => $e->getMessage(),
+                    ]);
+                }
+                exit;
+            }
 
             $artisanPath = base_path('artisan');
             $phpPath = PHP_BINARY;
