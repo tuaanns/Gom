@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'ai' => [
+        // Keep experimental background processing off until a durable worker
+        // is configured in every environment.
+        'async_enabled' => env('AI_ASYNC_ENABLED', false),
+        'pending_timeout_minutes' => (int) env('AI_PENDING_TIMEOUT_MINUTES', 15),
+    ],
+
 ];

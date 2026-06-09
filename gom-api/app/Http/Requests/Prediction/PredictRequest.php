@@ -17,6 +17,7 @@ class PredictRequest extends FormRequest
             'image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:10240'],
             'model' => ['nullable', 'string', 'in:gemini,gemini3,gemini_lite,llama4'],
             'lang'  => ['nullable', 'string', 'in:vi,en'],
+            'is_async' => ['nullable', 'boolean'],
         ];
     }
 

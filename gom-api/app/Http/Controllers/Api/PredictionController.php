@@ -20,6 +20,7 @@ class PredictionController extends Controller
     public const FREE_LIMIT = 5;
     public const TOKEN_COST = 1.0;
     public const CHAT_COST  = 0.1;
+    private const PENDING_LABELS = ['Đang phân tích...', 'Đang phân tích Lens...'];
 
     public function __construct(
         private AIService $aiService,
@@ -64,7 +65,7 @@ class PredictionController extends Controller
         $lang = $request->input('lang', 'vi');
 
         // Async handling
-        if ($request->input('is_async')) {
+        if ($this->shouldProcessAsync($request)) {
             $tempDir = storage_path('app/temp');
             if (!file_exists($tempDir)) {
                 mkdir($tempDir, 0755, true);
@@ -96,17 +97,45 @@ class PredictionController extends Controller
                         'prediction_id' => $prediction->id,
                         'error' => $e->getMessage(),
                     ]);
+                    $this->markPredictionFailed(
+                        $prediction,
+                        'Không thể khởi chạy tiến trình xử lý nền.'
+                    );
+                    @unlink($tempPath);
                 }
                 exit;
             }
 
             $artisanPath = base_path('artisan');
             $phpPath = PHP_BINARY;
-            $cmd = "\"{$phpPath}\" \"{$artisanPath}\" app:process-prediction {$prediction->id} \"{$lang}\"";
             if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
-                pclose(popen("start /B {$cmd}", 'r'));
+                $cmd = sprintf(
+                    'start "" /B "%s" "%s" app:process-prediction %d "%s"',
+                    $phpPath,
+                    $artisanPath,
+                    $prediction->id,
+                    $lang
+                );
+                $handle = popen($cmd, 'r');
+                if ($handle === false) {
+                    $this->markPredictionFailed(
+                        $prediction,
+                        'Không thể khởi chạy tiến trình xử lý nền.'
+                    );
+                    @unlink($tempPath);
+                    return $this->serverError('Không thể bắt đầu giám định.');
+                }
+                pclose($handle);
             } else {
-                exec("{$cmd} > /dev/null 2>&1 &");
+                $cmd = sprintf(
+                    'nohup %s %s app:process-prediction %d %s > %s 2>&1 &',
+                    escapeshellarg($phpPath),
+                    escapeshellarg($artisanPath),
+                    $prediction->id,
+                    escapeshellarg($lang),
+                    escapeshellarg(storage_path('logs/prediction-worker.log'))
+                );
+                exec($cmd);
             }
 
             return $this->ok([
@@ -225,7 +254,7 @@ class PredictionController extends Controller
         ]);
 
         // Async handling
-        if ($request->input('is_async')) {
+        if ($this->shouldProcessAsync($request)) {
             $tempDir = storage_path('app/temp');
             if (!file_exists($tempDir)) {
                 mkdir($tempDir, 0755, true);
@@ -257,17 +286,45 @@ class PredictionController extends Controller
                         'prediction_id' => $prediction->id,
                         'error' => $e->getMessage(),
                     ]);
+                    $this->markPredictionFailed(
+                        $prediction,
+                        'Không thể khởi chạy tiến trình xử lý nền.'
+                    );
+                    @unlink($tempPath);
                 }
                 exit;
             }
 
             $artisanPath = base_path('artisan');
             $phpPath = PHP_BINARY;
-            $cmd = "\"{$phpPath}\" \"{$artisanPath}\" app:process-prediction {$prediction->id} \"{$lang}\"";
             if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
-                pclose(popen("start /B {$cmd}", 'r'));
+                $cmd = sprintf(
+                    'start "" /B "%s" "%s" app:process-prediction %d "%s"',
+                    $phpPath,
+                    $artisanPath,
+                    $prediction->id,
+                    $lang
+                );
+                $handle = popen($cmd, 'r');
+                if ($handle === false) {
+                    $this->markPredictionFailed(
+                        $prediction,
+                        'Không thể khởi chạy tiến trình xử lý nền.'
+                    );
+                    @unlink($tempPath);
+                    return $this->serverError('Không thể bắt đầu giám định.');
+                }
+                pclose($handle);
             } else {
-                exec("{$cmd} > /dev/null 2>&1 &");
+                $cmd = sprintf(
+                    'nohup %s %s app:process-prediction %d %s > %s 2>&1 &',
+                    escapeshellarg($phpPath),
+                    escapeshellarg($artisanPath),
+                    $prediction->id,
+                    escapeshellarg($lang),
+                    escapeshellarg(storage_path('logs/prediction-worker.log'))
+                );
+                exec($cmd);
             }
 
             return $this->ok([
@@ -410,6 +467,8 @@ class PredictionController extends Controller
 
     public function history(): JsonResponse
     {
+        $this->expireStalePredictions((int) auth()->id());
+
         $history = Prediction::where('user_id', auth()->id())
             ->latest()
             ->get()
@@ -420,8 +479,48 @@ class PredictionController extends Controller
 
     public function show($id): JsonResponse
     {
+        $this->expireStalePredictions((int) auth()->id());
+
         $item = Prediction::where('user_id', auth()->id())->findOrFail($id);
         return $this->ok($this->formatPrediction($item, true), 'OK');
+    }
+
+    private function shouldProcessAsync(PredictRequest $request): bool
+    {
+        return (bool) config('services.ai.async_enabled', false)
+            && $request->boolean('is_async');
+    }
+
+    private function expireStalePredictions(int $userId): void
+    {
+        $timeoutMinutes = max(
+            1,
+            (int) config('services.ai.pending_timeout_minutes', 15)
+        );
+
+        Prediction::where('user_id', $userId)
+            ->whereIn('final_prediction', self::PENDING_LABELS)
+            ->where('created_at', '<=', now()->subMinutes($timeoutMinutes))
+            ->get()
+            ->each(function (Prediction $prediction) use ($timeoutMinutes) {
+                $this->markPredictionFailed(
+                    $prediction,
+                    "Quá thời gian xử lý {$timeoutMinutes} phút."
+                );
+            });
+    }
+
+    private function markPredictionFailed(Prediction $prediction, string $reason): void
+    {
+        $prediction->update([
+            'final_prediction' => 'Lỗi xử lý giám định',
+            'country' => 'Không xác định',
+            'era' => 'Vui lòng thử lại',
+            'result_json' => [
+                'error' => $reason,
+                'status' => 'failed',
+            ],
+        ]);
     }
 
     // Format prediction to a stable shape that includes certainty + confidence

@@ -95,7 +95,6 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
     const formData = new FormData();
     formData.append('image', file);
     formData.append('lang', i18n.language);
-    formData.append('is_async', '1');
 
     try {
       const res = await analysisApi.predict(formData);
@@ -111,12 +110,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
         });
       }
       
-      const isAsync = res.data?.is_async || data?.is_async;
-      if (isAsync) {
-        notify?.(t('analysis.startedMsg', { defaultValue: 'Tải ảnh thành công. Đang tiến hành giám định, vui lòng chờ...' }), 'info');
-      } else {
-        notify?.(t('analysis.completeMsg'), 'success');
-      }
+      notify?.(t('analysis.completeMsg'), 'success');
       
       // Redirect to history with prediction ID in URL
       if (predictionId) {
