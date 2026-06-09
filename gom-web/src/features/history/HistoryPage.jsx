@@ -57,6 +57,11 @@ export const HistoryPage = ({ setView, notify }) => {
     fetchData();
   }, [fetchData]);
 
+  const handlePollCompleted = () => {
+    fetchData();
+    notify?.(t('analysis.completeMsg'), 'success');
+  };
+
   return (
     <PageContainer>
         <PageHeader
@@ -195,7 +200,7 @@ export const HistoryPage = ({ setView, notify }) => {
           </div>
         )}
 
-        <HistoryDetailModal item={selected} onClose={() => setSelected(null)} onCompleted={fetchData} />
+        <HistoryDetailModal item={selected} onClose={() => setSelected(null)} onCompleted={handlePollCompleted} />
     </PageContainer>
   );
 };

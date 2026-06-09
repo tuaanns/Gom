@@ -110,7 +110,13 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
           token_balance: q.token_balance ?? quota?.token_balance ?? 0,
         });
       }
-      notify?.(t('analysis.completeMsg'), 'success');
+      
+      const isAsync = res.data?.is_async || data?.is_async;
+      if (isAsync) {
+        notify?.(t('analysis.startedMsg', { defaultValue: 'Tải ảnh thành công. Đang tiến hành giám định, vui lòng chờ...' }), 'info');
+      } else {
+        notify?.(t('analysis.completeMsg'), 'success');
+      }
       
       // Redirect to history with prediction ID in URL
       if (predictionId) {
