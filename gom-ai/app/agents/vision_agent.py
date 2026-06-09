@@ -100,7 +100,7 @@ class VisionAgent:
                     )
                 )
                 logger.info(f"[VisionAgent] Success with model: {model_id}")
-                return json.loads(response.text)
+                return json.loads(response.text, strict=False)
             except Exception as e:
                 error_str = str(e)
                 last_error = e

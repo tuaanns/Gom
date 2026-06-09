@@ -62,6 +62,36 @@ class PredictionController extends Controller
         ]);
 
         $lang = $request->input('lang', 'vi');
+
+        // Async handling
+        if ($request->input('is_async')) {
+            $tempDir = storage_path('app/temp');
+            if (!file_exists($tempDir)) {
+                mkdir($tempDir, 0755, true);
+            }
+            $tempPath = $tempDir . '/prediction_' . $prediction->id . '.jpg';
+            copy($image->getRealPath(), $tempPath);
+
+            $artisanPath = base_path('artisan');
+            $phpPath = PHP_BINARY;
+            $cmd = "\"{$phpPath}\" \"{$artisanPath}\" app:process-prediction {$prediction->id} \"{$lang}\"";
+            if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
+                pclose(popen("start /B {$cmd}", 'r'));
+            } else {
+                exec("{$cmd} > /dev/null 2>&1 &");
+            }
+
+            return $this->ok([
+                'db_id' => $prediction->id,
+                'is_async' => true,
+                'quota' => [
+                    'free_used'     => (int) $user->fresh()->free_predictions_used,
+                    'free_limit'    => self::FREE_LIMIT,
+                    'token_balance' => (float) $user->fresh()->token_balance,
+                ],
+            ], 'Đã bắt đầu phân tích ngầm');
+        }
+
         $debateResult = $this->aiService->runMultiAgentDebate($image, $lang);
 
         if (isset($debateResult['error'])) {
@@ -165,6 +195,35 @@ class PredictionController extends Controller
             'source_type'      => 'lens',
             'lens_results'     => null,
         ]);
+
+        // Async handling
+        if ($request->input('is_async')) {
+            $tempDir = storage_path('app/temp');
+            if (!file_exists($tempDir)) {
+                mkdir($tempDir, 0755, true);
+            }
+            $tempPath = $tempDir . '/prediction_' . $prediction->id . '.jpg';
+            copy($image->getRealPath(), $tempPath);
+
+            $artisanPath = base_path('artisan');
+            $phpPath = PHP_BINARY;
+            $cmd = "\"{$phpPath}\" \"{$artisanPath}\" app:process-prediction {$prediction->id} \"{$lang}\"";
+            if (strncasecmp(PHP_OS, 'WIN', 3) === 0) {
+                pclose(popen("start /B {$cmd}", 'r'));
+            } else {
+                exec("{$cmd} > /dev/null 2>&1 &");
+            }
+
+            return $this->ok([
+                'db_id' => $prediction->id,
+                'is_async' => true,
+                'quota' => [
+                    'free_used'     => (int) $user->fresh()->free_predictions_used,
+                    'free_limit'    => self::FREE_LIMIT,
+                    'token_balance' => (float) $user->fresh()->token_balance,
+                ],
+            ], 'Đã bắt đầu phân tích Lens ngầm');
+        }
 
         $lensResult = $this->aiService->runLens($image, $lang);
 

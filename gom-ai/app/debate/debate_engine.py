@@ -276,7 +276,7 @@ class DebateEngine:
                         r["evidence"] = "Failed to parse AI response."
 
             # Phase 2 & 3: The Debate Loop (Attacks/Defenses & Judging)
-            MAX_ITER = 2
+            MAX_ITER = 1
             iteration = 0
             certainty = 0.0
             final_report = {}

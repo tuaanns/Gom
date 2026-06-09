@@ -195,7 +195,7 @@ export const HistoryPage = ({ setView, notify }) => {
           </div>
         )}
 
-        <HistoryDetailModal item={selected} onClose={() => setSelected(null)} />
+        <HistoryDetailModal item={selected} onClose={() => setSelected(null)} onCompleted={fetchData} />
     </PageContainer>
   );
 };

@@ -181,7 +181,7 @@ def _upload_to_imgbb(file_path: str) -> str:
     return ""
 
 
-def setup_driver():
+def setup_driver(remote: bool = True):
     chrome_options = _build_chrome_options()
 
     browserless_token = os.getenv("BROWSERLESS_TOKEN")
@@ -201,7 +201,7 @@ def setup_driver():
         i += 1
 
     last_remote_err = None
-    if tokens:
+    if remote and tokens:
         browserless_url = os.getenv("BROWSERLESS_WEBDRIVER_URL", "https://chrome.browserless.io/webdriver")
         logger.info(f"[Lens] Found {len(tokens)} Browserless tokens. Trying to connect...")
         for idx, token in enumerate(tokens):
@@ -659,7 +659,7 @@ def search_google_lens(image_path: str, max_results: int = 10):
 
             # === PHƯƠNG PHÁP 2: Selenium local Chrome (fallback) ===
             logger.info("[Lens] Launching local Chrome...")
-            driver = setup_driver()
+            driver = setup_driver(remote=False)
 
             lens_url = f"https://lens.google.com/uploadbyurl?url={quote(public_url, safe='')}"
             logger.info(f"[Lens] Truy cập: {lens_url[:100]}")
@@ -669,7 +669,7 @@ def search_google_lens(image_path: str, max_results: int = 10):
             except Exception as e:
                 logger.warning(f"[Lens] Timeout load trang: {e}")
 
-            time.sleep(15)
+            time.sleep(3)
 
             current_url = driver.current_url
             logger.info(f"[Lens] URL hiện tại: {current_url[:120]}")
@@ -679,8 +679,8 @@ def search_google_lens(image_path: str, max_results: int = 10):
             if "403" in page_source and "Forbidden" in page_source:
                 logger.warning("[Lens] 403, thử qua google.com...")
                 driver.get("https://www.google.com")
-                time.sleep(3)
-                wait = WebDriverWait(driver, 15)
+                time.sleep(2)
+                wait = WebDriverWait(driver, 10)
 
                 selectors = [
                     "div[aria-label='Tìm kiếm bằng hình ảnh']",
@@ -696,7 +696,7 @@ def search_google_lens(image_path: str, max_results: int = 10):
                     except:
                         continue
 
-                time.sleep(2)
+                time.sleep(1)
                 from selenium.webdriver.common.keys import Keys
                 all_inputs = driver.find_elements(By.CSS_SELECTOR, "input")
                 for inp in all_inputs:
@@ -712,17 +712,13 @@ def search_google_lens(image_path: str, max_results: int = 10):
                         logger.info("[Lens] ✓ Dán URL")
                         break
 
-                time.sleep(15)
+                time.sleep(3)
                 current_url = driver.current_url
 
             # CAPTCHA
             if "/sorry/" in current_url:
-                logger.warning("[Lens] CAPTCHA! Chờ 60s...")
-                for _ in range(60):
-                    time.sleep(1)
-                    if "/sorry/" not in driver.current_url:
-                        break
-                time.sleep(5)
+                logger.warning("[Lens] CAPTCHA detected! Skipping immediately to prevent hanging.")
+                raise Exception("Google Lens blocked by CAPTCHA")
 
             # Cào kết quả
             results = _scrape_results(driver, max_results)
@@ -730,7 +726,7 @@ def search_google_lens(image_path: str, max_results: int = 10):
             if not results:
                 try:
                     driver.refresh()
-                    time.sleep(8)
+                    time.sleep(3)
                     results = _scrape_results(driver, max_results)
                 except:
                     pass

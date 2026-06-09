@@ -56,9 +56,9 @@ DATASET_DIR = ROOT.parent / "dataset" / "val"
 RESULTS_DIR = ROOT / "benchmark_results"
 VISUAL_CACHE_FILE = RESULTS_DIR / "_visual_features_cache.json"
 
-API_DELAY = 4.5          # Seconds between API calls to avoid rate limits
-VISION_DELAY = 4.5       # Seconds between vision API calls
-DEBATE_DELAY = 5.0       # Seconds between full debate runs
+API_DELAY = 8.0          # Seconds between API calls to avoid rate limits (free tier)
+VISION_DELAY = 10.0      # Seconds between vision API calls (free tier)
+DEBATE_DELAY = 12.0      # Seconds between full debate runs (free tier)
 
 ALL_METHODS = ["gpt_solo", "grok_solo", "gemini_solo", "vision_solo", "debate_full"]
 
@@ -103,6 +103,9 @@ def normalize_text(text: str) -> str:
         return ""
     text = str(text).lower().strip()
     text = remove_diacritics(text)
+
+    # Replace hyphens and slashes with spaces to avoid merging words (e.g. Arita-Imari -> aritaimari)
+    text = text.replace("-", " ").replace("/", " ")
 
     # Remove common prefixes/suffixes
     for filler in [

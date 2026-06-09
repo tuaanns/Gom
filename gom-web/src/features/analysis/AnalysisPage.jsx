@@ -95,6 +95,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
     const formData = new FormData();
     formData.append('image', file);
     formData.append('lang', i18n.language);
+    formData.append('is_async', '1');
 
     try {
       const res = await analysisApi.predict(formData);

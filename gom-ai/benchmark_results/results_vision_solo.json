@@ -464,24 +464,6 @@
     "time_s": 4.92
   },
   {
-    "filename": "Chu Đậu/ống hương gốm.jpg",
-    "label": "Chu Đậu",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Chu Đậu/Ống nhỏ nước.jpg",
-    "label": "Chu Đậu",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
     "filename": "Delftware/02023 0601 Collection of Delftware in Grodzietz Castle.jpg",
     "label": "Delftware",
     "predicted": "Delftware",
@@ -546,381 +528,12 @@
     "time_s": 15.25
   },
   {
-    "filename": "Delftware/Edams Museum (1530) - Room at Street Side - Delftware.jpg",
-    "label": "Delftware",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Delftware/WLANL - MicheleLovesArt - Princessehof - Vitrinekast met Delfts aardewerk.jpg",
-    "label": "Delftware",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Goryeo celadon 12C Korean incense burner with a duck lid and lotus.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Goryeo Celadon BNC.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Goryeo Celadon.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 11.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 121.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Goryeo Dynasty celadon 1234.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Korea - Seoul - National Museum - Incense Burner 0252-06a.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/Korea-Goryeo celadon-07.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/청자 거북이 모양 주자.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Goryeo Celadon/청자 어룡 모양 주전자.jpg",
-    "label": "Goryeo Celadon",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53476810052.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713551.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash:  | gemini-2.5-flash-lite: [Errno 11001] getaddrinfo failed"
-  },
-  {
     "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713566.jpg",
     "label": "Iznik",
     "predicted": "Iznik",
     "confidence": 0.9,
     "is_correct": true,
     "time_s": 18.27
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713626.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477713681.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857928.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857943.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53477857973.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53478027919.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Iznik/Iznik pottery, Iznik Archaeological Museum - 53478122815.jpg",
-    "label": "Iznik",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Chenghua Reign 05.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Hongzhi Reign 03.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Wanli Reign 10.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Xuande Reign 14.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Xuande Reign 18.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Ming Jingdezhen Porcelain, Zhengde Reign 03.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Daoguang Reign 01.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Kangxi Reign 22.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Xianfeng Reign 01.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Jingdezhen/Qing Jingdezhen Porcelain, Yongzheng Reign 02.jpg",
-    "label": "Jingdezhen",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/20241025 Celadon Plate, Longquan Kiln, Yuan Dynasty 01.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/20241025 Celadon Plate, Longquan Kiln, Yuan Dynasty 02.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/20241025 Celadon Tripod Censer, Longquan Kiln, Yuan Dynasty.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/20241025 Celadon Vase, Longquan Kiln, Yuan Dynasty.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/Song Dynasty Celadon Vase.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/Song Longquan Ware Celadon Jar.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/Southern Song Longquan Ware Celadon Censer.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/Southern Song Longquan Ware Celadon Cong-shaped Vase.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/Southern Song Longquan Ware Celadon Vase 1.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
-  },
-  {
-    "filename": "Longquan/Southern Song Longquan Ware Celadon Vase 2.jpg",
-    "label": "Longquan",
-    "predicted": null,
-    "confidence": 0,
-    "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
   },
   {
     "filename": "Lái Thiêu/Lai Thieu Ceramics (9997439653).jpg",
@@ -963,21 +576,27 @@
     "time_s": 6.7
   },
   {
-    "filename": "Lái Thiêu/tô sứ.jpg",
-    "label": "Lái Thiêu",
-    "predicted": null,
-    "confidence": 0,
+    "filename": "Chu Đậu/ống hương gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Jingdezhen",
+    "confidence": 0.85,
     "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+    "time_s": 2.65
   },
   {
-    "filename": "Lái Thiêu/tượng bà nguyệt.jpg",
-    "label": "Lái Thiêu",
-    "predicted": null,
-    "confidence": 0,
+    "filename": "Chu Đậu/Ống nhỏ nước.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Bát Tràng",
+    "confidence": 0.85,
     "is_correct": false,
-    "time_s": 0,
-    "error": "All configured vision models failed: gemini-2.5-flash: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more"
+    "time_s": 4.32
+  },
+  {
+    "filename": "Delftware/Edams Museum (1530) - Room at Street Side - Delftware.jpg",
+    "label": "Delftware",
+    "predicted": "Delftware",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 4.43
   }
 ]

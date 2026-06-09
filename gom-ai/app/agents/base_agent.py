@@ -104,7 +104,7 @@ class BaseAgent:
                 raw_json = match.group(1).strip() if match else text.strip()
 
             # Cleanup potential trailing/leading garbage
-            return json.loads(raw_json)
+            return json.loads(raw_json, strict=False)
 
         except Exception as e:
             logger.warning(f"[{self.name}] JSON extract failed ({e}). Text: {text[:200]}...")
@@ -114,19 +114,20 @@ class BaseAgent:
                 start = text.find("{")
                 end = text.rfind("}") + 1
                 if start != -1 and end != 0:
-                    return json.loads(text[start:end])
+                    return json.loads(text[start:end], strict=False)
             except: pass
             return {"error": f"JSON Parse Error: {str(e)}", "raw_text": text}
 
     @retry(
-        wait=wait_exponential(multiplier=1, min=4, max=10),
-        stop=stop_after_attempt(3),
+        wait=wait_exponential(multiplier=1, min=2, max=6),
+        stop=stop_after_attempt(2),
         reraise=True
     )
     # Call the appropriate LLM provider (Google Gemini, Groq, OpenAI, or DeepSeek)
     async def _call_llm(self, prompt: str) -> str:
-        max_retries = 8
-        retry_delay = 45  # seconds
+        max_retries = 3
+        retry_delay = 2  # seconds
+
 
         for attempt in range(max_retries):
             self.api_key = self.get_api_key(self.provider)

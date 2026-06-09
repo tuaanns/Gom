@@ -1,0 +1,410 @@
+[
+  {
+    "filename": "Arita-Imari/Bowl 2, Imari ware, Edo period, 17th-18th century, stormy seascape design in ove.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Imari ware (Arita ware), specifically 'Kinrande' decorated wares",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 8.53
+  },
+  {
+    "filename": "Arita-Imari/Dish imari style 01.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Imari (Arita ware)",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 8.78
+  },
+  {
+    "filename": "Arita-Imari/Imari Jar in Pollard Memorial Library, Lowell, MA.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Ito-ya (伊東屋) wares, often associated with Arita Kiln's export production, specifically showcasing the 'Nihonga' aesthetic combined with 'Kinrande' embellishments.",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 11.16
+  },
+  {
+    "filename": "Arita-Imari/Imari porcelain bowl Japan circa 1640.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Kakiemon",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 3.92
+  },
+  {
+    "filename": "Arita-Imari/Large dish with camellia design, Imari ware, Edo period, 1600s AD, porcelain, ov.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Kakiemon-style ware (Kakiemon-sen)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 7.51
+  },
+  {
+    "filename": "Arita-Imari/Plate decorated with Dutch traders and ships, Imari ware, Japan, 19th century, p.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Đồ sứ xuất khẩu kiểu 'Kraak' hoặc 'Transitional porcelain' (sản xuất tại Cảnh Đức Trấn)",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 6.59
+  },
+  {
+    "filename": "Arita-Imari/Sake flask with cherry blossom and stream design, Imari ware, Edo period, 1600s .jpg",
+    "label": "Arita-Imari",
+    "predicted": "Kutani ware (specifically the 'Etsu' or 'Eikyu' styles known for bold overglaze enamels and floral/nature motifs)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 6.63
+  },
+  {
+    "filename": "Arita-Imari/Somenishiki-Okakarakomon-Tetsukibin from above Imari ware Saga Prefectural Museu.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Kinrande Imari ware (金襴手伊万里焼)",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 5.84
+  },
+  {
+    "filename": "Arita-Imari/Somenishiki-Okakarakomon-Tetsukibin from side Imari ware Saga Prefectural Museum.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Kutani Ware (phân khúc xuất khẩu, thế kỷ 19)",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 9.71
+  },
+  {
+    "filename": "Arita-Imari/WLA brooklynmuseum Ko-Imari Ware Octagonal Dish.jpg",
+    "label": "Arita-Imari",
+    "predicted": "Arita ware (Ko-Imari)",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 7.9
+  },
+  {
+    "filename": "Biên Hòa/hủ gốm sứ biên hòa.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm men ngọc (celadon) thời Lý - Trần",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 6.79
+  },
+  {
+    "filename": "Biên Hòa/ly có quai.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa (Thương hiệu Bicera)",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 8.0
+  },
+  {
+    "filename": "Biên Hòa/lọ gốm trắng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Lò Gốm Minh Long (gốm mỹ thuật trang trí)",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 7.68
+  },
+  {
+    "filename": "Biên Hòa/lọ gốm xanh.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Đồ gốm trang trí kiến trúc/cổ vật mô phỏng",
+    "confidence": 0.7,
+    "is_correct": false,
+    "time_s": 8.06
+  },
+  {
+    "filename": "Biên Hòa/nắp gốm.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Lò Gốm Minh Long (Dòng sản phẩm Hoàng Gia hoặc Gốm Mỹ Nghệ)",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 11.86
+  },
+  {
+    "filename": "Biên Hòa/quan vi hành.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Biên Hòa (Thương hiệu Bicerco)",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 9.21
+  },
+  {
+    "filename": "Biên Hòa/thố dây lá.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera Hoa Cúc Nắp Sen",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 7.81
+  },
+  {
+    "filename": "Biên Hòa/thố sen.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera - Dòng sản phẩm trang trí họa tiết hoa sen truyền thống",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 5.8
+  },
+  {
+    "filename": "Biên Hòa/thổ chim phụng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicerca - Gốm Biên Hòa",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 5.85
+  },
+  {
+    "filename": "Biên Hòa/tượng phật.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Thạch Loan (Shiwan Ware)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 53.81
+  },
+  {
+    "filename": "Biên Hòa/tượng thỏ bách hoa.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera (Gốm Mỹ Nghệ Biên Hòa)",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 6.67
+  },
+  {
+    "filename": "Biên Hòa/tượng ông thọ.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Sứ Biên Hòa (Bicera)",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 7.41
+  },
+  {
+    "filename": "Biên Hòa/tượng.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Gốm Tạo Tác Thủ Công Làng Gốm Phù Lãng (Phù Lãng, Việt Nam)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 8.32
+  },
+  {
+    "filename": "Biên Hòa/xông trầm.jpg",
+    "label": "Biên Hòa",
+    "predicted": "Bicera Gốm Mỹ Thuật Biên Hòa",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 3.97
+  },
+  {
+    "filename": "Bàu Trúc/Gốm Bàu Trúc.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm Gia Dụng Truyền Thống Làng Gốm Bát Tràng (Dòng Sứ Gia Dụng Mộc)",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 6.36
+  },
+  {
+    "filename": "Bàu Trúc/tượng dudngws.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm trang trí thủ công Bát Tràng",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 8.23
+  },
+  {
+    "filename": "Bàu Trúc/tượng phật.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Lò Gốm Mỹ Nghệ Sơn Mỹ",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 59.61
+  },
+  {
+    "filename": "Bàu Trúc/tượng thiền sư.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm Chăm - Lò Gốm Bàu Trúc (tên thương mại có thể thay đổi)",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 7.73
+  },
+  {
+    "filename": "Bàu Trúc/tượng voi.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Gốm Champa Giả Cổ (Reinterpreted Champa Terracotta)",
+    "confidence": 0.85,
+    "is_correct": false,
+    "time_s": 110.27
+  },
+  {
+    "filename": "Bàu Trúc/tượng vô diện.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "",
+    "confidence": 0.0,
+    "is_correct": false,
+    "time_s": 57.31
+  },
+  {
+    "filename": "Bàu Trúc/tượng.jpg",
+    "label": "Bàu Trúc",
+    "predicted": "Không xác định được dòng gốm/lò cụ thể do tính chất sản xuất thủ công phổ thông và thiếu dấu hiệu nhận diện.",
+    "confidence": 0.6,
+    "is_correct": false,
+    "time_s": 59.44
+  },
+  {
+    "filename": "Bát Tràng/Bat-Trang-Ceramic-Village1.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Lĩnh Nam (chậu cảnh trang trí)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 57.55
+  },
+  {
+    "filename": "Bát Tràng/Bat-Trang-Ceramic-Village16.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm sứ trang trí Bát Tràng vẽ sơn thủy dân dụng",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 9.36
+  },
+  {
+    "filename": "Bát Tràng/Tượng quan âm Bát Tràng.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Đức Hóa (Dehua) 'Blanc de Chine'",
+    "confidence": 0.98,
+    "is_correct": false,
+    "time_s": 131.83
+  },
+  {
+    "filename": "Bát Tràng/Tượng rắn đầu người.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm men trắng thời Lý-Trần",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 179.36
+  },
+  {
+    "filename": "Bát Tràng/Tượng tam đa Phúc lộc thọ loại 1.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Tượng Sứ Ngũ Thái Dân Diêu Cảnh Đức Trấn (Jingdezhen Minyao Wucai Porcelain Figurines)",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 124.12
+  },
+  {
+    "filename": "Bát Tràng/Tượng tam đa phúc lộc thọ loại 2.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm Xuất khẩu Quảng Đông (Canton) - Dòng Tượng Thọ Bế Tử",
+    "confidence": 0.95,
+    "is_correct": false,
+    "time_s": 53.1
+  },
+  {
+    "filename": "Bát Tràng/Tượng Tam đa Phúc lộc thọ.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm Thạch Loan (Shiwan Ware)",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 25.5
+  },
+  {
+    "filename": "Bát Tràng/Tượng voi.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm Bát Tràng men rạn",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 74.58
+  },
+  {
+    "filename": "Bát Tràng/Vại bình muối biến thể.jpg",
+    "label": "Bát Tràng",
+    "predicted": "",
+    "confidence": 0.0,
+    "is_correct": false,
+    "time_s": 30.1
+  },
+  {
+    "filename": "Bát Tràng/Vại bình muối.jpg",
+    "label": "Bát Tràng",
+    "predicted": "Gốm Bát Tràng Họa tiết Đời sống Đương đại",
+    "confidence": 0.9,
+    "is_correct": true,
+    "time_s": 31.63
+  },
+  {
+    "filename": "Chu Đậu/Hiện vật gốm Chu Đậu.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm hoa lam Chu Đậu",
+    "confidence": 0.98,
+    "is_correct": true,
+    "time_s": 28.41
+  },
+  {
+    "filename": "Chu Đậu/hiện vật gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Thô Văn hóa Phùng Nguyên",
+    "confidence": 0.9,
+    "is_correct": false,
+    "time_s": 41.61
+  },
+  {
+    "filename": "Chu Đậu/hu nho.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 28.16
+  },
+  {
+    "filename": "Chu Đậu/Hộp gốm Chu Đậu.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 23.77
+  },
+  {
+    "filename": "Chu Đậu/hộp gốm màu xanh trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.98,
+    "is_correct": true,
+    "time_s": 31.46
+  },
+  {
+    "filename": "Chu Đậu/Hộp mực sứ trắng xanh.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Hoa Lam Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 23.03
+  },
+  {
+    "filename": "Chu Đậu/Hủ gốm Chu Đậu men lam trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 0.95,
+    "is_correct": true,
+    "time_s": 85.19
+  },
+  {
+    "filename": "Chu Đậu/Hủ gốm sứ cổ.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm Chu Đậu",
+    "confidence": 1.0,
+    "is_correct": true,
+    "time_s": 29.08
+  },
+  {
+    "filename": "Chu Đậu/Lọ gốm hoa văn xanh trắng.jpg",
+    "label": "Chu Đậu",
+    "predicted": "Gốm hoa lam Chu Đậu",
+    "confidence": 0.98,
+    "is_correct": true,
+    "time_s": 305.37
+  },
+  {
+    "filename": "Chu Đậu/lộc bình gốm.jpg",
+    "label": "Chu Đậu",
+    "predicted": "",
+    "confidence": 0.0,
+    "is_correct": false,
+    "time_s": 351.94
+  }
+]

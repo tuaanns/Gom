@@ -16,38 +16,48 @@ class AIService
     }
 
     // Call the Python FastAPI Multi-Agent Debate Server
-    public function runMultiAgentDebate(UploadedFile $image, string $lang = 'vi'): array
+    public function runMultiAgentDebate($image, string $lang = 'vi'): array
     {
         $endpoint = "{$this->pythonUrl}/predict";
+
+        if ($image instanceof \Illuminate\Http\UploadedFile) {
+            $originalName = $image->getClientOriginalName();
+            $mimeType = $image->getMimeType();
+            $size = $image->getSize();
+            $realPath = $image->getRealPath();
+
+            if (!$image->isValid()) {
+                Log::error('AIService: uploaded image is invalid', [
+                    'error' => $image->getErrorMessage(),
+                ]);
+
+                return [
+                    'error' => 'Uploaded image is invalid: ' . $image->getErrorMessage(),
+                ];
+            }
+        } else {
+            $realPath = $image;
+            $originalName = basename($image);
+            $mimeType = 'image/jpeg';
+            $size = file_exists($realPath) ? filesize($realPath) : 0;
+        }
 
         Log::info('AIService: preparing to send image to Python AI server', [
             'endpoint' => $endpoint,
             'lang' => $lang,
-            'original_name' => $image->getClientOriginalName(),
-            'mime_type' => $image->getMimeType(),
-            'size_bytes' => $image->getSize(),
-            'real_path' => $image->getRealPath(),
+            'original_name' => $originalName,
+            'mime_type' => $mimeType,
+            'size_bytes' => $size,
+            'real_path' => $realPath,
         ]);
 
-        if (!$image->isValid()) {
-            Log::error('AIService: uploaded image is invalid', [
-                'error' => $image->getErrorMessage(),
-            ]);
-
-            return [
-                'error' => 'Uploaded image is invalid: ' . $image->getErrorMessage(),
-            ];
-        }
-
-        $realPath = $image->getRealPath();
-
         if (!$realPath || !file_exists($realPath)) {
-            Log::error('AIService: uploaded image temp file not found', [
+            Log::error('AIService: image file not found', [
                 'real_path' => $realPath,
             ]);
 
             return [
-                'error' => 'Uploaded image temp file not found',
+                'error' => 'Image file not found',
             ];
         }
 
@@ -58,7 +68,7 @@ class AIService
                 ->attach(
                     'file',
                     fopen($realPath, 'r'),
-                    $image->getClientOriginalName()
+                    $originalName
                 )
                 ->post($endpoint, ['lang' => $lang]);
 
@@ -127,26 +137,33 @@ class AIService
     }
 
     // Call the Python FastAPI Lens Endpoint
-    public function runLens(UploadedFile $image, string $lang = 'vi'): array
+    public function runLens($image, string $lang = 'vi'): array
     {
         $endpoint = "{$this->pythonUrl}/predict/lens";
+
+        if ($image instanceof \Illuminate\Http\UploadedFile) {
+            $realPath = $image->getRealPath();
+            $originalName = $image->getClientOriginalName();
+        } else {
+            $realPath = $image;
+            $originalName = basename($image);
+        }
 
         Log::info('AIService: preparing to send image to Python Lens endpoint', [
             'endpoint' => $endpoint,
             'lang' => $lang,
+            'real_path' => $realPath,
         ]);
 
-        $realPath = $image->getRealPath();
-
         if (!$realPath || !file_exists($realPath)) {
-            return ['error' => 'Uploaded image temp file not found'];
+            return ['error' => 'Image file not found'];
         }
 
         try {
             $response = Http::connectTimeout(30)
                 ->timeout(600) // 10 mins for Lens
                 ->retry(1, 2000)
-                ->attach('file', fopen($realPath, 'r'), $image->getClientOriginalName())
+                ->attach('file', fopen($realPath, 'r'), $originalName)
                 ->post($endpoint, ['lang' => $lang]);
 
             if (!$response->successful()) {
