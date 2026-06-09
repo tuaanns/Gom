@@ -212,6 +212,7 @@
     "noQuota": "Out of credits. Please top up!",
     "needFile": "Please upload an artifact image first!",
     "completeMsg": "Appraisal complete!",
+    "processingContinues": "The response connection was interrupted, but the appraisal is still running. The result will update automatically in history.",
     "result": {
       "title": "Appraisal result",
       "name": "Artifact",

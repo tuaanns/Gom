@@ -13,6 +13,7 @@ import { HomeSpotlightCard } from './HomeSpotlightCard';
 import { FeaturedCeramicMotionCard } from './FeaturedCeramicMotionCard';
 import { analysisApi } from './api';
 import { ceramicsApi } from '../ceramics/api';
+import { historyApi } from '../history/api';
 import { getErrorMessage } from '../../lib/utils';
 import { VIEWS } from '../../lib/constants';
 
@@ -91,6 +92,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
     }
     setLoading(true);
     setError('');
+    const startedAt = Date.now();
 
     const formData = new FormData();
     formData.append('image', file);
@@ -120,6 +122,29 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
         setResult(data);
       }
     } catch (err) {
+      const isConnectionError = !err?.response || err?.code === 'ECONNABORTED';
+
+      if (isConnectionError) {
+        try {
+          const historyResponse = await historyApi.list();
+          const history = Array.isArray(historyResponse.data)
+            ? historyResponse.data
+            : historyResponse.data?.data || [];
+          const recentPrediction = history.find((item) => {
+            const createdAt = Date.parse(item?.created_at);
+            return Number.isFinite(createdAt) && createdAt >= startedAt - 10000;
+          });
+
+          if (recentPrediction?.id) {
+            notify?.(t('analysis.processingContinues'), 'info');
+            window.location.hash = `#/history?openId=${recentPrediction.id}`;
+            return;
+          }
+        } catch {
+          // Fall through to the original connection error when recovery fails.
+        }
+      }
+
       const msg = getErrorMessage(err, t('errors.server'));
       setError(msg);
       notify?.(msg, 'error');

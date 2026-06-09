@@ -142,6 +142,7 @@ class DebateScreenState extends State<DebateScreen> {
     if (image == null) return;
 
     final bytes = await image.readAsBytes();
+    final startedAt = DateTime.now();
     setState(() { _previewBytes = bytes; isAnalyzing = true; debateData = null; });
 
     try {
@@ -212,9 +213,85 @@ class DebateScreenState extends State<DebateScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      showGomNotification(context, AppLang.tr('Mất liên lạc với hội đồng giám định', 'Lost connection to the appraisal board'), type: GomNotificationType.error);
+      final recovered = await _recoverPrediction(startedAt, isLens: isLens);
+      if (!mounted) return;
+
+      if (recovered) {
+        showGomNotification(
+          context,
+          AppLang.tr(
+            'Kết nối phản hồi bị gián đoạn, nhưng kết quả giám định đã được phục hồi.',
+            'The response connection was interrupted, but the appraisal result was recovered.',
+          ),
+          type: GomNotificationType.success,
+        );
+      } else {
+        MainGate.currentInstance?.refreshHistoryTab();
+        showGomNotification(
+          context,
+          AppLang.tr(
+            'Kết nối phản hồi bị gián đoạn. Hệ thống có thể vẫn đang giám định; vui lòng kiểm tra Lịch sử.',
+            'The response connection was interrupted. The appraisal may still be running; please check History.',
+          ),
+          type: GomNotificationType.info,
+        );
+      }
     } finally {
       if (mounted) setState(() => isAnalyzing = false);
+    }
+  }
+
+  Future<bool> _recoverPrediction(DateTime startedAt, {required bool isLens}) async {
+    try {
+      final historyResponse = await http.get(
+        ApiConfig.uri('/api/history'),
+        headers: {'Authorization': 'Bearer ${AuthState.token}'},
+      );
+      if (historyResponse.statusCode != 200) return false;
+
+      final historyBody = jsonDecode(historyResponse.body);
+      final items = historyBody is Map && historyBody['data'] is List
+          ? historyBody['data'] as List
+          : const [];
+
+      Map<String, dynamic>? recent;
+      for (final item in items) {
+        final candidate = _asMap(item);
+        final createdAt = DateTime.tryParse(candidate['created_at']?.toString() ?? '');
+        if (createdAt != null &&
+            !createdAt.isBefore(startedAt.subtract(const Duration(seconds: 10)))) {
+          recent = candidate;
+          break;
+        }
+      }
+      if (recent == null || recent['id'] == null) return false;
+
+      final detailResponse = await http.get(
+        ApiConfig.uri('/api/history/${recent['id']}'),
+        headers: {'Authorization': 'Bearer ${AuthState.token}'},
+      );
+      if (detailResponse.statusCode != 200) return false;
+
+      final detail = _apiData(jsonDecode(detailResponse.body));
+      final label = detail['predicted_label']?.toString() ?? '';
+      if (label.contains('Đang phân tích') || label.contains('Đang xử lý')) {
+        return false;
+      }
+
+      final result = _asMap(detail['result']);
+      if (result.isEmpty) return false;
+      if (isLens) result['isLensMode'] = true;
+
+      if (!mounted) return false;
+      setState(() {
+        debateData = result;
+        lastPredictionId = detail['id']?.toString();
+        lastCreatedAt = detail['created_at']?.toString();
+      });
+      MainGate.currentInstance?.refreshHistoryTab();
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 

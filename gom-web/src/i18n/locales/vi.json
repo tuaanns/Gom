@@ -212,6 +212,7 @@
     "noQuota": "Hết lượt giám định. Vui lòng nạp thêm!",
     "needFile": "Vui lòng tải ảnh cổ vật lên trước khi giám định!",
     "completeMsg": "Giám định hoàn tất!",
+    "processingContinues": "Kết nối phản hồi bị gián đoạn, nhưng hệ thống vẫn đang giám định. Kết quả sẽ tự cập nhật trong lịch sử.",
     "result": {
       "title": "Kết quả giám định",
       "name": "Tên hiện vật",
