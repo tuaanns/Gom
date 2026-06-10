@@ -103,6 +103,12 @@ class PaymentController extends Controller
         if ($paymentMethod === 'vnpay') {
             $vnp_Url = env('VNP_URL', "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html");
             $vnp_Returnurl = env('VNP_RETURN_URL', "http://localhost:3000/payment/vnpay-return");
+            
+            $via = $request->input('via');
+            if ($via === 'app') {
+                $connector = str_contains($vnp_Returnurl, '?') ? '&' : '?';
+                $vnp_Returnurl .= $connector . 'via=app';
+            }
             $vnp_TmnCode = env('VNP_TMN_CODE', "2QXGZSTR");
             $vnp_HashSecret = env('VNP_HASH_SECRET', "NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW");
             

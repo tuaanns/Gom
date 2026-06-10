@@ -14,6 +14,7 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
   const [status, setStatus] = useState('verifying'); // verifying, success, error
   const [credits, setCredits] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
+  const viaApp = searchParams.get('via') === 'app';
 
   useEffect(() => {
     verifyPayment();
@@ -40,6 +41,12 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             credits: creditAmount
           }, '*');
         }
+
+        if (viaApp) {
+          setTimeout(() => {
+            window.location.href = 'thearchivist://';
+          }, 2500);
+        }
       } else {
         setStatus('error');
         setErrorMessage(t('payment.vnpay.failedTitle'));
@@ -50,6 +57,12 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             status: 'error',
             message: t('payment.vnpay.failedTitle')
           }, '*');
+        }
+
+        if (viaApp) {
+          setTimeout(() => {
+            window.location.href = 'thearchivist://payment';
+          }, 2500);
         }
       }
     } catch (err) {
@@ -63,6 +76,12 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
           status: 'error',
           message: errMsg
         }, '*');
+      }
+
+      if (viaApp) {
+        setTimeout(() => {
+          window.location.href = 'thearchivist://payment';
+        }, 2500);
       }
     }
   };
@@ -105,6 +124,7 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             </h2>
             <p className="mt-4 text-sm text-muted dark:text-dark-text-muted leading-relaxed">
               {t('payment.vnpay.successDesc')}
+              {viaApp && <span className="block mt-2 font-bold text-success">Đang chuyển hướng quay lại ứng dụng...</span>}
             </p>
             
             <div className="mt-6 p-4 w-full bg-white dark:bg-dark-surface rounded-2xl border border-success/20 flex flex-col gap-2">
@@ -116,7 +136,13 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             <Button
               variant="primary"
               size="lg"
-              onClick={() => navigate('/')}
+              onClick={() => {
+                if (viaApp) {
+                  window.location.href = 'thearchivist://';
+                } else {
+                  navigate('/');
+                }
+              }}
               className="mt-8 w-full flex items-center justify-center gap-2 font-bold"
             >
               <span>{t('payment.vnpay.appraiseNow')}</span>
@@ -141,19 +167,32 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             </h2>
             <p className="mt-4 text-sm text-muted dark:text-dark-text-muted leading-relaxed">
               {errorMessage}
+              {viaApp && <span className="block mt-2 font-bold text-danger">Đang chuyển hướng quay lại ứng dụng...</span>}
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full">
               <Button
                 variant="ghost"
-                onClick={() => navigate('/payment')}
+                onClick={() => {
+                  if (viaApp) {
+                    window.location.href = 'thearchivist://payment';
+                  } else {
+                    navigate('/payment');
+                  }
+                }}
                 className="flex-1 font-bold"
               >
                 {t('payment.vnpay.retry')}
               </Button>
               <Button
                 variant="primary"
-                onClick={() => navigate('/')}
+                onClick={() => {
+                  if (viaApp) {
+                    window.location.href = 'thearchivist://';
+                  } else {
+                    navigate('/');
+                  }
+                }}
                 className="flex-1 font-bold"
               >
                 {t('payment.vnpay.goHome')}

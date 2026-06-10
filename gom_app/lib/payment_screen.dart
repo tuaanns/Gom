@@ -41,7 +41,10 @@ Future<Map<String, dynamic>> createPayment(int packageId) async {
   final res = await http.post(
     Uri.parse('$_baseUrl/api/payment/create'),
     headers: {'Authorization': 'Bearer ${AuthState.token}'},
-    body: {'package_id': packageId.toString()},
+    body: {
+      'package_id': packageId.toString(),
+      'via': 'app',
+    },
   );
   return _unwrapApiData(jsonDecode(res.body));
 }

@@ -47,6 +47,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.208231172368-pff9vpbp3kuc307ls5raalikm3v2f1cr</string>
+				<string>thearchivist</string>
 			</array>
 		</dict>
 	</array>

@@ -831,7 +831,7 @@ class DebateScreenState extends State<DebateScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  AppLang.tr('Đ?tin cậy: ', 'Confidence: ') + 
+                  AppLang.tr('Độ tin cậy: ', 'Confidence: ') + 
                   (isErrorState ? '0%' : _formatConfidence(finalApp['certainty'] ?? finalApp['confidence'] ?? (null))),
                   style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
                 ),
@@ -855,12 +855,24 @@ class DebateScreenState extends State<DebateScreen> {
                 TranslateText(infoText, style: TextStyle(fontSize: 14.5, height: 1.5, color: AppTheme.textSecondary)),
               ],
             ] else ...[
-              Row(
+              Wrap(
+                spacing: 12,
+                runSpacing: 6,
                 children: [
-                  Text(AppLang.tr('Quốc gia: ', 'Country: '), style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
-                  TranslateText(finalApp['final_country']?.toString() ?? 'N/A', style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
-                  Text(AppLang.tr(' | Niên đại: ', ' | Era: '), style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
-                  TranslateText(finalApp['final_era']?.toString() ?? 'N/A', style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(AppLang.tr('Quốc gia: ', 'Country: '), style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                      TranslateText(finalApp['final_country']?.toString() ?? 'N/A', style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                    ],
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(AppLang.tr('Niên đại: ', 'Era: '), style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textPrimary)),
+                      TranslateText(finalApp['final_era']?.toString() ?? 'N/A', style: TextStyle(fontWeight: FontWeight.w600, color: AppTheme.textSecondary)),
+                    ],
+                  ),
                 ],
               ),
               const SizedBox(height: 20),
