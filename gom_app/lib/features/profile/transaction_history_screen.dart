@@ -45,7 +45,7 @@ class _TransactionHistoryScreenState extends State<TransactionHistoryScreen> {
   String _fmtDate(String? raw) {
     if (raw == null) return '';
     try {
-      final d = DateTime.parse(raw);
+      final d = DateTime.parse(raw).toLocal();
       return '${d.day}/${d.month}/${d.year} ${d.hour}:${d.minute.toString().padLeft(2, '0')}';
     } catch (_) {
       return raw;

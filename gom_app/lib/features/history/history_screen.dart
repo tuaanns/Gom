@@ -58,7 +58,7 @@ class HistoryScreenState extends State<HistoryScreen> {
   String _formatDate(String? raw) {
     if (raw == null || raw.isEmpty) return '';
     try {
-      final d = DateTime.parse(raw);
+      final d = DateTime.parse(raw).toLocal();
       return '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')} ${d.day}/${d.month}/${d.year}';
     } catch (_) {
       return raw;
@@ -360,7 +360,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
     String formattedDate = '';
     if (createdAt.isNotEmpty) {
       try {
-        final d = DateTime.parse(createdAt);
+        final d = DateTime.parse(createdAt).toLocal();
         formattedDate = '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')} ${d.day}/${d.month}/${d.year}';
       } catch (_) {
         formattedDate = createdAt;

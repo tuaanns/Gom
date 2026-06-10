@@ -881,7 +881,7 @@ class DebateScreenState extends State<DebateScreen> {
     String formattedDate = '';
     if (createdAt.isNotEmpty) {
       try {
-        final d = DateTime.parse(createdAt);
+        final d = DateTime.parse(createdAt).toLocal();
         formattedDate = '${d.hour.toString().padLeft(2, '0')}:${d.minute.toString().padLeft(2, '0')} ${d.day}/${d.month}/${d.year}';
       } catch (_) {
         formattedDate = createdAt;
