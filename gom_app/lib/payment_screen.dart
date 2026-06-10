@@ -488,14 +488,26 @@ class _PaymentDialogState extends State<PaymentDialog> {
           child: Padding(
             padding: const EdgeInsets.all(24),
             child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Row(children: [
-                   Icon(Icons.payment, color: widget.color),
-                   const SizedBox(width: 8),
-                   Text(AppLang.tr('Thanh toán qua ${widget.method}', 'Pay via ${widget.method}'), style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: widget.color)),
-                ]),
-                IconButton(onPressed: () => Navigator.pop(context), icon: Icon(Icons.close, color: AppTheme.textMuted)),
-              ]),
+              Row(
+                children: [
+                  Icon(Icons.payment, color: widget.color),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Text(
+                      AppLang.tr('Thanh toán qua ${widget.method}', 'Pay via ${widget.method}'),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: widget.color),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    icon: Icon(Icons.close, color: AppTheme.textMuted),
+                    tooltip: 'Đóng',
+                  ),
+                ],
+              ),
               const Divider(height: 30),
               if (isCreating) ...[
                 const SizedBox(height: 40),

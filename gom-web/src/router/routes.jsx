@@ -156,11 +156,7 @@ export const routes = [
       },
       {
         path: 'payment/vnpay-return',
-        element: (
-          <ProtectedRoute>
-            <VNPayReturnPageWrapper />
-          </ProtectedRoute>
-        ),
+        element: <VNPayReturnPageWrapper />,
       },
       {
         path: 'transactions',
