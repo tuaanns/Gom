@@ -824,18 +824,6 @@ class DebateScreenState extends State<DebateScreen> {
                 AppLang.tr('🏆 KẾT LUẬN CUỐI CÙNG', '🏆 FINAL CONCLUSION'), 
                 style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.isDark ? Colors.blue.shade300 : const Color(0xFF1A237E)),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(
-                  color: isErrorState ? Colors.red.shade600 : Colors.green,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Text(
-                  AppLang.tr('Độ tin cậy: ', 'Confidence: ') + 
-                  (isErrorState ? '0%' : _formatConfidence(finalApp['certainty'] ?? finalApp['confidence'] ?? (null))),
-                  style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
-                ),
-              ),
             ]),
             Divider(height: 30, color: AppTheme.dividerColor),
             Text(
