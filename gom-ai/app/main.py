@@ -355,11 +355,65 @@ class ChatQuery(BaseModel):
     question: str
     lang: str = "vi"
 
+def is_query_allowed(question: str) -> bool:
+    # Convert to lowercase and strip
+    q = question.lower().strip()
+    
+    # 1. Banned patterns: math expressions
+    if re.match(r'^[0-9\+\-\*\/\s\(\)\=\?]+$', q):
+        return False
+        
+    # Strictly Banned Keywords (Negative Keywords)
+    negative_keywords = [
+        "python", "javascript", "code", "lập trình", "quicksort", "thuật toán", "algorithm",
+        "thời tiết", "weather", "hamlet", "toán học", "giải toán", "bài tập", "hóa học",
+        "lịch học", "thời khóa biểu", "viết code", "html", "css", "công thức toán", "phương trình",
+        "1+1", "1 + 1", "2+2", "2 + 2"
+    ]
+    if any(kw in q for kw in negative_keywords):
+        return False
+
+    # Positive Keywords (Any of these makes it highly likely to be related to ceramics or the system)
+    positive_keywords = [
+        "gốm", "sứ", "ceramic", "pottery", "archivist", "chén", "bát", "đĩa", "lọ", "bình", 
+        "lò", "men", "nung", "đất sét", "glaze", "kiln", "dynasty", "triều đại", "bát tràng", 
+        "chu đậu", "biên hòa", "phù lãng", "cây mai", "đông triều", "thanh hà", "bàu trúc", 
+        "mỹ thiện", "cảnh đức", "celadon", "porcelain", "clay", "antiques", "cổ vật", 
+        "giám định", "appraisal", "tập sự", "tiến sĩ", "nhà khảo cổ", "tranh biện", "debate",
+        "tín dụng", "nạp", "token", "lượt", "lịch sử", "khảo cổ"
+    ]
+    if any(kw in q for kw in positive_keywords):
+        return True
+        
+    # Banned topics (if no positive keywords are present, and it asks general questions)
+    general_question_words = [
+        "làm sao để", "how to", "hãy cho tôi biết", "tell me about", "ai là", "who is",
+        "ở đâu", "where is", "tóm tắt", "summarize", "chúc mừng", "dịch giúp", "dịch hộ",
+        "làm bài", "giải bài", "viết hộ", "viết bài", "làm thơ", "kể chuyện"
+    ]
+    if any(gw in q for gw in general_question_words):
+        return False
+        
+    return None
+
 @app.post("/chat")
 async def process_chat(req: ChatQuery):
     sources = ["Kiến thức chuyên gia AI"] if req.lang == 'vi' else ["AI Expert Knowledge"]
+    
+    # Pre-filter check
+    allowed = is_query_allowed(req.question)
+    if allowed is False:
+        refusal = (
+            "I am an AI assistant specializing in ceramics and The Archivist system. I can only answer questions related to Vietnamese or world ceramics, or the The Archivist system. Please ask questions related to these topics."
+            if req.lang == "en" else
+            "Tôi là trợ lý AI chuyên về gốm sứ và hệ thống The Archivist. Tôi chỉ có thể trả lời các câu hỏi liên quan đến gốm sứ Việt Nam, gốm sứ thế giới hoặc hệ thống The Archivist. Vui lòng hỏi những câu hỏi liên quan đến chủ đề này."
+        )
+        return {
+            "answer": refusal,
+            "sources": sources
+        }
+
     wiki_context = ""
-    # 1. Tìm thông tin bên ngoài bằng Wikipedia API (sử dụng wiki lang tương ứng)
     try:
         wiki_lang = "en" if req.lang == "en" else "vi"
         search_url = f"https://{wiki_lang}.wikipedia.org/w/api.php?action=query&list=search&srsearch={urllib.parse.quote(req.question)}&utf8=&format=json&srlimit=1"
@@ -379,29 +433,33 @@ async def process_chat(req: ChatQuery):
     # 2. Sử dụng AI để tổng hợp câu trả lời
     if req.lang == "en":
         system_prompt = (
-            "You are The Archivist Assistant, a smart AI ceramic appraisal helper.\n"
-            "CRITICAL CONSTRAINT:\n"
-            "You MUST ONLY answer questions related to Vietnamese ceramics, world ceramics/pottery (e.g., history, kilns, preservation, techniques, etc.), or the 'The Archivist' system (which is this multi-agent ceramic appraisal system).\n"
-            "If the user's question is NOT related to ceramics, pottery, or 'The Archivist' system, you MUST refuse to answer politely but firmly. Do NOT provide any information related to the off-topic query. Your refusal response should be: 'I am an AI assistant specializing in ceramics and The Archivist system. I can only answer questions related to Vietnamese or world ceramics, or the The Archivist system. Please ask questions related to these topics.'\n"
-            "If the user asks for code, programming, math, general QA, or any other topic not related to ceramics, immediately return this refusal message. Under no circumstances should you generate code, write algorithms, or perform non-ceramic tasks."
+            "You are The Archivist Assistant, a smart AI ceramic appraisal helper specializing strictly in Vietnamese and world ceramics."
         )
         prompt = (
             f"User asks: {req.question}\n\n"
             f"External reference: {wiki_context}\n\n"
-            f"Answer naturally, friendly, and informatively in English. Do not return JSON format, only plain text."
+            "CRITICAL TOPIC RESTRICTION CHECK:\n"
+            "Is the user's question strictly related to ceramics, pottery, clay crafts (history, types, kilns, preservation, etc.) or 'The Archivist' system?\n"
+            "You MUST perform this check now:\n"
+            "1. If the question is NOT related to ceramics, pottery, or 'The Archivist' system (e.g. general mathematics, coding/programming, writing scripts, general knowledge, weather, Hamlet, daily tasks, etc.), or if it asks to solve a problem outside ceramics, you MUST IMMEDIATELY refuse to answer.\n"
+            "Your refusal response must be exactly: 'I am an AI assistant specializing in ceramics and The Archivist system. I can only answer questions related to Vietnamese or world ceramics, or the The Archivist system. Please ask questions related to these topics.'\n"
+            "Under no circumstances should you generate code, write math formulas, solve off-topic questions, or output anything else.\n"
+            "2. If and only if the question is related to ceramics or 'The Archivist', answer naturally, friendly, and informatively in English. Do not return JSON format, only plain text."
         )
     else:
         system_prompt = (
-            "Bạn là Trợ lý AI The Archivist, chuyên gia giám định gốm sứ toàn cầu.\n"
-            "RÀNG BUỘC QUAN TRỌNG:\n"
-            "Bạn CHỈ được trả lời các câu hỏi liên quan đến gốm sứ Việt Nam, gốm sứ trên thế giới (ví dụ: các dòng gốm, lò gốm, lịch sử gốm sứ, kỹ thuật làm gốm, cách bảo quản gốm sứ, v.v.), hoặc hệ thống 'The Archivist' (hệ thống lưu trữ, phân tích và giám định gốm sứ đa đại lý này).\n"
-            "Nếu câu hỏi của người dùng KHÔNG liên quan đến gốm sứ hoặc hệ thống 'The Archivist', bạn TUYỆT ĐỐI KHÔNG được trả lời hay cung cấp thông tin gì về câu hỏi đó. Bạn phải từ chối một cách lịch sự nhưng kiên quyết. Câu từ chối của bạn phải là: 'Tôi là trợ lý AI chuyên về gốm sứ và hệ thống The Archivist. Tôi chỉ có thể trả lời các câu hỏi liên quan đến gốm sứ Việt Nam, gốm sứ thế giới hoặc hệ thống The Archivist. Vui lòng hỏi những câu hỏi liên quan đến chủ đề này.'\n"
-            "Nếu người dùng yêu cầu viết code, lập trình, toán học, thời tiết, giải bài tập hoặc bất kỳ chủ đề không liên quan khác, hãy lập tức trả về câu từ chối trên. Tuyệt đối không viết code hay giải quyết các yêu cầu ngoài lĩnh vực gốm sứ."
+            "Bạn là Trợ lý AI The Archivist, chuyên gia giám định gốm sứ toàn cầu."
         )
         prompt = (
             f"Người dùng hỏi: {req.question}\n\n"
             f"Thông tin tham khảo bên ngoài: {wiki_context}\n\n"
-            f"Hãy trả lời một cách tự nhiên, thân thiện và cung cấp thông tin hữu ích bằng tiếng Việt. Không trả về định dạng JSON, chỉ trả về văn bản thông thường."
+            "KIỂM TRA CHỦ ĐỀ BẮT BUỘC:\n"
+            "Câu hỏi của người dùng có thực sự liên quan đến gốm sứ (lịch sử gốm sứ, các dòng gốm, lò gốm, kỹ thuật làm gốm, v.v.) hoặc hệ thống 'The Archivist' hay không?\n"
+            "Bạn BẮT BUỘC phải thực hiện kiểm tra này:\n"
+            "1. Nếu câu hỏi KHÔNG liên quan đến gốm sứ hoặc hệ thống 'The Archivist' (ví dụ: toán học như '1+1 bằng mấy', lập trình/viết code, thời tiết, giải toán, bài tập, Hamlet, kiến thức xã hội chung, v.v.), bạn BẮT BUỘC phải từ chối.\n"
+            "Câu từ chối của bạn phải chính xác là: 'Tôi là trợ lý AI chuyên về gốm sứ và hệ thống The Archivist. Tôi chỉ có thể trả lời các câu hỏi liên quan đến gốm sứ Việt Nam, gốm sứ thế giới hoặc hệ thống The Archivist. Vui lòng hỏi những câu hỏi liên quan đến chủ đề này.'\n"
+            "Không viết thêm bất kỳ nội dung nào khác. Tuyệt đối không viết code, giải toán hay cung cấp kiến thức ngoài lề.\n"
+            "2. Nếu và chỉ khi câu hỏi liên quan đến gốm sứ hoặc hệ thống 'The Archivist', hãy trả lời một cách tự nhiên, thân thiện và cung cấp thông tin hữu ích bằng tiếng Việt. Không trả về định dạng JSON, chỉ trả về văn bản thông thường."
         )
 
     try:
@@ -411,6 +469,17 @@ async def process_chat(req: ChatQuery):
 
         if not answer:
             raise ValueError("Empty response from AI Provider")
+
+        # 3. Post-filter check
+        lower_ans = answer.lower()
+        if any(code_indicator in answer for code_indicator in ["def ", "import ", "class ", "public class", "function("]) or \
+           any(word in lower_ans for word in ["algorithm", "programming", "mathematics"]):
+            refusal = (
+                "I am an AI assistant specializing in ceramics and The Archivist system. I can only answer questions related to Vietnamese or world ceramics, or the The Archivist system. Please ask questions related to these topics."
+                if req.lang == "en" else
+                "Tôi là trợ lý AI chuyên về gốm sứ và hệ thống The Archivist. Tôi chỉ có thể trả lời các câu hỏi liên quan đến gốm sứ Việt Nam, gốm sứ thế giới hoặc hệ thống The Archivist. Vui lòng hỏi những câu hỏi liên quan đến chủ đề này."
+            )
+            answer = refusal
 
     except Exception as e:
         logger.error(f"Chat AI Error: {e}")
