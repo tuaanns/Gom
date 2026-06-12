@@ -1,6 +1,9 @@
 name: Build and deploy Python app to Azure Web App - TheArchivistAI
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
