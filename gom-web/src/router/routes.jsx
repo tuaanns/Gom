@@ -119,14 +119,10 @@ export const routes = [
     path: '/',
     element: <AppLayout />,
     children: [
-      // Home - protected, requires auth
+      // Home - public, does not require auth at entry
       {
         index: true,
-        element: (
-          <ProtectedRoute>
-            <AnalysisPageWrapper />
-          </ProtectedRoute>
-        ),
+        element: <AnalysisPageWrapper />,
       },
 
       // Protected routes

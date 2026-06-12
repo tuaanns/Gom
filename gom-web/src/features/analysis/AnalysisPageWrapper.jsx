@@ -23,6 +23,7 @@ export const AnalysisPageWrapper = () => {
       'terms': '/terms',
       'privacy': '/privacy',
       'admin_dashboard': '/admin',
+      'auth': '/auth',
     };
     let path = viewMap[view] || '/';
     if (search) {

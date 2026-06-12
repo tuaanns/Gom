@@ -55,6 +55,15 @@ export const MainHeader = ({ user, quota, logout }) => {
     ...customPages.map(p => ({ href: `/${p.slug}`, label: p.title }))
   ];
 
+  // Filter out private routes if the user is not authenticated
+  const filteredNavItems = mergedNavItems.filter(item => {
+    if (!user) {
+      // Hide history and payment-related pages for guest users
+      return !['/history', '/payment', '/transactions'].includes(item.href);
+    }
+    return true;
+  });
+
   const toggleDropdown = (e) => {
     e.stopPropagation();
     if (!showDropdown && badgeRef.current) {
@@ -112,7 +121,7 @@ export const MainHeader = ({ user, quota, logout }) => {
         <div className="flex-1 flex justify-center lg:flex-initial">
           <PillNav
             showLogo={false}
-            items={mergedNavItems}
+            items={filteredNavItems}
             activeHref={location.pathname}
             initialLoadAnimation={false}
             {...pillNavColors}
@@ -121,47 +130,59 @@ export const MainHeader = ({ user, quota, logout }) => {
 
         {/* Right cluster */}
         <div className="ml-auto flex items-center gap-2">
-          {/* Quota - Hover to see label */}
-          <div className="hidden items-center gap-2 md:flex">
-            {tokenBalance > 0 && (
-              <div 
-                className="group relative flex items-center gap-1.5 rounded-full bg-ceramic/15 px-3 py-1.5 transition-all hover:bg-ceramic/25"
-                title={t('payment.credits')}
-              >
-                <Zap size={14} className="text-ceramic-dark" />
-                <span className="text-xs font-bold text-ceramic-dark">{tokenBalance}</span>
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-ivory dark:text-navy">
-                  {t('payment.credits')}
-                </span>
+          {user ? (
+            <>
+              {/* Quota - Hover to see label */}
+              <div className="hidden items-center gap-2 md:flex">
+                {tokenBalance > 0 && (
+                  <div 
+                    className="group relative flex items-center gap-1.5 rounded-full bg-ceramic/15 px-3 py-1.5 transition-all hover:bg-ceramic/25"
+                    title={t('payment.credits')}
+                  >
+                    <Zap size={14} className="text-ceramic-dark" />
+                    <span className="text-xs font-bold text-ceramic-dark">{tokenBalance}</span>
+                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-ivory dark:text-navy">
+                      {t('payment.credits')}
+                    </span>
+                  </div>
+                )}
+                {remainingFree > 0 && (
+                  <div 
+                    className="group relative flex items-center gap-1.5 rounded-full bg-success/15 px-3 py-1.5 transition-all hover:bg-success/25"
+                    title={t('header.freeQuota')}
+                  >
+                    <Gift size={14} className="text-success" />
+                    <span className="text-xs font-bold text-success">{remainingFree}</span>
+                    <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-ivory dark:text-navy">
+                      {t('header.freeQuota')}
+                    </span>
+                  </div>
+                )}
+                {noQuota && (
+                  <span className="rounded-full bg-danger/15 px-3 py-1.5 text-xs font-bold text-danger">
+                    {t('header.noQuota')}
+                  </span>
+                )}
               </div>
-            )}
-            {remainingFree > 0 && (
-              <div 
-                className="group relative flex items-center gap-1.5 rounded-full bg-success/15 px-3 py-1.5 transition-all hover:bg-success/25"
-                title={t('header.freeQuota')}
-              >
-                <Gift size={14} className="text-success" />
-                <span className="text-xs font-bold text-success">{remainingFree}</span>
-                <span className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-navy px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-ivory dark:text-navy">
-                  {t('header.freeQuota')}
-                </span>
-              </div>
-            )}
-            {noQuota && (
-              <span className="rounded-full bg-danger/15 px-3 py-1.5 text-xs font-bold text-danger">
-                {t('header.noQuota')}
-              </span>
-            )}
-          </div>
 
-          {/* Top up CTA */}
-          <Link
-            to="/payment"
-            className="hidden items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-xs font-extrabold text-white shadow-sm transition-all hover:bg-navy-light hover:shadow-md active:scale-95 dark:bg-ceramic dark:text-navy-dark dark:hover:bg-ceramic-hover sm:inline-flex"
-          >
-            <Plus size={14} strokeWidth={3} />
-            <span>{t('header.topupShort')}</span>
-          </Link>
+              {/* Top up CTA */}
+              <Link
+                to="/payment"
+                className="hidden items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-xs font-extrabold text-white shadow-sm transition-all hover:bg-navy-light hover:shadow-md active:scale-95 dark:bg-ceramic dark:text-navy-dark dark:hover:bg-ceramic-hover sm:inline-flex"
+              >
+                <Plus size={14} strokeWidth={3} />
+                <span>{t('header.topupShort')}</span>
+              </Link>
+            </>
+          ) : (
+            // Login button for guest users
+            <Link
+              to="/auth"
+              className="inline-flex items-center gap-1.5 rounded-full bg-navy px-4 py-2 text-xs font-extrabold text-white shadow-sm transition-all hover:bg-navy-light hover:shadow-md active:scale-95 dark:bg-ceramic dark:text-navy-dark dark:hover:bg-ceramic-hover"
+            >
+              <span>{t('auth.loginBtn', { defaultValue: 'Đăng nhập' })}</span>
+            </Link>
+          )}
 
           {/* Theme */}
           <ThemeToggle />
@@ -170,15 +191,17 @@ export const MainHeader = ({ user, quota, logout }) => {
           <LanguageToggle className="hidden md:inline-flex" />
 
           {/* Avatar */}
-          <button
-            ref={badgeRef}
-            type="button"
-            onClick={toggleDropdown}
-            className="flex items-center gap-2 rounded-full border border-stroke bg-surface px-1.5 py-1.5 transition-colors hover:bg-surface-alt dark:border-dark-stroke dark:bg-dark-surface dark:hover:bg-dark-surface-alt"
-          >
-            <Avatar src={user?.avatar} name={user?.name} size="sm" />
-            <ChevronDown size={14} className="mr-1 text-muted dark:text-dark-text-muted" />
-          </button>
+          {user && (
+            <button
+              ref={badgeRef}
+              type="button"
+              onClick={toggleDropdown}
+              className="flex items-center gap-2 rounded-full border border-stroke bg-surface px-1.5 py-1.5 transition-colors hover:bg-surface-alt dark:border-dark-stroke dark:bg-dark-surface dark:hover:bg-dark-surface-alt"
+            >
+              <Avatar src={user?.avatar} name={user?.name} size="sm" />
+              <ChevronDown size={14} className="mr-1 text-muted dark:text-dark-text-muted" />
+            </button>
+          )}
         </div>
       </div>
 

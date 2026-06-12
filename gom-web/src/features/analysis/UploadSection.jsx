@@ -5,9 +5,29 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { GlareHover } from '../../components/ui/GlareHover';
 
-export const UploadSection = ({ file, preview, loading, error, onFileChange, onAnalyze, onClear }) => {
+export const UploadSection = ({ file, preview, loading, error, onFileChange, onAnalyze, onClear, isLoggedIn = true }) => {
   const { t } = useTranslation();
   const fileRef = useRef(null);
+
+  const handleUploadClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      onAnalyze?.(); // This triggers the redirect to auth in AnalysisPage.jsx
+      return;
+    }
+    if (!preview) {
+      fileRef.current?.click();
+    }
+  };
+
+  const handleSelectClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      onAnalyze?.(); // This triggers the redirect to auth in AnalysisPage.jsx
+      return;
+    }
+    fileRef.current?.click();
+  };
 
   return (
     <section id="analysis-section" className="py-16">
@@ -22,7 +42,7 @@ export const UploadSection = ({ file, preview, loading, error, onFileChange, onA
         <div className="mt-8">
           <div
             className="relative mx-auto flex aspect-video max-w-2xl cursor-pointer flex-col items-center justify-center rounded-3xl border-2 border-dashed border-stroke bg-surface-alt transition-all hover:border-ceramic dark:border-dark-stroke dark:bg-dark-surface-alt"
-            onClick={() => !preview && fileRef.current?.click()}
+            onClick={handleUploadClick}
           >
             {preview ? (
               <>
@@ -70,7 +90,7 @@ export const UploadSection = ({ file, preview, loading, error, onFileChange, onA
             <Button
               variant="ghost"
               size="md"
-              onClick={() => fileRef.current?.click()}
+              onClick={handleSelectClick}
               leftIcon={<Upload size={16} />}
               className="w-full sm:w-auto"
             >

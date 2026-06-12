@@ -30,13 +30,11 @@ export const AppLayout = () => {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-ivory dark:bg-dark-bg">
-      {token && user && (
-        <MainHeader
-          user={user}
-          quota={quota}
-          logout={logout}
-        />
-      )}
+      <MainHeader
+        user={user}
+        quota={quota}
+        logout={logout}
+      />
 
       <main className="flex-1">
         <Outlet context={{ notify, fetchUser }} />

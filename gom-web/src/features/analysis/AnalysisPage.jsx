@@ -81,6 +81,11 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
   };
 
   const analyze = async () => {
+    if (!token) {
+      notify?.(t('auth.loginRequired', { defaultValue: 'Vui lòng đăng nhập để bắt đầu giám định.' }), 'warning');
+      setView?.('auth');
+      return;
+    }
     if ((quota?.free_used ?? 0) >= (quota?.free_limit ?? 0) && (quota?.token_balance ?? 0) <= 0) {
       notify?.(t('analysis.noQuota'), 'error');
       setView?.(VIEWS.PAYMENT);
@@ -165,6 +170,15 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
     document.getElementById('analysis-section')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleStartAppraisal = () => {
+    if (!token) {
+      notify?.(t('auth.loginRequired', { defaultValue: 'Vui lòng đăng nhập để bắt đầu giám định.' }), 'warning');
+      setView?.('auth');
+    } else {
+      scrollToUpload();
+    }
+  };
+
   // If we have a result, show dashboard
   if (result) {
     return (
@@ -211,7 +225,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
         keywords={t('home.seoKeywords', { defaultValue: 'gốm sứ, đồ cổ, the archivist, ai giám định, gốm việt nam, gốm sứ cổ' })}
       />
         <HeroSection
-          onUpload={scrollToUpload}
+          onUpload={handleStartAppraisal}
           onExplore={() => setView?.(VIEWS.LINES)}
           featuredImage={featuredImage}
         />
@@ -258,6 +272,7 @@ export const AnalysisPage = ({ token, notify, quota, setQuota, setView, user }) 
           onFileChange={onFileChange}
           onAnalyze={analyze}
           onClear={onClear}
+          isLoggedIn={!!token}
         />
 
         {/* 3D Model Showcase */}
