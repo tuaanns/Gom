@@ -1,6 +1,8 @@
 import asyncio
+import copy
 import json
 import logging
+import time
 
 try:
     from app.agents.base_agent import BaseAgent
@@ -225,15 +227,26 @@ class DebateEngine:
 
             # Phase 1: Independent Predictions (injecting lens_results)
             logger.info("[DebateEngine] Starting Phase 1: Independent Predictions with Google Lens results")
+
+            async def timed_prediction(agent):
+                started = time.perf_counter()
+                try:
+                    result = await agent.predict(visual_features, lens_results, lang)
+                    return result, time.perf_counter() - started
+                except Exception as error:
+                    return error, time.perf_counter() - started
+
             phase1_raw = await asyncio.gather(
-                self.gpt.predict(visual_features, lens_results, lang),
-                self.grok.predict(visual_features, lens_results, lang),
-                self.gemini.predict(visual_features, lens_results, lang),
-                return_exceptions=True,
+                timed_prediction(self.gpt),
+                timed_prediction(self.grok),
+                timed_prediction(self.gemini),
             )
             agent_names = ["Ceramic History", "Kiln Signature and Ceramic Morphology Expert", "Global Ceramics Expert"]
             results = []
-            for i, item in enumerate(phase1_raw):
+            initial_agent_latencies = []
+            for i, timed_item in enumerate(phase1_raw):
+                item, latency = timed_item
+                initial_agent_latencies.append(round(latency, 3))
                 if isinstance(item, Exception):
                     logger.error(f"[DebateEngine] Agent {agent_names[i]} failed during Phase 1: {item}")
                     results.append(self._agent_error_result(agent_names[i], item, lang))
@@ -274,6 +287,8 @@ class DebateEngine:
                         r["evidence"] = f"Error: {r['error']}"
                     else:
                         r["evidence"] = "Failed to parse AI response."
+
+            initial_agent_predictions = copy.deepcopy(results)
 
             # Phase 2 & 3: The Debate Loop (Attacks/Defenses & Judging)
             MAX_ITER = 1
@@ -342,6 +357,8 @@ class DebateEngine:
 
         return {
             "visual_features": visual_features,
+            "initial_agent_predictions": initial_agent_predictions,
+            "initial_agent_latencies": initial_agent_latencies,
             "agent_predictions": results,
             "final_report": final_report,
             "iterations_run": iteration,

@@ -1,0 +1,5 @@
+﻿dataset,id,filename,ground_truth,method,raw_prediction,predicted_label,confidence,is_correct,is_hallucinated,latency_s,error
+dataset1_video,1,images/01_bat_trang_vietnam/001_01_bat_trang_vietnam_01.jpg,Bat Trang,gemini,Bát Tràng Kilns (Làng gốm Bát Tràng),Bat Trang,0.95,True,False,46.183,
+dataset1_video,1,images/01_bat_trang_vietnam/001_01_bat_trang_vietnam_01.jpg,Bat Trang,chatgpt,Bat Trang,Bat Trang,0.85,True,False,12.803,
+dataset1_video,1,images/01_bat_trang_vietnam/001_01_bat_trang_vietnam_01.jpg,Bat Trang,grok,Bát Tràng,Bat Trang,0.8,True,False,7.278,
+dataset1_video,1,images/01_bat_trang_vietnam/001_01_bat_trang_vietnam_01.jpg,Bat Trang,acis,Bat Trang,Bat Trang,0.9,True,False,68.476,
