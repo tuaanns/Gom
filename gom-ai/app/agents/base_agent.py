@@ -124,7 +124,7 @@ class BaseAgent:
         reraise=True
     )
     # Call the appropriate LLM provider (Google Gemini, Groq, OpenAI, or DeepSeek)
-    async def _call_llm(self, prompt: str) -> str:
+    async def _call_llm(self, prompt: str, system_prompt: str = None) -> str:
         max_retries = 3
         retry_delay = 2  # seconds
 
@@ -139,9 +139,13 @@ class BaseAgent:
                     from google import genai as google_genai
                     from google.genai import types as genai_types
                     client = google_genai.Client(api_key=self.api_key)
+                    config = genai_types.GenerateContentConfig(
+                        system_instruction=system_prompt
+                    ) if system_prompt else None
                     response = await client.aio.models.generate_content(
                         model=self.model_id,
                         contents=[genai_types.Part.from_text(text=prompt)],
+                        config=config,
                     )
                     return response.text or ""
 
@@ -151,10 +155,14 @@ class BaseAgent:
                         "deepseek": "https://api.deepseek.com",
                     }
                     base_url = base_urls.get(self.provider)  # None for openai (uses default)
+                    messages = []
+                    if system_prompt:
+                        messages.append({"role": "system", "content": system_prompt})
+                    messages.append({"role": "user", "content": prompt})
                     async with AsyncOpenAI(api_key=self.api_key, base_url=base_url) as client:
                         resp = await client.chat.completions.create(
                             model=self.model_id,
-                            messages=[{"role": "user", "content": prompt}],
+                            messages=messages,
                             temperature=0.3,
                         )
                         return resp.choices[0].message.content or ""
@@ -189,9 +197,13 @@ class BaseAgent:
                         try:
                             base_url = "https://api.groq.com/openai/v1"
                             async with AsyncOpenAI(api_key=groq_key, base_url=base_url) as client_g:
+                                messages = []
+                                if system_prompt:
+                                    messages.append({"role": "system", "content": system_prompt})
+                                messages.append({"role": "user", "content": prompt})
                                 resp = await client_g.chat.completions.create(
                                     model=fallback_model,
-                                    messages=[{"role": "user", "content": prompt}],
+                                    messages=messages,
                                     temperature=0.3,
                                 )
                                 return resp.choices[0].message.content or ""
@@ -211,9 +223,13 @@ class BaseAgent:
                             from google import genai as google_genai
                             from google.genai import types as genai_types
                             client_g = google_genai.Client(api_key=google_key)
+                            config = genai_types.GenerateContentConfig(
+                                system_instruction=system_prompt
+                            ) if system_prompt else None
                             response = await client_g.aio.models.generate_content(
                                 model=fallback_model,
                                 contents=[genai_types.Part.from_text(text=prompt)],
+                                config=config,
                             )
                             return response.text or ""
                         except Exception as gemini_err:
