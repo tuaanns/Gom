@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { X, Save } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { adminApi } from '../api';
 import { getErrorMessage } from '../../../lib/utils';
 import { Modal } from '../../../components/ui/Modal';
 import { Button } from '../../../components/ui/Button';
 
 export const PageModal = ({ pageData, onClose, onSuccess, notify }) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     title: '',
@@ -35,7 +37,7 @@ export const PageModal = ({ pageData, onClose, onSuccess, notify }) => {
 
     try {
       await adminApi.updatePage(pageData.id, formData);
-      notify?.('Page updated successfully', 'success');
+      notify?.(t('admin.pagesPage.saveSuccess'), 'success');
       onSuccess();
     } catch (err) {
       notify?.(getErrorMessage(err), 'error');

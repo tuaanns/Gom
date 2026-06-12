@@ -124,7 +124,7 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             </h2>
             <p className="mt-4 text-sm text-muted dark:text-dark-text-muted leading-relaxed">
               {t('payment.vnpay.successDesc')}
-              {viaApp && <span className="block mt-2 font-bold text-success">Đang chuyển hướng quay lại ứng dụng...</span>}
+              {viaApp && <span className="block mt-2 font-bold text-success">{t('payment.vnpay.redirecting')}</span>}
             </p>
             
             <div className="mt-6 p-4 w-full bg-white dark:bg-dark-surface rounded-2xl border border-success/20 flex flex-col gap-2">
@@ -167,7 +167,7 @@ export const VNPayReturnPage = ({ fetchUser, notify }) => {
             </h2>
             <p className="mt-4 text-sm text-muted dark:text-dark-text-muted leading-relaxed">
               {errorMessage}
-              {viaApp && <span className="block mt-2 font-bold text-danger">Đang chuyển hướng quay lại ứng dụng...</span>}
+              {viaApp && <span className="block mt-2 font-bold text-danger">{t('payment.vnpay.redirecting')}</span>}
             </p>
 
             <div className="mt-8 flex flex-col sm:flex-row gap-3 w-full">

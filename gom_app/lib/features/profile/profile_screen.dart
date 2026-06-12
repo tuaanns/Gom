@@ -448,7 +448,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           if (!mounted) return;
           showGomNotification(
             context, 
-            "Tải ảnh đại diện thất bại: ${parseErrorMessage(uploadRes.body, uploadRes.statusCode)}", 
+            AppLang.tr("Tải ảnh đại diện thất bại: ", "Avatar upload failed: ") + parseErrorMessage(uploadRes.body, uploadRes.statusCode), 
             type: GomNotificationType.error
           );
           return;
@@ -485,7 +485,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     } catch (e) {
       print("Lỗi update: $e");
       if (!mounted) return;
-      showGomNotification(context, "Loi ket noi may chu: ${e.toString().split(':').first}", type: GomNotificationType.error);
+      showGomNotification(context, AppLang.tr("Lỗi kết nối máy chủ: ", "Server connection error: ") + e.toString().split(':').first, type: GomNotificationType.error);
     } finally {
       if (mounted) setState(() => isUpdating = false);
     }
@@ -735,11 +735,11 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
   Future<void> _changePassword() async {
     if (_newPassCtrl.text.length < 6) {
-      showGomNotification(context, 'Mat khau moi phai co it nhat 6 ky tu', type: GomNotificationType.error);
+      showGomNotification(context, AppLang.tr('Mật khẩu mới phải có ít nhất 6 ký tự', 'New password must be at least 6 characters'), type: GomNotificationType.error);
       return;
     }
     if (_newPassCtrl.text != _confirmPassCtrl.text) {
-      showGomNotification(context, "Mật khẩu xác nhận không khớp", type: GomNotificationType.error);
+      showGomNotification(context, AppLang.tr('Mật khẩu xác nhận không khớp', 'Confirm password does not match'), type: GomNotificationType.error);
       return;
     }
     setState(() => isChangingPass = true);
@@ -755,7 +755,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       );
       if (res.statusCode == 200) {
         if (!mounted) return;
-        showGomNotification(context, "Đổi mật khẩu thành công!", type: GomNotificationType.success);
+        showGomNotification(context, AppLang.tr('Đổi mật khẩu thành công!', 'Password changed successfully!'), type: GomNotificationType.success);
         Navigator.pop(context);
       } else {
         if (!mounted) return;
@@ -763,7 +763,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       }
     } catch (e) {
       if (!mounted) return;
-      showGomNotification(context, 'Loi ket noi may chu', type: GomNotificationType.error);
+      showGomNotification(context, AppLang.tr('Lỗi kết nối máy chủ', 'Server connection error'), type: GomNotificationType.error);
     } finally {
       if (mounted) setState(() => isChangingPass = false);
     }

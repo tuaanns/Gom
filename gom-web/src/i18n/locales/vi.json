@@ -150,7 +150,8 @@
     "forgotError": "Lỗi gửi yêu cầu phục hồi",
     "resetSuccess2": "Đổi mật khẩu thành công! Vui lòng đăng nhập lại.",
     "resetCodeError": "Mã xác nhận không chính xác",
-    "socialError": "Lỗi kết nối {{provider}}"
+    "socialError": "Lỗi kết nối {{provider}}",
+    "loginRequired": "Vui lòng đăng nhập để bắt đầu giám định."
   },
   "home": {
     "heroTitle": "Khám phá di sản gốm sứ",
@@ -305,7 +306,10 @@
     },
     "save": "Lưu thay đổi",
     "saved": "Cập nhật thành công!",
-    "passwordChanged": "Đổi mật khẩu thành công!"
+    "passwordChanged": "Đổi mật khẩu thành công!",
+    "uploadingAvatar": "Đang tải ảnh đại diện lên...",
+    "newAvatarSelected": "Đã chọn ảnh đại diện mới",
+    "savePrompt": "Nhấn Lưu để cập nhật ảnh đại diện của bạn"
   },
   "payment": {
     "title": "Nạp Tín Dụng",
@@ -368,7 +372,8 @@
       "appraiseNow": "Giám định ngay",
       "failedTitle": "Giao dịch thất bại",
       "retry": "Thử lại",
-      "goHome": "Về Trang chủ"
+      "goHome": "Về Trang chủ",
+      "redirecting": "Đang chuyển hướng quay lại ứng dụng..."
     }
   },
   "transactions": {
@@ -548,6 +553,8 @@
       "deleteConfirm": "Xóa",
       "deletedSuccess": "Đã xóa người dùng thành công",
       "roleUpdated": "Vai trò đã được cập nhật thành {{role}}",
+      "updateSuccess": "Cập nhật người dùng thành công",
+      "createNeedsBackend": "Tính năng tạo người dùng cần thêm endpoint ở backend",
       "table": {
         "id": "ID",
         "name": "Tên",
@@ -891,6 +898,13 @@
     "forbidden": "Bạn không có quyền truy cập",
     "notFound": "Không tìm thấy",
     "server": "Lỗi máy chủ",
-    "validation": "Dữ liệu không hợp lệ"
+    "validation": "Dữ liệu không hợp lệ",
+    "fileSizeLimit": "Dung lượng hình ảnh phải nhỏ hơn 5MB.",
+    "invalidFileType": "Vui lòng chọn tệp hình ảnh.",
+    "nameRequired": "Tên là bắt buộc.",
+    "emailRequired": "Email là bắt buộc.",
+    "emailInvalid": "Định dạng email không hợp lệ.",
+    "passwordRequired": "Mật khẩu là bắt buộc.",
+    "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự."
   }
 }

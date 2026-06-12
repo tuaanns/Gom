@@ -150,7 +150,8 @@
     "forgotError": "Error sending recovery request",
     "resetSuccess2": "Password changed successfully! Please sign in again.",
     "resetCodeError": "Verification code is incorrect",
-    "socialError": "Connection error with {{provider}}"
+    "socialError": "Connection error with {{provider}}",
+    "loginRequired": "Please sign in to start appraisal."
   },
   "home": {
     "heroTitle": "Discover ceramic heritage",
@@ -305,7 +306,10 @@
     },
     "save": "Save changes",
     "saved": "Saved successfully!",
-    "passwordChanged": "Password changed successfully!"
+    "passwordChanged": "Password changed successfully!",
+    "uploadingAvatar": "Uploading avatar image...",
+    "newAvatarSelected": "New avatar image selected",
+    "savePrompt": "Click Save to update your avatar"
   },
   "payment": {
     "title": "Top up Credits",
@@ -368,7 +372,8 @@
       "appraiseNow": "Appraise Now",
       "failedTitle": "Transaction failed",
       "retry": "Try again",
-      "goHome": "Go Home"
+      "goHome": "Go Home",
+      "redirecting": "Redirecting back to app..."
     }
   },
   "transactions": {
@@ -548,6 +553,8 @@
       "deleteConfirm": "Delete",
       "deletedSuccess": "User deleted successfully",
       "roleUpdated": "User role updated to {{role}}",
+      "updateSuccess": "User updated successfully",
+      "createNeedsBackend": "Create user feature needs backend endpoint",
       "table": {
         "id": "ID",
         "name": "Name",
@@ -891,6 +898,13 @@
     "forbidden": "You don't have permission",
     "notFound": "Not found",
     "server": "Server error",
-    "validation": "Invalid data"
+    "validation": "Invalid data",
+    "fileSizeLimit": "Image size must be less than 5MB.",
+    "invalidFileType": "Please select an image file.",
+    "nameRequired": "Name is required.",
+    "emailRequired": "Email is required.",
+    "emailInvalid": "Invalid email format.",
+    "passwordRequired": "Password is required.",
+    "passwordMinLength": "Password must be at least 6 characters."
   }
 }

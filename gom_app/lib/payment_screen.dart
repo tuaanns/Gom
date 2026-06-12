@@ -801,7 +801,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
                 child: ElevatedButton.icon(
                   onPressed: () { 
                     Clipboard.setData(ClipboardData(text: transferContent)); 
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Đã sao chép nội dung CK'), backgroundColor: Colors.green)); 
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLang.tr('Đã sao chép nội dung chuyển khoản', 'Transfer content copied')), backgroundColor: Colors.green)); 
                   },
                   icon: const Icon(Icons.copy, size: 20),
                   label: Text(AppLang.tr('Sao chép nội dung', 'Copy content'), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
@@ -859,7 +859,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
               icon: const Icon(Icons.copy, size: 20, color: Colors.blue),
               onPressed: () {
                 Clipboard.setData(ClipboardData(text: value));
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Đã sao chép $label'), backgroundColor: Colors.green));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(AppLang.tr('Đã sao chép $label', 'Copied $label')), backgroundColor: Colors.green));
               },
               tooltip: 'Sao chép',
             ),

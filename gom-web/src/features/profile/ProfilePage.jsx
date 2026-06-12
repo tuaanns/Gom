@@ -46,7 +46,7 @@ export const ProfilePage = ({ user, quota, fetchUser, notify }) => {
 
     // Validate file size (max 5MB to match backend)
     if (file.size > 5 * 1024 * 1024) {
-      notify?.('Dung lượng file không được vượt quá 5MB', 'error');
+      notify?.(t('errors.fileSizeLimit'), 'error');
       return;
     }
 
@@ -68,7 +68,7 @@ export const ProfilePage = ({ user, quota, fetchUser, notify }) => {
 
       // Step 1: Upload avatar to Azure Blob Storage if file is selected
       if (avatarFile) {
-        notify?.('Đang tải ảnh lên...', 'info');
+        notify?.(t('profile.uploadingAvatar'), 'info');
         const uploadResult = await storageApi.uploadSingle(avatarFile, 'avatars');
         avatarUrl = uploadResult.fileUrl;
       }
@@ -189,8 +189,8 @@ export const ProfilePage = ({ user, quota, fetchUser, notify }) => {
           <form onSubmit={submitInfo} className="space-y-4">
             {avatarPreview && (
               <div className="rounded-lg bg-ceramic/10 p-3 text-sm text-ceramic-dark dark:bg-ceramic/20">
-                <p className="font-semibold">Đã chọn ảnh đại diện mới</p>
-                <p className="text-xs">Nhấn Lưu để cập nhật ảnh đại diện của bạn</p>
+                <p className="font-semibold">{t('profile.newAvatarSelected')}</p>
+                <p className="text-xs">{t('profile.savePrompt')}</p>
               </div>
             )}
             <div>

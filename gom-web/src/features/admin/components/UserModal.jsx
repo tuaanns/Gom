@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Upload, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { Modal } from './Modal';
 import { FormField, Input, Select } from './FormField';
 import { adminApi } from '../api';
@@ -7,6 +8,7 @@ import { storageApi } from '../../../lib/storageApi';
 import { getErrorMessage } from '../../../lib/utils';
 
 export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [avatarFile, setAvatarFile] = useState(null);
@@ -61,12 +63,12 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      notify?.('Please select an image file', 'error');
+      notify?.(t('errors.invalidFileType'), 'error');
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      notify?.('Image size must be less than 5MB', 'error');
+      notify?.(t('errors.fileSizeLimit'), 'error');
       return;
     }
 
@@ -89,19 +91,19 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = t('errors.nameRequired');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('errors.emailRequired');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Invalid email format';
+      newErrors.email = t('errors.emailInvalid');
     }
 
     if (!user && !formData.password) {
-      newErrors.password = 'Password is required for new users';
+      newErrors.password = t('errors.passwordRequired');
     } else if (formData.password && formData.password.length < 6) {
-      newErrors.password = 'Password must be at least 6 characters';
+      newErrors.password = t('errors.passwordMinLength');
     }
 
     setErrors(newErrors);
@@ -120,7 +122,7 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
       // Upload avatar if new file selected
       if (avatarFile) {
         setUploading(true);
-        notify?.('Uploading avatar...', 'info');
+        notify?.(t('profile.uploadingAvatar'), 'info');
         const uploadResult = await storageApi.uploadSingle(avatarFile, 'avatars');
         avatarUrl = uploadResult.fileUrl;
         setUploading(false);
@@ -138,10 +140,10 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
 
       if (user) {
         await adminApi.updateUser(user.id, submitData);
-        notify?.('User updated successfully', 'success');
+        notify?.(t('admin.usersPage.updateSuccess'), 'success');
       } else {
         // For create, we need to use register endpoint or create a new admin endpoint
-        notify?.('Create user feature needs backend endpoint', 'info');
+        notify?.(t('admin.usersPage.createNeedsBackend'), 'info');
         // TODO: Implement create user endpoint in backend
       }
 
