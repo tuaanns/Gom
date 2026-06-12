@@ -241,7 +241,11 @@ class DebateEngine:
                 timed_prediction(self.grok),
                 timed_prediction(self.gemini),
             )
-            agent_names = ["Ceramic History", "Kiln Signature and Ceramic Morphology Expert", "Global Ceramics Expert"]
+            if lang == "en":
+                agent_names = ["Ceramic History", "Kiln Signatures & Morphology Expert", "Global Ceramics Expert"]
+            else:
+                agent_names = ["Lịch Sử Gốm", "Chuyên gia Chữ ký Lò và Hình thái Gốm", "Chuyên Gia Gốm Toàn Cầu"]
+            
             results = []
             initial_agent_latencies = []
             for i, timed_item in enumerate(phase1_raw):
@@ -267,11 +271,34 @@ class DebateEngine:
                     "lang": lang,
                     "error": final_report.get("error"),
                 }
+            
+            # Map of agent names for robust localization
+            name_mapping_en = {
+                "Lịch Sử Gốm": "Ceramic History",
+                "Chuyên gia Chữ ký Lò và Hình thái Gốm": "Kiln Signatures & Morphology Expert",
+                "Chuyên Gia Gốm Toàn Cầu": "Global Ceramics Expert",
+                "Ceramic History": "Ceramic History",
+                "Kiln Signature and Ceramic Morphology Expert": "Kiln Signatures & Morphology Expert",
+                "Kiln Signatures & Morphology Expert": "Kiln Signatures & Morphology Expert",
+                "Global Ceramics Expert": "Global Ceramics Expert"
+            }
+            name_mapping_vi = {
+                "Ceramic History": "Lịch Sử Gốm",
+                "Kiln Signature and Ceramic Morphology Expert": "Chuyên gia Chữ ký Lò và Hình thái Gốm",
+                "Kiln Signatures & Morphology Expert": "Chuyên gia Chữ ký Lò và Hình thái Gốm",
+                "Global Ceramics Expert": "Chuyên Gia Gốm Toàn Cầu",
+                "Lịch Sử Gốm": "Lịch Sử Gốm",
+                "Chuyên gia Chữ ký Lò và Hình thái Gốm": "Chuyên gia Chữ ký Lò và Hình thái Gốm",
+                "Chuyên Gia Gốm Toàn Cầu": "Chuyên Gia Gốm Toàn Cầu"
+            }
+
             # Add basic info and validation if missing
             for i, r in enumerate(results):
-                name = agent_names[i]
-                if not r.get("agent_name"):
-                    r["agent_name"] = name
+                curr_name = r.get("agent_name") or agent_names[i]
+                if lang == "en":
+                    r["agent_name"] = name_mapping_en.get(curr_name, agent_names[i])
+                else:
+                    r["agent_name"] = name_mapping_vi.get(curr_name, agent_names[i])
                 if r.get("confidence") is None:
                     r["confidence"] = 0.5
                 # Ensure 'prediction' key exists to avoid crash in Phase 2
