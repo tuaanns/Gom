@@ -84,6 +84,98 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  void _deleteAccount(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Text(AppLang.tr('Xác nhận xóa tài khoản', 'Confirm Account Deletion')),
+        content: Text(AppLang.tr(
+          'Hành động này không thể hoàn tác. Toàn bộ tài khoản, dữ liệu hình ảnh, lịch sử giám định và số dư lượt phân tích của bạn sẽ bị xóa vĩnh viễn khỏi hệ thống.',
+          'This action cannot be undone. Your entire account, image data, prediction history, and credit balance will be permanently deleted from the system.'
+        )),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(AppLang.tr('Hủy', 'Cancel')),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx); // close dialog
+              
+              // Show a loading dialog
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (loadingCtx) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+
+              try {
+                final response = await http.delete(
+                  ApiConfig.uri('/api/profile/delete'),
+                  headers: {
+                    'Authorization': 'Bearer ${AuthState.token}',
+                    'Accept': 'application/json',
+                  },
+                );
+
+                if (!context.mounted) return;
+                Navigator.pop(context); // Pop loading indicator
+
+                if (response.statusCode == 200) {
+                  AuthState.clear();
+                  ChatHistoryManager().clear();
+                  
+                  // Show success dialog
+                  showDialog(
+                    context: context,
+                    builder: (successCtx) => AlertDialog(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      title: Text(AppLang.tr('Đã xóa tài khoản', 'Account Deleted')),
+                      content: Text(AppLang.tr(
+                        'Tài khoản của bạn đã được xóa thành công.',
+                        'Your account has been successfully deleted.'
+                      )),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(successCtx);
+                            Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (_) => MainGate()),
+                              (route) => false,
+                            );
+                          },
+                          child: const Text('OK'),
+                        )
+                      ],
+                    ),
+                  );
+                } else {
+                  // Show error notification
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(AppLang.tr('Lỗi xóa tài khoản', 'Error deleting account')),
+                    backgroundColor: Colors.red,
+                  ));
+                }
+              } catch (e) {
+                if (!context.mounted) return;
+                Navigator.pop(context); // Pop loading indicator
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(AppLang.tr('Lỗi kết nối máy chủ', 'Server connection error')),
+                  backgroundColor: Colors.red,
+                ));
+              }
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.red, foregroundColor: Colors.white),
+            child: Text(AppLang.tr('Xóa vĩnh viễn', 'Permanently Delete')),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final userName = AuthState.user?['name']?.toString() ?? 'Người dùng';
@@ -322,7 +414,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             _buildMenuItem(Icons.lock_outline, AppLang.tr('Đổi mật khẩu', 'Change Password'), AppLang.tr('Bảo mật tài khoản của bạn', 'Secure your account'), () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChangePasswordScreen()))),
             _buildMenuItem(Icons.receipt_long_outlined, AppLang.tr('Lịch sử giao dịch', 'Transaction History'), AppLang.tr('Xem lại các lượt đã nạp và sử dụng', 'Review top-ups and usage'), () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TransactionHistoryScreen()))),
             _buildMenuItem(Icons.logout, AppLang.tr('Đăng xuất', 'Logout'), AppLang.tr('Thoát khỏi tài khoản hiện tại', 'Sign out of current account'), () => _logout(context), isDestructive: true),
-            
+            _buildMenuItem(Icons.delete_forever_outlined, AppLang.tr('Xóa tài khoản', 'Delete Account'), AppLang.tr('Xóa vĩnh viễn tài khoản và toàn bộ dữ liệu của bạn', 'Permanently delete your account and all data'), () => _deleteAccount(context), isDestructive: true),
             const SizedBox(height: 40),
           ],
         ),

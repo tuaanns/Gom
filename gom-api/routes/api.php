@@ -111,6 +111,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/profile/update', [AuthController::class, 'updateProfile']);
     Route::post('/profile/password', [AuthController::class, 'updatePassword']);
+    Route::delete('/profile/delete', [AuthController::class, 'deleteAccount']);
 
     // Predictions / chat
     Route::get('/history', [PredictionController::class, 'history']);

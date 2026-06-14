@@ -205,7 +205,8 @@ def extract_acis_record(debate_result: dict, truth: str) -> dict:
 
 
 async def run_dataset(dataset_id: str, limit: int | None = None) -> None:
-    items = load_dataset(dataset_id)
+    all_items = load_dataset(dataset_id)
+    items = all_items
     if limit:
         items = items[:limit]
 
@@ -306,10 +307,23 @@ async def run_dataset(dataset_id: str, limit: int | None = None) -> None:
 
         row["total_time_s"] = round(time.perf_counter() - started, 3)
         completed[image["filename"]] = row
-        ordered = [completed[item["filename"]] for item in items if item["filename"] in completed]
+        ordered = [
+            completed[item["filename"]]
+            for item in all_items
+            if item["filename"] in completed
+        ]
         save_json(results_path, ordered)
 
-    final_results = [completed[item["filename"]] for item in items if item["filename"] in completed]
+        gemini_error = row.get("methods", {}).get("gemini", {}).get("error") or ""
+        if "GenerateRequestsPerDayPerProjectPerModel" in gemini_error:
+            print("STOP: Gemini daily quota exhausted; checkpoint saved.", flush=True)
+            break
+
+    final_results = [
+        completed[item["filename"]]
+        for item in all_items
+        if item["filename"] in completed
+    ]
     save_json(results_path, final_results)
     summary = compute_all_metrics(final_results)
     save_json(output_dir / "summary.json", summary)

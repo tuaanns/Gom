@@ -19,6 +19,7 @@ import { ContactPageWrapper } from '../features/contact/ContactPageWrapper';
 import { AboutPage } from '../features/about/AboutPage';
 import { TermsPage } from '../features/legal/TermsPage';
 import { PrivacyPage } from '../features/legal/PrivacyPage';
+import { DataDeletionPage } from '../features/legal/DataDeletionPage';
 import { AdminLayout } from '../features/admin/AdminLayout';
 import { DynamicPageLoader } from '../components/layout/DynamicPageLoader';
 import { DashboardPageWrapper } from '../features/admin/pages/DashboardPageWrapper';
@@ -32,6 +33,7 @@ import { PagesPageWrapper } from '../features/admin/pages/PagesPageWrapper';
 import { PaymentSettingsPageWrapper } from '../features/admin/pages/PaymentSettingsPageWrapper';
 import { ApiSettingsPageWrapper } from '../features/admin/pages/ApiSettingsPageWrapper';
 import { VNPayReturnPageWrapper } from '../features/payment/VNPayReturnPageWrapper';
+// import { PredictTestPage } from '../features/analysis/PredictTestPage';
 
 // Guards
 import { ProtectedRoute } from './ProtectedRoute';
@@ -163,6 +165,7 @@ export const routes = [
         ),
       },
 
+
       // Public routes (accessible without auth)
       {
         path: 'ceramics',
@@ -170,6 +173,10 @@ export const routes = [
       },
       {
         path: 'contact',
+        element: <ContactPageWrapper />,
+      },
+      {
+        path: 'support',
         element: <ContactPageWrapper />,
       },
       {
@@ -181,8 +188,20 @@ export const routes = [
         element: <TermsPage />,
       },
       {
+        path: 'terms-of-service',
+        element: <TermsPage />,
+      },
+      {
         path: 'privacy',
         element: <PrivacyPage />,
+      },
+      {
+        path: 'privacy-policy',
+        element: <PrivacyPage />,
+      },
+      {
+        path: 'data-deletion',
+        element: <DataDeletionPage />,
       },
       {
         path: ':slug',

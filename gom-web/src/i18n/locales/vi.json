@@ -502,6 +502,28 @@
       "s3Body": "Chúng tôi không lưu trữ thông tin số thẻ hay bảo mật Internet Banking hay thông tin thẻ tín dụng của bạn. Mọi quá trình nạp tín dụng đều được giao dịch trên cổng thanh toán trung gian, tuân thủ tiêu chuẩn mã hoá PCI DSS cao nhất thông qua giao thức ngân hàng điện tử VietQR và MoMo.",
       "s4Title": "Liên hệ và Giải quyết quyền lợi người dùng",
       "s4Body": "Để yêu cầu xóa toàn bộ lịch sử tư liệu cá nhân, bao gồm các bài viết trên sổ nhật ký, hãy liên hệ tới The Archivist thông qua phần \"Liên hệ chuyên gia\" trên hệ thống. Dữ liệu của bạn sẽ bị hủy vĩnh viễn theo đúng yêu cầu bảo mật thông tin chuẩn GDPR của Liên Minh Châu Âu."
+    },
+    "dataDeletion": {
+      "title": "Chính sách xóa dữ liệu",
+      "subtitle": "Hướng dẫn yêu cầu xóa tài khoản và dữ liệu liên quan tại The Archivist",
+      "s1Title": "1. Quyền yêu cầu xóa dữ liệu",
+      "s1Body": "Theo quy định bảo vệ dữ liệu người dùng (bao gồm chính sách của Google Play và App Store), bạn có quyền yêu cầu xóa hoàn toàn tài khoản và toàn bộ dữ liệu cá nhân liên quan khỏi hệ thống The Archivist bất kỳ lúc nào.",
+      "s2Title": "2. Dữ liệu nào sẽ bị xóa?",
+      "s2Body": "Khi yêu cầu xóa dữ liệu được thực hiện, các thông tin sau sẽ bị hủy vĩnh viễn và không thể khôi phục:",
+      "s2Items": [
+        "Thông tin hồ sơ tài khoản: Họ tên, Email, số điện thoại, ảnh đại diện.",
+        "Lịch sử giám định: Toàn bộ hình ảnh hiện vật đã tải lên và kết quả giám định của AI.",
+        "Lịch sử giao dịch: Lịch sử nạp lượt và số dư tín dụng còn lại.",
+        "Nhật ký hoạt động và token audit logs liên kết với tài khoản."
+      ],
+      "s3Title": "3. Các cách yêu cầu xóa dữ liệu",
+      "s3Body": "Bạn có thể thực hiện xóa dữ liệu bằng 2 cách sau:",
+      "s3Items": [
+        "Cách 1: Gửi yêu cầu qua email hỗ trợ của chúng tôi tại support@thearchivist.com từ chính email đăng ký tài khoản của bạn.",
+        "Cách 2: Truy cập vào mục Hồ sơ cá nhân trong ứng dụng và gửi yêu cầu xóa tài khoản trong phần cài đặt tài khoản."
+      ],
+      "s4Title": "4. Thời gian xử lý",
+      "s4Body": "Yêu cầu của bạn sẽ được đội ngũ kỹ thuật tiếp nhận và thực hiện xóa hoàn toàn dữ liệu khỏi hệ thống cơ sở dữ liệu chính và các bản sao lưu trong vòng tối đa 30 ngày kể từ ngày nhận được yêu cầu."
     }
   },
   "admin": {
@@ -887,6 +909,10 @@
       {
         "href": "/privacy",
         "label": "Bảo mật"
+      },
+      {
+        "href": "/data-deletion",
+        "label": "Xoá tài khoản"
       }
     ],
     "follow": "Theo dõi",

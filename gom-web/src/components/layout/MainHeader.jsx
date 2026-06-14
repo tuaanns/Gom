@@ -28,7 +28,7 @@ export const MainHeader = ({ user, quota, logout }) => {
       .then((res) => {
         if (isMounted && res.data?.data) {
           const allPages = res.data.data;
-          const defaultSlugs = ['home', 'ceramics', 'history', 'contact', 'about', 'terms', 'privacy', 'header', 'footer'];
+          const defaultSlugs = ['home', 'ceramics', 'history', 'contact', 'about', 'terms', 'privacy', 'header', 'footer', 'support', 'privacy-policy', 'terms-of-service', 'data-deletion'];
           const custom = allPages.filter(p => !defaultSlugs.includes(p.slug));
           setCustomPages(custom);
         }

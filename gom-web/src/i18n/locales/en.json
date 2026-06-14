@@ -502,6 +502,28 @@
       "s3Body": "We do not store card numbers, internet banking credentials or credit card details. All top-ups go through PCI-DSS-compliant gateways via VietQR and MoMo.",
       "s4Title": "Contact and user rights",
       "s4Body": "To request deletion of your personal history, including journal entries, contact The Archivist via 'Expert contact'. Your data will be permanently destroyed in compliance with GDPR."
+    },
+    "dataDeletion": {
+      "title": "Data Deletion Policy",
+      "subtitle": "Instructions on requesting account and data deletion at The Archivist",
+      "s1Title": "1. Right to Delete Data",
+      "s1Body": "According to user data protection regulations (including Google Play and App Store policies), you have the right to request the complete deletion of your account and all associated personal data from The Archivist system at any time.",
+      "s2Title": "2. What data will be deleted?",
+      "s2Body": "When a deletion request is executed, the following information will be permanently destroyed and cannot be recovered:",
+      "s2Items": [
+        "Account profile info: Name, Email, phone number, and avatar.",
+        "Appraisal history: All uploaded artifact images and AI debate results.",
+        "Transaction history: Top-up logs and remaining credit balance.",
+        "Activity logs and token audit logs linked to your account."
+      ],
+      "s3Title": "3. How to request data deletion",
+      "s3Body": "You can request deletion through 2 methods:",
+      "s3Items": [
+        "Method 1: Send an email request to our support email at support@thearchivist.com using your registered account email.",
+        "Method 2: Access your Profile section in the app and submit a deletion request in account settings."
+      ],
+      "s4Title": "4. Processing Timeframe",
+      "s4Body": "Your request will be received and processed by our technical team. Data will be completely removed from our primary databases and backups within a maximum of 30 days from request receipt."
     }
   },
   "admin": {
@@ -887,6 +909,10 @@
       {
         "href": "/privacy",
         "label": "Privacy"
+      },
+      {
+        "href": "/data-deletion",
+        "label": "Delete Account"
       }
     ],
     "follow": "Follow",

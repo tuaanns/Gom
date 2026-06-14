@@ -228,4 +228,24 @@ class AuthController extends Controller
 
         return response()->json(['message' => 'Mật khẩu đã được cập nhật thành công.']);
     }
+
+    public function deleteAccount(Request $request)
+    {
+        $user = $request->user();
+
+        // Revoke all tokens
+        $user->tokens()->delete();
+
+        // Delete related payments, token histories, and predictions
+        $user->payments()->delete();
+        $user->tokenHistories()->delete();
+        \App\Models\Prediction::where('user_id', $user->id)->delete();
+
+        // Delete the user record
+        $user->delete();
+
+        return response()->json([
+            'message' => 'Tài khoản và toàn bộ dữ liệu của bạn đã được xóa hoàn thành công.'
+        ]);
+    }
 }
