@@ -53,7 +53,7 @@ The key highlight of the system is the deployment of a **Multi-Agent Debate Engi
 2. **Đăng ký tài khoản mới**:
    * Nhấp chọn **Đăng ký / Register**.
    * Nhập đầy đủ thông tin: Họ tên, Email, Mật khẩu, Số điện thoại.
-   * Hệ thống sẽ tự động khởi tạo tài khoản và tặng kèm **3 lượt giám định miễn phí** ban đầu.
+   * Hệ thống sẽ tự động khởi tạo tài khoản và tặng kèm **5 lượt giám định miễn phí** ban đầu.
 3. **Đăng nhập**:
    * Nhập Email và Mật khẩu đã đăng ký, hoặc bấm **Đăng nhập với Google** để truy cập nhanh chóng.
    * Để thay đổi ngôn ngữ hiển thị (Anh/Việt) toàn hệ thống, người dùng nhấp chọn biểu tượng cờ quốc gia trên thanh điều hướng đầu trang (Header) của Web hoặc góc trên cùng màn hình App.
@@ -65,7 +65,7 @@ The key highlight of the system is the deployment of a **Multi-Agent Debate Engi
 2. **Register a New Account**:
    * Tap/Click **Register**.
    * Enter required information: Full Name, Email, Password, and Phone Number.
-   * The system will create your account and grant **3 free appraisal tokens** for initial testing.
+   * The system will create your account and grant **5 free appraisal tokens** for initial testing.
 3. **Login**:
    * Enter your registered Email and Password, or click **Sign in with Google** for instant access.
    * To change the system language (English/Vietnamese), click on the language switch icon (flag icon) in the Web Header or at the top of the Mobile App screen.
