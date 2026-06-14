@@ -293,7 +293,8 @@
     "tabs": {
       "info": "Info",
       "password": "Change password",
-      "billing": "Account"
+      "billing": "Account",
+      "danger": "Delete Account"
     },
     "fields": {
       "name": "Name",

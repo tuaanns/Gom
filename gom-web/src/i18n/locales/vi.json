@@ -293,7 +293,8 @@
     "tabs": {
       "info": "Thông tin",
       "password": "Đổi mật khẩu",
-      "billing": "Tài khoản"
+      "billing": "Tài khoản",
+      "danger": "Xóa tài khoản"
     },
     "fields": {
       "name": "Họ tên",
