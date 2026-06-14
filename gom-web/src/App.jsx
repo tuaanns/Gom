@@ -3,6 +3,7 @@ import { HashRouter, RouterProvider, createHashRouter, useNavigate, useLocation 
 import { routes } from './router/routes';
 import { GOOGLE_CLIENT_ID } from './lib/constants';
 import { NotifyProvider } from './hooks/useNotify';
+import i18n from './i18n';
 
 // Create router instance
 const router = createHashRouter(routes);
@@ -54,6 +55,26 @@ const LegacyHashRedirect = () => {
 };
 
 function App() {
+  // Sync language from URL query parameters (?lng=en or #/route?lng=en)
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    let lng = searchParams.get('lng') || searchParams.get('lang');
+    
+    if (!lng && window.location.hash.includes('?')) {
+      const hashParts = window.location.hash.split('?');
+      if (hashParts.length > 1) {
+        const hashParams = new URLSearchParams(hashParts[1]);
+        lng = hashParams.get('lng') || hashParams.get('lang');
+      }
+    }
+    
+    if (lng && ['vi', 'en'].includes(lng)) {
+      if (i18n.language !== lng) {
+        i18n.changeLanguage(lng);
+      }
+    }
+  }, []);
+
   // Inject Google Identity Services script once
   useEffect(() => {
     if (document.getElementById('google-identity-script')) return;

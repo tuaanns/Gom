@@ -123,7 +123,7 @@
     "processing": "Đang xử lý...",
     "orConnectVia": "HOẶC KẾT NỐI QUA",
     "loginFacebook": "Đăng nhập bằng Facebook",
-    "terms": "Bằng việc tiếp tục, bạn đồng ý với <b>Điều khoản Dịch vụ</b> và <b>Chính sách Bảo mật</b> của chúng tôi.",
+    "terms": "Bằng việc tiếp tục, bạn đồng ý với <a href='#/terms-of-service' style='color: #0F265C; font-weight: bold; text-decoration: underline;'>Điều khoản Dịch vụ</a> và <a href='#/privacy-policy' style='color: #0F265C; font-weight: bold; text-decoration: underline;'>Chính sách Bảo mật</a> của chúng tôi.",
     "brandSubtitle": "Hệ thống giám định gốm sứ cổ thông minh",
     "feature1Title": "Trí tuệ nhân tạo đa đại lý",
     "feature1Desc": "Phân tích chính xác nguồn gốc và niên đại cổ vật",

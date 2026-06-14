@@ -123,7 +123,7 @@
     "processing": "Processing...",
     "orConnectVia": "OR CONNECT VIA",
     "loginFacebook": "Sign in with Facebook",
-    "terms": "By continuing, you agree to our <b>Terms of Service</b> and <b>Privacy Policy</b>.",
+    "terms": "By continuing, you agree to our <a href='#/terms-of-service' style='color: #0F265C; font-weight: bold; text-decoration: underline;'>Terms of Service</a> and <a href='#/privacy-policy' style='color: #0F265C; font-weight: bold; text-decoration: underline;'>Privacy Policy</a>.",
     "brandSubtitle": "AI-Powered Ceramic Authentication System",
     "feature1Title": "Multi-Agent AI",
     "feature1Desc": "Accurately analyze the origin and era of artifacts",

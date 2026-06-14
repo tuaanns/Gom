@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'package:gom_app/api_config.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -370,9 +372,29 @@ class _LoginScreenState extends State<LoginScreen> {
                     style: const TextStyle(fontSize: 10, color: Color(0xFF888888), height: 1.5),
                     children: [
                       TextSpan(text: AppLang.tr('Bằng việc tiếp tục, bạn đồng ý với ', 'By continuing, you agree to our ')),
-                      TextSpan(text: AppLang.tr('Điều khoản Dịch vụ', 'Terms of Service'), style: const TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold)),
+                      TextSpan(
+                        text: AppLang.tr('Điều khoản Dịch vụ', 'Terms of Service'),
+                        style: const TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            final url = Uri.parse('https://thearchivistai.vercel.app/#/terms-of-service?lng=${AppLang.current}');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url, mode: LaunchMode.externalApplication);
+                            }
+                          },
+                      ),
                       TextSpan(text: AppLang.tr(' và\n', ' and\n')),
-                      TextSpan(text: AppLang.tr('Chính sách Bảo mật', 'Privacy Policy'), style: const TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold)),
+                      TextSpan(
+                        text: AppLang.tr('Chính sách Bảo mật', 'Privacy Policy'),
+                        style: const TextStyle(color: Color(0xFF0F265C), fontWeight: FontWeight.bold, decoration: TextDecoration.underline),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () async {
+                            final url = Uri.parse('https://thearchivistai.vercel.app/#/privacy-policy?lng=${AppLang.current}');
+                            if (await canLaunchUrl(url)) {
+                              await launchUrl(url, mode: LaunchMode.externalApplication);
+                            }
+                          },
+                      ),
                       TextSpan(text: AppLang.tr(' của chúng tôi.', ' of ours.')),
                     ],
                   ),
