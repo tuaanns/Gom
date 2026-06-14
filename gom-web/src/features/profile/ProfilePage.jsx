@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { User, Mail, Phone, Lock, Save, Camera } from 'lucide-react';
+import { User, Mail, Phone, Lock, Save, Camera, Trash2 } from 'lucide-react';
 import { PageContainer } from '../../components/layout/PageContainer';
 import { PageHeader } from '../../components/layout/PageHeader';
 import { Card } from '../../components/ui/Card';
@@ -15,9 +15,10 @@ import { cn, getErrorMessage } from '../../lib/utils';
 const TABS = [
   { id: 'info', icon: User },
   { id: 'password', icon: Lock },
+  { id: 'danger', icon: Trash2 },
 ];
 
-export const ProfilePage = ({ user, quota, fetchUser, notify }) => {
+export const ProfilePage = ({ user, quota, fetchUser, notify, logout }) => {
   const { t } = useTranslation();
   const [tab, setTab] = useState('info');
   const [form, setForm] = useState({
@@ -30,6 +31,36 @@ export const ProfilePage = ({ user, quota, fetchUser, notify }) => {
   const [pwd, setPwd] = useState({ current: '', next: '', confirm: '' });
   const [saving, setSaving] = useState(false);
   const [changing, setChanging] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+  const [confirmText, setConfirmText] = useState('');
+
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    if (confirmText !== user?.email) {
+      notify?.(t('profile.confirmEmailMismatch', { defaultValue: 'Email xác nhận không khớp.' }), 'error');
+      return;
+    }
+    
+    if (!window.confirm(t('profile.deleteConfirmText', { defaultValue: 'CẢNH BÁO: Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản và toàn bộ dữ liệu của mình?' }))) {
+      return;
+    }
+
+    setDeleting(true);
+    try {
+      await profileApi.deleteAccount();
+      notify?.(t('profile.deleteSuccess', { defaultValue: 'Tài khoản của bạn đã được xóa thành công.' }), 'success');
+      
+      // Perform local logout cleanup
+      await logout?.();
+      
+      // Redirect to home/auth page
+      window.location.href = '/#/auth';
+    } catch (err) {
+      notify?.(getErrorMessage(err), 'error');
+    } finally {
+      setDeleting(false);
+    }
+  };
 
   const onChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }));
   const onPwdChange = (e) => setPwd((p) => ({ ...p, [e.target.name]: e.target.value }));
@@ -264,6 +295,50 @@ export const ProfilePage = ({ user, quota, fetchUser, notify }) => {
               {changing ? t('common.saving') : t('profile.save')}
             </Button>
           </form>
+        )}
+
+        {tab === 'danger' && (
+          <div className="space-y-6 rounded-xl border border-red-200/50 bg-red-50/50 p-6 dark:border-red-900/30 dark:bg-red-950/10">
+            <div>
+              <h4 className="font-heading text-lg font-bold text-red-600 dark:text-red-400">
+                {t('profile.dangerZone', { defaultValue: 'Vùng Nguy Hiểm' })}
+              </h4>
+              <p className="mt-1 text-sm text-muted dark:text-dark-text-muted">
+                {t('profile.dangerDesc', { defaultValue: 'Xóa vĩnh viễn tài khoản và tất cả dữ liệu liên quan. Hành động này không thể hoàn tác.' })}
+              </p>
+            </div>
+            
+            <form onSubmit={handleDeleteAccount} className="space-y-4">
+              <div>
+                <Label className="text-red-700 dark:text-red-400">
+                  {t('profile.confirmEmailLabel', { defaultValue: 'Để xác nhận, vui lòng nhập lại địa chỉ email của bạn:' })}
+                </Label>
+                <div className="mt-1">
+                  <Input
+                    name="confirmText"
+                    type="text"
+                    placeholder={user?.email}
+                    value={confirmText}
+                    onChange={(e) => setConfirmText(e.target.value)}
+                    required
+                    className="border-red-300 focus:border-red-500 focus:ring-red-500"
+                  />
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                variant="danger"
+                size="lg"
+                loading={deleting}
+                disabled={confirmText !== user?.email}
+                leftIcon={!deleting && <Trash2 size={16} />}
+                className="w-full bg-red-600 hover:bg-red-700 text-white font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {deleting ? t('common.deleting', { defaultValue: 'Đang xóa...' }) : t('profile.deleteAccountBtn', { defaultValue: 'Xóa tài khoản vĩnh viễn' })}
+              </Button>
+            </form>
+          </div>
         )}
       </Card>
     </PageContainer>
