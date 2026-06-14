@@ -232,17 +232,55 @@ class AuthController extends Controller
     public function deleteAccount(Request $request)
     {
         $user = $request->user();
+        Log::info("deleteAccount: starting deletion for user {$user->id}");
 
-        // Revoke all tokens
-        $user->tokens()->delete();
+        try {
+            // Revoke all tokens
+            Log::info("deleteAccount: revoking tokens...");
+            $user->tokens()->delete();
+            Log::info("deleteAccount: tokens revoked successfully.");
+        } catch (\Exception $e) {
+            Log::error("deleteAccount: error revoking tokens: " . $e->getMessage());
+        }
 
-        // Delete related payments, token histories, and predictions
-        $user->payments()->delete();
-        $user->tokenHistories()->delete();
-        \App\Models\Prediction::where('user_id', $user->id)->delete();
+        try {
+            // Delete related payments
+            Log::info("deleteAccount: deleting payments...");
+            $user->payments()->delete();
+            Log::info("deleteAccount: payments deleted successfully.");
+        } catch (\Exception $e) {
+            Log::error("deleteAccount: error deleting payments: " . $e->getMessage());
+        }
 
-        // Delete the user record
-        $user->delete();
+        try {
+            // Delete related token histories
+            Log::info("deleteAccount: deleting token histories...");
+            $user->tokenHistories()->delete();
+            Log::info("deleteAccount: token histories deleted successfully.");
+        } catch (\Exception $e) {
+            Log::error("deleteAccount: error deleting token histories: " . $e->getMessage());
+        }
+
+        try {
+            // Delete predictions
+            Log::info("deleteAccount: deleting predictions...");
+            \App\Models\Prediction::where('user_id', $user->id)->delete();
+            Log::info("deleteAccount: predictions deleted successfully.");
+        } catch (\Exception $e) {
+            Log::error("deleteAccount: error deleting predictions: " . $e->getMessage());
+        }
+
+        try {
+            // Delete the user record
+            Log::info("deleteAccount: deleting user record...");
+            $user->delete();
+            Log::info("deleteAccount: user record deleted successfully.");
+        } catch (\Exception $e) {
+            Log::error("deleteAccount: error deleting user record: " . $e->getMessage());
+            throw $e;
+        }
+
+        Log::info("deleteAccount: account deletion completed successfully.");
 
         return response()->json([
             'message' => 'Tài khoản và toàn bộ dữ liệu của bạn đã được xóa hoàn thành công.'
