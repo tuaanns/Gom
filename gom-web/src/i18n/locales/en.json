@@ -933,5 +933,20 @@
     "emailInvalid": "Invalid email format.",
     "passwordRequired": "Password is required.",
     "passwordMinLength": "Password must be at least 6 characters."
+  },
+  "profile": {
+    "dangerZone": "Danger Zone",
+    "dangerDesc": "Permanently delete your account and all related data. This action cannot be undone.",
+    "confirmEmailLabel": "To confirm, please re-type your email address:",
+    "confirmEmailMismatch": "Confirm email does not match.",
+    "deleteAccountBtn": "Permanently delete account",
+    "deleteSuccess": "Your account has been deleted successfully.",
+    "deleteConfirmText": "WARNING: This action cannot be undone. Are you sure you want to permanently delete your account and all data?",
+    "wantToDeleteLabel": "Do you want to delete your account?",
+    "selectOption": "Please select...",
+    "optionYes": "Yes, I want to delete my account",
+    "optionNo": "No, I want to keep it",
+    "confirmModalTitle": "Confirm Permanent Account Deletion",
+    "confirmModalMessage": "This action will delete all your data and cannot be undone. Are you absolutely sure you want to proceed?"
   }
 }

@@ -933,5 +933,20 @@
     "emailInvalid": "Định dạng email không hợp lệ.",
     "passwordRequired": "Mật khẩu là bắt buộc.",
     "passwordMinLength": "Mật khẩu phải có ít nhất 6 ký tự."
+  },
+  "profile": {
+    "dangerZone": "Vùng Nguy Hiểm",
+    "dangerDesc": "Xóa vĩnh viễn tài khoản và tất cả dữ liệu liên quan. Hành động này không thể hoàn tác.",
+    "confirmEmailLabel": "Để xác nhận, vui lòng nhập lại địa chỉ email của bạn:",
+    "confirmEmailMismatch": "Email xác nhận không khớp.",
+    "deleteAccountBtn": "Xóa tài khoản vĩnh viễn",
+    "deleteSuccess": "Tài khoản của bạn đã được xóa thành công.",
+    "deleteConfirmText": "CẢNH BÁO: Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản và toàn bộ dữ liệu của mình?",
+    "wantToDeleteLabel": "Bạn có muốn xóa tài khoản không?",
+    "selectOption": "Vui lòng chọn...",
+    "optionYes": "Có, tôi muốn xóa tài khoản",
+    "optionNo": "Không, tôi muốn giữ lại",
+    "confirmModalTitle": "Xác nhận xóa tài khoản vĩnh viễn",
+    "confirmModalMessage": "Hành động này sẽ xóa toàn bộ dữ liệu và không thể hoàn tác. Bạn có thực sự chắc chắn muốn tiếp tục?"
   }
 }

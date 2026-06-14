@@ -11,6 +11,7 @@ import { Badge } from '../../components/ui/Badge';
 import { profileApi } from './api';
 import { storageApi } from '../../lib/storageApi';
 import { cn, getErrorMessage } from '../../lib/utils';
+import { ConfirmModal } from '../../components/ui/ConfirmModal';
 
 const TABS = [
   { id: 'info', icon: User },
@@ -33,18 +34,23 @@ export const ProfilePage = ({ user, quota, fetchUser, notify, logout }) => {
   const [changing, setChanging] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [confirmText, setConfirmText] = useState('');
+  const [wantToDelete, setWantToDelete] = useState('');
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
 
-  const handleDeleteAccount = async (e) => {
+  const handleDeleteAccountSubmit = (e) => {
     e.preventDefault();
     if (confirmText !== user?.email) {
       notify?.(t('profile.confirmEmailMismatch', { defaultValue: 'Email xác nhận không khớp.' }), 'error');
       return;
     }
-    
-    if (!window.confirm(t('profile.deleteConfirmText', { defaultValue: 'CẢNH BÁO: Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa vĩnh viễn tài khoản và toàn bộ dữ liệu của mình?' }))) {
+    if (wantToDelete !== 'yes') {
       return;
     }
+    setDeleteModalOpen(true);
+  };
 
+  const handleDeleteAccountConfirm = async () => {
+    setDeleteModalOpen(false);
     setDeleting(true);
     try {
       await profileApi.deleteAccount();
@@ -308,7 +314,25 @@ export const ProfilePage = ({ user, quota, fetchUser, notify, logout }) => {
               </p>
             </div>
             
-            <form onSubmit={handleDeleteAccount} className="space-y-4">
+            <form onSubmit={handleDeleteAccountSubmit} className="space-y-4">
+              <div>
+                <Label className="text-red-700 dark:text-red-400">
+                  {t('profile.wantToDeleteLabel', { defaultValue: 'Bạn có muốn xóa tài khoản không?' })}
+                </Label>
+                <div className="mt-1">
+                  <select
+                    value={wantToDelete}
+                    onChange={(e) => setWantToDelete(e.target.value)}
+                    required
+                    className="w-full rounded-lg border border-red-200 bg-white p-2.5 text-sm text-gray-900 focus:border-red-500 focus:ring-red-500 dark:border-red-900/30 dark:bg-dark-surface dark:text-white"
+                  >
+                    <option value="">{t('profile.selectOption', { defaultValue: 'Vui lòng chọn...' })}</option>
+                    <option value="yes">{t('profile.optionYes', { defaultValue: 'Có, tôi muốn xóa tài khoản' })}</option>
+                    <option value="no">{t('profile.optionNo', { defaultValue: 'Không, tôi muốn giữ lại' })}</option>
+                  </select>
+                </div>
+              </div>
+
               <div>
                 <Label className="text-red-700 dark:text-red-400">
                   {t('profile.confirmEmailLabel', { defaultValue: 'Để xác nhận, vui lòng nhập lại địa chỉ email của bạn:' })}
@@ -331,7 +355,7 @@ export const ProfilePage = ({ user, quota, fetchUser, notify, logout }) => {
                 variant="danger"
                 size="lg"
                 loading={deleting}
-                disabled={confirmText !== user?.email}
+                disabled={confirmText !== user?.email || wantToDelete !== 'yes'}
                 leftIcon={!deleting && <Trash2 size={16} />}
                 className="w-full bg-red-600 hover:bg-red-700 text-white font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -341,6 +365,18 @@ export const ProfilePage = ({ user, quota, fetchUser, notify, logout }) => {
           </div>
         )}
       </Card>
+
+      <ConfirmModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleDeleteAccountConfirm}
+        title={t('profile.confirmModalTitle', { defaultValue: 'Xác nhận xóa tài khoản vĩnh viễn' })}
+        message={t('profile.confirmModalMessage', { defaultValue: 'Hành động này sẽ xóa toàn bộ dữ liệu và không thể hoàn tác. Bạn có thực sự chắc chắn muốn tiếp tục?' })}
+        confirmText={t('profile.deleteAccountBtn', { defaultValue: 'Xóa tài khoản vĩnh viễn' })}
+        cancelText={t('common.cancel', { defaultValue: 'Hủy' })}
+        isDanger={true}
+        loading={deleting}
+      />
     </PageContainer>
   );
 };
