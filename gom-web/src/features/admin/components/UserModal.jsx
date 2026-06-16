@@ -161,7 +161,7 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={user ? 'Edit User' : 'Add New User'}
+      title={user ? t('admin.usersPage.editUser', 'Edit User') : t('admin.usersPage.addUser', 'Add New User')}
       size="md"
     >
       <form onSubmit={handleSubmit} className="space-y-4">

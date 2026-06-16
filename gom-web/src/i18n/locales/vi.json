@@ -583,6 +583,7 @@
       "title": "Người Dùng",
       "subtitle": "Quản lý tất cả người dùng trong hệ thống",
       "addUser": "Thêm Người Dùng",
+      "editUser": "Sửa Người Dùng",
       "searchPlaceholder": "Tìm theo tên, email, hoặc vai trò...",
       "deleteTitle": "Xóa Người Dùng",
       "deleteMessage": "Bạn có chắc chắn muốn xóa \"{{name}}\"? Hành động này không thể hoàn tác.",

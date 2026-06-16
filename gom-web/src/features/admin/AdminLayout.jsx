@@ -74,7 +74,7 @@ export const AdminLayout = () => {
         <div className="flex h-full flex-col">
           {/* Logo */}
           <div className="flex h-16 items-center justify-between border-b border-gray-200 px-6 dark:border-gray-700">
-            <h1 className="font-heading text-xl font-bold text-gray-900 dark:text-white">
+            <h1 className="font-heading text-lg font-bold text-gray-900 dark:text-white leading-tight">
               {t('admin.panelTitle')}
             </h1>
             <button
