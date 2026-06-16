@@ -318,7 +318,7 @@ class DebateEngine:
             initial_agent_predictions = copy.deepcopy(results)
 
             # Phase 2 & 3: The Debate Loop (Attacks/Defenses & Judging)
-            MAX_ITER = 1
+            MAX_ITER = 2
             iteration = 0
             certainty = 0.0
             final_report = {}
