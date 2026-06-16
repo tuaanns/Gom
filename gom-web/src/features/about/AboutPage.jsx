@@ -129,7 +129,7 @@ export const AboutPage = () => {
               Editorial Narrative
             </p>
             <h3 className="relative mt-3 font-heading text-2xl font-bold leading-[1.22] text-navy dark:text-ivory">
-              {t('about.mission.title')}
+              {t('about.mission.title')} {t('about.mission.highlight')}
             </h3>
             <p className="relative mt-4 text-sm leading-[1.84] text-muted dark:text-dark-text-muted">
               {t('about.mission.p1')}
