@@ -5,6 +5,9 @@ train/*.pkl
 *.keras
 *.pkl
 
+# Scratch folder
+scratch/
+
 # AI
 gom-ai/uploads/
 test ảnh gốm/

@@ -187,8 +187,8 @@ export const CeramicsPage = ({ notify }) => {
             <div className="flex items-center justify-between text-xs text-muted dark:text-dark-text-muted">
               <span>
                 {filtered.length === list.length
-                  ? `${filtered.length} dòng gốm`
-                  : `${filtered.length} / ${list.length} kết quả`}
+                  ? (lang === 'en' ? `${filtered.length} ceramic lines` : `${filtered.length} dòng gốm`)
+                  : (lang === 'en' ? `${filtered.length} / ${list.length} results` : `${filtered.length} / ${list.length} kết quả`)}
               </span>
               {(search || country !== 'all') && (
                 <button
@@ -198,7 +198,7 @@ export const CeramicsPage = ({ notify }) => {
                   }}
                   className="text-danger hover:underline"
                 >
-                  ✕ Xóa bộ lọc
+                  {lang === 'en' ? '✕ Clear filters' : '✕ Xóa bộ lọc'}
                 </button>
               )}
             </div>
