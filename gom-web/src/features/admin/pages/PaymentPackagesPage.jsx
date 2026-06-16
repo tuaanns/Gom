@@ -200,17 +200,16 @@ export const PaymentPackagesPage = ({ notify }) => {
         pageSize={10}
       />
 
-      {isModalOpen && (
-        <PaymentPackageModal
-          packageData={selectedPackage}
-          onClose={() => setIsModalOpen(false)}
-          onSuccess={() => {
-            setIsModalOpen(false);
-            fetchPackages();
-          }}
-          notify={notify}
-        />
-      )}
+      <PaymentPackageModal
+        isOpen={isModalOpen}
+        packageData={selectedPackage}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={() => {
+          setIsModalOpen(false);
+          fetchPackages();
+        }}
+        notify={notify}
+      />
 
       <ConfirmModal
         open={deleteModalOpen}
