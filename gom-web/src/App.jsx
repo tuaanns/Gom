@@ -75,17 +75,6 @@ function App() {
     }
   }, []);
 
-  // Inject Google Identity Services script once
-  useEffect(() => {
-    if (document.getElementById('google-identity-script')) return;
-    const script = document.createElement('script');
-    script.id = 'google-identity-script';
-    script.src = 'https://accounts.google.com/gsi/client';
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
-  }, []);
-
   // Set Google client id meta
   useEffect(() => {
     let meta = document.querySelector('meta[name="google-signin-client_id"]');

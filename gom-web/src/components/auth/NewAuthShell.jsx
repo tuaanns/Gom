@@ -23,7 +23,6 @@ const isMockMode = () => false;
 const GoogleIdentityButton = ({ mode, onCredential }) => {
   const { t, i18n } = useTranslation();
   const containerRef = useRef(null);
-  const retryTimerRef = useRef(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
@@ -31,33 +30,52 @@ const GoogleIdentityButton = ({ mode, onCredential }) => {
     if (mode !== 'login' && mode !== 'register') return;
 
     let cancelled = false;
-    let attempts = 0;
-    const maxAttempts = 20;
+
+    // Helper to clean up any script matching Google GSI client
+    const removeGoogleScripts = () => {
+      const scripts = document.querySelectorAll('script[src*="accounts.google.com/gsi/client"]');
+      scripts.forEach(s => s.remove());
+    };
+
+    const loadScriptAndRender = () => {
+      removeGoogleScripts();
+
+      const langCode = i18n.language === 'vi' ? 'vi' : 'en';
+      const script = document.createElement('script');
+      script.id = 'google-identity-script';
+      // Load script with current language parameter hl
+      script.src = `https://accounts.google.com/gsi/client?hl=${langCode}`;
+      script.async = true;
+      script.defer = true;
+
+      script.onload = () => {
+        if (cancelled) return;
+        renderButton();
+      };
+
+      script.onerror = (err) => {
+        console.error('[Google Button] Failed to load Google script:', err);
+      };
+
+      document.head.appendChild(script);
+    };
 
     const renderButton = () => {
-      if (cancelled) return;
-
       const container = containerRef.current;
+      if (!container) return;
 
-      // Wait for container and Google script
-      if (!container || !window.google?.accounts?.id) {
-        attempts += 1;
-        if (attempts <= maxAttempts) {
-          retryTimerRef.current = setTimeout(renderButton, 200);
-        } else {
-          console.error('[Google Button] Failed after', maxAttempts, 'attempts');
-        }
+      if (!window.google?.accounts?.id) {
+        console.error('[Google Button] google.accounts.id not found after script load');
         return;
       }
 
       try {
-        // Always clear container before rendering
+        // Clear container before rendering
         container.innerHTML = '';
         setIsReady(false);
 
-        console.log('[Google Button] Rendering for', mode);
+        console.log('[Google Button] Initializing and rendering for', mode, 'in', i18n.language);
 
-        // Initialize Google Identity Services
         window.google.accounts.id.initialize({
           client_id: '208231172368-34f26e0l7771ngcqa89j9ufj01gm6mtt.apps.googleusercontent.com',
           callback: (res) => {
@@ -90,15 +108,12 @@ const GoogleIdentityButton = ({ mode, onCredential }) => {
       }
     };
 
-    // Start rendering immediately
-    retryTimerRef.current = setTimeout(renderButton, 0);
+    // Load Google client script and render
+    loadScriptAndRender();
 
     // Cleanup
     return () => {
       cancelled = true;
-      if (retryTimerRef.current) {
-        clearTimeout(retryTimerRef.current);
-      }
     };
   }, [mode, onCredential, i18n.language]);
 
