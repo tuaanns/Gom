@@ -200,7 +200,7 @@ engine = DebateEngine()
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-ALLOWED_API_KEY_NAMES = {"GOOGLE_API_KEY", "GROQ_API_KEY", "OPENAI_API_KEY"}
+ALLOWED_API_KEY_NAMES = {"GOOGLE_API_KEY", "GROQ_API_KEY", "OPENAI_API_KEY", "SERPAPI_API_KEY"}
 
 
 def _normalize_runtime_config(config: dict[str, Any] | None) -> dict[str, Any]:

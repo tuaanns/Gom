@@ -618,6 +618,45 @@ def fallback_vision_google_lens(image_bytes: bytes, max_results: int = 10) -> li
     return []
 
 
+def _search_via_serpapi(public_url: str, max_results: int = 10) -> list:
+    serpapi_key = os.getenv("SERPAPI_API_KEY", "").strip()
+    if not serpapi_key:
+        return []
+    
+    logger.info("[Lens SerpApi] Querying SerpApi Google Lens engine...")
+    try:
+        import requests
+        params = {
+            "engine": "google_lens",
+            "url": public_url,
+            "api_key": serpapi_key
+        }
+        resp = requests.get("https://serpapi.com/search.json", params=params, timeout=30)
+        if resp.status_code == 200:
+            data = resp.json()
+            matches = data.get("visual_matches", [])
+            results = []
+            for m in matches:
+                title = m.get("title", "").strip()
+                url = m.get("link", "").strip()
+                thumbnail = m.get("thumbnail", "").strip()
+                if title and url:
+                    results.append({
+                        "title": title,
+                        "url": url,
+                        "thumbnail": thumbnail
+                    })
+                    if len(results) >= max_results:
+                        break
+            logger.info(f"[Lens SerpApi] Successfully fetched {len(results)} matches!")
+            return results
+        else:
+            logger.warning(f"[Lens SerpApi] Failed ({resp.status_code}): {resp.text[:200]}")
+    except Exception as e:
+        logger.error(f"[Lens SerpApi] Error: {e}")
+    return []
+
+
 def search_google_lens(image_path: str, max_results: int = 10):
     driver = None
     safe_path = None
@@ -647,6 +686,14 @@ def search_google_lens(image_path: str, max_results: int = 10):
             if not public_url:
                 raise Exception("Không thể upload ảnh lên bất kỳ dịch vụ nào!")
             logger.info(f"[Lens] ✓ URL ảnh công khai: {public_url}")
+
+            # === PHƯƠNG PHÁP 0: SerpApi (nếu có key, ưu tiên cao nhất) ===
+            if os.getenv("SERPAPI_API_KEY", "").strip():
+                serp_results = _search_via_serpapi(public_url, max_results)
+                if serp_results:
+                    logger.info(f"[Lens] ✅ SerpApi Google Lens: {len(serp_results)} kết quả!")
+                    return serp_results
+                logger.warning("[Lens] SerpApi không trả về kết quả, thử các phương pháp tiếp theo...")
 
             # === PHƯƠNG PHÁP 1: Browserless /unblock + CDP (ưu tiên) ===
             if os.getenv("BROWSERLESS_TOKEN", "").strip():

@@ -714,6 +714,7 @@ class AdminController extends Controller
             'config.api_keys.GOOGLE_API_KEY' => ['nullable', 'string'],
             'config.api_keys.GROQ_API_KEY' => ['nullable', 'string'],
             'config.api_keys.OPENAI_API_KEY' => ['nullable', 'string'],
+            'config.api_keys.SERPAPI_API_KEY' => ['nullable', 'string'],
             'config.models' => ['required', 'array', 'min:1'],
             'config.models.*.id' => ['required', 'string', 'max:255'],
             'config.models.*.name' => ['nullable', 'string', 'max:255'],
@@ -784,6 +785,7 @@ class AdminController extends Controller
                 'GOOGLE_API_KEY' => env('GOOGLE_API_KEY', ''),
                 'GROQ_API_KEY'   => env('GROQ_API_KEY', ''),
                 'OPENAI_API_KEY' => env('OPENAI_API_KEY', ''),
+                'SERPAPI_API_KEY'=> env('SERPAPI_API_KEY', ''),
             ],
             'models' => [
                 ['id' => 'gemini-3.1-flash-lite', 'name' => 'Gemini 3.1 Flash Lite (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
@@ -818,6 +820,7 @@ class AdminController extends Controller
                 'GOOGLE_API_KEY' => (string) ($apiKeys['GOOGLE_API_KEY'] ?? ''),
                 'GROQ_API_KEY' => (string) ($apiKeys['GROQ_API_KEY'] ?? ''),
                 'OPENAI_API_KEY' => (string) ($apiKeys['OPENAI_API_KEY'] ?? ''),
+                'SERPAPI_API_KEY' => (string) ($apiKeys['SERPAPI_API_KEY'] ?? ''),
             ],
             'models' => $models,
         ];
@@ -832,7 +835,7 @@ class AdminController extends Controller
      */
     private function updateEnvKeys(array $apiKeys): string
     {
-        $allowedKeys = ['GOOGLE_API_KEY', 'GROQ_API_KEY', 'OPENAI_API_KEY'];
+        $allowedKeys = ['GOOGLE_API_KEY', 'GROQ_API_KEY', 'OPENAI_API_KEY', 'SERPAPI_API_KEY'];
 
         try {
             $envPath = base_path('.env');

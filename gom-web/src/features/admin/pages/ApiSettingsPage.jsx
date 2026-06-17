@@ -15,7 +15,7 @@ const EMPTY_MODEL = {
   is_active: true,
 };
 
-const API_KEY_FIELDS = ['GOOGLE_API_KEY', 'GROQ_API_KEY', 'OPENAI_API_KEY'];
+const API_KEY_FIELDS = ['GOOGLE_API_KEY', 'GROQ_API_KEY', 'OPENAI_API_KEY', 'SERPAPI_API_KEY'];
 const PROVIDERS = ['google', 'groq', 'openai'];
 const ROLES = ['vision', 'agent_text', 'historian', 'kiln', 'global', 'judge', 'chat'];
 
@@ -129,7 +129,7 @@ export const ApiSettingsPage = ({ notify }) => {
           </div>
           {syncStatus && <Badge variant={syncStatus === 'synced' ? 'success' : 'warning'}>{syncStatus}</Badge>}
         </div>
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {API_KEY_FIELDS.map((key) => (
             <FormField key={key} label={key}>
               <Input

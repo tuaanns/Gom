@@ -1,5 +1,5 @@
 {
-  "dataset_size": 90,
+  "dataset_size": 100,
   "formulas": {
     "accuracy": "N_correct / N_total * 100",
     "precision_per_class": "TP / (TP + FP)",
@@ -10,24 +10,24 @@
   },
   "methods": {
     "gemini": {
-      "total": 90,
-      "correct": 48,
-      "errors": 4,
-      "accuracy": 53.33,
-      "macro_precision": 73.33,
-      "macro_recall": 48.0,
-      "macro_f1_score": 50.25,
-      "average_latency_s": 31.521,
-      "hallucinated": 14,
-      "hallucination_rate": 15.56,
+      "total": 100,
+      "correct": 55,
+      "errors": 0,
+      "accuracy": 55.0,
+      "macro_precision": 83.12,
+      "macro_recall": 55.0,
+      "macro_f1_score": 58.04,
+      "average_latency_s": 31.689,
+      "hallucinated": 19,
+      "hallucination_rate": 19.0,
       "per_class": {
         "Bat Trang": {
           "tp": 10,
-          "fp": 20,
+          "fp": 22,
           "fn": 0,
-          "precision": 33.33,
+          "precision": 31.25,
           "recall": 100.0,
-          "f1_score": 50.0
+          "f1_score": 47.62
         },
         "Bien Hoa": {
           "tp": 1,
@@ -78,12 +78,12 @@
           "f1_score": 94.74
         },
         "Delftware": {
-          "tp": 9,
+          "tp": 10,
           "fp": 0,
-          "fn": 1,
+          "fn": 0,
           "precision": 100.0,
-          "recall": 90.0,
-          "f1_score": 94.74
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Iznik": {
           "tp": 7,
@@ -94,34 +94,34 @@
           "f1_score": 82.35
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 6,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 4,
+          "precision": 100.0,
+          "recall": 60.0,
+          "f1_score": 75.0
         }
       }
     },
     "chatgpt": {
-      "total": 90,
-      "correct": 47,
-      "errors": 2,
-      "accuracy": 52.22,
-      "macro_precision": 72.63,
-      "macro_recall": 47.0,
-      "macro_f1_score": 47.55,
-      "average_latency_s": 7.874,
-      "hallucinated": 13,
-      "hallucination_rate": 14.44,
+      "total": 100,
+      "correct": 54,
+      "errors": 0,
+      "accuracy": 54.0,
+      "macro_precision": 82.5,
+      "macro_recall": 54.0,
+      "macro_f1_score": 55.62,
+      "average_latency_s": 7.866,
+      "hallucinated": 16,
+      "hallucination_rate": 16.0,
       "per_class": {
         "Bat Trang": {
           "tp": 10,
-          "fp": 28,
+          "fp": 30,
           "fn": 0,
-          "precision": 26.32,
+          "precision": 25.0,
           "recall": 100.0,
-          "f1_score": 41.67
+          "f1_score": 40.0
         },
         "Bien Hoa": {
           "tp": 1,
@@ -188,34 +188,34 @@
           "f1_score": 82.35
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 7,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 3,
+          "precision": 100.0,
+          "recall": 70.0,
+          "f1_score": 82.35
         }
       }
     },
     "grok": {
-      "total": 90,
-      "correct": 48,
-      "errors": 2,
-      "accuracy": 53.33,
-      "macro_precision": 67.6,
-      "macro_recall": 48.0,
-      "macro_f1_score": 47.78,
-      "average_latency_s": 3.578,
-      "hallucinated": 14,
-      "hallucination_rate": 15.56,
+      "total": 100,
+      "correct": 55,
+      "errors": 0,
+      "accuracy": 55.0,
+      "macro_precision": 77.32,
+      "macro_recall": 55.0,
+      "macro_f1_score": 55.72,
+      "average_latency_s": 3.619,
+      "hallucinated": 17,
+      "hallucination_rate": 17.0,
       "per_class": {
         "Bat Trang": {
           "tp": 10,
-          "fp": 16,
+          "fp": 18,
           "fn": 0,
-          "precision": 38.46,
+          "precision": 35.71,
           "recall": 100.0,
-          "f1_score": 55.56
+          "f1_score": 52.63
         },
         "Bien Hoa": {
           "tp": 1,
@@ -282,34 +282,34 @@
           "f1_score": 82.35
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 7,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 3,
+          "precision": 100.0,
+          "recall": 70.0,
+          "f1_score": 82.35
         }
       }
     },
     "acis": {
-      "total": 90,
-      "correct": 49,
-      "errors": 2,
-      "accuracy": 54.44,
-      "macro_precision": 73.23,
-      "macro_recall": 49.0,
-      "macro_f1_score": 50.66,
-      "average_latency_s": 55.034,
-      "hallucinated": 14,
-      "hallucination_rate": 15.56,
+      "total": 100,
+      "correct": 55,
+      "errors": 0,
+      "accuracy": 55.0,
+      "macro_precision": 83.03,
+      "macro_recall": 55.0,
+      "macro_f1_score": 57.93,
+      "average_latency_s": 55.611,
+      "hallucinated": 18,
+      "hallucination_rate": 18.0,
       "per_class": {
         "Bat Trang": {
           "tp": 10,
-          "fp": 21,
+          "fp": 23,
           "fn": 0,
-          "precision": 32.26,
+          "precision": 30.3,
           "recall": 100.0,
-          "f1_score": 48.78
+          "f1_score": 46.51
         },
         "Bien Hoa": {
           "tp": 1,
@@ -376,12 +376,12 @@
           "f1_score": 82.35
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 6,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 4,
+          "precision": 100.0,
+          "recall": 60.0,
+          "f1_score": 75.0
         }
       }
     }

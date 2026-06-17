@@ -1541,51 +1541,53 @@
     "id": 30,
     "filename": "images/03_phu_lang_vietnam/030_03_phu_lang_vietnam_10.jpg",
     "ground_truth": "Phu Lang",
-    "started_at": "2026-06-16T14:11:17",
-    "run_error": "Vision marked image as non-pottery",
+    "started_at": "2026-06-17T15:42:26",
+    "vision_time_s": 2.941,
+    "acis_pipeline_time_s": 41.817,
     "methods": {
-      "gemini": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
-        "is_correct": false,
-        "is_hallucinated": false,
-        "error": "Vision marked image as non-pottery",
-        "latency_s": 0.001
-      },
       "chatgpt": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary Vietnamese ceramics, particularly from the Bat Trang region. The use of hand-painted details and relief techniques aligns with traditional Vietnamese craftsmanship, which often emphasizes local scenery and cultural motifs. The absence of a glaze and the use of earthy colors suggest a focus on natural materials and artisanal methods, common in modern interpretations of traditional styles. The size and flat mural form further indicate a contemporary artistic approach rather than historical pottery forms. The decorative elements, depicting rural landscapes, are indicative of the cultural themes prevalent in modern Vietnamese art.",
         "is_correct": false,
         "is_hallucinated": false,
-        "error": "Vision marked image as non-pottery",
-        "latency_s": 0.001
+        "error": null,
+        "latency_s": 9.619
       },
       "grok": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glaze type is unglazed/unglazed with hand-painted details, which is consistent with traditional Vietnamese ceramics. The clay body color is reddish-brown or grayish-brown, indicating the use of local terracotta or stoneware materials. The decoration technique involves relief and hand-painting, which is typical of Vietnamese ceramic art. The absence of a foot ring and the large size of the piece suggest that it is a ceramic relief mural. The firing marks are not clearly visible, but the overall appearance of the piece is consistent with contemporary Vietnamese ceramics.",
         "is_correct": false,
         "is_hallucinated": false,
-        "error": "Vision marked image as non-pottery",
-        "latency_s": 0.001
+        "error": null,
+        "latency_s": 4.293
+      },
+      "gemini": {
+        "raw_prediction": "Bát Tràng Phù Điêu Gốm",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents a ceramic relief mural depicting a 'Vietnamese rural landscape' ('phong cảnh làng quê Việt Nam') with specific elements like 'trees, houses, roads' ('cây cối, kiến trúc nhà cửa, đường xá'). This highly specific motif is the paramount cultural indicator. Such an explicit thematic representation immediately directs the analysis towards its depicted cultural origin.\n\n**Motifs & Cultural Symbolism**: The central motif is the idealized Vietnamese countryside, a common subject in Vietnamese traditional art and decorative crafts, symbolizing peace, community, and national identity. The use of 'relief' ('đắp nổi') technique to create miniature scenes ('tiểu cảnh') within this landscape adds depth and narrative quality, a characteristic often found in larger decorative panels and architectural ceramics in Vietnam. There are no explicit mythical creatures or complex geometric patterns typically associated with ancient dynastic wares; instead, the focus is on a natura",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 24.168
       },
       "acis": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
+        "raw_prediction": "Bát Tràng Phù Điêu Gốm",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.9,
+        "evidence": "The most convincing argument was presented by the Global Ceramics Expert, who provided a detailed analysis of the cultural and technical aspects of the ceramic piece. The expert highlighted the specific motif of a 'Vietnamese rural landscape' and the use of unglazed, hand-painted relief techniques, which are characteristic of Bát Tràng ceramics. This analysis was supported by the visual features, such as the absence of glaze, the use of earthy colors, and the depiction of traditional Vietnamese scenery, all of which align with contemporary Bát Tràng ceramic relief murals. The other agents also agreed on the Bát Tràng origin, but the Global Ceramics Expert's reasoning was more comprehensive and specific. Google Lens references were not available, but the expert's detailed cultural and stylistic analysis strongly supports the conclusion.",
         "is_correct": false,
         "is_hallucinated": false,
-        "error": "Vision marked image as non-pottery",
-        "latency_s": 0.001
+        "error": null,
+        "iterations": 1,
+        "latency_s": 44.758
       }
     },
-    "total_time_s": 0.001
+    "total_time_s": 44.759
   },
   {
     "dataset": "dataset1_video",
@@ -2016,51 +2018,53 @@
     "id": 39,
     "filename": "images/04_bien_hoa_vietnam/039_04_bien_hoa_vietnam_09.jpg",
     "ground_truth": "Bien Hoa",
-    "started_at": "2026-06-16T14:11:17",
-    "run_error": "'list' object has no attribute 'get'",
+    "started_at": "2026-06-17T15:45:34",
+    "vision_time_s": 4.133,
+    "acis_pipeline_time_s": 57.163,
     "methods": {
-      "gemini": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
-        "is_correct": false,
-        "is_hallucinated": false,
-        "error": "'list' object has no attribute 'get'",
-        "latency_s": 4.859
-      },
       "chatgpt": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of modern Vietnamese porcelain, particularly from the Bat Trang kiln, known for its high-quality craftsmanship and decorative techniques. The use of glossy overglaze enamel with vibrant colors like emerald green, light green, white, gold, and red/pink aligns with the aesthetic trends of the 20th century. The lotus and stylized leaf motifs, along with the intricate detailing, reflect traditional Vietnamese designs, particularly those from the Nguyen Dynasty era. The shape of the vase, with a flared mouth and wide shoulders, is consistent with decorative vases used in interior decoration during this period. The absence of crazing and the high gloss finish suggest a modern manufacturing technique, likely involving wheel-thrown methods rather than hand-coiled, indicative of advancements in ceramic production. The foot ring's smooth finish and the overall condition of the piece further support its classification as a contemporary work.",
         "is_correct": false,
         "is_hallucinated": false,
-        "error": "'list' object has no attribute 'get'",
-        "latency_s": 4.859
+        "error": null,
+        "latency_s": 10.113
       },
       "grok": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glossy glaze with emerald green, light green, white, gold, and red/pink colors, along with the polychrome overglaze enamel technique, suggests a high-quality ceramic production. The absence of crazing and the even, thick glaze layer indicate a well-controlled firing process. The clay body is white, typical of porcelain, and the foot ring is rounded and polished. The decoration technique, including overglaze enamel and possible raised details on the handle, points to a skilled craftsmanship. The size and shape of the vase, with a wide body and narrow neck, are consistent with traditional Vietnamese ceramic forms. The suspected origin is Bát Tràng, a renowned ceramic village in Vietnam, known for its high-quality porcelain production.",
         "is_correct": false,
         "is_hallucinated": false,
-        "error": "'list' object has no attribute 'get'",
-        "latency_s": 4.859
+        "error": null,
+        "latency_s": 5.825
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Sứ Mỹ Thuật Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.9,
+        "evidence": "This exquisite vase, characterized by its high-grade white porcelain body, glossy polychrome overglaze enamel decoration, and grand decorative form, exhibits strong stylistic and cultural indicators pointing towards modern Vietnamese fine art ceramics. \n\n**1. Motifs & Cultural Symbolism:**\n*   **Lotus (Hoa Sen):** The prominent stylized lotus and lotus leaves (họa tiết hoa sen, lá sen cách điệu) are deeply symbolic in Vietnamese culture, representing purity, enlightenment, and resilience, particularly in Buddhist contexts. This motif is ubiquitous in Vietnamese art from ancient times through the Nguyễn Dynasty, often appearing on ceramics, architecture, and textiles.\n*   **Geometric Scroll Patterns (Hồi Văn):** The 'hồi văn' (meander or scroll patterns) around the mouth of the vase is a classic decorative border found extensively in Vietnamese traditional art, including ceramics, woodcarving, and imperial artifacts, especially from the Lê-Mạc and Nguyễn Dynasties. It signifies continui",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 39.727
       },
       "acis": {
-        "raw_prediction": null,
-        "predicted_label": null,
-        "confidence": 0,
-        "evidence": "",
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.9,
+        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert', who provided a detailed analysis of the motifs and cultural symbolism, specifically the lotus and geometric scroll patterns, which are deeply rooted in Vietnamese art and indicative of a Nguyễn Dynasty revival style. This aligns with the visual features observed, such as the glossy polychrome overglaze enamel and the specific color palette. The 'Ceramic History' and 'Kiln Signatures & Morphology Expert' also supported the Bát Tràng origin, further reinforcing the conclusion through different reasoning paths. The Google Lens reference, while not directly available, would likely support this identification based on similar known items. The visual evidence, including the high-quality porcelain body and the absence of crazing, supports the modern production typical of Bát Tràng ceramics.",
         "is_correct": false,
         "is_hallucinated": false,
-        "error": "'list' object has no attribute 'get'",
-        "latency_s": 4.859
+        "error": null,
+        "iterations": 1,
+        "latency_s": 61.296
       }
     },
-    "total_time_s": 4.859
+    "total_time_s": 61.298
   },
   {
     "dataset": "dataset1_video",
@@ -4028,53 +4032,53 @@
     "id": 77,
     "filename": "images/08_delft_netherlands/077_08_delft_netherlands_07.jpg",
     "ground_truth": "Delftware",
-    "started_at": "2026-06-16T14:13:42",
-    "vision_time_s": 3.003,
-    "acis_pipeline_time_s": 54.653,
+    "started_at": "2026-06-17T14:50:32",
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 83.33,
     "methods": {
       "chatgpt": {
         "raw_prediction": "Royal Delft (De Koninklijke Porceleyne Fles)",
         "predicted_label": "Delftware",
         "confidence": 0.85,
-        "evidence": "The ceramic piece is identified as a biscuit porcelain with a light cream/gray color, indicating it is in the biscuit stage of production. The absence of glaze and surface decoration, along with the molded and luted construction technique, suggest it is a work in progress typical of modern ceramic production. The oval shape with multiple spouts is reminiscent of traditional Dutch tulip vases, particularly those produced by Royal Delft, known for their intricate designs and forms. The style hints strongly at Delftware, which has a long history of influence from trade routes connecting Europe and Asia, particularly in the 17th century. The manufacturing technique aligns with modern practices, where traditional methods are still employed. The piece's condition as unfinished supports its classification as modern rather than historical.",
+        "evidence": "The ceramic piece exhibits characteristics typical of Delftware, particularly in its shape and construction techniques. The oval form with multiple spouts suggests it may be a component of a multi-tiered tulip vase, a common design in Dutch ceramics. The absence of glaze and the matte surface indicate it is in the biscuit stage, aligning with modern production techniques that often revisit traditional forms. The use of molded and luted techniques further supports this, as they are prevalent in Delftware production. The body color of light cream/gray is consistent with the porcelain used in Delft ceramics, and the estimated size aligns with typical Delftware dimensions. The lack of firing marks indicates that this piece is still in the manufacturing process, typical for contemporary ceramics.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 7.889
+        "latency_s": 7.466
       },
       "grok": {
         "raw_prediction": "Royal Delft",
         "predicted_label": "Delftware",
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a white/cream-colored body, indicative of porcelain in the biscuit stage. The absence of glaze and the presence of a dull, dry surface suggest that it is in an unfinished state. The shape, with its oval body and multiple spouts, is reminiscent of a traditional Delftware tulip vase. The material characteristics, including the body color and the absence of firing marks, align with the production techniques of Royal Delft. The style hint of Delftware and the suspected origin of Royal Delft (De Koninklijke Porceleyne Fles) in Delft, Netherlands, further support this prediction.",
+        "evidence": "The ceramic piece exhibits a white-cream colored body, indicative of porcelain in the biscuit stage. The absence of glaze and the presence of a dull, dry surface suggest that it is in the early stages of production. The shape, with its oval form and multiple spouts, is reminiscent of a traditional Delftware tulip vase. The material characteristics, including the body color and the forming technique (molded and luted), align with those of Royal Delft ceramics. The lack of kiln marks and foot ring visibility is consistent with a piece that is still in the production process.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 4.36
+        "latency_s": 2.565
       },
       "gemini": {
-        "raw_prediction": "Unknown",
-        "predicted_label": null,
-        "confidence": 0.0,
-        "evidence": "Agent temporarily unavailable: 503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}",
-        "is_correct": false,
+        "raw_prediction": "Royal Delft Tulip Vase Component (Tulipiere)",
+        "predicted_label": "Delftware",
+        "confidence": 1.0,
+        "evidence": "This object's distinctive form is a powerful cultural identifier, even in its unglazed, biscuit state. The flattened, oval base with numerous branching spouts is unequivocally characteristic of a component from a multi-tiered 'Tulip Vase,' also known as a 'tulipiere' or 'tulip pyramid.'\n\n**1. Motifs & Cultural Symbolism (Form as Symbolism):**\nWhile lacking surface motifs in its current stage, the *form itself* is a profound cultural symbol. The tulipiere emerged in the Netherlands during the 17th century, a period marked by 'Tulip Mania' where tulips were highly prized, exotic, and incredibly expensive. These elaborate, multi-spouted vases were specifically designed to display individual tulip stems, allowing each precious bloom to be admired in isolation. This architectural form thus symbolizes Dutch prosperity, horticultural passion, and an aesthetic appreciation for individual beauty. It represents a unique confluence of botany, commerce, and ceramic artistry that is specific to the",
+        "is_correct": true,
         "is_hallucinated": false,
-        "error": "503 UNAVAILABLE. {'error': {'code': 503, 'message': 'This model is currently experiencing high demand. Spikes in demand are usually temporary. Please try again later.', 'status': 'UNAVAILABLE'}}",
-        "latency_s": 30.016
+        "error": null,
+        "latency_s": 44.467
       },
       "acis": {
-        "raw_prediction": "Royal Delft (De Koninklijke Porceleyne Fles)",
+        "raw_prediction": "Royal Delft Tulip Vase Component (Tulipiere)",
         "predicted_label": "Delftware",
-        "confidence": 0.85,
-        "evidence": "The most convincing argument was provided by the 'Ceramic History' agent, who offered a detailed analysis of the piece's characteristics, such as its biscuit stage, the absence of glaze, and the molded and luted construction technique. These features are consistent with modern production methods used by Royal Delft. The 'Kiln Signatures & Morphology Expert' also supported this conclusion, noting the white/cream-colored body and the shape reminiscent of a traditional Delftware tulip vase. The visual features, including the light cream/gray color and the unfinished state, align with the production techniques of Royal Delft. Although the 'Global Ceramics Expert' raised valid points about the absence of definitive kiln signatures, the strong consensus between the other two agents, along with their detailed reasoning, outweighs these concerns. Google Lens references were not directly available, but the strong agent consensus and detailed reasoning provide sufficient confidence.",
+        "confidence": 0.95,
+        "evidence": "The most convincing argument came from the Global Ceramics Expert, who provided a comprehensive analysis of the cultural and historical significance of the tulipiere form. This agent highlighted the unique architectural form of the object, which is a hallmark of Dutch Delftware, specifically the tulip vase or tulipiere. The visual features, such as the oval shape with multiple spouts and the unglazed biscuit stage, align with the characteristics of a Royal Delft tulipiere. The agent also effectively differentiated this form from other global ceramic traditions, emphasizing its unique Dutch origin. The other agents agreed on the Delftware style and the Royal Delft origin, which further supports this conclusion. Google Lens references, while not directly mentioned, would likely confirm the distinctiveness of the tulipiere form as a Dutch invention, reinforcing the agents' consensus.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 57.656
+        "latency_s": 83.33
       }
     },
-    "total_time_s": 57.657
+    "total_time_s": 83.331
   },
   {
     "dataset": "dataset1_video",
@@ -4717,52 +4721,582 @@
     "id": 90,
     "filename": "images/09_iznik_turkey/090_09_iznik_turkey_10.jpg",
     "ground_truth": "Iznik",
-    "started_at": "2026-06-16T14:25:38",
-    "vision_time_s": 4.801,
-    "acis_pipeline_time_s": 31.252,
+    "started_at": "2026-06-17T14:51:55",
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 56.315,
     "methods": {
       "chatgpt": {
         "raw_prediction": "Kutahya",
         "predicted_label": null,
         "confidence": 0.85,
-        "evidence": "The vase exhibits characteristics typical of the Kutahya pottery from Turkey, particularly the use of tin-glaze and the vibrant color palette of emerald green, cobalt blue, and crimson with gold accents. The fish-scale pattern combined with quatrefoil floral motifs aligns with the decorative styles seen in the Iznik revival period, which sought to emulate earlier Ottoman ceramics. The pear-shaped form with an S-shaped handle is consistent with the design trends of the 19th century, where such shapes were popular for decorative vases. The high-gloss tin glaze indicates a firing technique that was common in this era, and the earthenware body suggests a lower to medium firing temperature typical of Kutahya ceramics. The absence of significant cracks or repairs further supports the assessment of a well-preserved piece from this period.",
+        "evidence": "The ceramic piece exhibits characteristics typical of the Iznik revival style prominent in the 19th to early 20th centuries. The use of tin-glaze and the high-gloss surface are indicative of faience techniques. The fish-scale pattern combined with geometric quatrefoil motifs aligns with the decorative styles seen in Kutahya pottery, which was influenced by historical Iznik designs. The pear-shaped form and S-shaped handle are also consistent with the aesthetic preferences of that era. The firing marks and the low-temperature firing indicate a manufacturing process that aligns with earthenware production methods of the time, likely wheel-thrown given the uniformity of the shape. The absence of significant cracking suggests careful handling and firing practices typical of the period's production standards.",
         "is_correct": false,
         "is_hallucinated": true,
         "error": null,
-        "latency_s": 9.857
+        "latency_s": 5.291
       },
       "grok": {
         "raw_prediction": "Kütahya",
         "predicted_label": null,
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a tin-glaze (men thiếc) with a high-gloss finish, characteristic of majolica/faience techniques. The fish-scale pattern with quatrefoil/rosette motifs, rendered in overglaze enamel and underglaze blue, is reminiscent of Iznik Revival styles. The earthenware body, with a visible white-ivory color at the unglazed base, and the low-foot ring with a rounded shape, are consistent with Kütahya ceramics. The absence of distinct kiln marks and the presence of direct contact marks at the foot ring suggest a specific firing technique. The material analysis, including glaze typology, body morphology, and kiln signatures, points towards Kütahya ceramics from the late 19th to early 20th century.",
+        "evidence": "The ceramic piece exhibits a tin-glaze (men thiếc) with a high-gloss finish, characteristic of majolica/faience techniques. The glaze details, including the absence of significant cracking, suggest a well-controlled firing process. The body morphology, with a white-ivory color and a low-to-medium firing temperature, is consistent with earthenware production. The foot ring shape and the material exposed at the base indicate a low-fired ceramic. The decoration technique, combining underglaze blue and overglaze enamel, is typical of Iznik Revival styles. The fish-scale pattern and quatrefoil motifs are also consistent with this style. The visual clues, including the glaze type, kiln marks, and body characteristics, point towards a Kütahya ceramic piece from the late 19th to early 20th century.",
         "is_correct": false,
         "is_hallucinated": true,
         "error": null,
-        "latency_s": 6.741
+        "latency_s": 1.49
       },
       "gemini": {
-        "raw_prediction": "Unknown",
+        "raw_prediction": "Kütahya Pottery",
         "predicted_label": null,
-        "confidence": 0.0,
-        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents a compelling case for Ottoman ceramic traditions, specifically from the Kütahya workshops. \n\n**1. Motifs & Cultural Symbolism:** The most striking feature is the 'fish-scale' (or imbricated) pattern covering the entire body, interspersed with regularly placed four-petaled geometric flowers (quatrefoil/rosette). This geometric rigor and repetitive pattern are hallmarks of Islamic art, deeply rooted in the Ottoman aesthetic tradition where intricate tessellations and stylized floral motifs are used to decorate everything from mosque interiors to textiles and ceramics. These patterns often symbolize the infinite nature of God and the order of the cosmos. The specific color palette — light emerald green background, vibrant cobalt blue for main patterns, dark red accents, and delicate light golden yellow trim — is highly characteristic. Cobalt blue was a primary pigment in early Islamic and Ottoman ceramics, while the development of specific vibrant reds and gre",
         "is_correct": false,
-        "is_hallucinated": false,
-        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 5.141016757s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '5s'}]}}",
-        "latency_s": 17.106
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 23.201
       },
       "acis": {
-        "raw_prediction": "Kutahya",
+        "raw_prediction": "Kütahya Pottery",
         "predicted_label": null,
-        "confidence": 0.85,
-        "evidence": "The most convincing argument was presented by both the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, who independently identified the piece as Kutahya pottery from Turkey, dating to the late 19th to early 20th century. Their reasoning was well-supported by specific visual features such as the tin-glaze with a high-gloss finish, the fish-scale pattern with quatrefoil motifs, and the pear-shaped form with an S-shaped handle. These characteristics are consistent with the Iznik Revival style typical of Kutahya ceramics from this era. The 'Kiln Signatures & Morphology Expert' provided additional insights into the firing marks and body color, although there was a minor discrepancy regarding the base color. However, this did not significantly detract from the overall conclusion. The 'Global Ceramics Expert' was unable to contribute due to a resource exhaustion error, leaving their input unavailable. Google Lens was not referenced in this case, as the agents' analyses wer",
+        "confidence": 0.9,
+        "evidence": "The most convincing argument was presented by the Global Ceramics Expert, who provided a comprehensive analysis of the cultural and symbolic significance of the motifs, as well as a detailed comparison with other global ceramic traditions. This agent's reasoning was deeply rooted in the historical and cultural context of Ottoman ceramics, particularly Kütahya pottery, and was supported by specific visual evidence such as the fish-scale pattern, quatrefoil motifs, and the distinctive color palette. The Ceramic History and Kiln Signatures & Morphology Expert also arrived at similar conclusions, reinforcing the consensus. The visual features, including the tin-glaze, high-gloss finish, and pear-shaped form with S-shaped handles, align well with the characteristics of Kütahya pottery. Google Lens references supported the identification of the piece as Kütahya pottery, further confirming the agents' conclusions.",
         "is_correct": false,
         "is_hallucinated": true,
         "error": null,
         "iterations": 1,
-        "latency_s": 36.054
+        "latency_s": 56.315
       }
     },
-    "total_time_s": 36.055
+    "total_time_s": 56.316
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 91,
+    "filename": "images/10_meissen_germany/091_10_meissen_germany_01.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:52:52",
+    "vision_time_s": 4.094,
+    "acis_pipeline_time_s": 42.324,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Meissen porcelain from the 19th century, particularly in its Rococo style, which is known for its elaborate and romantic designs. The use of tin-glaze combined with overglaze enamel indicates a high-quality European porcelain technique, consistent with Meissen's reputation. The relief decoration and the intricate figurative representations, such as the merman and the cornucopia, align with the artistic trends of the Rococo period. The bright white body color and the absence of crazing further support the high-quality manufacturing techniques of this era. The estimated size and the detailed craftsmanship suggest a piece intended for decorative purposes, typical of Meissen's output during this time.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.999
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.9,
+        "evidence": "The tin-glaze combined with overglaze enamel, the absence of crazing, and the high gloss finish are characteristic of high-quality European ceramics. The use of bone china or hard-paste porcelain as the material, along with the white body color and the complex decorative techniques such as relief and polychrome overglaze enamel, further support this prediction. The shape and style of the figurine, including the baroque/rococo design elements like the cornucopia and the merman, are also consistent with Meissen's production during the 19th century. The lack of visible firing marks and the expected flat or rockwork base typical of Meissen pieces also align with this assessment.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.582
+      },
+      "gemini": {
+        "raw_prediction": "Meissen Manufactory",
+        "predicted_label": "Meissen",
+        "confidence": 0.98,
+        "evidence": "The visual evidence unequivocally points to a European origin, specifically the German Meissen Manufactory, renowned for its hard-paste porcelain and sculptural figures. \n\n1.  **MOTIFS & CULTURAL SYMBOLISM**: The central figures – a river god (or sea deity) holding a trident, a cornucopia overflowing with fruits, a spilling vase, and a merman – are all deeply rooted in **Classical Greco-Roman mythology and symbolism**. The trident is a quintessential attribute of Neptune (Poseidon), while the cornucopia universally symbolizes abundance and fertility, derived from ancient Western traditions. These motifs are completely absent from traditional East Asian or Southeast Asian ceramic iconography, which would typically feature dragons, phoenixes, specific Buddhist/Hindu deities, or indigenous flora and fauna.\n\n2.  **REGIONAL CHARACTERISTICS**: The piece exemplifies the **Rococo style**, characterized by its elaborate, asymmetrical, and dynamic forms, often with a sense of playful theatricali",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 24.742
+      },
+      "acis": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.95,
+        "evidence": "The most convincing argument was presented by the Global Ceramics Expert, who provided a detailed analysis of the motifs, cultural symbolism, and technical characteristics of the piece. The expert correctly identified the use of hard-paste porcelain with a feldspathic glaze, which aligns with the visual evidence of a bright white body and high gloss finish. This is consistent with Meissen's known production techniques. The motifs of the river god, cornucopia, and merman, rooted in Classical Greco-Roman mythology, further support the European origin, specifically Meissen. The Global Ceramics Expert's identification of the piece as 'Rococo Revival' is also compelling, given the 19th-century context and the revival of earlier styles. The other agents' incorrect mention of tin-glaze was a significant error, as Meissen is known for its hard-paste porcelain. Google Lens references were not directly used, as the expert reasoning was sufficient and well-supported by the visual features.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 46.418
+      }
+    },
+    "total_time_s": 46.419
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 92,
+    "filename": "images/10_meissen_germany/092_10_meissen_germany_02.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:53:38",
+    "vision_time_s": 3.431,
+    "acis_pipeline_time_s": 47.692,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The cobalt blue underglaze on a bright, glossy white background, combined with the high-fire porcelain glaze, indicates a high-quality production typical of European porcelain, particularly Meissen. The Onion pattern (Zwiebelmuster) is a hallmark of Meissen's decorative style, which was widely imitated across Europe. The shape of the items, including the flat plates and lidded teapot, aligns with the late 19th to early 20th century aesthetic. The well-finished foot rings and absence of firing marks suggest professional kiln firing, characteristic of industrial porcelain manufacturing during this period.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.763
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.9,
+        "evidence": "The ceramic pieces exhibit a high-gloss, reflective, smooth, and uniform tin-glazed or high-fire porcelain glaze, which is characteristic of Meissen porcelain. The underglaze blue painting and the onion pattern (Zwiebelmuster) are also typical of Meissen's style. The pure, translucent white clay body and the well-finished, white glazed foot rings are consistent with Meissen's manufacturing techniques. The absence of visible crazing or major inclusions and the lack of firing marks suggest a high-quality industrial or professional kiln firing, which is also consistent with Meissen's production methods.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.691
+      },
+      "gemini": {
+        "raw_prediction": "Meissen Zwiebelmuster (Onion Pattern)",
+        "predicted_label": "Meissen",
+        "confidence": 1.0,
+        "evidence": "The visual evidence presents a classic example of European hard-paste porcelain, specifically adorned with the iconic 'Onion Pattern' (Zwiebelmuster). My analysis unfolds as follows:\n\n**1. Motifs & Cultural Symbolism:**\n   The 'Onion Pattern' features highly stylized motifs of peaches, pomegranates, and asters (or often interpreted as chrysanthemums), interconnected by scrolling vines. While commonly called 'Onion Pattern' due to the visual interpretation of certain elements as bulbs by Europeans, these motifs are directly derived from early 18th-century Chinese blue-and-white porcelain. In traditional Chinese culture:\n   *   **Peach:** Symbolizes longevity, immortality, and spring.\n   *   **Pomegranate:** Represents fertility and abundance, due to its numerous seeds.\n   *   **Aster/Chrysanthemum:** Symbolizes autumn, nobility, scholarly reclusion, and longevity.\n   The European adaptation, the Zwiebelmuster, maintains these symbols but renders them in a more rigid, stylized, and often",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 28.442
+      },
+      "acis": {
+        "raw_prediction": "Meissen Zwiebelmuster (Onion Pattern)",
+        "predicted_label": "Meissen",
+        "confidence": 0.95,
+        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert', who provided a comprehensive analysis of the cultural and stylistic elements of the Zwiebelmuster pattern. This agent effectively explained the European adaptation of Chinese motifs, emphasizing the distinct European interpretation and the specific forms used in Western dining customs. The visual features, such as the cobalt blue underglaze, high-gloss porcelain glaze, and the well-finished foot rings, align with Meissen's production characteristics. The 'Kiln Signatures & Morphology Expert' also provided strong evidence regarding the glaze and firing techniques, reinforcing the attribution to Meissen. The 'Ceramic History' agent's reasoning was less detailed but still supported the Meissen attribution. Google Lens references were not directly available, but the agents' reasoning was robust enough to confirm the attribution without external verification.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 51.123
+      }
+    },
+    "total_time_s": 51.124
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 93,
+    "filename": "images/10_meissen_germany/093_10_meissen_germany_03.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:54:29",
+    "vision_time_s": 4.114,
+    "acis_pipeline_time_s": 49.441,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of high-quality European porcelain from the 18th to 19th centuries, particularly influenced by the Rococo style. The use of a glossy white glaze, intricate applied relief decoration, and polychrome overglaze enamel painting aligns with the advanced techniques developed at Meissen. The depiction of mythological scenes, such as 'The Abduction of Europa', and the presence of putti figures suggest a strong Rococo influence, which was prevalent during this period. The absence of firing marks and the overall high-quality finish indicate a product intended for display rather than everyday use, further supporting the dating to the 19th century. The shape of the vase, with its oval form and decorative elements, is consistent with the Rococo aesthetic.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 9.737
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.9,
+        "evidence": "The glaze typology indicates a soft-paste or hard-paste porcelain glaze with a high-gloss finish, characteristic of Meissen ceramics. The absence of crazing and the uniformity of the glaze suggest a high-quality firing process. The body morphology, including the white clay color and the foot ring shape, is consistent with Meissen porcelain. The decoration technique, featuring applied relief, polychrome overglaze enamel painting, and gilding, is also typical of Meissen's Rococo style. The visual clues, such as the lack of firing marks and the presence of a gold-rimmed foot ring, further support this attribution.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.4
+      },
+      "gemini": {
+        "raw_prediction": "Meissen Porcelain Manufactory (Rococo period)",
+        "predicted_label": "Meissen",
+        "confidence": 0.98,
+        "evidence": "The visual evidence overwhelmingly points to a European origin, specifically within the highly decorative Rococo style, for these exquisite porcelain pieces. \n\n**1. Motifs & Cultural Symbolism:**\n*   **'The Abduction of Europa'**: This mythological scene, depicting Zeus in the form of a bull carrying off Europa, is a cornerstone of Greek and Roman mythology. Its presence is a definitive marker of classical European artistic traditions, entirely absent from traditional East Asian or Southeast Asian ceramic symbolism, which would feature local deities, auspicious animals (like dragons, phoenixes), or narrative scenes from their own folklore (e.g., scenes from the Ramakien for Thai ceramics).\n*   **Putti (Cherubs/Cupids)**: The small, plump, winged child figures adorning the base of the vase are a quintessential motif in European art from the Renaissance through the Baroque and Rococo periods. They symbolize love, innocence, or playful divine presence and are not found in the iconographie",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 28.402
+      },
+      "acis": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and well-reasoned analysis, detailing the specific motifs, cultural symbolism, and technical features that align with Meissen's Rococo period production. The visual features such as the glossy white glaze, applied flowers, and mythological scenes strongly support this attribution. The consensus among agents, despite minor differences in era specification, further reinforces the Meissen attribution. Google Lens references, if available, would likely confirm the distinct Rococo style and high-quality finish typical of Meissen, but the agent's detailed reasoning is sufficient to establish confidence.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 53.555
+      }
+    },
+    "total_time_s": 53.556
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 94,
+    "filename": "images/10_meissen_germany/094_10_meissen_germany_04.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:55:23",
+    "vision_time_s": 4.059,
+    "acis_pipeline_time_s": 58.199,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The identified ceramic exhibits characteristics typical of Meissen porcelain, including the use of hard-paste porcelain, a clear glaze, and intricate relief decoration. The color palette and the detailed modeling of figures align with the Rococo and Neoclassical styles, which were prominent in Europe during the 18th century. The absence of firing marks and the high-quality finish suggest advanced manufacturing techniques consistent with this period. The figurines' size and the decorative elements further support the dating to the 18th to early 19th century, a time when Meissen was at the forefront of porcelain production. The combination of elegant forms and elaborate decoration indicates a strong influence from both Rococo and Neoclassical aesthetics, which were prevalent in Europe during this era.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 9.193
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.9,
+        "evidence": "The clear glaze with a high gloss and lack of cracks or large air bubbles, combined with the hard-paste porcelain body and translucent white color, are characteristic of high-quality European porcelain. The relief modeling and overglaze enamel decoration techniques also point to a European origin. The foot ring shape and lack of firing marks are consistent with Meissen porcelain. The style, with its emphasis on elegance, flowing poses, and intricate costumes, is also typical of Meissen's Rococo and Neoclassical periods.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.789
+      },
+      "gemini": {
+        "raw_prediction": "Meissen Porcelain",
+        "predicted_label": "Meissen",
+        "confidence": 1.0,
+        "evidence": "The visual evidence unequivocally points to European, specifically German, hard-paste porcelain production, consistent with the renowned Meissen manufactory. \n\n**Motifs & Cultural Symbolism:**\nThe core motifs are **human figures** adorned in elaborate 18th-century European costumes, depicting courtly or pastoral scenes, often with musical instruments like a lute or mandolin. The poses are graceful and dynamic, characteristic of Rococo elegance and, later, Neoclassical refinement. **Floral details**, such as garlands and individually modeled flowers and leaves, are distinctly European in their naturalistic depiction and arrangement, serving as decorative embellishments on clothing and bases. There is a complete absence of any motifs traditionally associated with East Asian (e.g., dragons, phoenixes, specific auspicious symbols, stylized flora like lotus or peony) or Southeast Asian cultures (e.g., Kinnari, Garuda, Naga, specific Bencharong patterns like 'thepphanom' or 'krachang'). The ",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 42.27
+      },
+      "acis": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.95,
+        "evidence": "The 'Global Ceramics Expert' provided the most convincing argument by offering a comprehensive analysis rooted in cross-continental ceramic traditions and cultural symbolism. This agent's detailed examination of motifs, cultural symbolism, and regional characteristics of Meissen porcelain was thorough and specific, aligning well with the visual features observed in the image. The visual evidence, such as the clear glaze, relief modeling, and overglaze enamel decoration, strongly supports the identification of Meissen porcelain. The consensus among all agents further strengthens the conclusion, as they independently arrived at the same prediction through different reasoning paths. Google Lens references corroborate the agents' claims, confirming the suspected origin and style hint as Meissen, Germany, and Rococo and Neoclassical styles, respectively.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 62.258
+      }
+    },
+    "total_time_s": 62.261
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 95,
+    "filename": "images/10_meissen_germany/095_10_meissen_germany_05.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:56:25",
+    "vision_time_s": 3.946,
+    "acis_pipeline_time_s": 56.759,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Sèvres",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The lavender color and the high-gloss enamel glaze suggest a refined production typical of high-end European porcelain from the late 19th to early 20th century. The relief decoration featuring floral garlands and putti aligns with the Neoclassical style influenced by Rococo art, which was popular during this period. The shape of the urn, with its ovoid body and flared mouth, is characteristic of decorative vases produced by the Sèvres factory, known for its luxurious porcelain. The absence of visible firing marks and the smooth, high-quality body further support this attribution to a prestigious European kiln. The estimated size of 60cm - 80cm also fits the scale of decorative pieces from this era.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 9.656
+      },
+      "grok": {
+        "raw_prediction": "Sèvres",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The tin-glaze or high-gloss enamel glaze with a smooth, high-gloss surface and no visible cracks or bubbles suggests a high-quality ceramic production. The relief technique combined with figurine attachment and enamel painting points to a sophisticated manufacturing process. The porcelain body with a characteristic ivory white color and the ovoid shape of the urn are consistent with Sèvres porcelain. The absence of visible firing marks and the rounded foot ring shape also align with Sèvres' kiln signatures. The Neoclassical style with Rococo influences, characterized by putti and floral garlands, is a hallmark of Sèvres' artistic direction during this period.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 5.395
+      },
+      "gemini": {
+        "raw_prediction": "Richard Ginori (Doccia Factory)",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The visual evidence unequivocally points to a high-end European decorative ceramic tradition, specifically Italian. \n\n**1. Motifs & Cultural Symbolism:** The most prominent motifs are the *putti* (cherubs) and *floral garlands* in elaborate relief. Putti, winged infant figures, are deeply rooted in Greco-Roman mythology and were extensively re-popularized during the Italian Renaissance, Baroque, and Rococo periods, symbolizing innocence, love, and divine presence. Floral garlands, similarly, are classical decorative elements symbolizing beauty, abundance, and celebration. These motifs are quintessential to Western art history and are entirely absent from indigenous East Asian or Southeast Asian ceramic traditions, which feature distinct symbolisms such as dragons, phoenixes, Buddhist deities, mythical creatures (e.g., Kinnaree from Thailand), or traditional landscapes and geometric patterns. The specific choice of naturalistic skin tones for the putti and delicate pastel colors for the",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 35.546
+      },
+      "acis": {
+        "raw_prediction": "Richard Ginori (Doccia Factory)",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The Global Ceramics Expert provided the most convincing argument, emphasizing the specific characteristics of the urn's exuberant high-relief modeling and figurine attachment, which are hallmarks of the Italian Capodimonte style. This agent's detailed analysis of the putti and floral garlands, along with the historical context of Italian porcelain, aligns well with the visual features described. The other agents focused on general attributes common to European porcelain but did not address the specific sculptural opulence that is distinctive of Richard Ginori's work. The visual evidence of the urn's decoration technique and style strongly supports the Italian attribution. Google Lens references were not directly available, but the reasoning provided by the Global Ceramics Expert was sufficient to confirm the prediction.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 60.704
+      }
+    },
+    "total_time_s": 60.705
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 96,
+    "filename": "images/10_meissen_germany/096_10_meissen_germany_06.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:57:26",
+    "vision_time_s": 3.83,
+    "acis_pipeline_time_s": 73.451,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The figurine exhibits characteristics typical of Meissen porcelain from the mid-18th century, particularly the Chinoiserie style which was popular in Europe during this period. The white glaze (men trắng) and the fine quality of the porcelain suggest a high level of craftsmanship associated with Meissen. The relief decoration and the intricate details of the figurine, including the depiction of an Eastern figure riding a camel, align with the Rococo style's fascination with exotic themes. The absence of firing marks and the smooth, reflective surface indicate a sophisticated manufacturing process, likely involving slip-casting techniques rather than hand-coiling or wheel-throwing. The estimated size and the overall condition of the piece further support its classification as a decorative object from a high-quality European porcelain factory.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 9.21
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.9,
+        "evidence": "The ceramic piece exhibits a white glaze with a smooth, even, and glossy surface, characteristic of Meissen porcelain. The absence of crazing and the medium thickness of the glaze suggest a high-quality firing process. The clay body is white, and the foot ring is flat and uniform, consistent with Meissen's production techniques. The relief decoration and sculpted details are also typical of Meissen's Chinoiserie-style figurines. The lack of kiln marks or stacking traces further supports the attribution to a prominent European porcelain manufacturer like Meissen.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.48
+      },
+      "gemini": {
+        "raw_prediction": "Meissen Chinoiserie Figurines (modeled by J.J. Kändler)",
+        "predicted_label": "Meissen",
+        "confidence": 0.98,
+        "evidence": "This exquisite figurine, depicting an 'Eastern character' astride a camel, is a quintessential example of European Rococo Chinoiserie porcelain from the mid-18th century. My analysis, conducted independently before referencing the provided hints, points decisively to Meissen.\n\n1.  **Motifs & Cultural Symbolism:** The figure itself, described as an 'Eastern character,' is a European fantasy. The elaborate crown, detailed drapery, and attributes (staff, small bottle) are not direct transcriptions of specific East Asian or Southeast Asian iconography but rather imaginative interpretations by European artists. The camel symbolizes exoticism and trade routes, a common trope in European Chinoiserie art, which aimed to evoke a sense of the fantastical Orient. This 'oriental' theme, filtered through a European aesthetic, is the core of Chinoiserie.\n\n2.  **Regional Characteristics & Cross-Continental Comparison:**\n    *   **Meissen, Germany:** Meissen was the birthplace of European hard-paste p",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 54.933
+      },
+      "acis": {
+        "raw_prediction": "Meissen Chinoiserie Figurines (modeled by J.J. Kändler)",
+        "predicted_label": "Meissen",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and well-reasoned analysis. Their argument was detailed and supported by specific visual evidence, such as the snow-white hard-paste porcelain, the Rococo style with Chinoiserie elements, and the masterful sculptural techniques attributed to Johann Joachim Kändler. The expert's comparison with other ceramic traditions, highlighting the unique characteristics of Meissen porcelain, was particularly convincing. The visual features, including the reflective white glaze and intricate relief decoration, align with the Meissen attribution. Google Lens references were not explicitly used in the agents' arguments, but the detailed reasoning and visual evidence provided by the Global Ceramics Expert were sufficient to confirm the prediction.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 77.281
+      }
+    },
+    "total_time_s": 77.282
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 97,
+    "filename": "images/10_meissen_germany/097_10_meissen_germany_07.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:58:43",
+    "vision_time_s": 3.447,
+    "acis_pipeline_time_s": 42.789,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Meissen porcelain, particularly the use of polychrome overglaze enamel and the intricate relief decoration. The theme of the 'Garden of Eden' with figures such as Adam and Eve, along with detailed animal representations, aligns with the decorative styles popular in the 19th century, especially during the Baroque Revival period. The high-gloss white glaze and the absence of cracks suggest high-quality porcelain, which is consistent with Meissen's production standards. The estimated size and the overall craftsmanship further support this dating and origin.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.789
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.9,
+        "evidence": "The polychrome overglaze enamel glaze, characterized by its high gloss and fine detail, is consistent with Meissen's signature glaze typology. The absence of visible firing marks and the smooth, even glaze application suggest a high level of technical proficiency, also consistent with Meissen's reputation. The clay body's white color and the foot ring's shape, although not fully visible, align with Meissen's body morphology. The decoration technique, featuring relief sculpture and overglaze enamel painting, is also typical of Meissen's style during the 19th century.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.686
+      },
+      "gemini": {
+        "raw_prediction": "Meissen Porcelain Manufactory",
+        "predicted_label": "Meissen",
+        "confidence": 0.98,
+        "evidence": "The most compelling cultural evidence is the central motif: the 'Garden of Eden' with Adam and Eve, the Tree of Knowledge entwined by the serpent, and various innocent animals (lion, horse, goat, peacock, chicken). This is an exclusively Judeo-Christian theme, instantly ruling out traditional Southeast Asian (e.g., Sawankhalok, Sukhothai, Bencharong wares) and East Asian (e.g., Chinese, Japanese, Korean) ceramic traditions, which feature distinct Buddhist, Hindu, Daoist, animistic, or indigenous cultural narratives and iconography. \n\nComparing with specific regional styles:\n1.  **Southeast Asian (e.g., Bencharong, Thailand):** Bencharong wares, while employing polychrome enamels, feature specific Thai/Chinese mythological figures (such as Thepanom, Kinnaree) and intricate floral or geometric bands on their surfaces, often utilizing a distinctive five-color palette with gold accents. The themes are rooted in local mythology or Buddhism, never the Garden of Eden. The sculptural complexit",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 26.189
+      },
+      "acis": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.95,
+        "evidence": "The most convincing argument was provided by the Global Ceramics Expert, who effectively used the cultural and thematic analysis of the 'Garden of Eden' motif to rule out non-European origins. This agent's reasoning was detailed and leveraged both cultural exclusion and specific stylistic elements to support the Meissen attribution. The Ceramic History and Kiln Signatures & Morphology Expert also supported the Meissen attribution through different reasoning paths, focusing on technical aspects like glaze and decoration techniques. The visual features, such as the polychrome overglaze enamel and the intricate relief decoration, strongly align with Meissen's known characteristics. Google Lens references were not directly used, but the agents' consensus and detailed reasoning were sufficient to confirm the Meissen origin.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 46.236
+      }
+    },
+    "total_time_s": 46.237
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 98,
+    "filename": "images/10_meissen_germany/098_10_meissen_germany_08.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T14:59:29",
+    "vision_time_s": 3.167,
+    "acis_pipeline_time_s": 69.407,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.85,
+        "evidence": "The stark snow white color and high gloss white glaze indicate a high-quality porcelain, likely bone china or hard-paste porcelain, which aligns with the production techniques of Meissen in the 19th century. The relief decoration featuring a Rococo-style figure in elaborate dress is characteristic of the Rococo revival style, which sought to emulate the ornate designs of the original Rococo period. The craftsmanship, including the detailed modeling and the absence of crazing, suggests a high level of skill typical of European porcelain manufacturers during this era. The size estimate of 25-35 cm also fits within the range of figurines produced by Meissen. The suspected origin aligns with the known historical context of porcelain production in Saxony, particularly Meissen and Dresden, which were prominent centers for such ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.521
+      },
+      "grok": {
+        "raw_prediction": "Meissen",
+        "predicted_label": "Meissen",
+        "confidence": 0.8,
+        "evidence": "The stark snow white color and high gloss of the glaze, combined with the absence of crazing, suggest a high-quality porcelain body. The relief modeling and intricate details, such as the folds and lace on the figurine's dress, are characteristic of Meissen's expertise in porcelain figurine production. The use of bone china or hard-paste porcelain is also consistent with Meissen's materials. The lack of visible firing marks or foot ring due to the base being obscured does not detract from the overall assessment, as the glaze and body morphology are highly indicative of Meissen's style. The size estimate of 25-35 cm in height is also within the range of typical Meissen figurines.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.479
+      },
+      "gemini": {
+        "raw_prediction": "Carl Thieme Potschappel Dresden",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The visual evidence unequivocally points to a Western European origin, specifically within the German porcelain tradition. The figurine depicts a female character adorned in an elaborate Rococo-era costume, characterized by a voluminous crinoline dress, intricate ruffles, and notably, applied lace details ('đắp nổi chi tiết ren'). This highly specialized technique, where actual lace is dipped in liquid porcelain (slip) and then carefully applied to the figurine before firing, burning away the fabric and leaving delicate porcelain lace, is a hallmark of 'Dresden lace' porcelain. \n\nCulturally, these figurines embody the aristocratic ideals of leisure, romance, and opulence prevalent in 18th-century Europe, which experienced a significant revival in the 19th and early 20th centuries. The 'Rococo Revival' style aimed to recapture the whimsical elegance and decorative richness of the original Rococo period. The pristine 'stark snow white' hard-paste porcelain body, combined with a 'high glo",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 28.885
+      },
+      "acis": {
+        "raw_prediction": "Carl Thieme Potschappel Dresden",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The Global Ceramics Expert provided the most convincing argument, emphasizing the unique applied lace technique, which is a hallmark of Dresden-style porcelain, particularly associated with Carl Thieme Potschappel. This technique involves dipping actual lace in liquid porcelain and applying it to the figurine, a method not typically employed by Meissen. The visual features such as the stark snow white color, high gloss glaze, and Rococo revival style align with the Dresden porcelain tradition. While both Ceramic History and Kiln Signatures & Morphology Expert suggested Meissen, their arguments did not adequately address the specific lace application technique, which is more characteristic of Dresden factories. Google Lens references, if available, would likely support the Dresden attribution due to the distinct lace technique, but the agent's reasoning is strong enough to stand independently.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 72.575
+      }
+    },
+    "total_time_s": 72.576
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 99,
+    "filename": "images/10_meissen_germany/099_10_meissen_germany_09.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T15:43:15",
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 45.4,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Rosenthal",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The ceramic pieces exhibit characteristics typical of the Art Deco style, particularly in the abstract floral patterns and the glossy overglaze technique. The use of porcelain with a smooth, shiny surface indicates advanced firing techniques consistent with early 20th-century European ceramics. The figurines' shapes and decorative elements align with the modernist influences of the period, suggesting they were likely produced by a well-known manufacturer like Rosenthal, which was prominent in this era. The absence of visible firing marks and the overall pristine condition further support the notion of a high-quality production process typical of this time.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 3.953
+      },
+      "grok": {
+        "raw_prediction": "Rosenthal",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The glossy glaze, lack of visible firing marks, and the use of overglaze enamels suggest a high-quality ceramic production. The white porcelain body and the foot ring shape are consistent with European ceramic traditions. The Art Deco style, characterized by geometric shapes and metallic materials, is evident in the figurines' designs. The presence of a relief technique and the use of pastel colors further support the attribution to Rosenthal, a renowned German ceramics manufacturer known for its Art Deco pieces.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 1.222
+      },
+      "gemini": {
+        "raw_prediction": "Rosenthal Art Deco Figurines",
+        "predicted_label": null,
+        "confidence": 0.98,
+        "evidence": "The visual evidence strongly points to a European origin, specifically within the Art Deco movement of the early 20th century. The figurines depict distinctly Western subjects: a bridal couple, an elegant woman holding a fan, and a clown/performer. Their costumes—a tailored suit, a long wedding gown, a sophisticated dress, and a playful polka-dotted clown suit—are entirely European in style and lack any traditional Asian or Southeast Asian attire or iconography. The facial features are rendered in a European aesthetic. \n\n**Motifs & Cultural Symbolism:** The patterns on the clothing, such as the abstract floral motif on the woman's dress, are characteristic of Art Deco's stylized approach to nature, moving away from naturalistic representation towards geometric simplification and elegant lines. The polka dots on the clown are a universal symbol of theatrical performance and lightheartedness, commonly associated with Western entertainment. The entire ensemble, including the candelabra sh",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 27.931
+      },
+      "acis": {
+        "raw_prediction": "Rosenthal",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The most convincing argument was provided by the Global Ceramics Expert, who offered a comprehensive analysis of the figurines' stylistic and cultural elements. The expert's detailed comparison of the figurines with other regional ceramics, alongside the specific Art Deco characteristics, strongly supports the attribution to Rosenthal. The visual features, such as the glossy glaze, abstract floral patterns, and high-quality porcelain, align with Rosenthal's known production techniques during the Art Deco period. The consensus among all agents, despite slight variations in reasoning, further solidifies the attribution. Google Lens references were not directly available, but the agents' reasoning and visual evidence were sufficient to reach a confident conclusion.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 45.4
+      }
+    },
+    "total_time_s": 45.401
+  },
+  {
+    "dataset": "dataset1_video",
+    "id": 100,
+    "filename": "images/10_meissen_germany/100_10_meissen_germany_10.jpg",
+    "ground_truth": "Meissen",
+    "started_at": "2026-06-17T15:44:00",
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 50.573,
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Rosenthal Studio-Line",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary European art porcelain, specifically from the Rosenthal brand, known for its high-quality fine bone china. The use of majolica/tin-glaze with a glossy surface and intricate overglaze enamel decoration aligns with modern artistic practices. The polka dot pattern and stylized owl motif suggest a playful yet sophisticated design, which is common in contemporary art ceramics. The absence of firing marks and the perfect control of firing temperature indicate advanced manufacturing techniques consistent with 21st-century production methods. The combination of surrealism and Art Deco in the design reflects current artistic trends, further supporting the dating to the 21st century.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 4.067
+      },
+      "grok": {
+        "raw_prediction": "Rosenthal Studio-Line",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The glaze type is majolica/tin-glaze, characteristic of European art ceramics. The glaze details show a high-gloss surface, fine texture, and no visible crazing, indicating a high-quality, modern firing technique. The body color is ivory white, typical of fine bone china or equivalent porcelain. The absence of firing marks and the perfection of the glaze suggest a modern, well-controlled kiln process. The decoration technique combines overglaze enamel, relief, and gilding, pointing to a high-end, contemporary ceramic production. The style hints at Surrealism with Art Deco elements, consistent with Western contemporary ceramic art.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 1.27
+      },
+      "gemini": {
+        "raw_prediction": "Rosenthal Studio-Line",
+        "predicted_label": null,
+        "confidence": 0.98,
+        "evidence": "The piece, a high-grade porcelain sculpture depicting a stylized female figure with an owl, adorned with polka dots, intricate leaf patterns, geometric details, and luxurious gilding, exhibits a confluence of styles and techniques overwhelmingly indicative of Western, specifically European, contemporary art ceramics. \n\n1.  **Motifs & Cultural Symbolism**: The choice of a stylized female form, a whimsical owl, and playful polka dots departs significantly from traditional Asian ceramic iconography. In Western culture, the owl frequently symbolizes wisdom, mystery, and intuition, while polka dots carry a distinctly modern, fashionable, and often playful connotation, gaining prominence in 20th-century Western design. The abstract leaf patterns and geometric details further reinforce a modern, art-forward aesthetic rather than traditional, nature-mimicking Asian motifs. There are no elements such as dragon claws, lotus blossoms, or mythical creatures prevalent in East or Southeast Asian cer",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 29.194
+      },
+      "acis": {
+        "raw_prediction": "Rosenthal Studio-Line",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The most convincing argument was presented by the Global Ceramics Expert. Their reasoning was thorough, detailing the cultural symbolism and stylistic elements that align with Western, specifically European, contemporary art ceramics. They effectively highlighted the use of high-grade porcelain, overglaze enamels, and gilding, which are characteristic of Rosenthal's Studio-Line. The visual features, such as the high-gloss glaze, intricate decoration, and absence of firing marks, support this conclusion, indicating advanced modern production techniques. The Google Lens reference to Rosenthal, Germany, further corroborates the agents' predictions, confirming the piece's alignment with Rosenthal's known artistic collaborations and avant-garde style. The other agents' misidentification of the glaze type as 'majolica/tin-glaze' was a critical error, as this is not applicable to high-grade porcelain.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 50.573
+      }
+    },
+    "total_time_s": 50.574
   }
 ]

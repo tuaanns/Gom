@@ -73,6 +73,7 @@ ALIASES = {
 METHODS = ["gemini", "chatgpt", "grok", "acis"]
 AGENT_METHOD_ORDER = ["chatgpt", "grok", "gemini"]
 RESULTS_ROOT = ROOT / "experiment_results"
+FORCE_VISION_FILENAMES: set[str] = set()
 
 
 def normalize(text: str | None) -> str:
@@ -154,10 +155,19 @@ async def get_visual_features(
 ) -> dict:
     key = image["filename"]
     cached = cache.get(key)
+    if isinstance(cached, list):
+        cached = next((item for item in cached if isinstance(item, dict)), None)
+        if cached is not None:
+            cache[key] = cached
+            save_json(cache_path, cache)
+    if key in FORCE_VISION_FILENAMES:
+        cached = None
     if isinstance(cached, dict) and "error" not in cached:
         return cached
     image_bytes = Path(image["path"]).read_bytes()
     features = await vision.analyze(image_bytes)
+    if isinstance(features, list):
+        features = next((item for item in features if isinstance(item, dict)), {})
     cache[key] = features
     save_json(cache_path, cache)
     return features
@@ -478,10 +488,25 @@ async def main() -> None:
         help="Comma-separated dataset IDs",
     )
     parser.add_argument("--limit", type=int, default=None)
+    parser.add_argument(
+        "--force-vision",
+        default="",
+        help="Comma-separated filenames or numeric IDs whose visual feature cache should be ignored",
+    )
     args = parser.parse_args()
     for dataset_id in [value.strip() for value in args.datasets.split(",") if value.strip()]:
         if dataset_id not in DATASETS:
             raise ValueError(f"Unknown dataset: {dataset_id}")
+        global FORCE_VISION_FILENAMES
+        force_values = {value.strip() for value in args.force_vision.split(",") if value.strip()}
+        if force_values:
+            by_id = {str(item["id"]): item["filename"] for item in load_dataset(dataset_id)}
+            FORCE_VISION_FILENAMES = {
+                by_id.get(value, value.replace("\\", "/"))
+                for value in force_values
+            }
+        else:
+            FORCE_VISION_FILENAMES = set()
         await run_dataset(dataset_id, args.limit)
 
 
