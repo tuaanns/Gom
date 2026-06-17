@@ -2,6 +2,7 @@ import React from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { CheckCircle2, AlertCircle, Info, X } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import { cn } from '../../lib/utils';
 
 const palette = {
@@ -28,16 +29,18 @@ const palette = {
 };
 
 export const ToastContainer = ({ toasts, onDismiss }) => {
+  const { t } = useTranslation();
+
   if (typeof document === 'undefined') return null;
   return createPortal(
     <div className="pointer-events-none fixed right-4 bottom-4 z-[10000] flex w-full max-w-sm flex-col gap-3">
       <AnimatePresence>
-        {toasts.map((t) => {
-          const cfg = palette[t.type] || palette.info;
+        {toasts.map((toastItem) => {
+          const cfg = palette[toastItem.type] || palette.info;
           const Icon = cfg.icon;
           return (
             <motion.div
-              key={t.id}
+              key={toastItem.id}
               initial={{ opacity: 0, x: 100, y: 100 }}
               animate={{ opacity: 1, x: 0, y: 0 }}
               exit={{ opacity: 0, x: 100, y: 100 }}
@@ -50,11 +53,11 @@ export const ToastContainer = ({ toasts, onDismiss }) => {
             >
               <Icon className={cn('mt-0.5 h-5 w-5 flex-shrink-0', cfg.iconColor)} />
               <p className="flex-1 text-sm font-medium text-navy dark:text-dark-text">
-                {t.message}
+                {toastItem.isKey ? t(toastItem.message, toastItem.options) : toastItem.message}
               </p>
               <button
                 type="button"
-                onClick={() => onDismiss(t.id)}
+                onClick={() => onDismiss(toastItem.id)}
                 className="rounded-full p-1 text-muted hover:bg-surface-alt dark:text-dark-text-muted dark:hover:bg-dark-surface-alt"
                 aria-label="Dismiss"
               >

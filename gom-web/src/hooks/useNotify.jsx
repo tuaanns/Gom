@@ -1,7 +1,89 @@
 import React, { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { ToastContainer } from '../components/ui/Toast';
+import vi from '../i18n/locales/vi.json';
+import en from '../i18n/locales/en.json';
 
 // Global toast notification system — single Context owns toast queue, NotifyProvider mounts ToastContainer once
+
+const exactMap = {};
+const patternKeys = [];
+
+const extractVarNames = (str) => {
+  const matches = str.match(/\{\{(.*?)\}\}/g) || [];
+  return matches.map((m) => m.replace(/\{\{|\}\}/g, '').trim());
+};
+
+const makeRegex = (template) => {
+  let escaped = template.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  escaped = escaped.replace(/\\\{\\\{(.*?)\\\}\\\}/g, '([\\s\\S]*?)');
+  return new RegExp('^' + escaped + '$');
+};
+
+const processTranslations = (viObj, enObj, prefix = '') => {
+  for (const k in viObj) {
+    if (Object.prototype.hasOwnProperty.call(viObj, k)) {
+      const fullKey = prefix ? `${prefix}.${k}` : k;
+      const viVal = viObj[k];
+      const enVal = enObj?.[k];
+
+      if (typeof viVal === 'object' && viVal !== null && !Array.isArray(viVal)) {
+        processTranslations(viVal, enVal, fullKey);
+      } else if (typeof viVal === 'string') {
+        const hasViVars = viVal.includes('{{');
+        const hasEnVars = enVal && typeof enVal === 'string' && enVal.includes('{{');
+
+        if (hasViVars || hasEnVars) {
+          const viVars = extractVarNames(viVal);
+          const enVars = enVal && typeof enVal === 'string' ? extractVarNames(enVal) : [];
+          const varNames = viVars.length ? viVars : enVars;
+
+          patternKeys.push({
+            key: fullKey,
+            regexVi: makeRegex(viVal),
+            regexEn: enVal && typeof enVal === 'string' ? makeRegex(enVal) : null,
+            varNames,
+          });
+        } else {
+          exactMap[viVal.trim()] = fullKey;
+          if (enVal && typeof enVal === 'string') {
+            exactMap[enVal.trim()] = fullKey;
+          }
+        }
+      }
+    }
+  }
+};
+
+processTranslations(vi, en);
+
+const findI18nKey = (text) => {
+  if (typeof text !== 'string') return null;
+  const trimmed = text.trim();
+  if (exactMap[trimmed]) {
+    return { key: exactMap[trimmed], options: {} };
+  }
+
+  for (const pk of patternKeys) {
+    if (pk.regexVi && pk.regexVi.test(trimmed)) {
+      const match = trimmed.match(pk.regexVi);
+      const options = {};
+      pk.varNames.forEach((name, i) => {
+        options[name] = match[i + 1];
+      });
+      return { key: pk.key, options };
+    }
+    if (pk.regexEn && pk.regexEn.test(trimmed)) {
+      const match = trimmed.match(pk.regexEn);
+      const options = {};
+      pk.varNames.forEach((name, i) => {
+        options[name] = match[i + 1];
+      });
+      return { key: pk.key, options };
+    }
+  }
+
+  return null;
+};
 
 const NotifyContext = createContext(null);
 
@@ -34,8 +116,14 @@ export const NotifyProvider = ({ children }) => {
         try { text = JSON.stringify(message); } catch { text = String(message); }
       }
 
+      const match = findI18nKey(text);
       const id = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
-      setToasts((prev) => [...prev, { id, message: text, type: safeType }]);
+
+      if (match) {
+        setToasts((prev) => [...prev, { id, message: match.key, options: match.options, isKey: true, type: safeType }]);
+      } else {
+        setToasts((prev) => [...prev, { id, message: text, options: {}, isKey: false, type: safeType }]);
+      }
 
       if (duration > 0) {
         const timer = setTimeout(() => dismiss(id), duration);
