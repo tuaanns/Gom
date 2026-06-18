@@ -248,6 +248,7 @@ export const UserModal = ({ isOpen, onClose, user, onSuccess, notify }) => {
             value={formData.token_balance}
             onChange={handleChange}
             min="0"
+            step="0.1"
           />
         </FormField>
 
