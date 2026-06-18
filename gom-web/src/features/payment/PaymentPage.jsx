@@ -301,7 +301,7 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
     setView?.(VIEWS.TRANSACTION_HISTORY);
   };
 
-  const currentStage = Math.max(stage, qrData ? 2 : selectedPkg ? 1 : 0);
+  const currentStage = Math.max(stage, qrData ? 2 : (selectedPkg && activeMethod !== 'vnpay') ? 1 : 0);
   const steps = [
     { id: 0, label: t('payment.steps.package') },
     { id: 1, label: t('payment.steps.method') },
@@ -344,9 +344,10 @@ export const PaymentPage = ({ fetchUser, notify, setView }) => {
 
       {currentStage === 0 && (
         <>
-          {loadingPkg && <LoadingState message={t('common.loading')} />}
-          {pkgError && <ErrorState message={pkgError} />}
-          {!loadingPkg && !pkgError && (
+          {purchasing && <LoadingState message={t('payment.creating')} />}
+          {!purchasing && loadingPkg && <LoadingState message={t('common.loading')} />}
+          {!purchasing && pkgError && <ErrorState message={pkgError} />}
+          {!purchasing && !loadingPkg && !pkgError && (
             <div
               ref={cardsRef}
               className="grid gap-6 md:grid-cols-3 md:gap-8"

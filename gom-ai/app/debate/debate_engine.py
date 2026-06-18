@@ -303,7 +303,7 @@ class DebateEngine:
                     r["confidence"] = 0.5
                 # Ensure 'prediction' key exists to avoid crash in Phase 2
                 if "prediction" not in r:
-                    logger.warning(f"Agent {name} failed to provide 'prediction'. Using fallback.")
+                    logger.warning(f"Agent {curr_name} failed to provide 'prediction'. Using fallback.")
                     r["prediction"] = {
                         "ceramic_line": "Unknown",
                         "country": "Unknown",
