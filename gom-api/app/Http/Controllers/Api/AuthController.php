@@ -69,6 +69,7 @@ class AuthController extends Controller
 
         $email = null;
         $name  = null;
+        $avatar = null;
         $data  = [];
 
         try {
@@ -82,9 +83,10 @@ class AuthController extends Controller
                 $data = $response->json();
                 $email = $data['email'] ?? null;
                 $name = $data['name'] ?? null;
+                $avatar = $data['picture'] ?? null;
             } elseif ($provider === 'facebook') {
                 $response = Http::withoutVerifying()->get('https://graph.facebook.com/me', [
-                    'fields'       => 'id,name,email',
+                    'fields'       => 'id,name,email,picture.type(large)',
                     'access_token' => $token,
                 ]);
                 if (!$response->successful()) {
@@ -93,6 +95,7 @@ class AuthController extends Controller
                 $data = $response->json();
                 $email = $data['email'] ?? null;
                 $name = $data['name'] ?? null;
+                $avatar = $data['picture']['data']['url'] ?? null;
                 if (!$email && !empty($data['id'])) {
                     $email = $data['id'] . '@facebook.com';
                 }
@@ -117,6 +120,13 @@ class AuthController extends Controller
                 'password' => Hash::make(Str::random(24)),
             ]
         );
+
+        if ($avatar) {
+            if (empty($user->avatar) || str_contains($user->avatar, 'googleusercontent.com') || str_contains($user->avatar, 'facebook.com') || str_contains($user->avatar, 'fbsbx.com')) {
+                $user->avatar = $avatar;
+                $user->save();
+            }
+        }
 
         $loginToken = $user->createToken('myapptoken')->plainTextToken;
 

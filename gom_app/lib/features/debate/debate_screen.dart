@@ -490,7 +490,10 @@ class DebateScreenState extends State<DebateScreen> {
               freeUsed < freeLimit
                 ? AppLang.tr('Lượt miễn phí: ${freeLimit - freeUsed}/$freeLimit còn lại', 'Free limits: ${freeLimit - freeUsed}/$freeLimit left')
                 : tokenBalance > 0
-                  ? AppLang.tr('Số dư: ${tokenBalance.toStringAsFixed(0)} lượt', 'Balance: ${tokenBalance.toStringAsFixed(0)} tokens')
+                  ? AppLang.tr(
+                      'Số dư: ${tokenBalance % 1 == 0 ? tokenBalance.toStringAsFixed(0) : tokenBalance.toStringAsFixed(1)} lượt',
+                      'Balance: ${tokenBalance % 1 == 0 ? tokenBalance.toStringAsFixed(0) : tokenBalance.toStringAsFixed(1)} tokens',
+                    )
                   : AppLang.tr('Đã hết lượt! Nạp thêm để tiếp tục.', 'Out of tokens! Top up to continue.'),
               style: TextStyle(
                 color: freeUsed < freeLimit || tokenBalance > 0

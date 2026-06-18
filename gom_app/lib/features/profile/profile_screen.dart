@@ -341,7 +341,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text('${double.tryParse(tokenBalance.toString())?.toInt() ?? 0}', style: const TextStyle(fontFamily: 'Serif', color: Colors.white, fontSize: 44, fontWeight: FontWeight.bold)),
+                      Text(
+                        (() {
+                          final d = double.tryParse(tokenBalance.toString()) ?? 0.0;
+                          return d % 1 == 0 ? d.toStringAsFixed(0) : d.toStringAsFixed(1);
+                        })(),
+                        style: const TextStyle(fontFamily: 'Serif', color: Colors.white, fontSize: 44, fontWeight: FontWeight.bold),
+                      ),
                       const SizedBox(width: 8),
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
