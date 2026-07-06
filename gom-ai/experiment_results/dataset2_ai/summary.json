@@ -1,5 +1,5 @@
 {
-  "dataset_size": 12,
+  "dataset_size": 100,
   "formulas": {
     "accuracy": "N_correct / N_total * 100",
     "precision_per_class": "TP / (TP + FP)",
@@ -10,20 +10,20 @@
   },
   "methods": {
     "gemini": {
-      "total": 12,
-      "correct": 0,
-      "errors": 7,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 44.064,
-      "hallucinated": 5,
-      "hallucination_rate": 41.67,
+      "total": 100,
+      "correct": 27,
+      "errors": 0,
+      "accuracy": 27.0,
+      "macro_precision": 60.0,
+      "macro_recall": 27.0,
+      "macro_f1_score": 34.13,
+      "average_latency_s": 36.135,
+      "hallucinated": 66,
+      "hallucination_rate": 66.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
-          "fp": 0,
+          "fp": 6,
           "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
@@ -32,15 +32,15 @@
         "Bien Hoa": {
           "tp": 0,
           "fp": 0,
-          "fn": 2,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Phu Lang": {
           "tp": 0,
-          "fp": 0,
-          "fn": 0,
+          "fp": 1,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -48,76 +48,76 @@
         "Chu Dau": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Bau Truc": {
-          "tp": 0,
+          "tp": 3,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 7,
+          "precision": 100.0,
+          "recall": 30.0,
+          "f1_score": 46.15
         },
         "Goryeo Celadon": {
-          "tp": 0,
+          "tp": 2,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 8,
+          "precision": 100.0,
+          "recall": 20.0,
+          "f1_score": 33.33
         },
         "Arita Imari": {
-          "tp": 0,
+          "tp": 2,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 8,
+          "precision": 100.0,
+          "recall": 20.0,
+          "f1_score": 33.33
         },
         "Delftware": {
-          "tp": 0,
+          "tp": 3,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 7,
+          "precision": 100.0,
+          "recall": 30.0,
+          "f1_score": 46.15
         },
         "Iznik": {
-          "tp": 0,
+          "tp": 10,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 7,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 3,
+          "precision": 100.0,
+          "recall": 70.0,
+          "f1_score": 82.35
         }
       }
     },
     "chatgpt": {
-      "total": 12,
-      "correct": 0,
-      "errors": 3,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 8.686,
-      "hallucinated": 9,
-      "hallucination_rate": 75.0,
+      "total": 100,
+      "correct": 23,
+      "errors": 0,
+      "accuracy": 23.0,
+      "macro_precision": 60.0,
+      "macro_recall": 23.0,
+      "macro_f1_score": 30.47,
+      "average_latency_s": 10.27,
+      "hallucinated": 64,
+      "hallucination_rate": 64.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
-          "fp": 0,
+          "fp": 12,
           "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
@@ -126,15 +126,15 @@
         "Bien Hoa": {
           "tp": 0,
           "fp": 0,
-          "fn": 2,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Phu Lang": {
           "tp": 0,
-          "fp": 0,
-          "fn": 0,
+          "fp": 1,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -142,76 +142,76 @@
         "Chu Dau": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Bau Truc": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 9,
+          "precision": 100.0,
+          "recall": 10.0,
+          "f1_score": 18.18
         },
         "Goryeo Celadon": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 9,
+          "precision": 100.0,
+          "recall": 10.0,
+          "f1_score": 18.18
         },
         "Arita Imari": {
-          "tp": 0,
+          "tp": 3,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 7,
+          "precision": 100.0,
+          "recall": 30.0,
+          "f1_score": 46.15
         },
         "Delftware": {
-          "tp": 0,
+          "tp": 5,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 5,
+          "precision": 100.0,
+          "recall": 50.0,
+          "f1_score": 66.67
         },
         "Iznik": {
-          "tp": 0,
+          "tp": 5,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 5,
+          "precision": 100.0,
+          "recall": 50.0,
+          "f1_score": 66.67
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 8,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 2,
+          "precision": 100.0,
+          "recall": 80.0,
+          "f1_score": 88.89
         }
       }
     },
     "grok": {
-      "total": 12,
-      "correct": 0,
-      "errors": 3,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 5.396,
-      "hallucinated": 9,
-      "hallucination_rate": 75.0,
+      "total": 100,
+      "correct": 26,
+      "errors": 0,
+      "accuracy": 26.0,
+      "macro_precision": 60.0,
+      "macro_recall": 26.0,
+      "macro_f1_score": 31.87,
+      "average_latency_s": 4.691,
+      "hallucinated": 65,
+      "hallucination_rate": 65.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
-          "fp": 0,
+          "fp": 5,
           "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
@@ -220,15 +220,15 @@
         "Bien Hoa": {
           "tp": 0,
           "fp": 0,
-          "fn": 2,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Phu Lang": {
           "tp": 0,
-          "fp": 0,
-          "fn": 0,
+          "fp": 4,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -236,76 +236,76 @@
         "Chu Dau": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Bau Truc": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 9,
+          "precision": 100.0,
+          "recall": 10.0,
+          "f1_score": 18.18
         },
         "Goryeo Celadon": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 9,
+          "precision": 100.0,
+          "recall": 10.0,
+          "f1_score": 18.18
         },
         "Arita Imari": {
-          "tp": 0,
+          "tp": 2,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 8,
+          "precision": 100.0,
+          "recall": 20.0,
+          "f1_score": 33.33
         },
         "Delftware": {
-          "tp": 0,
+          "tp": 5,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 5,
+          "precision": 100.0,
+          "recall": 50.0,
+          "f1_score": 66.67
         },
         "Iznik": {
-          "tp": 0,
+          "tp": 7,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 3,
+          "precision": 100.0,
+          "recall": 70.0,
+          "f1_score": 82.35
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 10,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         }
       }
     },
     "acis": {
-      "total": 12,
-      "correct": 0,
-      "errors": 3,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 69.379,
-      "hallucinated": 9,
-      "hallucination_rate": 75.0,
+      "total": 100,
+      "correct": 27,
+      "errors": 0,
+      "accuracy": 27.0,
+      "macro_precision": 63.33,
+      "macro_recall": 27.0,
+      "macro_f1_score": 34.16,
+      "average_latency_s": 62.816,
+      "hallucinated": 65,
+      "hallucination_rate": 65.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
-          "fp": 0,
+          "fp": 6,
           "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
@@ -314,74 +314,74 @@
         "Bien Hoa": {
           "tp": 0,
           "fp": 0,
-          "fn": 2,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Phu Lang": {
-          "tp": 0,
-          "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "tp": 1,
+          "fp": 2,
+          "fn": 9,
+          "precision": 33.33,
+          "recall": 10.0,
+          "f1_score": 15.38
         },
         "Chu Dau": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 10,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Bau Truc": {
-          "tp": 0,
+          "tp": 3,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 7,
+          "precision": 100.0,
+          "recall": 30.0,
+          "f1_score": 46.15
         },
         "Goryeo Celadon": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 9,
+          "precision": 100.0,
+          "recall": 10.0,
+          "f1_score": 18.18
         },
         "Arita Imari": {
-          "tp": 0,
+          "tp": 2,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 8,
+          "precision": 100.0,
+          "recall": 20.0,
+          "f1_score": 33.33
         },
         "Delftware": {
-          "tp": 0,
+          "tp": 3,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 7,
+          "precision": 100.0,
+          "recall": 30.0,
+          "f1_score": 46.15
         },
         "Iznik": {
-          "tp": 0,
+          "tp": 10,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 7,
           "fp": 0,
-          "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 3,
+          "precision": 100.0,
+          "recall": 70.0,
+          "f1_score": 82.35
         }
       }
     }

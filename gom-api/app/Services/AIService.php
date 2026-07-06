@@ -15,9 +15,42 @@ class AIService
         $this->pythonUrl = rtrim((string) env('PYTHON_AI_URL', 'http://127.0.0.1:8001'), '/');
     }
 
+    private function syncKeysIfNeeded()
+    {
+        $rawConfig = \App\Models\Setting::getByKey('api_settings');
+        if ($rawConfig) {
+            $config = json_decode($rawConfig, true);
+        } else {
+            $config = [
+                'api_keys' => [
+                    'GOOGLE_API_KEY' => env('GOOGLE_API_KEY', ''),
+                    'GROQ_API_KEY'   => env('GROQ_API_KEY', ''),
+                    'OPENAI_API_KEY' => env('OPENAI_API_KEY', ''),
+                    'SERPAPI_API_KEY'=> env('SERPAPI_API_KEY', ''),
+                ],
+                'models' => [
+                    ['id' => 'gemini-3.1-flash-lite', 'name' => 'Gemini 3.1 Flash Lite (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
+                    ['id' => 'gemini-2.5-pro', 'name' => 'Gemini 2.5 Pro (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
+                    ['id' => 'gemini-2.5-flash', 'name' => 'Gemini 2.5 Flash (Vision)', 'provider' => 'google', 'role' => 'vision', 'is_active' => true],
+                    ['id' => 'llama-3.3-70b-versatile', 'name' => 'Llama 3.3 70B (Text)', 'provider' => 'groq', 'role' => 'agent_text', 'is_active' => true],
+                ],
+            ];
+        }
+
+        try {
+            $endpoint = "{$this->pythonUrl}/sync-keys";
+            Http::connectTimeout(3)
+                ->timeout(5)
+                ->post($endpoint, $config);
+        } catch (\Throwable $e) {
+            Log::warning('AIService: automatic key synchronization failed: ' . $e->getMessage());
+        }
+    }
+
     // Call the Python FastAPI Multi-Agent Debate Server
     public function runMultiAgentDebate($image, string $lang = 'vi'): array
     {
+        $this->syncKeysIfNeeded();
         $endpoint = "{$this->pythonUrl}/predict";
 
         if ($image instanceof \Illuminate\Http\UploadedFile) {
@@ -139,6 +172,7 @@ class AIService
     // Call the Python FastAPI Lens Endpoint
     public function runLens($image, string $lang = 'vi'): array
     {
+        $this->syncKeysIfNeeded();
         $endpoint = "{$this->pythonUrl}/predict/lens";
 
         if ($image instanceof \Illuminate\Http\UploadedFile) {

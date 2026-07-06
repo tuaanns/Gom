@@ -23,6 +23,8 @@ DATASET1_MANIFEST = DATASET1_ROOT / "manifest.csv"
 DATASET2_MANIFEST = DATASET2_ROOT / "manifest.csv"
 DATASET1_RESULTS = ROOT / "gom-ai" / "experiment_results" / "dataset1_video" / "detailed_results.json"
 DATASET1_SUMMARY = ROOT / "gom-ai" / "experiment_results" / "dataset1_video" / "summary.json"
+DATASET2_RESULTS = ROOT / "gom-ai" / "experiment_results" / "dataset2_ai" / "detailed_results.json"
+DATASET2_SUMMARY = ROOT / "gom-ai" / "experiment_results" / "dataset2_ai" / "summary.json"
 
 METHODS = ["gemini", "chatgpt", "grok", "acis"]
 METHOD_LABELS = {
@@ -150,13 +152,14 @@ def add_readme(wb: Workbook):
     rows = [
         ["Field", "Value"],
         ["Experiment 1", "100 real/video ceramic images. Benchmark results currently available."],
-        ["Experiment 2", "100 AI-generated ceramic images. Metadata prepared; benchmark pending until API quota allows execution."],
+        ["Experiment 2", "100 AI-generated ceramic images. Benchmark results currently available."],
         ["Compared systems", "Gemini, ChatGPT, Groq/Llama, ACIS multi-agent workflow"],
         ["Accuracy", "N_correct / N_total * 100"],
         ["Precision", "TP / (TP + FP), macro averaged across 10 ceramic classes"],
         ["Recall", "TP / (TP + FN), macro averaged across 10 ceramic classes"],
         ["F1-score", "2 * Precision * Recall / (Precision + Recall)"],
         ["Hallucination rate", "Predictions outside the supported 10 labels / N_total * 100"],
+        ["Runs + average /100", "For each experiment and method, the workbook records evaluated runs, correct count, error count, hallucination count, and per-100 averages."],
         ["Important note", "Rows with API/vision errors are retained and flagged; rerun them before final submission if a fully clean 100/100 benchmark is required."],
     ]
     for row in rows:
@@ -185,31 +188,115 @@ def add_dataset1_summary(wb: Workbook, summary: dict, results: list[dict]):
     ws.freeze_panes = "A6"
 
 
-def add_dataset2_summary(wb: Workbook):
+def add_dataset2_summary(wb: Workbook, summary: dict, results: list[dict]):
     ws = wb.create_sheet("Dataset2_Summary")
-    set_title(ws, "Dataset 2 Summary", "AI-generated image dataset. Benchmark columns are prepared and marked Pending.", 10)
+    set_title(ws, "Dataset 2 Summary", "AI-generated image dataset benchmark. Metrics are from detailed_results.json.", 10)
+    complete = sum(method_complete(row) for row in results)
     ws.append([])
-    ws.append(["Dataset size", 100, "Complete rows", 0, "Rows with errors", "Pending"])
+    ws.append(["Dataset size", len(results), "Complete rows", complete, "Rows with errors", len(results) - complete])
     ws.append([])
     ws.append(["Method", "N total", "N correct", "Errors", "Accuracy %", "Precision %", "Recall %", "F1 %", "Avg latency s", "Hallucination %"])
-    for method in METHODS:
-        ws.append([METHOD_LABELS[method], "Pending", "Pending", "Pending", "Pending", "Pending", "Pending", "Pending", "Pending", "Pending"])
+    for row in build_summary_records(summary):
+        ws.append(row)
     style_header(ws, 5)
+    for row in ws.iter_rows(min_row=6, max_row=9, min_col=5, max_col=10):
+        for cell in row:
+            cell.number_format = "0.00"
     auto_width(ws)
     ws.freeze_panes = "A6"
 
 
-def add_final_comparison(wb: Workbook, dataset1_summary: dict):
+def add_final_comparison(wb: Workbook, dataset1_summary: dict, dataset2_summary: dict):
     ws = wb.create_sheet("Final_Comparison", 1)
     set_title(ws, "Final Comparison", "Average metrics per 100 samples for the two experiments.", 11)
     ws.append([])
     ws.append(["Experiment", "Method", "N total", "N correct", "Errors", "Accuracy %", "Precision %", "Recall %", "F1 %", "Avg latency s", "Hallucination %"])
     for row in build_summary_records(dataset1_summary):
         ws.append(["Dataset 1 - Real/video"] + row)
-    for method in METHODS:
-        ws.append(["Dataset 2 - AI-generated", METHOD_LABELS[method], "Pending", "Pending", "Pending", "Pending", "Pending", "Pending", "Pending", "Pending", "Pending"])
+    for row in build_summary_records(dataset2_summary):
+        ws.append(["Dataset 2 - AI-generated"] + row)
     style_header(ws, 4)
+    for row in ws.iter_rows(min_row=5, max_row=12, min_col=6, max_col=11):
+        for cell in row:
+            cell.number_format = "0.00"
     auto_width(ws)
+    ws.freeze_panes = "A5"
+
+
+def add_runs_average(wb: Workbook, dataset_summaries: list[tuple[str, dict]]):
+    ws = wb.create_sheet("Runs_Average_100", 2)
+    set_title(ws, "Runs + Average /100", "Count-based and average metrics for the two 100-sample experiments.", 14)
+    ws.append([])
+    headers = [
+        "Experiment", "Method", "Runs evaluated", "Correct count", "Correct avg /100",
+        "Error count", "Error avg /100", "Hallucination count", "Hallucination avg /100",
+        "Accuracy %", "Precision %", "Recall %", "F1 %", "Avg latency s",
+    ]
+    ws.append(headers)
+    style_header(ws, 4)
+    for experiment, summary in dataset_summaries:
+        for method in METHODS:
+            metrics = summary.get("methods", {}).get(method, {})
+            total = metrics.get("total") or 0
+            correct = metrics.get("correct") or 0
+            errors = metrics.get("errors") or 0
+            hallucinated = metrics.get("hallucinated") or 0
+            per_100 = 100 / total if total else 0
+            ws.append([
+                experiment,
+                METHOD_LABELS[method],
+                total,
+                correct,
+                round(correct * per_100, 2) if total else 0,
+                errors,
+                round(errors * per_100, 2) if total else 0,
+                hallucinated,
+                round(hallucinated * per_100, 2) if total else 0,
+                metrics.get("accuracy"),
+                metrics.get("macro_precision"),
+                metrics.get("macro_recall"),
+                metrics.get("macro_f1_score"),
+                metrics.get("average_latency_s"),
+            ])
+
+    ws.append([])
+    ws.append(["Combined average across 2 experiments", "", "", "", "", "", "", "", "", "", "", "", "", ""])
+    combined_header_row = ws.max_row + 1
+    ws.append(["Method", "Avg correct /100", "Avg errors /100", "Avg hallucination /100", "Avg accuracy %", "Avg precision %", "Avg recall %", "Avg F1 %", "Avg latency s"])
+    style_header(ws, combined_header_row)
+    for method in METHODS:
+        values = []
+        for _, summary in dataset_summaries:
+            metrics = summary.get("methods", {}).get(method, {})
+            total = metrics.get("total") or 0
+            per_100 = 100 / total if total else 0
+            values.append({
+                "correct": (metrics.get("correct") or 0) * per_100 if total else 0,
+                "errors": (metrics.get("errors") or 0) * per_100 if total else 0,
+                "hallucinated": (metrics.get("hallucinated") or 0) * per_100 if total else 0,
+                "accuracy": metrics.get("accuracy") or 0,
+                "precision": metrics.get("macro_precision") or 0,
+                "recall": metrics.get("macro_recall") or 0,
+                "f1": metrics.get("macro_f1_score") or 0,
+                "latency": metrics.get("average_latency_s") or 0,
+            })
+        ws.append([
+            METHOD_LABELS[method],
+            round(sum(v["correct"] for v in values) / len(values), 2),
+            round(sum(v["errors"] for v in values) / len(values), 2),
+            round(sum(v["hallucinated"] for v in values) / len(values), 2),
+            round(sum(v["accuracy"] for v in values) / len(values), 2),
+            round(sum(v["precision"] for v in values) / len(values), 2),
+            round(sum(v["recall"] for v in values) / len(values), 2),
+            round(sum(v["f1"] for v in values) / len(values), 2),
+            round(sum(v["latency"] for v in values) / len(values), 3),
+        ])
+
+    for row in ws.iter_rows(min_row=5, max_row=ws.max_row, min_col=3, max_col=14):
+        for cell in row:
+            if isinstance(cell.value, (int, float)):
+                cell.number_format = "0.00" if isinstance(cell.value, float) else "0"
+    auto_width(ws, 48)
     ws.freeze_panes = "A5"
 
 
@@ -317,15 +404,17 @@ def add_dataset2_metadata(wb: Workbook, manifest_rows: list[dict]):
     ws.column_dimensions["B"].width = 14
 
 
-def add_dataset2_results(wb: Workbook, manifest_rows: list[dict]):
+def add_dataset2_results(wb: Workbook, manifest_rows: list[dict], results: list[dict]):
     ws = wb.create_sheet("Dataset2_Results")
-    set_title(ws, "Dataset 2 Results", "Benchmark-ready sheet. Fill/run results after dataset2 benchmark completes.", 21)
+    set_title(ws, "Dataset 2 Results", "Each row includes image, source, ground truth, predictions and benchmark flags.", 25)
+    by_id = {int(row["id"]): row for row in results}
     headers = [
         "Index", "Image", "Filename", "Reference URL", "Generation method", "Object type", "Ground truth",
-        "Benchmark status", "Gemini pred", "Gemini correct", "Gemini latency",
-        "ChatGPT pred", "ChatGPT correct", "ChatGPT latency",
-        "Groq/Llama pred", "Groq correct", "Groq latency",
-        "ACIS pred", "ACIS correct", "ACIS latency", "Notes",
+        "Complete?", "Run error",
+        "Gemini pred", "Gemini correct", "Gemini latency", "Gemini error",
+        "ChatGPT pred", "ChatGPT correct", "ChatGPT latency", "ChatGPT error",
+        "Groq/Llama pred", "Groq correct", "Groq latency", "Groq error",
+        "ACIS pred", "ACIS correct", "ACIS latency", "ACIS error",
     ]
     ws.append([])
     ws.append(headers)
@@ -333,14 +422,28 @@ def add_dataset2_results(wb: Workbook, manifest_rows: list[dict]):
     row_num = 5
     for m in manifest_rows:
         idx = int(m["index"])
-        ws.append([
+        result = by_id.get(idx, {})
+        methods = result.get("methods", {})
+        values = [
             idx, "", m.get("filename"), m.get("reference_url"), m.get("generation_method"),
-            m.get("object_type"), m.get("tradition"), "Pending",
-            "", "", "", "", "", "", "", "", "", "", "", "", "Run benchmark dataset2_ai",
+            m.get("object_type"), result.get("ground_truth") or m.get("tradition"),
+            "Yes" if result and method_complete(result) else "No",
+            result.get("run_error"),
+        ]
+        for method in METHODS:
+            r = methods.get(method, {})
+            values.extend([
+                r.get("predicted_label") or r.get("raw_prediction"),
+                r.get("is_correct"),
+                r.get("latency_s"),
+                r.get("error"),
+            ])
+        ws.append([
+            *values,
         ])
         add_thumb(ws, row_num, 2, DATASET2_ROOT / m.get("filename", ""), f"d2_res_{idx:03d}")
         row_num += 1
-    ws.auto_filter.ref = f"A4:U{ws.max_row}"
+    ws.auto_filter.ref = f"A4:Y{ws.max_row}"
     ws.freeze_panes = "A5"
     auto_width(ws, 55)
     ws.column_dimensions["B"].width = 14
@@ -354,16 +457,22 @@ def main():
     d2_manifest = read_csv(DATASET2_MANIFEST)
     d1_results = read_json(DATASET1_RESULTS, [])
     d1_summary = read_json(DATASET1_SUMMARY, {})
+    d2_results = read_json(DATASET2_RESULTS, [])
+    d2_summary = read_json(DATASET2_SUMMARY, {})
 
     wb = Workbook()
     add_readme(wb)
-    add_final_comparison(wb, d1_summary)
+    add_final_comparison(wb, d1_summary, d2_summary)
+    add_runs_average(wb, [
+        ("Dataset 1 - Real/video", d1_summary),
+        ("Dataset 2 - AI-generated", d2_summary),
+    ])
     add_dataset1_summary(wb, d1_summary, d1_results)
     add_dataset1_metadata(wb, d1_manifest)
     add_dataset1_results(wb, d1_manifest, d1_results)
-    add_dataset2_summary(wb)
+    add_dataset2_summary(wb, d2_summary, d2_results)
     add_dataset2_metadata(wb, d2_manifest)
-    add_dataset2_results(wb, d2_manifest)
+    add_dataset2_results(wb, d2_manifest, d2_results)
 
     for ws in wb.worksheets:
         for row in ws.iter_rows():
