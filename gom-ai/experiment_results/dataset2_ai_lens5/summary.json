@@ -11,20 +11,20 @@
   "methods": {
     "gemini": {
       "total": 5,
-      "correct": 0,
+      "correct": 3,
       "errors": 0,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 18.276,
-      "hallucinated": 5,
-      "hallucination_rate": 100.0,
+      "accuracy": 60.0,
+      "macro_precision": 11.9,
+      "macro_recall": 14.29,
+      "macro_f1_score": 12.86,
+      "average_latency_s": 8.588,
+      "hallucinated": 0,
+      "hallucination_rate": 0.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
           "fp": 0,
-          "fn": 5,
+          "fn": 0,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -100,25 +100,57 @@
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 66.67,
+          "recall": 100.0,
+          "f1_score": 80.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         }
       }
     },
     "chatgpt": {
       "total": 5,
-      "correct": 0,
+      "correct": 2,
       "errors": 0,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 5.051,
-      "hallucinated": 5,
-      "hallucination_rate": 100.0,
+      "accuracy": 40.0,
+      "macro_precision": 10.71,
+      "macro_recall": 10.71,
+      "macro_f1_score": 10.71,
+      "average_latency_s": 5.214,
+      "hallucinated": 1,
+      "hallucination_rate": 20.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
           "fp": 0,
-          "fn": 5,
+          "fn": 0,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -194,25 +226,57 @@
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 1,
+          "fp": 1,
+          "fn": 1,
+          "precision": 50.0,
+          "recall": 50.0,
+          "f1_score": 50.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         }
       }
     },
     "grok": {
       "total": 5,
-      "correct": 0,
+      "correct": 2,
       "errors": 0,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 2.109,
-      "hallucinated": 5,
-      "hallucination_rate": 100.0,
+      "accuracy": 40.0,
+      "macro_precision": 4.76,
+      "macro_recall": 7.14,
+      "macro_f1_score": 5.71,
+      "average_latency_s": 2.168,
+      "hallucinated": 1,
+      "hallucination_rate": 20.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
           "fp": 0,
-          "fn": 5,
+          "fn": 0,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -285,6 +349,38 @@
           "tp": 0,
           "fp": 0,
           "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 66.67,
+          "recall": 100.0,
+          "f1_score": 80.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -293,20 +389,20 @@
     },
     "acis": {
       "total": 5,
-      "correct": 0,
+      "correct": 3,
       "errors": 0,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 42.066,
-      "hallucinated": 5,
-      "hallucination_rate": 100.0,
+      "accuracy": 60.0,
+      "macro_precision": 11.9,
+      "macro_recall": 14.29,
+      "macro_f1_score": 12.86,
+      "average_latency_s": 26.352,
+      "hallucinated": 0,
+      "hallucination_rate": 0.0,
       "per_class": {
         "Bat Trang": {
           "tp": 0,
           "fp": 0,
-          "fn": 5,
+          "fn": 0,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
@@ -382,6 +478,38 @@
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 2,
+          "fp": 1,
+          "fn": 0,
+          "precision": 66.67,
+          "recall": 100.0,
+          "f1_score": 80.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 2,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         }
       }
     }

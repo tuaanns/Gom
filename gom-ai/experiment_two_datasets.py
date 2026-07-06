@@ -55,6 +55,10 @@ CANONICAL_LABELS = [
     "Delftware",
     "Iznik",
     "Meissen",
+    "Jingdezhen",
+    "Aynsley Pembroke",
+    "Noritake",
+    "Gien Faience",
 ]
 
 ALIASES = {
@@ -68,6 +72,10 @@ ALIASES = {
     "Delftware": ["delft", "delftware", "delft blue", "royal delft"],
     "Iznik": ["iznik", "iznik pottery", "iznik ware"],
     "Meissen": ["meissen", "meissen porcelain"],
+    "Jingdezhen": ["jingdezhen", "canh duc tran", "jingdezhen porcelain", "famille rose", "fencai", "famille verte"],
+    "Aynsley Pembroke": ["aynsley", "aynsley pembroke", "pembroke"],
+    "Noritake": ["noritake", "noritake floral"],
+    "Gien Faience": ["gien", "gien faience", "vieux rouen"],
 }
 
 METHODS = ["gemini", "chatgpt", "grok", "acis"]

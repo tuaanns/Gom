@@ -323,12 +323,12 @@
     "id": 4,
     "filename": "images/01_bat_trang_vietnam/004_01_bat_trang_vietnam_04.jpg",
     "ground_truth": "Bat Trang",
-    "started_at": "2026-07-06T20:22:32",
+    "started_at": "2026-07-06T20:40:20",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 49702,
     "input_resized_bytes": 19826,
     "vision_time_s": 0.0,
-    "acis_pipeline_time_s": 66.435,
+    "acis_pipeline_time_s": 24.916,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -383,45 +383,45 @@
         "raw_prediction": "Bat Trang",
         "predicted_label": "Bat Trang",
         "confidence": 0.85,
-        "evidence": "The ceramic piece exhibits characteristics typical of contemporary Vietnamese art pottery, particularly from the Bat Trang kiln, known for its innovative use of flambé glazes. The dark chocolate and mustard yellow colors, along with the amber hues, suggest a modern interpretation of traditional glazes. The reduction firing technique and the abstract flow patterns indicate a focus on artistic expression rather than functional design, aligning with 20th and 21st-century trends in ceramics. The globular shape with a short neck and flared mouth is also consistent with modern artistic vases, emphasizing balance and stability. The presence of 'tea dust' effects and the glossy surface further support this assessment, as these are hallmarks of contemporary ceramic practices in Vietnam.",
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary Vietnamese ceramics, particularly from the Bat Trang kiln, known for its flambé glaze techniques. The use of reduction firing and the resulting drip glaze with natural flow patterns indicates a modern approach to ceramic art that emphasizes aesthetic over traditional utility. The color palette of dark chocolate, mustard yellow, and amber shades aligns with contemporary artistic trends that focus on unique glazing effects. The globular shape with a short neck is also consistent with modern design preferences, reflecting a balance of form and function. The excellent condition and the absence of specific hand-painted motifs suggest a focus on glaze effects rather than detailed surface decoration, which is a hallmark of contemporary ceramics.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 6.354
+        "latency_s": 6.955
       },
       "grok": {
         "raw_prediction": "Bát Tràng",
         "predicted_label": "Bat Trang",
         "confidence": 0.8,
-        "evidence": "The glaze type, identified as men hỏa biến (flambé/transmutation glaze) with drip glaze effects, is characteristic of contemporary Vietnamese ceramic art. The presence of 'tea dust' or golden spots on the dark brown background, along with the abstract flow patterns, suggests a high level of control over the firing process. The body morphology, including the globular shape and short neck, is consistent with traditional Vietnamese ceramic forms. The kiln marks, including the natural flow patterns and reduction firing technique, are also indicative of Vietnamese ceramic production. The overall material evidence points to a specific ceramic line, Bát Tràng, which is known for its high-quality ceramic products with unique glaze effects.",
+        "evidence": "The ceramic piece exhibits a distinctive flambé glaze with drip glaze effects, characterized by a dark chocolate, mustard yellow, and amber color palette. The glaze surface is glossy, with abstract flow patterns and 'tea dust' or golden speckles on a dark brown background, indicating a high level of glaze thickness. The body morphology suggests a stoneware material, with a globular vase shape featuring a short neck and slightly flared mouth. The firing marks, including natural glaze flow and reduction firing effects, are consistent with a controlled kiln environment. The overall style and technique are reminiscent of contemporary artistic ceramics, particularly those influenced by modern wood-fired or gas-fired kilns.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 2.398
+        "latency_s": 4.286
       },
       "gemini": {
-        "raw_prediction": "Unknown",
-        "predicted_label": null,
-        "confidence": 0.5,
-        "evidence": "Error: JSON Parse Error: Extra data: line 11 column 4 (char 5112)",
-        "is_correct": false,
+        "raw_prediction": "Bát Tràng Hỏa Biến",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a unique combination of dark chocolate, mustard yellow, and amber hues, achieved through the flambé or transmutation glaze technique. The presence of 'tea dust' or golden speckles on the dark brown background creates a sense of depth. The abstract flow patterns and the lack of hand-painted designs suggest a reliance on the interaction of temperature and glaze during the firing process. The globular shape with a short neck and slightly flared mouth is reminiscent of traditional Vietnamese ceramic forms. The reduction firing technique and the resulting glaze effects are consistent with contemporary artistic ceramics. Comparing this piece to other regional traditions, such as Thai Sawankhalok or Chinese Song/Yuan ceramics, reveals distinct differences in motifs, glaze styles, and firing techniques. The Bát Tràng Hỏa Biến ceramic line, known for its innovative use of traditional techniques and modern artistic expressions, is a strong match for this piece.",
+        "is_correct": true,
         "is_hallucinated": false,
-        "error": "JSON Parse Error: Extra data: line 11 column 4 (char 5112)",
-        "latency_s": 40.779
+        "error": null,
+        "latency_s": 8.507
       },
       "acis": {
-        "raw_prediction": "Bát Tràng",
+        "raw_prediction": "Bát Tràng Hỏa Biến",
         "predicted_label": "Bat Trang",
-        "confidence": 0.85,
-        "evidence": "The most convincing argument comes from the 'Ceramic History' agent, who provides a detailed analysis of the visual features, such as the flambé glaze with drip effects, abstract flow patterns, and the specific color palette of dark chocolate, mustard yellow, and amber. These features are consistent with contemporary Vietnamese art pottery from the Bát Tràng kiln. The 'Kiln Signatures & Morphology Expert' also supports this conclusion, emphasizing the glaze type and firing technique typical of Bát Tràng ceramics. The Google Lens results, while showing some Chinese references, do not directly contradict the agents' reasoning, as they focus on different ceramic types. The visual evidence aligns well with the Bát Tràng prediction, and the consensus between two agents further strengthens this conclusion.",
+        "confidence": 0.9,
+        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert', who identified the piece as part of the Bát Tràng Hỏa Biến ceramic line. This conclusion was supported by the unique combination of dark chocolate, mustard yellow, and amber hues, achieved through the flambé or transmutation glaze technique, and the presence of 'tea dust' or golden speckles. The abstract flow patterns and the lack of hand-painted designs further suggest a reliance on the interaction of temperature and glaze during the firing process, which is characteristic of contemporary artistic ceramics from Bát Tràng. The visual evidence aligns with this analysis, particularly the glaze type, glaze details, and decoration technique. Google Lens references, while indicating some Chinese ceramics, do not contradict the agents' conclusions, as they focus on different stylistic elements. The consensus among the agents, particularly the agreement between the 'Kiln Signatures & Morphology Expert' and the 'Global",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 66.435
+        "latency_s": 24.916
       }
     },
-    "total_time_s": 66.441
+    "total_time_s": 24.937
   },
   {
     "dataset": "dataset1_video_lens5",

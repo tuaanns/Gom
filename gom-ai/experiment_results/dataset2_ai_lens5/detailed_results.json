@@ -4,13 +4,13 @@
     "source_dataset": "dataset2_ai",
     "id": 1,
     "filename": "images/01_bat_trang/001_01_bat_trang_01_vase.jpg",
-    "ground_truth": "Bat Trang",
-    "started_at": "2026-07-06T20:24:29",
+    "ground_truth": "Jingdezhen",
+    "started_at": "2026-07-06T20:40:45",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 79334,
     "input_resized_bytes": 38394,
     "vision_time_s": 0.0,
-    "acis_pipeline_time_s": 60.213,
+    "acis_pipeline_time_s": 34.565,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -62,61 +62,61 @@
     ],
     "methods": {
       "chatgpt": {
-        "raw_prediction": "Jingdezhen",
+        "raw_prediction": "Chinoiserie",
         "predicted_label": null,
-        "confidence": 0.85,
-        "evidence": "The pear-shaped vase with a wide mouth and slender neck is characteristic of contemporary designs that draw inspiration from historical Chinese ceramics, particularly the Chinoiserie style popular in the 18th and 19th centuries. The use of tin-glaze and overglaze enamel decoration aligns with modern manufacturing techniques seen in industrial production, particularly from Jingdezhen, known for its porcelain and earthenware. The vibrant colors and floral motifs, including peonies and birds, reflect traditional Chinese themes while being executed in a contemporary manner. The absence of firing marks and the smooth, even glaze suggest a modern production method, likely slip-casting, which is prevalent in mass-produced ceramics today.",
+        "confidence": 0.9,
+        "evidence": "The pear-shaped vase with a wide mouth and slender neck, combined with the overglaze enamel decoration featuring peony motifs and a small bird, indicates a contemporary design influenced by historical Chinese export porcelain styles, particularly from the 18th and 19th centuries. The use of tin-glaze and the smooth, glossy surface suggest industrial production methods typical of the 21st century. The absence of traditional firing marks and the modern foot ring design further support this dating. The color palette and decorative style reflect a neoclassical aesthetic, characteristic of current decorative trends that draw on historical motifs.",
         "is_correct": false,
         "is_hallucinated": true,
         "error": null,
-        "latency_s": 5.776
+        "latency_s": 6.476
       },
       "grok": {
         "raw_prediction": "Jingdezhen",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a tin-glaze (men thiếc) with a smooth, slightly glossy surface and uniform thickness, characteristic of Jingdezhen ceramics. The absence of firing marks, stacking traces, or heat distribution patterns suggests a modern, industrial firing process. The clay body is earthenware with a creamy white color, and the foot ring is rounded and fully glazed, consistent with modern Chinese ceramic production. The overglaze enamel decoration technique and the neoclassical style, inspired by Chinoiserie, further support the attribution to Jingdezhen.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The ceramic piece exhibits a tin-glaze (men thiếc) with a smooth, glossy surface and uniform thickness, characteristic of Jingdezhen ceramics. The absence of firing marks, such as kiln scars or sand marks, suggests a modern, industrial production process. The clay body is earthenware with a white, creamy color, and the foot ring is rounded with a glazed base, consistent with contemporary Chinese ceramic design. The overglaze enamel decoration, featuring a floral pattern with a small bird, is reminiscent of traditional Chinese motifs, but the overall style is neoclassical, inspired by 18th-19th century Chinoiserie.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 2.807
+        "latency_s": 2.888
       },
       "gemini": {
-        "raw_prediction": "Famille Rose (Fencai) Inspired Export Ware",
-        "predicted_label": null,
-        "confidence": 0.9,
-        "evidence": "This contemporary vase presents a fascinating blend of historical ceramic influences, primarily rooted in Chinese aesthetics but executed with techniques that suggest a cross-cultural adaptation for a modern decorative market. \n\n**1. Motifs & Cultural Symbolism:** The central motif of blooming peonies, buds, winding branches, and a small bird perched on a branch is quintessential East Asian, particularly Chinese. The peony (Mẫu Đơn in Vietnamese, Mudan in Chinese) is revered as the 'King of Flowers' in China, symbolizing wealth, prosperity, honor, and aristocracy. Its depiction is a classic element in Chinese painting and decorative arts, especially on ceramics from the Ming and Qing dynasties. The 'flower and bird' (huāniǎo) composition is a venerable genre in Chinese art, typically conveying harmony, beauty, and often seasonal blessings. The naturalistic yet idealized rendering here aligns perfectly with this tradition.\n\n**2. Regional Characteristics & Comparison:**\n*   **Chinese Inf",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "raw_prediction": "Jingdezhen Dehua Kiln",
+        "predicted_label": "Jingdezhen",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a combination of motifs and cultural symbolism that are characteristic of Chinese ceramics, particularly from the Jingdezhen region. The use of the peony flower motif, which is a symbol of good fortune and prosperity in Chinese culture, is a common theme in Dehua Kiln ceramics. The presence of a small bird perched on a branch, possibly a phoenix or a bird of paradise, adds to the symbolic richness of the piece, as birds are often associated with good luck and happiness in Chinese culture. The overall design, with its intricate and curved lines, is reminiscent of traditional Chinese ceramics, but the style is distinctly Neo-Classical with Chinoiserie influences, which was popular in Europe during the 18th and 19th centuries. The use of tin-glaze and overglaze enamel techniques also points to a Chinese origin, specifically from the Dehua Kiln, which is known for its high-quality ceramics with intricate designs and vibrant colors. In comparison to other regional",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 31.144
+        "latency_s": 10.552
       },
       "acis": {
-        "raw_prediction": "Famille Rose (Fencai) Inspired Export Ware",
-        "predicted_label": null,
+        "raw_prediction": "Jingdezhen Dehua Kiln",
+        "predicted_label": "Jingdezhen",
         "confidence": 0.85,
-        "evidence": "The most convincing argument comes from the 'Global Ceramics Expert,' who provides a detailed analysis of the vase's motifs, form, and glazing technique. The expert highlights the hybrid nature of the piece, combining traditional Chinese motifs with a European tin-glaze technique on an earthenware body. This aligns with the 'Famille Rose (Fencai)' style, known for its polychrome palette and historical use in Chinese export wares. The visual features, such as the overglaze enamel decoration and the absence of firing marks, support this conclusion. The Google Lens references, which show similar items being marketed as contemporary decorative pieces from China, further corroborate the modern production context and export nature of the vase. The other agents' predictions were less convincing due to their mischaracterization of the tin-glaze as typical of Jingdezhen porcelain, which traditionally uses high-fired porcelain rather than earthenware.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The most convincing argument came from the 'Global Ceramics Expert', who provided a detailed analysis of the motifs and cultural symbolism, particularly the peony flower and bird motifs, which are characteristic of Chinese ceramics from the Jingdezhen region. The use of tin-glaze and overglaze enamel techniques further supports a Chinese origin, specifically from the Dehua Kiln, known for its high-quality ceramics with intricate designs. The visual features, such as the smooth, glossy surface and modern foot ring design, align with contemporary industrial production methods typical of the 21st century. Google Lens references, while showing some matches to Vietnamese ceramics, primarily supported the Chinese origin, specifically pointing to Jingdezhen. The 'Ceramic History' agent's argument was less convincing due to a lack of specific evidence linking the piece to 18th-19th century Chinoiserie styles, and the 'Kiln Signatures & Morphology Expert' provided a similar conclusion but with ",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 60.213
+        "latency_s": 34.565
       }
     },
-    "total_time_s": 60.215
+    "total_time_s": 34.569
   },
   {
     "dataset": "dataset2_ai_lens5",
     "source_dataset": "dataset2_ai",
     "id": 2,
     "filename": "images/01_bat_trang/002_01_bat_trang_02_plate.jpg",
-    "ground_truth": "Bat Trang",
-    "started_at": "2026-07-06T20:25:30",
+    "ground_truth": "Noritake",
+    "started_at": "2026-07-06T20:41:19",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 111996,
     "input_resized_bytes": 56651,
     "vision_time_s": 0.0,
-    "acis_pipeline_time_s": 47.826,
+    "acis_pipeline_time_s": 22.722,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -169,60 +169,60 @@
     "methods": {
       "chatgpt": {
         "raw_prediction": "Noritake",
-        "predicted_label": null,
+        "predicted_label": "Noritake",
         "confidence": 0.85,
-        "evidence": "The analysis of the ceramic piece indicates a late 20th to early 21st-century origin based on the smooth, glossy tin-glaze surface and the overglaze decoration technique. The motifs of birds and peony flowers align with the Chinoiserie style, which was popular in Western decorative ceramics influenced by Asian aesthetics. The round, shallow plate shape is typical for modern dining ware, and the absence of a foot ring suggests a mass-produced item. The use of porcelain or stoneware is consistent with industrial production methods, likely slip-cast, which became prevalent in the 20th century. The overall design and manufacturing characteristics point towards Noritake, a well-known Japanese porcelain manufacturer that has produced similar styles for export.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The dish exhibits characteristics typical of modern Japanese porcelain, specifically from the Noritake brand, which is known for its high-quality decorative tableware. The use of a low-fire glaze with a smooth, glossy finish, combined with the vibrant colors and motifs (such as the blue bird and peony flowers), aligns with the Chinoiserie style that was popular in Western decorative arts. The round, shallow shape and the absence of a foot ring suggest mass production techniques, likely slip-casting, which became prevalent in the late 20th century. The decoration technique, which appears to be overglaze enamel, is consistent with modern practices in porcelain manufacturing.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 5.866
+        "latency_s": 7.037
       },
       "grok": {
         "raw_prediction": "Noritake",
-        "predicted_label": null,
+        "predicted_label": "Noritake",
         "confidence": 0.8,
-        "evidence": "The glaze type is identified as a low-fire glaze, possibly tin-glaze, with a smooth and even surface, lacking crazing or large air bubbles. The decoration technique appears to be overglaze enamel, possibly achieved through in-transfer printing or hand-painting, mimicking traditional decorative styles. The clay body is white or cream-colored, suggesting the use of porcelain or stoneware. The absence of visible firing marks and the uniformity of the glaze point towards industrial production. The shape and size of the dish are consistent with common dinner plates, and the style hints at a Chinoiserie-inspired design, popular in Western or Japanese export ceramics.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The glaze type is identified as a low-fire glaze, possibly tin-glaze, with a smooth and even surface, lacking crazing or large air bubbles. The decoration technique appears to be overglaze enamel, either through in-transfer printing or hand-painting, mimicking traditional decorative styles. The clay body is white or off-white, suggesting porcelain or stoneware. The absence of visible firing marks and the uniform glaze application hint at industrial production. The shape and size of the dish, along with the decorative pattern, align with common characteristics of Noritake ceramics, known for their Chinoiserie-inspired designs and high-quality, commercially produced tableware.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 2.062
+        "latency_s": 1.95
       },
       "gemini": {
-        "raw_prediction": "Noritake (Floral & Bird Export Series)",
-        "predicted_label": null,
-        "confidence": 0.9,
-        "evidence": "The plate displays clear East Asian aesthetic influences, particularly from the bird-and-flower (kachō-ga in Japanese, huāniǎo huà in Chinese) artistic tradition. The central motif features a gracefully depicted blue bird perched on a branch, adorned with blooming peonies and a smaller yellow flower, all set against a clean, off-white background. \n\n**Motifs & Cultural Symbolism:**\n*   **Peony (Mẫu Đơn):** This is a key motif. In East Asian cultures, the peony is revered as the 'King of Flowers,' symbolizing wealth, prosperity, honor, good fortune, and feminine beauty. Its prominence here, rendered in a soft pinkish-red, is consistent with both Chinese and Japanese decorative arts.\n*   **Bird:** A solitary blue bird on a branch typically represents nature's beauty, peace, happiness, or the arrival of spring. The elegant rendering is characteristic of refined East Asian decorative arts.\n*   **Color Palette:** The combination of light blue, soft pinkish-red, and turmeric yellow on an off-",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "raw_prediction": "Noritake",
+        "predicted_label": "Noritake",
+        "confidence": 0.8,
+        "evidence": "The motifs on the ceramic piece, including the blue bird, peony flowers, and small yellow flowers, are reminiscent of traditional Chinese and Japanese designs. The use of a white or cream-colored background with overglaze enamel painting is also characteristic of Japanese ceramics, particularly those from the Noritake line. The absence of crazing and the uniform glaze suggest a modern, industrial production process. Comparing this piece to other regional ceramic traditions, such as Thai celadon or Chinese Song/Yuan motifs, reveals distinct differences in style and technique. The Chinoiserie-inspired style, popular in Western and Japanese ceramics, is evident in the piece's design. Verification with Google Lens results supports the identification of the ceramic line as Noritake, a well-known Japanese manufacturer of high-quality ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 24.683
+        "latency_s": 7.707
       },
       "acis": {
-        "raw_prediction": "Aynsley (Pembroke)",
-        "predicted_label": null,
+        "raw_prediction": "Noritake",
+        "predicted_label": "Noritake",
         "confidence": 0.9,
-        "evidence": "The Global Ceramics Expert provided the most convincing argument, supported by detailed analysis of the motifs and their cultural significance. The expert identified the bird-and-flower motif as part of the 'Aynsley Pembroke' line, a pattern known for its Chinoiserie-inspired design. This was corroborated by Google Lens results, which matched the specific motifs to Aynsley Pembroke. The visual features, such as the overglaze enamel and the specific color palette, align with this identification. While the other agents suggested Noritake, their reasoning was less specific and did not account for the exact pattern match provided by the Global Ceramics Expert.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The most convincing argument comes from the 'Global Ceramics Expert', who provided a detailed analysis of the motifs and decoration techniques, aligning them with Noritake's Chinoiserie-inspired style. The visual features, such as the overglaze enamel and the smooth, glossy finish, support this conclusion. The consensus among all three agents on the Noritake identification, despite their different reasoning paths, further strengthens the prediction. Google Lens references, while not primary evidence, align with the agents' conclusions, confirming the style and era as consistent with Noritake ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 47.826
+        "latency_s": 22.722
       }
     },
-    "total_time_s": 47.829
+    "total_time_s": 22.725
   },
   {
     "dataset": "dataset2_ai_lens5",
     "source_dataset": "dataset2_ai",
     "id": 3,
     "filename": "images/01_bat_trang/003_01_bat_trang_03_bowl.jpg",
-    "ground_truth": "Bat Trang",
-    "started_at": "2026-07-06T20:26:17",
+    "ground_truth": "Gien Faience",
+    "started_at": "2026-07-06T20:41:42",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 66840,
     "input_resized_bytes": 31488,
     "vision_time_s": 0.0,
-    "acis_pipeline_time_s": 40.723,
+    "acis_pipeline_time_s": 25.087,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -275,60 +275,60 @@
     "methods": {
       "chatgpt": {
         "raw_prediction": "Gien",
-        "predicted_label": null,
+        "predicted_label": "Gien Faience",
         "confidence": 0.85,
-        "evidence": "The ceramic piece exhibits characteristics typical of modern Majolica, particularly in its floral motifs and color palette, which align with European styles from the 18th to 19th centuries but are executed in a contemporary manner. The use of tin-glaze and overglaze painting techniques is consistent with the production methods of Gien, a well-known French pottery brand that specializes in this style. The clean firing marks and smooth surface indicate industrial production methods, further supporting a 20th to 21st-century dating. The specific floral patterns and pastel colors suggest a retro aesthetic, common in modern reproductions of Victorian styles, which were popular in European decorative arts.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The bowl exhibits characteristics typical of modern Majolica ceramics, particularly the floral motifs reminiscent of 18th-19th century European designs. The use of tin-glaze and overglaze painting aligns with the techniques employed in the production of decorative earthenware in France, particularly from the Gien factory, known for its retro styles. The smooth, lightly glossy surface and the clean firing marks suggest industrial production methods, likely from the 20th century. The specific floral patterns and color palette further support the Victorian-inspired aesthetic, common in European ceramics during this period.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 4.489
+        "latency_s": 3.747
       },
       "grok": {
-        "raw_prediction": "Gien",
+        "raw_prediction": "Majolica",
         "predicted_label": null,
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a tin-glaze (men thiếc) with a smooth, lightly glossy surface and no visible cracks, characteristic of modern majolica. The floral motifs in pastel colors, including pink, red, green, and brown, are reminiscent of European 18th-19th century designs. The earthenware body is cream-colored, and the foot ring is unglazed, revealing the natural color of the clay. The absence of prominent firing marks and the clean, industrial firing technique suggest a modern, mass-produced piece. The overall morphology, including the rounded bowl shape, pedestal foot, and thin, even glaze, points towards a specific ceramic line.",
+        "evidence": "The ceramic piece exhibits a tin-glaze (men thiếc) with a smooth, lightly glossy surface and no visible crackle. The glaze is evenly applied and characteristic of modern majolica. The body is made of cream-colored earthenware with a white ngà (cream-colored) tone. The foot ring is unglazed, revealing the natural color of the clay body. The absence of visible firing marks and the clean, industrial firing technique suggest a modern production. The decoration technique of vẽ trên men (overglaze painting/enamel decoration) and the floral motifs in pastel colors are consistent with Victorian-inspired or reproduction styles. The shape, size, and style of the piece are reminiscent of French majolica, possibly from the Gien factory or other European manufacturers.",
         "is_correct": false,
         "is_hallucinated": true,
         "error": null,
-        "latency_s": 2.043
+        "latency_s": 1.802
       },
       "gemini": {
-        "raw_prediction": "Gien Faience - Vieux Rouen-inspired Collection",
-        "predicted_label": null,
-        "confidence": 0.95,
-        "evidence": "The visual evidence strongly points to a European, specifically French, tin-glazed earthenware tradition, often referred to as Faience. \n\n**1. Motifs & Cultural Symbolism:** The floral motifs, described as 'kiểu châu Âu thế kỷ 18-19', featuring stylized peonies and trailing vines, are quintessential European decorative elements from the Rococo and early Neo-classical periods. In European art, such botanicals symbolize beauty, nature's bounty, and often a romantic or pastoral ideal. Unlike the highly symbolic and often mythical creatures (dragons, phoenixes, garudas, nagas) or specific auspicious flora (lotus, chrysanthemum, plum blossoms) found in East and Southeast Asian ceramics, these European designs prioritize naturalistic elegance and decorative appeal. The palette of pastel pink, brick red, dark green, and light brown on an off-white/cream ground is characteristic of French Faience, particularly from regions like Rouen or Moustiers, which were later reproduced or reinterpreted b",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "raw_prediction": "Gien Majolica",
+        "predicted_label": "Gien Faience",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a combination of cultural and stylistic elements that suggest a European origin, specifically from France. The use of tin-glaze, also known as majolica, is a characteristic of European ceramics, particularly from the Mediterranean region. The floral motifs, including the stylized peony and scrolling foliage, are reminiscent of 18th-19th century European ceramics. The pastel color palette, including pink, red, and green, is also consistent with European ceramic traditions. The shape of the bowl, with its pedestal foot and slightly flared rim, is similar to those found in Victorian-era ceramics. In comparison to other regional ceramic traditions, the motifs and style of this piece are more akin to European ceramics than those from Southeast Asia, such as Sawankhalok or Sukhothai from Thailand, or Bencharong. For example, the use of tin-glaze and the stylized floral motifs are not typically found in Thai ceramics, which often feature more subdued colors and natu",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 19.07
+        "latency_s": 8.096
       },
       "acis": {
-        "raw_prediction": "Gien Faience - Vieux Rouen-inspired Collection",
-        "predicted_label": null,
-        "confidence": 0.95,
-        "evidence": "The most convincing argument was presented by the Global Ceramics Expert, who provided a detailed analysis of the visual features and cultural symbolism, aligning them with the characteristics of French Faience, particularly from Gien. The floral motifs, pastel color palette, and tin-glaze are consistent with Gien's Vieux Rouen-inspired collections. The Kiln Signatures & Morphology Expert also supported the Gien attribution, noting the smooth glaze and industrial firing marks typical of modern production. The Ceramic History agent's reasoning was less precise in distinguishing between Majolica and Faience. Google Lens results, which included references to Wedgwood and other European ceramics, did not contradict the agents' conclusions and supported the European origin. The synthesis of these arguments, combined with the visual evidence, strongly supports the identification of the piece as a Gien Faience reproduction, inspired by historical French designs.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "raw_prediction": "Gien Majolica",
+        "predicted_label": "Gien Faience",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert,' who provided a detailed analysis of the visual features, including the use of tin-glaze, floral motifs, and pastel color palette, which are consistent with European ceramics, particularly French Gien Majolica. The shape of the bowl, with its pedestal foot and slightly flared rim, aligns with Victorian-inspired designs typical of Gien Majolica. The 'Ceramic History' agent also supported this conclusion by highlighting the industrial production methods and the specific style of floral motifs. The 'Kiln Signatures & Morphology Expert' provided similar reasoning, emphasizing the modern production techniques and overglaze painting. Google Lens results, while not definitive, did mention Wedgwood, which shares stylistic similarities with Gien Majolica, further supporting the European origin. The visual evidence, such as the glaze type and decoration technique, strongly supports the identification as Gien Majolica.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 40.723
+        "latency_s": 25.087
       }
     },
-    "total_time_s": 40.726
+    "total_time_s": 25.09
   },
   {
     "dataset": "dataset2_ai_lens5",
     "source_dataset": "dataset2_ai",
     "id": 4,
     "filename": "images/01_bat_trang/004_01_bat_trang_04_teapot.jpg",
-    "ground_truth": "Bat Trang",
-    "started_at": "2026-07-06T20:26:58",
+    "ground_truth": "Jingdezhen",
+    "started_at": "2026-07-06T20:42:07",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 80099,
     "input_resized_bytes": 37618,
     "vision_time_s": 0.0,
-    "acis_pipeline_time_s": 31.03,
+    "acis_pipeline_time_s": 21.801,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -381,60 +381,60 @@
     "methods": {
       "chatgpt": {
         "raw_prediction": "Jingdezhen",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.85,
-        "evidence": "The teapot exhibits characteristics typical of contemporary ceramics produced in China, particularly from Jingdezhen, known for its high-quality porcelain and intricate designs. The use of tin-glaze and overglaze enamel decoration, along with the modern manufacturing techniques such as decal printing, aligns with the production methods of the 21st century. The specific decoration of bluebirds and peony branches reflects a blend of traditional Chinese motifs with modern Western aesthetic influences, indicative of the Cottagecore or Chinoiserie styles. The high gloss finish and absence of firing marks suggest industrial production, consistent with mass-produced ceramics. The globular shape and the design elements further support this dating.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The teapot exhibits characteristics typical of contemporary ceramics, particularly those produced in mass production settings. The use of high gloss tin-glaze and the smooth surface without significant imperfections indicate industrial manufacturing methods, likely from a factory in Jingdezhen, known for its porcelain. The decoration technique of overglaze enamel combined with decal printing aligns with modern practices. The design motifs, featuring bluebirds and floral elements, resonate with current design trends such as Cottagecore and Chinoiserie, which have seen a resurgence in popularity in the 21st century. The shape is consistent with contemporary teapot designs, further supporting the dating to this era.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 4.408
+        "latency_s": 4.496
       },
       "grok": {
         "raw_prediction": "Jingdezhen",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a high-gloss, smooth glaze characteristic of modern industrial ceramic production, specifically the tin-glaze or standard commercial ceramic glaze. The glaze details, including the absence of crackle or large air bubbles, suggest a controlled firing process. The body morphology, with its white, fine-grained clay and uniform wall thickness, is consistent with porcelain production. The foot ring shape and the lack of visible firing marks or stacking traces indicate a modern, automated production process. The decoration technique, combining overglaze enamel with decal printing, is also typical of contemporary ceramic manufacturing. The visual clues, including the bluebird and peony motifs, are reminiscent of traditional Chinese ceramics but with a modern, Western-inspired twist, pointing towards a Chinoiserie-inspired style.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The ceramic piece exhibits a high-gloss, smooth glaze characteristic of modern industrial ceramic production, specifically the tin-glaze or standard commercial ceramic glaze. The glaze details, including the absence of crackle or large air bubbles, suggest a controlled firing process. The body morphology, with its white, porcelain-like clay and uniform wall thickness, points towards a mass-produced item from a large ceramic hub. The foot ring, being low and flat, indicates an emphasis on stability for display purposes. The lack of visible firing marks or kiln stacking traces further supports the notion of modern, electric kiln firing. The decoration technique, combining overglaze enamel with decal printing, is consistent with contemporary methods. The style, featuring a bluebird on peony branches, aligns with Chinoiserie-inspired designs popular in modern Western interior decor. Given these material factors, Jingdezhen, a major ceramic production center in China known for its high-qual",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 1.909
+        "latency_s": 2.305
       },
       "gemini": {
         "raw_prediction": "Jingdezhen Dehua Kiln",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a combination of motifs and techniques that are characteristic of Chinese ceramics, particularly from the Jingdezhen region. The use of a white or cream-colored background with blue, red, yellow, green, and brown decorations is reminiscent of traditional Chinese porcelain. The bluebird motif, specifically, is a common symbol in Chinese art, representing happiness and joy. The presence of peony flowers and leaves also points towards Chinese influence, as the peony is a significant symbol in Chinese culture, representing good fortune and prosperity. The shape of the teapot, with its globular body and curved spout, is also typical of Chinese ceramic designs. In comparison to other regional styles, such as Thai Bencharong or Vietnamese ceramics, the motifs and techniques used in this piece are more closely aligned with Chinese traditions. The use of overglaze enamel and decal printing techniques also suggests a modern, industrial production process, which is cons",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The ceramic piece exhibits a combination of traditional Chinese motifs, such as the bluebird and peony flowers, with a modern twist in color palette and style, hinting at a Chinoiserie-inspired aesthetic blended with Western 'Cottagecore' elements. The use of overglaze enamel and decal printing techniques suggests a contemporary production method. The high-gloss finish, lack of firing marks, and uniform body color point towards industrial production, consistent with Jingdezhen's modern ceramic manufacturing capabilities. The shape and decoration of the teapot, including the globular form and the handle style, also align with Jingdezhen's traditional ceramic designs adapted for modern tastes. Cross-continentally, the motifs and style can be compared to Thai Bencharong ceramics in terms of the use of bright colors and floral motifs, but the specific combination of elements and the production quality suggest a Chinese origin, particularly from the renowned Jingdezhen area, known for its h",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 8.453
+        "latency_s": 8.114
       },
       "acis": {
-        "raw_prediction": "Aynsley Pembroke",
-        "predicted_label": null,
-        "confidence": 0.8,
-        "evidence": "The Global Ceramics Expert provided the most convincing argument by identifying the teapot as part of the 'Aynsley Pembroke' line, a well-known British ceramic line. This was supported by the Google Lens results, which matched the pattern to 'Aynsley Pembroke,' a line known for its Chinoiserie-inspired designs. The visual features, such as the high-gloss glaze, the intricate bluebird and peony motifs, and the modern production techniques like overglaze enamel and decal printing, align with the characteristics of fine bone china produced by Aynsley. Although the Ceramic History and Kiln Signatures & Morphology Expert both suggested a Chinese origin, their reasoning did not adequately address the specific pattern match provided by the Lens results, which strongly indicated a British origin.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "raw_prediction": "Jingdezhen",
+        "predicted_label": "Jingdezhen",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument was presented by the 'Ceramic History' agent, who provided a detailed analysis of the visual features and their alignment with contemporary Jingdezhen ceramics. The high gloss tin-glaze, smooth surface, and modern decoration techniques like overglaze enamel and decal printing strongly indicate industrial production typical of Jingdezhen. The motifs and style, featuring bluebirds and peony flowers, align with modern Chinoiserie-inspired trends, further supporting a 21st-century origin. The 'Kiln Signatures & Morphology Expert' also supported this conclusion with evidence of modern firing techniques and industrial production characteristics. Google Lens references corroborated the Chinese origin, specifically Jingdezhen, and confirmed the contemporary era, strengthening the agents' predictions.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 31.03
+        "latency_s": 21.801
       }
     },
-    "total_time_s": 31.033
+    "total_time_s": 21.805
   },
   {
     "dataset": "dataset2_ai_lens5",
     "source_dataset": "dataset2_ai",
     "id": 5,
     "filename": "images/01_bat_trang/005_01_bat_trang_05_storage_jar.jpg",
-    "ground_truth": "Bat Trang",
-    "started_at": "2026-07-06T20:27:29",
+    "ground_truth": "Jingdezhen",
+    "started_at": "2026-07-06T20:42:29",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 77042,
     "input_resized_bytes": 37126,
     "vision_time_s": 0.0,
-    "acis_pipeline_time_s": 30.536,
+    "acis_pipeline_time_s": 27.586,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -487,46 +487,46 @@
     "methods": {
       "chatgpt": {
         "raw_prediction": "Jingdezhen",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.85,
-        "evidence": "The ceramic piece exhibits characteristics typical of modern production techniques, particularly the use of tin-glaze (majolica) and overglaze enamel decoration, which are prevalent in contemporary Chinese ceramics. The peony and narcissus motifs, along with the overall aesthetic, suggest a blend of Western craft influences with Eastern floral designs, indicative of modern chinoiserie. The smooth, even glaze and absence of firing marks further suggest industrial manufacturing processes rather than traditional handcrafting methods. The lidded jar shape aligns with modern decorative pottery trends, often produced in Jingdezhen, a renowned center for porcelain production in China.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The lidded jar exhibits characteristics typical of modern Chinese porcelain, particularly from Jingdezhen, known for its high-quality production and decorative techniques. The use of a cream white base with coral pink, light blue, mustard yellow, and olive green motifs reflects contemporary design trends that blend Western craft influences with Eastern floral motifs, specifically the peony and daffodil. The smooth tin-glaze finish and the absence of firing marks suggest a modern industrial production method rather than traditional hand-coiling or wheel-throwing. The overall shape and decoration align with the aesthetics of 21st-century decorative ceramics, which often aim for a clean and bright appearance.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 4.717
+        "latency_s": 4.315
       },
       "grok": {
         "raw_prediction": "Jingdezhen",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a majolica/tin-glaze, which is characteristic of Jingdezhen porcelain. The glaze is smooth, even, and free of cracks, indicating a high level of craftsmanship. The body color is off-white, and the foot ring is rounded with a brown edge, which is consistent with Jingdezhen's production techniques. The absence of distinct firing marks suggests a modern, industrial firing process. The decoration technique, which involves overglaze enamel, is also typical of Jingdezhen's modern productions. The style, which combines traditional Chinese motifs with modern elements, is reminiscent of Modern Chinoiserie.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The ceramic piece exhibits a majolica/tin-glaze, which is characteristic of Jingdezhen porcelain. The glaze is smooth, even, and free of cracks, suggesting a high-quality, modern production. The body color is off-white, and the foot ring is rounded with a brown edge, which is consistent with Jingdezhen's traditional foot ring style. The absence of distinct firing marks and the uniform glaze thickness imply a modern, industrial firing process. The decoration technique, featuring overglaze enamel, is also typical of modern Jingdezhen productions. The style, with its peony and bird motifs, is reminiscent of modern Chinoiserie, which often combines traditional Chinese elements with Western influences.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 1.726
+        "latency_s": 1.897
       },
       "gemini": {
-        "raw_prediction": "Jingdezhen Dehua Porcelain",
-        "predicted_label": null,
+        "raw_prediction": "Jingdezhen Dehua Kiln",
+        "predicted_label": "Jingdezhen",
         "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits a combination of motifs and techniques that are characteristic of modern Chinese porcelain, particularly from the Jingdezhen region. The use of majolica/tin-glaze and overglaze enamel decoration suggests a high level of technical skill, consistent with the reputation of Jingdezhen kilns. The peony and plum blossom motifs are common in Chinese ceramics, symbolizing good fortune and prosperity. The presence of a small bird perched on a branch is also a typical element in Chinese decorative arts, often representing happiness and freedom. The style, while modern, draws inspiration from traditional Chinese motifs and techniques, blended with a contemporary aesthetic that is reminiscent of Chinoiserie, a style that originated in Europe but has been reinterpreted in various parts of the world, including China. Comparison with other regional ceramic traditions, such as Thai Bencharong or Vietnamese Bat Trang, reveals distinct differences in motifs, glaze types, and d",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The ceramic piece exhibits a combination of cultural and stylistic elements that point towards a specific origin. The use of majolica/tin-glaze and the depiction of peony flowers, which are symbolic in Chinese culture, suggest a connection to Chinese ceramic traditions. The presence of a small bird on a branch and the use of overglaze enamel in a modern style hint at a blend of traditional and contemporary elements, characteristic of modern Chinese ceramics, particularly those from the Jingdezhen area, known for its high-quality porcelain production. The style, with its cream white background and pastel colors, is reminiscent of modern interpretations of traditional Chinese motifs, often found in export ceramics. Comparing this piece with other regional styles, such as Thai Bencharong or Vietnamese ceramics, the motifs and glaze techniques used here are more closely aligned with Chinese ceramic traditions, specifically the Jingdezhen Dehua Kiln, which is renowned for its white porcelai",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
-        "latency_s": 8.031
+        "latency_s": 8.469
       },
       "acis": {
         "raw_prediction": "Jingdezhen",
-        "predicted_label": null,
+        "predicted_label": "Jingdezhen",
         "confidence": 0.9,
-        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert', who provided a detailed analysis of the motifs and techniques that align with modern Jingdezhen porcelain. The use of majolica/tin-glaze and overglaze enamel decoration, along with the specific motifs of peony, plum blossom, and a small bird, are consistent with the modern chinoiserie style. The visual features such as the smooth, even glaze, and the absence of firing marks further support a modern industrial production typical of Jingdezhen. The Google Lens references, particularly the mention of 'famille Verte rose porcelain vase' and 'Andrea by Sadek Ginger Jar', corroborate the modern Chinese origin and style. The other agents' predictions also pointed to Jingdezhen, but the 'Global Ceramics Expert' provided a more comprehensive and well-reasoned argument.",
-        "is_correct": false,
-        "is_hallucinated": true,
+        "evidence": "The most convincing argument was presented by the 'Ceramic History' agent, who provided a detailed analysis of the visual features, such as the cream white base, coral pink, light blue, mustard yellow, and olive green motifs, which align with modern Jingdezhen porcelain. The smooth tin-glaze finish and absence of firing marks support the conclusion of a modern industrial production method. The 'Kiln Signatures & Morphology Expert' also supported this conclusion with evidence of the majolica/tin-glaze and the rounded foot ring with a brown edge, which are consistent with Jingdezhen's style. The 'Global Ceramics Expert' suggested a specific kiln within Jingdezhen, the Dehua Kiln, but the evidence did not strongly differentiate between the two. Google Lens references confirmed the Chinese origin and modern era, supporting the agents' predictions.",
+        "is_correct": true,
+        "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 30.536
+        "latency_s": 27.586
       }
     },
-    "total_time_s": 30.538
+    "total_time_s": 27.588
   }
 ]

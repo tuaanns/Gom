@@ -11,23 +11,23 @@
   "methods": {
     "gemini": {
       "total": 5,
-      "correct": 3,
-      "errors": 1,
-      "accuracy": 60.0,
-      "macro_precision": 10.0,
-      "macro_recall": 6.0,
-      "macro_f1_score": 7.5,
-      "average_latency_s": 30.193,
+      "correct": 4,
+      "errors": 0,
+      "accuracy": 80.0,
+      "macro_precision": 7.14,
+      "macro_recall": 5.71,
+      "macro_f1_score": 6.35,
+      "average_latency_s": 25.856,
       "hallucinated": 1,
       "hallucination_rate": 20.0,
       "per_class": {
         "Bat Trang": {
-          "tp": 3,
+          "tp": 4,
           "fp": 0,
-          "fn": 2,
+          "fn": 1,
           "precision": 100.0,
-          "recall": 60.0,
-          "f1_score": 75.0
+          "recall": 80.0,
+          "f1_score": 88.89
         },
         "Bien Hoa": {
           "tp": 0,
@@ -94,6 +94,38 @@
           "f1_score": 0.0
         },
         "Meissen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
           "tp": 0,
           "fp": 0,
           "fn": 0,
@@ -108,10 +140,10 @@
       "correct": 5,
       "errors": 0,
       "accuracy": 100.0,
-      "macro_precision": 10.0,
-      "macro_recall": 10.0,
-      "macro_f1_score": 10.0,
-      "average_latency_s": 6.514,
+      "macro_precision": 7.14,
+      "macro_recall": 7.14,
+      "macro_f1_score": 7.14,
+      "average_latency_s": 6.634,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
@@ -188,6 +220,38 @@
           "f1_score": 0.0
         },
         "Meissen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
           "tp": 0,
           "fp": 0,
           "fn": 0,
@@ -202,10 +266,10 @@
       "correct": 5,
       "errors": 0,
       "accuracy": 100.0,
-      "macro_precision": 10.0,
-      "macro_recall": 10.0,
-      "macro_f1_score": 10.0,
-      "average_latency_s": 2.578,
+      "macro_precision": 7.14,
+      "macro_recall": 7.14,
+      "macro_f1_score": 7.14,
+      "average_latency_s": 2.955,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
@@ -282,6 +346,38 @@
           "f1_score": 0.0
         },
         "Meissen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
           "tp": 0,
           "fp": 0,
           "fn": 0,
@@ -296,10 +392,10 @@
       "correct": 5,
       "errors": 0,
       "accuracy": 100.0,
-      "macro_precision": 10.0,
-      "macro_recall": 10.0,
-      "macro_f1_score": 10.0,
-      "average_latency_s": 56.251,
+      "macro_precision": 7.14,
+      "macro_recall": 7.14,
+      "macro_f1_score": 7.14,
+      "average_latency_s": 47.947,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
@@ -376,6 +472,38 @@
           "f1_score": 0.0
         },
         "Meissen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Jingdezhen": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Aynsley Pembroke": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Noritake": {
+          "tp": 0,
+          "fp": 0,
+          "fn": 0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1_score": 0.0
+        },
+        "Gien Faience": {
           "tp": 0,
           "fp": 0,
           "fn": 0,
