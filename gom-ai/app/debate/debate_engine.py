@@ -122,7 +122,30 @@ class DebateEngine:
         return {"error": message}
 
     async def start_debate(self, image_bytes: bytes, lang: str = "vi", visual_features: dict = None) -> dict:
-        # Initialize temporary file variables for parallel Google Lens search
+        # Phase 0: Vision Analysis
+        if visual_features is None:
+            try:
+                visual_features = await self.vision_agent.analyze(image_bytes)
+            except Exception as e:
+                logger.error(f"[DebateEngine] Vision analysis failed after retries: {e}")
+                return {"error": "API đã hết quota. Vui lòng thử lại sau vài phút."}
+
+        if "error" in visual_features:
+            return {"error": visual_features["error"]}
+
+        # If it is not pottery, return error immediately
+        if visual_features.get("is_pottery") is False:
+            error_msg = (
+                "Sorry, the system could not identify any ceramics in this image. Please try with another photo."
+                if lang == "en" else
+                "Rất tiếc, hệ thống không nhận diện được gốm sứ trong bức ảnh này. Vui lòng thử lại với một bức ảnh khác."
+            )
+            return {
+                "error": error_msg,
+                "is_pottery": False
+            }
+
+        # Initialize temporary file variables for Google Lens search
         import uuid
         import os
 
@@ -136,111 +159,71 @@ class DebateEngine:
             logger.error(f"[DebateEngine] Failed to write temporary file for Lens: {e}")
             temp_image_path = None
 
-        # Start Google Lens search concurrently in a background thread if temp file was successfully created
-        lens_task = None
-        if temp_image_path:
-            from app.google_lens_service import search_google_lens
-
-            async def run_lens_async(img_path: str):
-                try:
-                    logger.info("[DebateEngine] Google Lens search started in background thread")
-                    # run search_google_lens concurrently in a separate OS thread to avoid blocking FastAPI
-                    return await asyncio.to_thread(search_google_lens, os.path.abspath(img_path), 15)
-                except Exception as ex:
-                    logger.error(f"[DebateEngine] Google Lens background task error: {ex}")
-                    return []
-
-            lens_task = asyncio.create_task(run_lens_async(temp_image_path))
-
-        # Phase 0: Vision Analysis
-        if visual_features is None:
-            try:
-                visual_features = await self.vision_agent.analyze(image_bytes)
-            except Exception as e:
-                error_str = str(e)
-                logger.error(f"[DebateEngine] Vision analysis failed after retries: {e}")
-                # Cancel lens task if running
-                if lens_task:
-                    lens_task.cancel()
-                return {"error": "API đã hết quota. Vui lòng thử lại sau vài phút."}
-
-        if "error" in visual_features:
-            if lens_task:
-                lens_task.cancel()
-            return {"error": visual_features["error"]}
-
-        # If it is not pottery, cancel the background Lens task and clean up immediately
-        if visual_features.get("is_pottery") is False:
-            if lens_task:
-                lens_task.cancel()
-                logger.info("[DebateEngine] Canceled background Google Lens search because image does not contain pottery")
-
-            # Clean up the temporary file immediately
-            if temp_image_path and os.path.exists(temp_image_path):
-                try:
-                    os.remove(temp_image_path)
-                except Exception as e:
-                    logger.warning(f"[DebateEngine] Could not delete temp file: {e}")
-
-            error_msg = (
-                "Sorry, the system could not identify any ceramics in this image. Please try with another photo."
-                if lang == "en" else
-                "Rất tiếc, hệ thống không nhận diện được gốm sứ trong bức ảnh này. Vui lòng thử lại với một bức ảnh khác."
-            )
-            return {
-                "error": error_msg,
-                "is_pottery": False
-            }
-
         lens_results = []
         lens_status = {
-            "attempted": lens_task is not None,
+            "attempted": temp_image_path is not None,
             "count": 0,
             "ok": False,
             "message": "Google Lens was not started",
         }
-        try:
-            # Await the parallel Google Lens task to finish BEFORE starting Phase 1 predictions
-            if lens_task:
-                try:
-                    logger.info("[DebateEngine] Awaiting background Google Lens search to complete...")
-                    lens_results = await lens_task
-                    logger.info(f"[DebateEngine] Google Lens search completed with {len(lens_results)} results")
-                    lens_status = {
-                        "attempted": True,
-                        "count": len(lens_results),
-                        "ok": len(lens_results) > 0,
-                        "message": (
-                            "Google Lens returned reference sources"
-                            if lens_results else
-                            "Google Lens ran but returned no reference sources"
-                        ),
-                    }
-                except Exception as e:
-                    logger.error(f"[DebateEngine] Error during awaiting Lens background task: {e}")
-                    lens_status = {
-                        "attempted": True,
-                        "count": 0,
-                        "ok": False,
-                        "message": f"Google Lens failed: {e}",
-                    }
 
-            # Phase 1: Independent Predictions (injecting lens_results)
-            logger.info("[DebateEngine] Starting Phase 1: Independent Predictions with Google Lens results")
+        try:
+            # Phase 1: Independent Predictions (run in parallel with Google Lens)
+            logger.info("[DebateEngine] Starting Phase 1: Specialists & Google Lens running in parallel")
 
             async def timed_prediction(agent):
                 started = time.perf_counter()
                 try:
-                    result = await agent.predict(visual_features, lens_results, lang)
+                    # Pass None for lens_results since Lens is running in parallel
+                    result = await agent.predict(visual_features, None, lang)
                     return result, time.perf_counter() - started
                 except Exception as error:
                     return error, time.perf_counter() - started
 
-            phase1_raw = await asyncio.gather(
+            async def run_lens_async(img_path: str):
+                nonlocal lens_results, lens_status
+                try:
+                    logger.info("[DebateEngine] Google Lens search started in parallel with specialists")
+                    from app.google_lens_service import search_google_lens
+                    res = await asyncio.to_thread(search_google_lens, os.path.abspath(img_path), 15)
+                    lens_results = res
+                    lens_status = {
+                        "attempted": True,
+                        "count": len(res),
+                        "ok": len(res) > 0,
+                        "message": (
+                            "Google Lens returned reference sources"
+                            if res else
+                            "Google Lens ran but returned no reference sources"
+                        ),
+                    }
+                except Exception as ex:
+                    logger.error(f"[DebateEngine] Google Lens task error: {ex}")
+                    lens_results = []
+                    lens_status = {
+                        "attempted": True,
+                        "count": 0,
+                        "ok": False,
+                        "message": f"Google Lens failed: {ex}",
+                    }
+
+            tasks = [
                 timed_prediction(self.gpt),
                 timed_prediction(self.grok),
                 timed_prediction(self.gemini),
-            )
+            ]
+
+            if temp_image_path:
+                tasks.append(run_lens_async(temp_image_path))
+            else:
+                async def dummy_lens():
+                    pass
+                tasks.append(dummy_lens())
+
+            # Gather specialists predictions and Google Lens search
+            gathered_results = await asyncio.gather(*tasks)
+            phase1_raw = gathered_results[0:3]
+
             if lang == "en":
                 agent_names = ["Ceramic History", "Kiln Signatures & Morphology Expert", "Global Ceramics Expert"]
             else:
