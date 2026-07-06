@@ -1,0 +1,532 @@
+[
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 1,
+    "filename": "images/01_bat_trang_vietnam/001_01_bat_trang_vietnam_01.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-06T20:19:48",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 80243,
+    "input_resized_bytes": 32304,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 60.953,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Bat Trang Conservation - All You SHOULD Know Before Going ...",
+        "url": "https://www.tripadvisor.com/Attraction_Review-g293924-d14795444-Reviews-Bat_Trang_Conservation-Hanoi.html"
+      },
+      {
+        "title": "Ancient Vietnamese Pottery: 1000-Year Secrets Revealed",
+        "url": "https://hietagarden.com/ancient-vietnamese-pottery-1000-year-secrets-revealed/"
+      },
+      {
+        "title": "Quote of the Day: China's Ceramic Capital Keeps Its Cachet ...",
+        "url": "https://jingdaily.com/posts/quote-of-the-day-chinas-ceramic-capital-keeps-its-cachet"
+      },
+      {
+        "title": "jingdezhen i'll be back. just scratched the surface on ...",
+        "url": "https://www.instagram.com/p/DYUGSHoDF2z/"
+      },
+      {
+        "title": "Introducing our Ceramic Phin 001: Collector's Item. Only 30 ...",
+        "url": "https://www.facebook.com/nguyencoffeesupply/posts/introducing-our-ceramic-phin-001-collectors-item-only-30-made-crafted-in-bat-tra/1002318923471637/"
+      },
+      {
+        "title": "Nam Trân in Hội An",
+        "url": "https://www.atlasobscura.com/places/nam-tran-hoi-an-vietnam"
+      },
+      {
+        "title": "Museum of Trade Ceramics | Hoi An - What to Expect | Timings ...",
+        "url": "https://www.makemytrip.com/tripideas/attractions/museum-of-trade-ceramics"
+      },
+      {
+        "title": "The story of a shipwreck in the Cham Islands waters",
+        "url": "https://en.baodanang.vn/the-story-of-a-shipwreck-in-the-cham-islands-waters-3046607.html"
+      },
+      {
+        "title": "Museum of Trade Ceramics in Hoi An - Attractions in Hoi An ...",
+        "url": "https://evivatour.com/museum-of-trade-ceramics-in-hoian-vietnam/"
+      },
+      {
+        "title": "Bat Trang Pottery Village Hanoi: Timeless Craft Heritage",
+        "url": "https://oxalisadventure.com/bat-trang-pottery-village-hanoi/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramics exhibit characteristics typical of Bat Trang pottery, particularly the use of underglaze blue decoration and traditional motifs such as dragons, cranes, and floral patterns. The body color and glaze types, including crazing, suggest a production technique that aligns with the 20th century revival of traditional styles. The presence of both stoneware and porcelain indicates a blend of techniques that have evolved over time, reflecting both local craftsmanship and influences from historical trade routes. The shapes, including wide bowls and decorative vases, are consistent with contemporary Vietnamese ceramics that aim to replicate historical forms.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.235
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glaze typology indicates a combination of underglaze blue, white glaze, and matte glaze, which is consistent with the Bát Tràng ceramic style. The kiln signatures, including firing marks and stacking traces, suggest a traditional Vietnamese kiln firing technique. The body morphology, with a grayish-brown clay color and varying wall thickness, is also characteristic of Bát Tràng ceramics. The foot ring shape and forming technique are consistent with traditional Vietnamese pottery methods.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 2.954
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Bát Tràng: Dòng Phục Chế Cổ Truyền (Bát Tràng: Traditional Revival Line)",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.98,
+        "evidence": "The collection of ceramics exhibits a distinctive blend of traditional East Asian aesthetics with specific regional characteristics that strongly point towards Vietnam, particularly the Bát Tràng tradition, albeit in a contemporary revival context. \n\n**Motifs & Cultural Symbolism:**\n1.  **Dragons, Cranes/Phoenixes, Fish:** These auspicious motifs are prevalent across East and Southeast Asian cultures. However, the rendering observed – particularly the stylized, often sinuous nature of the dragon, the elegant form of the cranes (hạc) and phoenixes (phượng), and the dynamic depiction of fish – aligns closely with traditional Vietnamese iconography. Vietnamese dragons, for instance, often exhibit a fluid, less rigid form compared to imperial Chinese dragons, and typically possess three or four claws, which is common in folk interpretations. Cranes symbolize longevity and purity in Vietnamese culture, frequently appearing alongside pine trees or clouds, while the phoenix represents prosper",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 35.542
+      },
+      "acis": {
+        "raw_prediction": "Gốm Bát Tràng: Dòng Phục Chế Cổ Truyền",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert', who provided a detailed analysis of the iconographic nuances and stylistic elements specific to Vietnamese ceramics, particularly from Bát Tràng. This agent highlighted the unique rendering of dragons, cranes, and floral motifs that are emblematic of Vietnamese folk art, distinguishing them from broader East Asian styles. The visual features, such as the use of underglaze blue, matte glaze, and the specific motifs, align with the characteristics of Bát Tràng ceramics. The Google Lens references further supported this conclusion by frequently matching the image with Bát Tràng pottery, reinforcing the prediction. The other agents, while also identifying Bát Tràng, did not provide as comprehensive an analysis of the stylistic and cultural elements, which are crucial for accurate classification.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 60.953
+      }
+    },
+    "total_time_s": 61.016
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 2,
+    "filename": "images/01_bat_trang_vietnam/002_01_bat_trang_vietnam_02.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-06T20:20:49",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 68488,
+    "input_resized_bytes": 28272,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 48.298,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "28 tháng 6, 2026 - YouTube",
+        "url": "https://www.youtube.com/shorts/I82NHQMDLdI"
+      },
+      {
+        "title": "Inside a tea master's Paris salon | Her Scents of Pu Er ...",
+        "url": "https://www.youtube.com/watch?v=WKKQMXOMr6o"
+      },
+      {
+        "title": "Reel by Anh Ceramics (@anhceramics) · March 10, 2026",
+        "url": "https://www.instagram.com/reel/DVtCrLmE507/"
+      },
+      {
+        "title": "BLUE ENAMEL TEAPOT - BEAUTIFUL AND QUALITY",
+        "url": "https://authenticbattrang.vn/blue-enamel-teapot-2.html"
+      },
+      {
+        "title": "Breaking the Mold But Losing the Original Flavor | Top Chef ...",
+        "url": "https://www.youtube.com/watch?v=gX3gF8LqAAg"
+      },
+      {
+        "title": "Tea House in Hoi An, Vietnam, staffed exclusively by blind ...",
+        "url": "https://www.reddit.com/r/tea/comments/6jufn6/tea_house_in_hoi_an_vietnam_staffed_exclusively/"
+      },
+      {
+        "title": "I've mostly explored all of Asia, now it's time for Europe ...",
+        "url": "https://www.instagram.com/reel/DVR3zmCEsPT/"
+      },
+      {
+        "title": "Reed Boat",
+        "url": "https://shop.reedboat.com/"
+      },
+      {
+        "title": "Hanoi Tea Workshop: Artisan Tea, Culture Origins & Snacks ...",
+        "url": "https://www.getyourguide.com/hanoi-l205/hanoi-tea-workshop-artisan-tea-culture-origins-snacks-t1190305/"
+      },
+      {
+        "title": "Dinner @ DongQu 東區, a Taiwan-Style Restaurant Bar @ Telok ...",
+        "url": "https://www.instagram.com/reel/DSAYoZZARDl/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary Vietnamese stoneware, particularly from the Bat Trang kiln. The flambé glaze technique, which creates a unique color variation, is a hallmark of modern artistic ceramics in Vietnam. The absence of hand-painted patterns and focus on the natural glaze effects suggest a modern aesthetic that aligns with current trends in ceramic art. The shape, resembling a low round teapot with a refined spout, indicates a design influenced by both traditional tea culture and contemporary minimalist styles, which are prevalent in modern Vietnamese ceramics. The estimated era aligns with the production techniques observed in Bat Trang ceramics over the last decade, particularly those that emphasize artistic expression through glaze rather than intricate surface decoration.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.017
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng Modern Flambé",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glaze type is identified as flambé glaze, characterized by its flowing, blurred effect in shades of blue, gray, and purple. The absence of distinct firing marks and the smooth, even surface suggest a high level of firing control. The clay body is stoneware, indicated by the unobserved but likely gray or light brown core. The shape and form of the teapot and cups point towards a modern, minimalist aesthetic with influences from traditional tea ceremony ware. The suspected origin is Bát Tràng, Vietnam, based on the modern flambé glaze technique and the style hinting at contemporary Vietnamese ceramic art.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 2.133
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Hỏa Biến Hải Long (Hải Long Ceramics)",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents a contemporary stoneware tea set featuring a striking flambé (hỏa biến) glaze, characterized by its shifting cobalt blue, smoky gray, and subtle purple hues. The absence of hand-painted patterns places sole emphasis on the glaze's natural, unpredictable beauty, which is a deliberate artistic choice reflecting minimalist aesthetics.\n\nCulturally, the flambé glaze technique has its historical roots in Chinese Jun ware of the Song Dynasty, where its dynamic color shifts symbolized the transformative power of fire and the vastness of natural phenomena. While the technical lineage is Chinese, the *application* to a minimalist, low-profile teapot with an elegant spout, described as having a 'contemporary tea ceremony feel' and 'combining Japanese minimalism,' points to a synthesis of influences.\n\nComparing regional characteristics:\n1.  **Chinese Ceramics:** While Chinese kilns continue to produce flamboyant glazes, classic Jun ware often features more robust forms",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 30.334
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.9,
+        "evidence": "The most convincing argument was presented by the 'Ceramic History' agent, who provided a detailed analysis of the visual features and historical context of the flambé glaze technique. The agent's reasoning was well-supported by the observed characteristics of the teapot, such as the cobalt blue, smoky gray, and subtle purple hues, which are indicative of contemporary Vietnamese ceramics from Bat Trang. The minimalist design and the focus on the glaze's natural beauty align with modern trends in Bat Trang ceramics. The 'Kiln Signatures & Morphology Expert' also supported the Bat Trang origin, emphasizing the high level of firing control and the modern aesthetic. Although the 'Global Ceramics Expert' suggested 'Gốm Hỏa Biến Hải Long,' their argument did not provide sufficient differentiation from the broader Bat Trang production. Google Lens references, particularly the mention of Bat Trang in multiple sources, further confirmed the Vietnamese origin and contemporary era, supporting the",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 48.298
+      }
+    },
+    "total_time_s": 48.303
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 3,
+    "filename": "images/01_bat_trang_vietnam/003_01_bat_trang_vietnam_03.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-06T20:21:37",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 60848,
+    "input_resized_bytes": 24209,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 54.541,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "10.8\" Chinese 3 Colored Porcelain Fengshui Phoenix Handle ...",
+        "url": "https://www.ebay.com/itm/317759146593"
+      },
+      {
+        "title": "8.4\" Old Chinese Tang Sancai Porcelain Dynasty Palace Flower ...",
+        "url": "https://www.ebay.com/itm/285934392414"
+      },
+      {
+        "title": "Vintage Italian Ceramic Box Vase with Metallic Lustres by ...",
+        "url": "https://www.pamono.com/vintage-italian-ceramic-box-vase-with-metallic-lustres-by-vincenza-mazzotti-1950s"
+      },
+      {
+        "title": "6.2\"old China Tang Dynasty Tang Sancai porcelain palace Tea ...",
+        "url": "https://www.ebay.com/itm/205682061918"
+      },
+      {
+        "title": "Enameled Mid Century on Copper Myrna Easton Ashtray With ...",
+        "url": "https://www.etsy.com/listing/723967326/enameled-mid-century-on-copper-myrna"
+      },
+      {
+        "title": "Bonhams : A group of monochrome and sancai decorated wares ...",
+        "url": "https://www.bonhams.com/auction/26054/lot/70/a-group-of-monochrome-and-sancai-decorated-wares-tang-dynasty-6/"
+      },
+      {
+        "title": "Green stone and hot chowder ceramic glaze combination",
+        "url": "https://www.facebook.com/groups/spectrumhighfireglazes/posts/1058784587865959/"
+      },
+      {
+        "title": "A sancai glazed pottery pot and bowl, Tang dynasty (618-906 ...",
+        "url": "https://www.bukowskis.com/en/auctions/577/1265-a-sancai-glazed-pottery-pot-and-bowl-tang-dynasty-618-906"
+      },
+      {
+        "title": "Lot - Two Richard Joyce for Pilkington Lustre Vases",
+        "url": "https://www.nealauction.com/auction-lot/two-richard-joyce-for-pilkington-lustre-vases_df14fafa57"
+      },
+      {
+        "title": "Alvino Bagni \"Sea Garden\" Vintage MCM Pottery Bowl – Found ...",
+        "url": "https://www.foundandfoundation.com/products/alvino-bagni-sea-garden-vintage-bowl"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.9,
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary Vietnamese pottery, particularly from Bat Trang. The flambé glaze combined with dripping glaze techniques is a hallmark of modern artistic expressions in ceramics, emphasizing the beauty of color flow and surface texture. The absence of hand-painted patterns and reliance on natural glaze effects suggests a focus on form and material rather than traditional decorative techniques. The shape, with a wide flared mouth and distinct neck, aligns with modern interpretations of functional and artistic pottery. The firing marks indicate a traditional wood-firing method, which is still prevalent in Bat Trang today. The estimated era aligns with current trends in ceramic art, particularly in Vietnam, where artists are exploring innovative glazing techniques.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.202
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glaze type, identified as men hỏa biến (flambé glaze) combined with men chảy (dripping glaze), exhibits characteristics of a high-temperature firing process, which is consistent with the traditional techniques used in Bát Tràng ceramics. The absence of visible crazing and the presence of tiny air bubbles suggest a stoneware body, likely with a brown or gray core, which is typical of Bát Tràng wares. The kiln marks, including the uneven color distribution and the presence of heat-induced changes, point towards a wood-fired kiln, a traditional method still employed in Bát Tràng. The body morphology, with its wide mouth, sloping shoulder, and distinct neck, aligns with the forms commonly produced in this region. While the style hints at contemporary Vietnamese ceramic art, the material evidence, particularly the glaze and kiln marks, strongly supports an attribution to the Bát Tràng kilns.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 2.815
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Hỏa Biến Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.98,
+        "evidence": "This exquisite piece, with its captivating 'men hỏa biến' (flambé glaze) and dynamic 'men chảy' (dripping glaze) effects, immediately draws the eye to a rich tradition of transformative glazes. The absence of specific hand-painted motifs and the reliance on the kiln's unpredictable artistry is a profound cultural statement in itself. \n\n**Motifs & Cultural Symbolism**: Unlike many traditional East Asian ceramics that feature auspicious motifs like dragons, phoenixes, or specific floral designs (e.g., lotus, peony for purity and prosperity), this piece deliberately eschews such representational imagery. Instead, its symbolism lies in the celebration of nature's raw forces—the transformative power of fire (hỏa biến) and the flow of glazes (men chảy), evoking geological formations, molten earth, or cosmic phenomena. The earthy color palette (dark eel skin brown, amber, earthy yellow, deep green/black) reinforces a connection to natural elements and a rustic, yet sophisticated, aesthetic. T",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 28.436
+      },
+      "acis": {
+        "raw_prediction": "Gốm Hỏa Biến Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing analysis, highlighting the specific 'men hỏa biến' (flambé glaze) and 'men chảy' (dripping glaze) techniques that are characteristic of contemporary Vietnamese ceramics from Bát Tràng. This agent's argument was supported by detailed visual evidence, such as the earthy color palette and the absence of hand-painted motifs, which align with the innovative and artistic focus of modern Bát Tràng ceramics. The Kiln Signatures & Morphology Expert also supported the Bát Tràng origin, emphasizing traditional firing techniques and body morphology. The Google Lens results, while suggesting other origins like Chinese Tang Sancai, were effectively refuted by the agents due to the distinct high-temperature firing and glaze effects present in the piece, which are not characteristic of Sancai ware. The consensus among agents, combined with the strong visual evidence, supports a high certainty in the prediction.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 54.541
+      }
+    },
+    "total_time_s": 54.546
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 4,
+    "filename": "images/01_bat_trang_vietnam/004_01_bat_trang_vietnam_04.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-06T20:22:32",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 49702,
+    "input_resized_bytes": 19826,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 66.435,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "10\"Antique China dynasty Tang Sancai pottery porcelain glaze ...",
+        "url": "https://www.ebay.com/itm/304253267547"
+      },
+      {
+        "title": "A russet-painted black-glazed jar, Jin - Yuan dynasty | 金至 ...",
+        "url": "https://www.sothebys.com/en/buy/auction/2024/chinese-art-2/a-russet-painted-black-glazed-jar-jin-yuan-dynasty"
+      },
+      {
+        "title": "10.4'' chinese dynasty Tang Sancai pottery porcelain Zun Cup ...",
+        "url": "https://www.ebay.com/itm/197854173678"
+      },
+      {
+        "title": "Chinese Tang Dynasty Sancai Glazed Ceramic Jar – Avery ...",
+        "url": "https://www.averydash.com/products/chinese-tang-dynasty-sancai-glazed-ceramic-jar"
+      },
+      {
+        "title": "Vintage Murano Style Art Glass Vase, Green and Blue ...",
+        "url": "https://www.etsy.com/listing/1610740964/vintage-murano-style-art-glass-vase"
+      },
+      {
+        "title": "A RUST-SPLASHED BLACK-GLAZED OVOID BOTTLE-VASE / J.J. Lally ...",
+        "url": "https://www.jjlally.com/exhibitions/song-dynasty-ceramics-the-ronald-w-longsdorf-collection/a-rust-splashed-black-glazed-ovoid-bottle-vase/"
+      },
+      {
+        "title": "A CIZHOU-TYPE BROWN-PAINTED BLACK-GLAZED OVOID ...",
+        "url": "https://onlineonly.christies.com/s/art-asia/cizhou-type-brown-painted-black-glazed-ovoid-bottle-688/244144"
+      },
+      {
+        "title": "Lot - CHINESE TORTOISE SHELL GLAZE MEIPING POTTERY VASE",
+        "url": "https://www.districtauction.com/auction-lot/chinese-tortoise-shell-glaze-meiping-pottery-vase_12f4c8bb04"
+      },
+      {
+        "title": "A black-glazed russet-painted jar, Jin dynasty / Yuan dynasty ...",
+        "url": "https://www.sothebys.com/en/buy/auction/2021/important-chinese-art-2/a-black-glazed-russet-painted-jar-jin-dynasty-yuan"
+      },
+      {
+        "title": "Collectible Vases Light brown Murano Tortoise Vase",
+        "url": "https://oblist.com/products/light-brown-murano-tortoise-vase"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary Vietnamese art pottery, particularly from the Bat Trang kiln, known for its innovative use of flambé glazes. The dark chocolate and mustard yellow colors, along with the amber hues, suggest a modern interpretation of traditional glazes. The reduction firing technique and the abstract flow patterns indicate a focus on artistic expression rather than functional design, aligning with 20th and 21st-century trends in ceramics. The globular shape with a short neck and flared mouth is also consistent with modern artistic vases, emphasizing balance and stability. The presence of 'tea dust' effects and the glossy surface further support this assessment, as these are hallmarks of contemporary ceramic practices in Vietnam.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.354
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glaze type, identified as men hỏa biến (flambé/transmutation glaze) with drip glaze effects, is characteristic of contemporary Vietnamese ceramic art. The presence of 'tea dust' or golden spots on the dark brown background, along with the abstract flow patterns, suggests a high level of control over the firing process. The body morphology, including the globular shape and short neck, is consistent with traditional Vietnamese ceramic forms. The kiln marks, including the natural flow patterns and reduction firing technique, are also indicative of Vietnamese ceramic production. The overall material evidence points to a specific ceramic line, Bát Tràng, which is known for its high-quality ceramic products with unique glaze effects.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 2.398
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.5,
+        "evidence": "Error: JSON Parse Error: Extra data: line 11 column 4 (char 5112)",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "JSON Parse Error: Extra data: line 11 column 4 (char 5112)",
+        "latency_s": 40.779
+      },
+      "acis": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument comes from the 'Ceramic History' agent, who provides a detailed analysis of the visual features, such as the flambé glaze with drip effects, abstract flow patterns, and the specific color palette of dark chocolate, mustard yellow, and amber. These features are consistent with contemporary Vietnamese art pottery from the Bát Tràng kiln. The 'Kiln Signatures & Morphology Expert' also supports this conclusion, emphasizing the glaze type and firing technique typical of Bát Tràng ceramics. The Google Lens results, while showing some Chinese references, do not directly contradict the agents' reasoning, as they focus on different ceramic types. The visual evidence aligns well with the Bát Tràng prediction, and the consensus between two agents further strengthens this conclusion.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 66.435
+      }
+    },
+    "total_time_s": 66.441
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 5,
+    "filename": "images/01_bat_trang_vietnam/005_01_bat_trang_vietnam_05.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-06T20:23:38",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 55715,
+    "input_resized_bytes": 22998,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 51.029,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "11.4\" Ancient Song dynasty Porcelain ru kiln museum mark ...",
+        "url": "https://www.ebay.com/itm/286179801163"
+      },
+      {
+        "title": "10\" Yuan Dynasty Fu kiln blue&white porcelain dragon beast ...",
+        "url": "https://www.ebay.com/itm/355717475254"
+      },
+      {
+        "title": "Friends of Vietnam Heritage - YouTube",
+        "url": "https://www.youtube.com/@friendsofvietnamheritage9163"
+      },
+      {
+        "title": "Detail Martavanen | mwibawa | Flickr",
+        "url": "https://www.flickr.com/photos/meldawibawa/3657571349/"
+      },
+      {
+        "title": "Antique 18th Century Qing Dynasty Six Boys Porcelain Vase ...",
+        "url": "https://www.etsy.com/listing/4394854759/antique-18th-century-qing-dynasty-six"
+      },
+      {
+        "title": "A Fine Anna Pottery Style \"Temperance\" Stoneware Jug by ...",
+        "url": "https://www.bidsquare.com/online-auctions/cowans/a-fine-anna-pottery-style-temperance-stoneware-jug-by-brian-moore-1908919"
+      },
+      {
+        "title": "Sold at Auction: Pair of Chinese Blue & White Palace Vases",
+        "url": "https://www.invaluable.com/auction-lot/pair-of-chinese-blue-white-palace-vases-815-c-10d4a3cb48"
+      },
+      {
+        "title": "13.8\" China Old Antique Porcelain Song Dynasty Ru Kiln ...",
+        "url": "https://www.ebay.com/itm/365882768681"
+      },
+      {
+        "title": "Is this Korean dragon turtle water pourer a Chinese ...",
+        "url": "https://www.facebook.com/groups/yixing.teapots/posts/1334338393748577/"
+      },
+      {
+        "title": "Lot - Chinese Swatow ware blue and white porcelain ginger ...",
+        "url": "https://www.ripleyauctions.com/auction-lot/chinese-swatow-ware-blue-and-white-porcelain-ging_760401fb1a"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Bat Trang ceramics, which are known for their high-quality stoneware and intricate relief decorations. The use of cobalt blue and reddish-brown underglaze, along with the low-gloss transparent glaze, aligns with modern techniques developed in the 20th century. The detailed dragon motif is a traditional symbol in Vietnamese culture, often found in high-end ceramics from this region. The overall shape and decoration style suggest a focus on craftsmanship and artistic expression, consistent with the modern era's emphasis on traditional techniques. The absence of crazing and the smooth surface indicate a well-controlled firing process, typical of contemporary ceramic production.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.76
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a low-gloss transparent glaze, characteristic of high-quality ceramic art. The glaze is evenly applied, covering the intricate relief details without crazing. The body color is a light gray, indicative of stoneware. The relief dragon decoration, with its detailed scales, protruding eyes, and curled beard, is a classic motif in Vietnamese ceramic art. The absence of visible firing marks or stacking traces suggests a controlled reduction firing process. The overall morphology, including the shape, foot ring, and wall thickness, aligns with traditional Vietnamese ceramic techniques.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 2.588
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Lê Gia (Bát Tràng artistic stoneware)",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.9,
+        "evidence": "The visual evidence presents a high-fired stoneware vase featuring a meticulously detailed, fierce dragon in high relief, accented with underglaze cobalt blue and subtle reddish-brown/dark grey. The body is a light grey/ivory, covered by a low-gloss transparent glaze. This piece strongly resonates with modern East Asian and Southeast Asian ceramic traditions, particularly those that draw heavily on imperial iconography while employing advanced stoneware techniques.\n\n**1. Motifs & Cultural Symbolism (Dragon):**\nThe dragon depicted, with its bulging eyes, swirling whiskers, sharp claws, and detailed scales, is a classic representation of the powerful imperial dragon found across East and Southeast Asia. The 'fierce/aggressive' portrayal of the head (as described in the visual data) emphasizes strength and authority. While imperial dragons are prominent in Chinese, Korean, and Japanese cultures, they hold particular significance in Vietnamese culture, symbolizing prosperity, power, and th",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 26.46
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument was presented by the 'Ceramic History' agent, who provided a detailed analysis of the visual features that align with Bat Trang ceramics. The use of cobalt blue and reddish-brown underglaze, the intricate relief dragon motif, and the low-gloss transparent glaze are consistent with modern Bat Trang stoneware. The 'Kiln Signatures & Morphology Expert' supported this by highlighting the controlled firing process and the specific body color, which are typical of high-quality Vietnamese ceramics. The 'Global Ceramics Expert' also pointed to the contemporary Vietnamese style, although their focus on Gốm Lê Gia was less supported by specific evidence. The Google Lens results, while showing some matches with Chinese ceramics, did not provide a perfect match for the specific combination of features observed in this piece, reinforcing the agents' consensus on Vietnamese origin.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 51.029
+      }
+    },
+    "total_time_s": 51.036
+  }
+]

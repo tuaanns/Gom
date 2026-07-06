@@ -21,10 +21,10 @@ DATASET1_ROOT = ROOT / "dataset" / "video_experiment_100"
 DATASET2_ROOT = ROOT / "dataset" / "ai_generated_collection_100"
 DATASET1_MANIFEST = DATASET1_ROOT / "manifest.csv"
 DATASET2_MANIFEST = DATASET2_ROOT / "manifest.csv"
-DATASET1_RESULTS = ROOT / "gom-ai" / "experiment_results" / "dataset1_video" / "detailed_results.json"
-DATASET1_SUMMARY = ROOT / "gom-ai" / "experiment_results" / "dataset1_video" / "summary.json"
-DATASET2_RESULTS = ROOT / "gom-ai" / "experiment_results" / "dataset2_ai" / "detailed_results.json"
-DATASET2_SUMMARY = ROOT / "gom-ai" / "experiment_results" / "dataset2_ai" / "summary.json"
+DATASET1_RESULTS = ROOT / "gom-ai" / "experiment_results" / "dataset1_video_lens5" / "detailed_results.json"
+DATASET1_SUMMARY = ROOT / "gom-ai" / "experiment_results" / "dataset1_video_lens5" / "summary.json"
+DATASET2_RESULTS = ROOT / "gom-ai" / "experiment_results" / "dataset2_ai_lens5" / "detailed_results.json"
+DATASET2_SUMMARY = ROOT / "gom-ai" / "experiment_results" / "dataset2_ai_lens5" / "summary.json"
 
 METHODS = ["gemini", "chatgpt", "grok", "acis"]
 METHOD_LABELS = {
@@ -453,8 +453,8 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     if THUMB_DIR.exists():
         shutil.rmtree(THUMB_DIR)
-    d1_manifest = read_csv(DATASET1_MANIFEST)
-    d2_manifest = read_csv(DATASET2_MANIFEST)
+    d1_manifest = read_csv(DATASET1_MANIFEST)[:5]
+    d2_manifest = read_csv(DATASET2_MANIFEST)[:5]
     d1_results = read_json(DATASET1_RESULTS, [])
     d1_summary = read_json(DATASET1_SUMMARY, {})
     d2_results = read_json(DATASET2_RESULTS, [])
