@@ -702,7 +702,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
           Icon(Icons.search, size: 16, color: AppTheme.textPrimary.withOpacity(0.7)),
           const SizedBox(width: 8),
           Text(
-            AppLang.tr('Nguồn tham khảo (${sources.length})', 'Reference Sources (${sources.length})'),
+            AppLang.tr('Tài liệu Google Lens tìm được (${sources.length})', 'Documents Google Lens found (${sources.length})'),
             style: TextStyle(fontSize: 13, fontWeight: FontWeight.w700, color: AppTheme.textPrimary),
           ),
         ]),

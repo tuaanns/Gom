@@ -434,7 +434,7 @@ const originalText = finalReport?.reasoning || finalReport?.final_reasoning || f
         <div className="rounded-xl border border-stroke bg-surface p-5 dark:border-dark-stroke dark:bg-dark-surface">
           <h4 className="mb-4 flex items-center gap-2 text-sm font-bold text-navy dark:text-ivory">
             <Search size={16} className="text-ceramic-dark dark:text-ceramic" />
-            {t('analysis.lens.sourcesTitle', 'Các nguồn tham khảo tìm được')} ({lensResults.length})
+            {t('analysis.lens.sourcesTitle', 'Tài liệu Google Lens tìm được')} ({lensResults.length})
           </h4>
           <div className="grid gap-3 sm:grid-cols-2">
             {lensResults.map((item, idx) => (

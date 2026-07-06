@@ -244,7 +244,7 @@
       "notifyError": "Google Lens connection error",
       "resultTitle": "AI Conclusion (Google Lens)",
       "noConclusion": "Unable to draw a conclusion.",
-      "sourcesTitle": "Reference sources found",
+      "sourcesTitle": "Documents Google Lens found",
       "noSources": "No related articles found.",
       "noImage": "No image",
       "lensError": "No results from Google Lens or an error occurred."

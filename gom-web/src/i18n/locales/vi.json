@@ -244,7 +244,7 @@
       "notifyError": "Lỗi kết nối Google Lens",
       "resultTitle": "Kết luận từ AI (Google Lens)",
       "noConclusion": "Không thể đưa ra kết luận.",
-      "sourcesTitle": "Các nguồn tham khảo tìm được",
+      "sourcesTitle": "Tài liệu Google Lens tìm được",
       "noSources": "Không tìm thấy bài viết liên quan nào.",
       "noImage": "Không có ảnh",
       "lensError": "Không tìm thấy kết quả từ Google Lens hoặc có lỗi xảy ra."
