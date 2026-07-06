@@ -14,52 +14,52 @@
       "correct": 4,
       "errors": 0,
       "accuracy": 80.0,
-      "macro_precision": 7.14,
-      "macro_recall": 5.71,
-      "macro_f1_score": 6.35,
-      "average_latency_s": 25.856,
-      "hallucinated": 1,
-      "hallucination_rate": 20.0,
+      "macro_precision": 25.0,
+      "macro_recall": 28.57,
+      "macro_f1_score": 26.19,
+      "average_latency_s": 14.922,
+      "hallucinated": 0,
+      "hallucination_rate": 0.0,
       "per_class": {
         "Bat Trang": {
-          "tp": 4,
-          "fp": 0,
-          "fn": 1,
-          "precision": 100.0,
-          "recall": 80.0,
-          "f1_score": 88.89
-        },
-        "Bien Hoa": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
+        },
+        "Bien Hoa": {
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Phu Lang": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Chu Dau": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Bau Truc": {
-          "tp": 0,
-          "fp": 0,
+          "tp": 1,
+          "fp": 1,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 50.0,
+          "recall": 100.0,
+          "f1_score": 66.67
         },
         "Goryeo Celadon": {
           "tp": 0,
@@ -137,18 +137,18 @@
     },
     "chatgpt": {
       "total": 5,
-      "correct": 5,
+      "correct": 4,
       "errors": 0,
-      "accuracy": 100.0,
-      "macro_precision": 7.14,
-      "macro_recall": 7.14,
-      "macro_f1_score": 7.14,
-      "average_latency_s": 6.634,
+      "accuracy": 80.0,
+      "macro_precision": 25.0,
+      "macro_recall": 28.57,
+      "macro_f1_score": 26.19,
+      "average_latency_s": 9.35,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
         "Bat Trang": {
-          "tp": 5,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
           "precision": 100.0,
@@ -156,36 +156,36 @@
           "f1_score": 100.0
         },
         "Bien Hoa": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Phu Lang": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Chu Dau": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Bau Truc": {
-          "tp": 0,
-          "fp": 0,
+          "tp": 1,
+          "fp": 1,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 50.0,
+          "recall": 100.0,
+          "f1_score": 66.67
         },
         "Goryeo Celadon": {
           "tp": 0,
@@ -263,18 +263,18 @@
     },
     "grok": {
       "total": 5,
-      "correct": 5,
+      "correct": 4,
       "errors": 0,
-      "accuracy": 100.0,
-      "macro_precision": 7.14,
-      "macro_recall": 7.14,
-      "macro_f1_score": 7.14,
-      "average_latency_s": 2.955,
+      "accuracy": 80.0,
+      "macro_precision": 25.0,
+      "macro_recall": 28.57,
+      "macro_f1_score": 26.19,
+      "average_latency_s": 5.873,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
         "Bat Trang": {
-          "tp": 5,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
           "precision": 100.0,
@@ -282,36 +282,36 @@
           "f1_score": 100.0
         },
         "Bien Hoa": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Phu Lang": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Chu Dau": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Bau Truc": {
-          "tp": 0,
-          "fp": 0,
+          "tp": 1,
+          "fp": 1,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 50.0,
+          "recall": 100.0,
+          "f1_score": 66.67
         },
         "Goryeo Celadon": {
           "tp": 0,
@@ -389,18 +389,18 @@
     },
     "acis": {
       "total": 5,
-      "correct": 5,
+      "correct": 4,
       "errors": 0,
-      "accuracy": 100.0,
-      "macro_precision": 7.14,
-      "macro_recall": 7.14,
-      "macro_f1_score": 7.14,
-      "average_latency_s": 47.947,
+      "accuracy": 80.0,
+      "macro_precision": 25.0,
+      "macro_recall": 28.57,
+      "macro_f1_score": 26.19,
+      "average_latency_s": 31.179,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
         "Bat Trang": {
-          "tp": 5,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
           "precision": 100.0,
@@ -408,36 +408,36 @@
           "f1_score": 100.0
         },
         "Bien Hoa": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Phu Lang": {
           "tp": 0,
           "fp": 0,
-          "fn": 0,
+          "fn": 1,
           "precision": 0.0,
           "recall": 0.0,
           "f1_score": 0.0
         },
         "Chu Dau": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Bau Truc": {
-          "tp": 0,
-          "fp": 0,
+          "tp": 1,
+          "fp": 1,
           "fn": 0,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "precision": 50.0,
+          "recall": 100.0,
+          "f1_score": 66.67
         },
         "Goryeo Celadon": {
           "tp": 0,

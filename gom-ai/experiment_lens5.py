@@ -72,7 +72,16 @@ def load_lens_dataset(dataset_id: str, limit: int = 5) -> list[dict]:
                     "metadata": row,
                 }
             )
-    return items[:limit]
+    # Lấy 1 tấm ảnh từ mỗi dòng gốm trong số 5 dòng gốm đầu tiên để có bộ 5 tấm đa dạng
+    unique_traditions = []
+    selected_items = []
+    for item in items:
+        if item["label"] not in unique_traditions:
+            unique_traditions.append(item["label"])
+            selected_items.append(item)
+        if len(selected_items) == limit:
+            break
+    return selected_items
 
 
 def row_complete(row: dict) -> bool:
