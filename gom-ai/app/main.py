@@ -491,11 +491,29 @@ async def process_chat(req: ChatQuery):
         "sources": sources
     }
 
+def resize_image_to_max(image_bytes: bytes, max_size: int = 512) -> bytes:
+    from PIL import Image
+    try:
+        img = Image.open(io.BytesIO(image_bytes))
+        # Keep aspect ratio, scale so that largest dimension is at most max_size
+        img.thumbnail((max_size, max_size))
+        
+        out_buf = io.BytesIO()
+        # Convert RGBA to RGB for JPEG formatting
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+        img.save(out_buf, format="JPEG", quality=85)
+        return out_buf.getvalue()
+    except Exception as e:
+        logger.error(f"Failed to resize image: {e}")
+        return image_bytes
+
 # Main endpoint: image -> Multi-Agent Debate -> Result
 @app.post("/predict")
 async def predict_debate(file: UploadFile = File(...), lang: str = Form("vi")):
     image_bytes = await file.read()
-    logger.info(f"POST /predict - Received {file.filename} ({len(image_bytes)} bytes), lang={lang}")
+    image_bytes = resize_image_to_max(image_bytes, 512)
+    logger.info(f"POST /predict - Received and resized {file.filename} ({len(image_bytes)} bytes), lang={lang}")
 
     # Save for debugging
     with open(os.path.join(UPLOAD_FOLDER, file.filename), "wb") as f:
@@ -528,6 +546,7 @@ from app.google_lens_service import search_google_lens, analyze_lens_keywords
 @app.post("/predict/lens")
 async def predict_with_lens(file: UploadFile = File(...), lang: str = Form("vi")):
     image_bytes = await file.read()
+    image_bytes = resize_image_to_max(image_bytes, 512)
     file_path = os.path.join(UPLOAD_FOLDER, file.filename)
 
     # Guard Lens mode with the same visual classifier used by the debate flow.
