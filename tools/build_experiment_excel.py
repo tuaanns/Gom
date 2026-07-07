@@ -480,8 +480,13 @@ def main():
                 cell.alignment = Alignment(vertical="top", wrap_text=True)
         ws.sheet_view.showGridLines = False
 
-    wb.save(OUT_FILE)
-    print(OUT_FILE)
+    try:
+        wb.save(OUT_FILE)
+        print(OUT_FILE)
+    except PermissionError:
+        alt = OUT_FILE.with_name("gom_experiment_benchmark_report_v2.xlsx")
+        wb.save(alt)
+        print(f"Original file locked. Saved to: {alt}")
 
 
 if __name__ == "__main__":

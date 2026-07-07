@@ -93,30 +93,43 @@ class BaseAgent:
         if not text:
             return {"error": "Empty response"}
 
+        text_str = text.strip()
+        
+        # Try direct load first
         try:
-            # 1. Look for JSON between ```json and ```
-            match = re.search(r"```(?:json)?\s*(.*?)\s*```", text, re.DOTALL)
-            if match:
-                raw_json = match.group(1).strip()
-            # 2. Look for any curly braces { ... }
-            else:
-                match = re.search(r"(\{.*\})", text, re.DOTALL)
-                raw_json = match.group(1).strip() if match else text.strip()
+            return json.loads(text_str, strict=False)
+        except Exception:
+            pass
 
-            # Cleanup potential trailing/leading garbage
-            return json.loads(raw_json, strict=False)
-
-        except Exception as e:
-            logger.warning(f"[{self.name}] JSON extract failed ({e}). Text: {text[:200]}...")
-            # Emergency attempt: what if it is directly JSON but has extra lines?
+        # Try markdown code block extraction
+        match = re.search(r"```(?:json)?\s*(.*?)\s*```", text_str, re.DOTALL)
+        if match:
             try:
-                # Find first { and last }
-                start = text.find("{")
-                end = text.rfind("}") + 1
-                if start != -1 and end != 0:
-                    return json.loads(text[start:end], strict=False)
-            except: pass
-            return {"error": f"JSON Parse Error: {str(e)}", "raw_text": text}
+                return json.loads(match.group(1).strip(), strict=False)
+            except Exception:
+                pass
+
+        # Brace matching algorithm to extract the first valid JSON object
+        start_idx = -1
+        for i, char in enumerate(text_str):
+            if char == '{':
+                if start_idx == -1:
+                    start_idx = i
+                brace_count = 0
+                for j in range(i, len(text_str)):
+                    if text_str[j] == '{':
+                        brace_count += 1
+                    elif text_str[j] == '}':
+                        brace_count -= 1
+                        if brace_count == 0:
+                            candidate = text_str[i:j+1]
+                            try:
+                                return json.loads(candidate, strict=False)
+                            except Exception:
+                                pass
+
+        logger.warning(f"[{self.name}] JSON extract failed. Text sample: {text_str[:200]}...")
+        return {"error": "JSON Extraction failed", "raw_text": text}
 
     @retry(
         wait=wait_exponential(multiplier=1, min=2, max=6),

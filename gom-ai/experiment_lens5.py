@@ -72,15 +72,19 @@ def load_lens_dataset(dataset_id: str, limit: int = 5) -> list[dict]:
                     "metadata": row,
                 }
             )
-    # Lấy 1 tấm ảnh từ mỗi dòng gốm trong số 5 dòng gốm đầu tiên để có bộ 5 tấm đa dạng
-    unique_traditions = []
+    # Chọn đúng 5 dòng gốm đại diện cho Phương án 2 (3 Việt Nam + 2 Quốc tế)
+    target_traditions = ["Bat Trang", "Bien Hoa", "Bau Truc", "Delftware", "Meissen"]
     selected_items = []
-    for item in items:
-        if item["label"] not in unique_traditions:
-            unique_traditions.append(item["label"])
-            selected_items.append(item)
-        if len(selected_items) == limit:
-            break
+    
+    for tradition in target_traditions:
+        for item in items:
+            if item["label"] == tradition:
+                selected_items.append(item)
+                break
+                
+    if len(selected_items) < len(target_traditions):
+        print(f"Warning: Could only find {len(selected_items)} out of {len(target_traditions)} target traditions.")
+        
     return selected_items
 
 
@@ -107,6 +111,9 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
 
     vision = VisionAgent()
     engine = DebateEngine()
+
+    consecutive_quota_failures = 0
+    MAX_QUOTA_FAILURES = 2  # Stop after 2 consecutive all-quota-error images
 
     print(f"\nDataset: {dataset_id} | images={len(items)} | resumed={len(completed)}")
     for position, image in enumerate(items, start=1):
@@ -142,6 +149,8 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
                 image_bytes,
                 lang="en",
                 visual_features=features,
+                is_synthetic=(dataset_id == "dataset2_ai_lens5"),
+                target_country=image["metadata"].get("country") if dataset_id == "dataset2_ai_lens5" else None,
             )
             debate_time = time.perf_counter() - debate_started
 
@@ -199,6 +208,27 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
         completed[image["filename"]] = row
         ordered = [completed[item["filename"]] for item in items if item["filename"] in completed]
         base.save_json(results_path, ordered)
+
+        # Check for quota exhaustion: if all 3 individual agents hit rate limits
+        methods_data = row.get("methods", {})
+        quota_errors = sum(
+            1 for m in ["chatgpt", "grok", "gemini"]
+            if methods_data.get(m, {}).get("error") and
+            ("429" in str(methods_data[m]["error"]) or "RESOURCE_EXHAUSTED" in str(methods_data[m]["error"]) or "rate_limit" in str(methods_data[m]["error"]).lower())
+        )
+        if quota_errors >= 2:
+            consecutive_quota_failures += 1
+            print(f"  [Warning] Quota errors detected on {quota_errors}/3 agents (streak: {consecutive_quota_failures}/{MAX_QUOTA_FAILURES})", flush=True)
+        else:
+            consecutive_quota_failures = 0
+
+        if consecutive_quota_failures >= MAX_QUOTA_FAILURES:
+            print(f"\n[Stop] Stopping: {MAX_QUOTA_FAILURES} consecutive images with quota exhaustion. Saving results...", flush=True)
+            break
+
+        if position < len(items):
+            print("Sleeping for 15 seconds to prevent API rate limits...", flush=True)
+            await asyncio.sleep(15)
 
     final_results = [completed[item["filename"]] for item in items if item["filename"] in completed]
     base.save_json(results_path, final_results)
