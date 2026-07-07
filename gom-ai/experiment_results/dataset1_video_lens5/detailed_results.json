@@ -5,12 +5,12 @@
     "id": 1,
     "filename": "images/01_bat_trang_vietnam/001_01_bat_trang_vietnam_01.jpg",
     "ground_truth": "Bat Trang",
-    "started_at": "2026-07-07T14:18:05",
+    "started_at": "2026-07-07T20:53:45",
     "flow": "resize_512_plus_google_lens",
     "input_original_bytes": 80243,
     "input_resized_bytes": 32304,
-    "vision_time_s": 6.093,
-    "acis_pipeline_time_s": 69.77,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 34.468,
     "lens_status": {
       "attempted": true,
       "count": 15,
@@ -24,16 +24,8 @@
         "url": "https://www.tripadvisor.com/Attraction_Review-g293924-d14795444-Reviews-Bat_Trang_Conservation-Hanoi.html"
       },
       {
-        "title": "Ancient Vietnamese Pottery: 1000-Year Secrets Revealed",
-        "url": "https://hietagarden.com/ancient-vietnamese-pottery-1000-year-secrets-revealed/"
-      },
-      {
-        "title": "jingdezhen i'll be back. just scratched the surface on ...",
-        "url": "https://www.instagram.com/p/DYUGSHoDF2z/"
-      },
-      {
-        "title": "Quote of the Day: China's Ceramic Capital Keeps Its Cachet ...",
-        "url": "https://jingdaily.com/posts/quote-of-the-day-chinas-ceramic-capital-keeps-its-cachet"
+        "title": "Visiting Vietnam: Traveling in the Land of my Pottery Crush ...",
+        "url": "https://www.entoten.com/2019/02/03/visiting-vietnam-traveling-in-the-land-of-my-pottery-crush/"
       },
       {
         "title": "Introducing our Ceramic Phin 001: Collector's Item. Only 30 ...",
@@ -44,489 +36,73 @@
         "url": "https://www.atlasobscura.com/places/nam-tran-hoi-an-vietnam"
       },
       {
+        "title": "Quote of the Day: China's Ceramic Capital Keeps Its Cachet ...",
+        "url": "https://jingdaily.com/posts/quote-of-the-day-chinas-ceramic-capital-keeps-its-cachet"
+      },
+      {
+        "title": "jingdezhen i'll be back. just scratched the surface on ...",
+        "url": "https://www.instagram.com/p/DYUGSHoDF2z/"
+      },
+      {
         "title": "The story of a shipwreck in the Cham Islands waters",
         "url": "https://en.baodanang.vn/the-story-of-a-shipwreck-in-the-cham-islands-waters-3046607.html"
       },
       {
+        "title": "Object of the Month - Unknown, Group of Ceramics from the ...",
+        "url": "https://dtphx.org/do/object-of-the-month-unknown-group-of-ceramics-from-the-hoi-an-hoard-15th-16th-century"
+      },
+      {
+        "title": "Bat Trang Pottery Village: Experience Traditional Vietnamese ...",
+        "url": "https://vietnamstory.in/bat-trang-pottery-village/"
+      },
+      {
         "title": "Museum of Trade Ceramics | Hoi An - What to Expect | Timings ...",
         "url": "https://www.makemytrip.com/tripideas/attractions/museum-of-trade-ceramics"
-      },
-      {
-        "title": "Bat Trang Pottery Village Hanoi: Timeless Craft Heritage",
-        "url": "https://oxalisadventure.com/bat-trang-pottery-village-hanoi/"
-      },
-      {
-        "title": "Secrets of Pottery at Hoi An Trade Ceramics Museum",
-        "url": "https://anabasrestaurant.vn/en/the-secret-of-each-ceramic-piece-at-hoi-an-trade-ceramics-museum/"
       }
     ],
     "methods": {
       "chatgpt": {
-        "raw_prediction": "Bat Trang",
-        "predicted_label": "Bat Trang",
-        "confidence": 0.85,
-        "evidence": "The large bowl with blue and white underglaze features a dragon motif, which is characteristic of Vietnamese ceramics from the 19th to early 20th century, particularly from the Bat Trang kiln. The use of cobalt blue underglaze on a white background is a hallmark of this period. The decorative wall plates, with their polychrome enamel and traditional floral and animal motifs, also align with the 20th-century Vietnamese decorative styles. The assorted vases and pots, showcasing crackled glaze and simple patterns, indicate a modern evolution in ceramic design while still reflecting traditional techniques. The presence of firing marks and the materials used suggest a hand-thrown technique typical of Bat Trang pottery, which has a long history of craftsmanship and regional influence.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 12.579
-      },
-      "grok": {
         "raw_prediction": "Bát Tràng",
         "predicted_label": "Bat Trang",
-        "confidence": 0.8,
-        "evidence": "The large bowl with blue and white underglaze and the collection of decorative wall plates exhibit characteristics of traditional Vietnamese ceramics. The glaze type, specifically the underglaze blue (men lam) and polychrome enamel (men đa sắc), is consistent with Bát Tràng ceramics. The kiln marks, such as the faint stacking traces and heat distribution patterns, also align with Bát Tràng firing techniques. The body morphology, including the white or off-white clay color and the foot ring shape, further supports this prediction. The visual clues, including the dragon motif (long chầu) and the use of underglaze blue and overglaze enamel, are also consistent with Bát Tràng ceramics.",
+        "confidence": 0.85,
+        "evidence": "The large decorative wall plate features a phoenix motif, which is common in Vietnamese ceramics influenced by Chinese art. The underglaze blue technique and the semi-glossy glaze with oxidation spots suggest a production method typical of Bát Tràng ceramics from the late 19th to early 20th century. The bowl's celadon-tinted white body and cobalt blue brushstrokes align with Bát Tràng's traditional aesthetic, indicating a continuation of local styles. The gourd-shaped bottle and the storage jar also reflect regional characteristics, with the jar's relief designs pointing to traditional storage vessel styles in Southern Vietnam. The manufacturing techniques observed, such as wheel-thrown pottery evident in the bowl and plate, further support this dating and origin.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 10.516
+        "latency_s": 9.144
+      },
+      "grok": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kwxs2sebfscas74x5y165gvp` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99730,",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "Error code: 429 - {'error': {'message': 'Rate limit reached for model `llama-3.3-70b-versatile` in organization `org_01kwxs2sebfscas74x5y165gvp` service tier `on_demand` on tokens per day (TPD): Limit 100000, Used 99730, Requested 1515. Please try again in 17m55.679999999s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "latency_s": 15.673
       },
       "gemini": {
-        "raw_prediction": "Gốm Sứ Bát Tràng (Bát Tràng Ceramics)",
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 58.561473862s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '58s'}]}}",
+        "latency_s": 15.462
+      },
+      "acis": {
+        "raw_prediction": "Bát Tràng",
         "predicted_label": "Bat Trang",
-        "confidence": 0.95,
-        "evidence": "The collection of ceramic items displays a harmonious blend of motifs, glazes, and forms that are highly characteristic of Vietnamese ceramic traditions, particularly those associated with the Bát Tràng village. My analysis systematically compared these features against various global and Southeast Asian ceramic traditions before verifying against the provided origin hint.\n\n**1. Motifs & Cultural Symbolism:**\n*   **Dragon (Long Chầu)**: The large blue and white bowl features a 'long chầu' (encircling dragon) motif. Dragons are ubiquitous symbols of imperial power, strength, and good fortune across East and Southeast Asia. While present in China, Korea, and Japan, Vietnamese dragons, especially those from the Nguyễn Dynasty (19th-early 20th century), developed distinct stylistic nuances, often appearing more sinuous or with specific head and claw characteristics that differentiate them from their Chinese counterparts, even when influenced by them.\n*   **Lotus (Hoa Sen), Chrysanthemum (H",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 45.927
-      },
-      "acis": {
-        "raw_prediction": "Bat Trang",
-        "predicted_label": "Bat Trang",
-        "confidence": 0.95,
-        "evidence": "The most convincing argument was presented by the Global Ceramics Expert, who provided a comprehensive analysis of the motifs, glaze types, and cultural symbolism that are characteristic of Bat Trang ceramics. The expert's detailed comparison with other regional ceramic traditions and their emphasis on specific Vietnamese glaze terminology, such as 'men rạn' (crackled glaze), strongly supports the Bat Trang attribution. The visual features, including the dragon motif on the large bowl, the polychrome enamel on the decorative wall plates, and the crackled glaze on the vases, align with Bat Trang's known production techniques and styles. Google Lens references corroborate the agents' consensus by frequently matching the items to Bat Trang ceramics, reinforcing the prediction.",
+        "confidence": 0.85,
+        "evidence": "The 'Ceramic History' agent provided a detailed analysis of the visual features, such as the underglaze blue painting technique, the phoenix motif, and the semi-glossy glaze with oxidation spots, which are characteristic of Bát Tràng ceramics from the late 19th to early 20th century. The agent's reasoning was supported by specific visual clues that align with known Bát Tràng styles. The Google Lens results further corroborated this prediction, as 'Bat Trang' was matched six times, indicating a strong likelihood of this origin. The other agents were unavailable due to API rate limits, leaving 'Ceramic History' as the sole active agent, whose prediction I must follow per the single active agent constraint.",
         "is_correct": true,
         "is_hallucinated": false,
         "error": null,
         "iterations": 1,
-        "latency_s": 75.863
+        "latency_s": 34.468
       }
     },
-    "total_time_s": 75.879
-  },
-  {
-    "dataset": "dataset1_video_lens5",
-    "source_dataset": "dataset1_video",
-    "id": 31,
-    "filename": "images/04_bien_hoa_vietnam/031_04_bien_hoa_vietnam_01.jpg",
-    "ground_truth": "Bien Hoa",
-    "started_at": "2026-07-07T14:19:36",
-    "flow": "resize_512_plus_google_lens",
-    "input_original_bytes": 129865,
-    "input_resized_bytes": 52238,
-    "vision_time_s": 3.929,
-    "acis_pipeline_time_s": 53.851,
-    "lens_status": {
-      "attempted": true,
-      "count": 15,
-      "ok": true,
-      "message": "Google Lens returned reference sources"
-    },
-    "lens_result_count": 15,
-    "lens_results": [
-      {
-        "title": "Lady Cleaning Her Bien Hoa Ceramic Stock Photo 1476835256 ...",
-        "url": "https://www.shutterstock.com/image-photo/lady-cleaning-her-bien-hoa-ceramic-1476835256"
-      },
-      {
-        "title": "Explore Bat trang village & Ceramics factories with local ...",
-        "url": "https://www.tripadvisor.com/AttractionProductReview-g293924-d17224286-Explore_Bat_trang_village_Ceramics_factories_with_local_guide-Hanoi.html"
-      },
-      {
-        "title": "Ceramic artisan Hoang Ngoc Hien: I want to bring Bien Hoa ...",
-        "url": "https://vietthanhpottery.com/news-events/ceramics-news/ceramic-artisan-hoang-ngoc-hien-i-want-to-bring-bien-hoa-ceramics-far-and-wide/"
-      },
-      {
-        "title": "Another beautiful day in San Miguel de Allende and Delores ...",
-        "url": "https://www.instagram.com/p/DWH3vZtDyEj/?img_index=2"
-      },
-      {
-        "title": "Bat Trang Pottery Village | Vietnam's Timeless Art of Clay ...",
-        "url": "https://www.youtube.com/watch?v=iuu3mkoIFxE"
-      },
-      {
-        "title": "Hanoi Bat Trang's Pottery Village: Ceramic Wonderland",
-        "url": "https://forevervacation.com/bat-trangs-pottery-village-ceramic-wonderland"
-      },
-      {
-        "title": "The best Thanh Ha Pottery Village Ceramic & pottery ...",
-        "url": "https://www.getyourguide.com/thanh-ha-pottery-village-l125353/ceramic-pottery-workshops-tc2206/"
-      },
-      {
-        "title": "We Travel to BAT TRANG POTTERY VILLAGE, Done Workshop in ...",
-        "url": "https://www.youtube.com/watch?v=Edg-8deBaxk"
-      },
-      {
-        "title": "Vietnam Pictorial",
-        "url": "https://vietnam.vnanet.vn/english/print/thanh-ha-a-500-year-old-pottery-village-by-the-thu-bon-river-439931.html"
-      },
-      {
-        "title": "Wandering around pottery town. Bát Tràng is a hidden gem ...",
-        "url": "https://medium.com/@emilypetsko/wandering-around-pottery-town-26e62402cb6"
-      }
-    ],
-    "methods": {
-      "chatgpt": {
-        "raw_prediction": "Biên Hòa",
-        "predicted_label": "Bien Hoa",
-        "confidence": 0.85,
-        "evidence": "The ceramics exhibit characteristics typical of the Biên Hòa kiln, known for its stoneware and colorful overglaze enamel techniques. The variety of shapes, including large vases and cylindrical pedestals, aligns with modern interpretations of traditional forms. The hand-painted decoration, featuring motifs like lotus flowers and geometric patterns, reflects a blend of Vietnamese and broader East Asian influences, particularly from Chinese ceramics. The crazing and the use of a thick glaze are indicative of a modern revival of traditional techniques, likely influenced by historical trade routes that brought diverse aesthetic elements into Vietnamese pottery. The firing marks and foot ring details suggest a traditional wood-firing method, common in the region.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 10.21
-      },
-      "grok": {
-        "raw_prediction": "Biên Hòa",
-        "predicted_label": "Bien Hoa",
-        "confidence": 0.8,
-        "evidence": "The glaze typology indicates a type of overglaze enamel with a medium gloss, thick glaze layer, and characteristic crazing. The body morphology shows a hard, thick, and heavy stoneware body, typical of the Biên Hòa region. The foot ring is unglazed, revealing the grayish-white clay color, and exhibits signs of wire cutting or sand adhesion from the kiln firing process. The firing marks, including the unglazed foot ring and the subtle smoke staining, are consistent with traditional kiln firing techniques. The visual clues, such as the hand-painted overglaze enamel decoration, the raised decoration technique, and the diverse range of motifs, including lotus flowers, leaves, and geometric patterns, also support the attribution to the Biên Hòa ceramic line.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 6.063
-      },
-      "gemini": {
-        "raw_prediction": "Gốm Biên Hòa (Biên Hoa Ceramics)",
-        "predicted_label": "Bien Hoa",
-        "confidence": 1.0,
-        "evidence": "My analysis is strongly informed by the distinctive blend of aesthetic and material characteristics presented. The core identification is rooted in the explicit mention of 'Gốm (stoneware) đặc trưng của vùng đất Biên Hòa với xương gốm cứng, dày và nặng,' which immediately points to a specific regional ceramic tradition in Vietnam. This is not merely generic stoneware, but a material signature tied to a geographic origin.\n\n**1. Motifs & Cultural Symbolism:**\nThe decorative repertoire includes 'hoa sen cách điệu, lá sen' (stylized lotus flowers, lotus leaves) and 'hoa mẫu đơn' (peonies). Lotus symbolism (purity, enlightenment) is ubiquitous across Buddhist cultures in Southeast Asia and East Asia. Peonies, symbolizing wealth and honor, are strongly associated with Chinese art but have been widely adopted across the region, including Vietnam. The inclusion of 'chim muông' (birds), geometric patterns, and 'mảng vẽ cảnh sinh hoạt hoặc hoa lá lồng khung' (panels depicting daily life scenes o",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 25.88
-      },
-      "acis": {
-        "raw_prediction": "Bien Hoa",
-        "predicted_label": "Bien Hoa",
-        "confidence": 0.95,
-        "evidence": "The most convincing argument was presented by the Global Ceramics Expert, who provided a detailed analysis of the material, decorative techniques, and regional characteristics that align with Bien Hoa ceramics. The expert highlighted the unique application of East Asian overglaze enamel techniques on a stoneware body, a hallmark of Bien Hoa ceramics. This analysis was supported by specific visual features such as the vibrant overglaze enamel, crazing, and the motifs of lotus flowers and geometric patterns. The Google Lens references, particularly the match with Bien Hoa ceramics, further confirmed the prediction, aligning with the visual and historical evidence provided by the agents.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "iterations": 1,
-        "latency_s": 57.78
-      }
-    },
-    "total_time_s": 57.784
-  },
-  {
-    "dataset": "dataset1_video_lens5",
-    "source_dataset": "dataset1_video",
-    "id": 11,
-    "filename": "images/02_bau_truc_vietnam/011_02_bau_truc_vietnam_01.jpg",
-    "ground_truth": "Bau Truc",
-    "started_at": "2026-07-07T14:20:49",
-    "flow": "resize_512_plus_google_lens",
-    "input_original_bytes": 91980,
-    "input_resized_bytes": 37466,
-    "vision_time_s": 3.453,
-    "acis_pipeline_time_s": 38.121,
-    "lens_status": {
-      "attempted": true,
-      "count": 15,
-      "ok": true,
-      "message": "Google Lens returned reference sources"
-    },
-    "lens_result_count": 15,
-    "lens_results": [
-      {
-        "title": "Learn About The Vietnam Pottery Village | Ten Thousand Pots",
-        "url": "https://tenthousandpots.com/blogs/ten-thousand-pots-blog/learn-about-the-vietnam-pottery-village"
-      },
-      {
-        "title": "Mud Pottery Hand Made Stock Photo - Download Image Now - Art ...",
-        "url": "https://www.istockphoto.com/foto/tembikar-lumpur-buatan-tangan-gm1453487521-489444912"
-      },
-      {
-        "title": "Dong Trieu Ceramic Village - Shore Excursions Asia",
-        "url": "https://www.shoreexcursions.asia/dong-trieu-ceramic-village/"
-      },
-      {
-        "title": "Pots and vases in all shapes and sizes to fit every corner ...",
-        "url": "https://www.facebook.com/potsuppliermanila/videos/pots-and-vases-in-all-shapes-and-sizes-to-fit-every-corner-of-your-home-or-busin/1393400511774455/"
-      },
-      {
-        "title": "Wholesale Pottery Distributor - The Pottery Patch",
-        "url": "https://thepotterypatch.com/"
-      },
-      {
-        "title": "Mix Bat Trang Ceramic Village And Real Hanoi Scooter Tour in ...",
-        "url": "https://www.pelago.com/en-AU/activity/ps0lf5cdn-mix-bat-trang-ceramic-village-and-real-hanoi-scooter-tour-hanoi/"
-      },
-      {
-        "title": "快速通关】潘郎-塔占市波克隆加莱塔门票、导览- 免费取消 ...",
-        "url": "https://www.getyourguide.com/zh-cn/po-klong-garai-tower-l233450/"
-      },
-      {
-        "title": "Gallery | Asia Handicraft Hub",
-        "url": "https://www.asiahandicrafthub.com/gallery"
-      },
-      {
-        "title": "Nouvelle vitalité dans le village de poterie de Bàu Truc",
-        "url": "https://lecourrier.vn/nouvelle-vitalite-dans-le-village-de-poterie-de-bau-truc/1166141.html"
-      },
-      {
-        "title": "Unique horse figurines from Bau Truc Cham pottery village ...",
-        "url": "https://www.youtube.com/watch?v=Tf1gpG1Nr5s"
-      }
-    ],
-    "methods": {
-      "chatgpt": {
-        "raw_prediction": "Bau Truc",
-        "predicted_label": "Bau Truc",
-        "confidence": 0.85,
-        "evidence": "The pottery exhibits characteristics typical of Bau Truc ceramics, such as the reddish-brown color of the clay, the absence of glaze (raw earthenware), and the use of traditional hand-coiling techniques. The simplistic patterns and surface texture indicate a focus on traditional craftsmanship, aligning with the Cham culture's historical pottery style. The firing marks suggest a low-temperature firing method consistent with traditional practices. The estimated era is contemporary, as the techniques used are still in practice today. The variety of shapes, including large jars and vases, is also indicative of the functional and decorative pottery produced in this region.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 8.659
-      },
-      "grok": {
-        "raw_prediction": "Bau Truc",
-        "predicted_label": "Bau Truc",
-        "confidence": 0.9,
-        "evidence": "The ceramic piece exhibits a distinct unglazed (gốm mộc) surface, which is characteristic of traditional Cham pottery. The body color is a deep reddish-brown, indicative of the use of local clay from the Bau Truc region. The presence of firing marks (vết lửa) and uneven heat distribution suggests a traditional outdoor kiln or manual firing technique. The foot ring is flat and unrefined, consistent with hand-built ceramics. The overall morphology, including the wall thickness and shape, points towards a traditional, handmade piece from the Bau Truc kiln.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 5.331
-      },
-      "gemini": {
-        "raw_prediction": "Làng gốm Bàu Trúc (Bau Truc Pottery Village)",
-        "predicted_label": "Bau Truc",
-        "confidence": 1.0,
-        "evidence": "This detailed analysis is based on distinct cultural and stylistic markers:\n\n1.  **Motifs & Cultural Symbolism:** The pottery showcases a profound connection to its material and cultural heritage. The 'họa tiết tối giản' (minimalist patterns) and 'hoa văn khắc chìm/ấn nhẹ bằng công cụ thủ công truyền thống' (simple incised/impressed patterns) emphasize texture and form over elaborate pictorial narratives. The most potent symbolic element is the inclusion of 'tượng Phật' (Buddha statues) among the diverse shapes. This immediately points to a strong Buddhist influence within the producing culture, which is characteristic of many Southeast Asian societies, including the Chăm people. The absence of complex painted motifs (like dragons, phoenixes, or detailed floral designs common in many East Asian or glazed Southeast Asian traditions) reinforces a focus on raw, earthy aesthetics and perhaps a spiritual purity inherent in the natural clay.\n\n2.  **Regional Characteristics:** The combination",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 27.679
-      },
-      "acis": {
-        "raw_prediction": "Bau Truc",
-        "predicted_label": "Bau Truc",
-        "confidence": 0.95,
-        "evidence": "The most convincing argument came from the 'Global Ceramics Expert', who provided a comprehensive analysis of the cultural and stylistic markers that align with Bau Truc pottery. The expert highlighted the unglazed surface, deep reddish-brown color, and traditional hand-coiling techniques, which are characteristic of Bau Truc ceramics. The mention of firing marks and uneven heat distribution further supports the identification of this piece as Bau Truc, as these are indicative of traditional outdoor firing methods. Visual features such as the rough texture and simplistic patterns corroborate this conclusion. Google Lens references confirm the identification by matching the visual features to Bau Truc pottery, reinforcing the expert's analysis.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "iterations": 1,
-        "latency_s": 41.574
-      }
-    },
-    "total_time_s": 41.579
-  },
-  {
-    "dataset": "dataset1_video_lens5",
-    "source_dataset": "dataset1_video",
-    "id": 71,
-    "filename": "images/08_delft_netherlands/071_08_delft_netherlands_01.jpg",
-    "ground_truth": "Delftware",
-    "started_at": "2026-07-07T14:21:45",
-    "flow": "resize_512_plus_google_lens",
-    "input_original_bytes": 48801,
-    "input_resized_bytes": 19228,
-    "vision_time_s": 3.431,
-    "acis_pipeline_time_s": 55.533,
-    "lens_status": {
-      "attempted": true,
-      "count": 15,
-      "ok": true,
-      "message": "Google Lens returned reference sources"
-    },
-    "lens_result_count": 15,
-    "lens_results": [
-      {
-        "title": "Ceramic Home Appliances, 100% Ceramic Interior / PFAS‑Free ...",
-        "url": "https://www.youtube.com/watch?v=7mNyW9MADo0"
-      },
-      {
-        "title": "Making Plaster Molds for Ceramics",
-        "url": "https://www.pinterest.com/ideas/making-plaster-molds-for-ceramics/895051123356/"
-      },
-      {
-        "title": "Our Process: Slip Casting and Finishing - YouTube",
-        "url": "https://www.youtube.com/watch?v=um33YvFjROA"
-      },
-      {
-        "title": "Handcrafted in a workshop in Portugal, the Paz collection ...",
-        "url": "https://www.facebook.com/BaobabCollection/videos/handcrafted-in-a-workshop-in-portugal-the-paz-collection-celebrates-time-honored/1525425489281183/"
-      },
-      {
-        "title": "Our Craftsmanship - Royal Delft",
-        "url": "https://royaldelft.com/en/our-craftsmanship/"
-      },
-      {
-        "title": "Here's a little behind the scenes of the Merchickens journey ...",
-        "url": "https://www.instagram.com/p/C6p3HX8v6Ru/"
-      },
-      {
-        "title": "Diversifier l'offre d'une manufacture centenaire par une ...",
-        "url": "https://www.les-sismo.com/services-et-objets-utiles/pillivuyt/"
-      },
-      {
-        "title": "How to cast a mould with liquid clay and create ceramic ...",
-        "url": "https://www.youtube.com/watch?v=ibXa2oIdNFk"
-      },
-      {
-        "title": "SCENTED CANDLE PAZ DOVE - BAOBAB COLLECTION • Baobab Collection",
-        "url": "https://eu.baobabcollection.com/ro-ro/products/scented-candle-paz-dove?variant=52249732743496"
-      },
-      {
-        "title": "Getting ready for 6-cylinder block production. 👌 Accuracy ...",
-        "url": "https://x.com/CerdicFoundry/status/2070065722424701301"
-      }
-    ],
-    "methods": {
-      "chatgpt": {
-        "raw_prediction": "Royal Delft",
-        "predicted_label": "Delftware",
-        "confidence": 0.85,
-        "evidence": "The ceramic piece exhibits characteristics typical of modern industrial production, particularly the octagonal column shape and the use of slip casting, which became prevalent in the 20th century. The off-white color and matte surface indicate that it is in the early stages of production, likely before glazing. The absence of firing marks confirms that it has not yet been fired, aligning with the manufacturing processes of contemporary ceramics. The suspected origin of Royal Delft supports this analysis, as they are known for their porcelain production using similar techniques. The lack of decoration further emphasizes the industrial aesthetic common in modern ceramics, focusing on form rather than intricate designs.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 10.1
-      },
-      "grok": {
-        "raw_prediction": "Royal Delft (De Porceleyne Fles)",
-        "predicted_label": "Delftware",
-        "confidence": 0.8,
-        "evidence": "The ceramic piece exhibits an off-white color characteristic of porcelain slip, with a matte and porous surface indicative of unglazed or unfinished porcelain. The absence of glaze and firing marks suggests that the piece is in an early stage of production. The octagonal column shape and the use of slip casting technique are consistent with modern industrial production methods. The material analysis points towards a European origin, specifically the Netherlands, given the suspected origin of Royal Delft (De Porceleyne Fles).",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 5.003
-      },
-      "gemini": {
-        "raw_prediction": "Royal Delft (De Porceleyne Fles) Modern Porcelain Blanks/Components",
-        "predicted_label": "Delftware",
-        "confidence": 0.95,
-        "evidence": "The visual evidence presents a strikingly plain, octagonal column crafted from porcelain slip using slip-casting, a clear indicator of modern industrial production. \n\n1.  **MOTIFS & CULTURAL SYMBOLISM (Absence Thereof)**: The most salient feature is the complete lack of any ornamentation, motifs, or cultural symbolism. This is not a finished artistic piece but a 'blank' – a pre-form intended for subsequent decoration, integration into a larger structure, or appreciated for its minimalist, geometric form. This suggests either a product of a factory that supplies undecorated wares to other artisans or a component for architectural or interior design where the form itself is paramount, perhaps to be finished with a simple glaze or custom paintwork. This approach is prevalent in modern industrial ceramics across many cultures, shifting the focus from intrinsic ornamentation to potential application.\n\n2.  **REGIONAL CHARACTERISTICS & CROSS-CONTINENTAL COMPARISON**: \n    *   **Southeast Asia",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 28.347
-      },
-      "acis": {
-        "raw_prediction": "Royal Delft (De Porceleyne Fles)",
-        "predicted_label": "Delftware",
-        "confidence": 0.85,
-        "evidence": "The most convincing argument was presented by the 'Global Ceramics Expert', who provided a comprehensive analysis of the piece as a modern industrial porcelain blank/component. This agent's reasoning was supported by the visual features of the object: the off-white color, octagonal column shape, slip casting technique, and absence of decoration, all of which align with modern industrial ceramics. The agent effectively argued that this undecorated form is typical of modern European production, particularly from Royal Delft, known for its advanced manufacturing techniques. The Google Lens references corroborated this analysis, showing similar undecorated porcelain components used in contemporary design contexts, further supporting the attribution to Royal Delft. The other agents also identified Royal Delft as the origin but did not provide as detailed a global context or as strong a connection to modern industrial practices.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "iterations": 1,
-        "latency_s": 58.964
-      }
-    },
-    "total_time_s": 58.968
-  },
-  {
-    "dataset": "dataset1_video_lens5",
-    "source_dataset": "dataset1_video",
-    "id": 91,
-    "filename": "images/10_meissen_germany/091_10_meissen_germany_01.jpg",
-    "ground_truth": "Meissen",
-    "started_at": "2026-07-07T14:22:59",
-    "flow": "resize_512_plus_google_lens",
-    "input_original_bytes": 51999,
-    "input_resized_bytes": 21378,
-    "vision_time_s": 5.326,
-    "acis_pipeline_time_s": 45.954,
-    "lens_status": {
-      "attempted": true,
-      "count": 15,
-      "ok": true,
-      "message": "Google Lens returned reference sources"
-    },
-    "lens_result_count": 15,
-    "lens_results": [
-      {
-        "title": "𝗠𝘆𝘁𝗵 𝗮𝗻𝗱 𝗦𝗽𝗹𝗲𝗻𝗱𝗼𝘂𝗿 𝘈 𝘙𝘢𝘳𝘦 𝘗𝘢𝘪𝘳 𝘖𝘧 ...",
-        "url": "https://www.instagram.com/p/DTamzkmjXrC/"
-      },
-      {
-        "title": "Meissen Masterpieces – An Important Private Collection ...",
-        "url": "https://www.adrianalan.com/article/meissen-masterpieces/"
-      },
-      {
-        "title": "Triumphal Procession of Amphitrite\" for Tsarina Catherine II ...",
-        "url": "https://www.dorotheum.com/en/l/1091077/"
-      },
-      {
-        "title": "A Large Meissen Porcelain Mythological Figure Centerpiece ...",
-        "url": "https://www.1stdibs.com/furniture/dining-entertaining/porcelain/large-meissen-porcelain-mythological-figure-centerpiece-neptune-thetis/id-f_45304122/"
-      },
-      {
-        "title": "A Meissen Large Mythological Figure Centerpiece, 'Neptune ...",
-        "url": "https://www.sothebys.com/en/buy/auction/2024/classic-design-furniture-silver-ceramics/a-meissen-large-mythological-figure-centerpiece"
-      },
-      {
-        "title": "Объяснить, что такое ПитерФри - иногда непросто. Поэтому мы ...",
-        "url": "https://www.instagram.com/p/DZDK07jFqNw/"
-      },
-      {
-        "title": "Meissen – Large Figural Groups – AntiqueRef",
-        "url": "https://antiqueref.com/index.php/meissen/large-figural-groups/"
-      },
-      {
-        "title": "Sold at Auction: A large Meissen white and polychrome ...",
-        "url": "https://www.invaluable.com/auction-lot/a-large-meissen-white-and-polychrome-porcelain-cl-63-c-e7d4fe1b26"
-      },
-      {
-        "title": "Bacchus in Meissen porcelain of the 18th century forming a ...",
-        "url": "https://www.anticstore.art/98979P"
-      },
-      {
-        "title": "Antique 18th Century Bow Porcelain Figure of Neptune or ...",
-        "url": "https://www.chairish.com/product/5199525/antique-18th-century-bow-porcelain-figure-of-neptune-or-poseidon-with-a-dolphin-representing-water-"
-      }
-    ],
-    "methods": {
-      "chatgpt": {
-        "raw_prediction": "Meissen",
-        "predicted_label": "Meissen",
-        "confidence": 0.85,
-        "evidence": "The ceramic piece exhibits characteristics typical of the Neo-Rococo style, particularly in its elaborate decoration and high relief details. The use of soft-paste porcelain and tin-glaze techniques aligns with European porcelain production, especially from the Meissen factory, known for its intricate designs and mythological themes. The presence of motifs such as Neptune or Poseidon, along with the cornucopia and water vessel, suggests a strong influence from classical mythology, which was popular in 19th-century European decorative arts. The estimated size and high gloss finish further support the dating to this period, as these features were prominent in luxury ceramics of the time. The combination of overglaze enamel decoration and the quality of craftsmanship indicates a high level of manufacturing evolution, likely involving slip-casting techniques.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 12.404
-      },
-      "grok": {
-        "raw_prediction": "Meissen",
-        "predicted_label": "Meissen",
-        "confidence": 0.8,
-        "evidence": "The glaze type is identified as tin-glaze or soft-paste porcelain glaze, which is characteristic of Meissen ceramics. The high gloss, smooth surface, and absence of crackle patterns on the glaze suggest a high-quality, European soft-paste porcelain. The clay body color is white, which is consistent with Meissen's use of kaolin-rich clay. The foot ring shape, although not clearly visible, appears to be shaped like a stylized rock, which is a common feature of Meissen figurines. The decoration technique, including high relief and overglaze enamel, is also consistent with Meissen's style. The visual clues, such as the use of cobalt blue, gold, and other vibrant colors, also point towards Meissen's characteristic color palette.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 7.236
-      },
-      "gemini": {
-        "raw_prediction": "Meissen Porcelain Manufactory",
-        "predicted_label": "Meissen",
-        "confidence": 0.98,
-        "evidence": "This exquisite porcelain sculpture is undeniably European in origin, displaying characteristics fundamentally distinct from any East or Southeast Asian ceramic tradition. \n\n1.  **MOTIFS & CULTURAL SYMBOLISM**: The central figures, identified as a river/sea god (strongly suggesting Neptune or Poseidon) and the prominent cornucopia overflowing with fruits and flowers, are direct symbols from Greco-Roman mythology. These motifs represent power over nature, abundance, and fertility, cornerstones of Western classical thought. The overall composition, a dynamic multi-figure mythological group, is a storytelling tradition deeply rooted in European fine art. There are no motifs such as dragon claws, specific Asian geometric patterns, or indigenous Southeast Asian flora/fauna that would suggest an origin outside Europe. \n\n2.  **REGIONAL CHARACTERISTICS**: The material, a fine porcelain (likely soft-paste or high-quality European hard-paste as indicated by the 'trắng kem' body color and 'men phủ",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "latency_s": 26.736
-      },
-      "acis": {
-        "raw_prediction": "Meissen",
-        "predicted_label": "Meissen",
-        "confidence": 0.95,
-        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing argument, emphasizing the specific characteristics of Meissen porcelain, such as the use of hard-paste porcelain, the Neo-Rococo style, and the detailed mythological motifs. These elements align with the visual features described, such as the high gloss finish, intricate high-relief decoration, and vibrant color palette. The Google Lens references strongly support this conclusion, as multiple reputable sources attribute similar pieces to Meissen. The other agents' arguments, while also pointing to Meissen, contained inaccuracies regarding the material type, which were effectively countered by the Global Ceramics Expert's detailed analysis.",
-        "is_correct": true,
-        "is_hallucinated": false,
-        "error": null,
-        "iterations": 1,
-        "latency_s": 51.281
-      }
-    },
-    "total_time_s": 51.286
+    "total_time_s": 34.484
   }
 ]

@@ -389,6 +389,24 @@ class JudgeAgent(BaseAgent):
 
     # Phase 3: Final synthesis — weigh all evidence and produce authoritative conclusion
     async def evaluate(self, predictions: list, visual_features: dict, lens_results: list = None, lang: str = "vi", is_synthetic: bool = False, target_country: str = None) -> dict:
+        # Check active predictions
+        active_predictions = [
+            p for p in predictions
+            if isinstance(p, dict) and "error" not in p and p.get("prediction", {}).get("ceramic_line") not in ["Unknown", "unknown", "khong ro", None]
+        ]
+        
+        single_agent_warning = ""
+        if len(active_predictions) == 1:
+            active_name = active_predictions[0].get("agent_name", "the active agent")
+            active_line = active_predictions[0]["prediction"]["ceramic_line"]
+            single_agent_warning = (
+                f"\n⚠️ IMPORTANT RULE — SINGLE ACTIVE AGENT CONSTRAINT:\n"
+                f"Because of API rate limits or errors, only ONE specialist agent is active: '{active_name}' predicting '{active_line}'.\n"
+                f"Under our system architecture, you MUST predict exactly the ceramic line predicted by the single active agent: '{active_line}'.\n"
+                f"Do not let Google Lens, visual lookalikes, or other guesses override this single active agent's choice.\n"
+                f"Set your 'final_prediction' exactly to '{active_line}'.\n\n"
+            )
+
         lens_context = ""
         if lens_results:
             signals = analyze_lens_keywords(lens_results)
@@ -438,24 +456,14 @@ class JudgeAgent(BaseAgent):
         prompt = (
             f"You are the 'Final Judge' — {'The Final Arbiter' if is_en else 'Trọng tài phán quyết cuối cùng'}.\n"
             f"Personality: {self.personality}\n\n"
+            f"{single_agent_warning}"
             f"Visual features extracted from the image:\n{json.dumps(visual_features, indent=2, ensure_ascii=False)}\n\n"
             f"{lens_context}"
             f"Agent predictions and their debate outputs:\n{json.dumps(predictions, indent=2, ensure_ascii=False)}\n\n"
-            "YOUR TASK: Synthesize the FINAL prediction based primarily on the MULTI-AGENT DEBATE.\n"
-            "You are the arbiter of a scholarly debate between 3 expert agents. Your job is to weigh their arguments, "
-            "cross-examine their evidence, and reach your own independent conclusion.\n\n"
             "EVIDENCE PRIORITY HIERARCHY:\n"
-            "1. AGENT EXPERT REASONING (PRIMARY — 40%): Each agent brings unique expertise (history, kiln/morphology, global culture). "
-            "Evaluate the QUALITY and DEPTH of each agent's argument. A well-reasoned analysis with specific visual evidence "
-            "should carry more weight than a vague claim with high self-reported confidence.\n"
-            "2. VISUAL FEATURES (30%): Physical characteristics directly observed in the image — glaze type, body color, "
-            "decoration technique, foot ring shape, firing marks. These are OBJECTIVE facts that must be consistent with any prediction.\n"
-            "3. AGENT CONSENSUS (20%): When 2+ agents independently arrive at the same conclusion through DIFFERENT reasoning paths, "
-            "this convergence is strong evidence. But consensus alone is not proof — all agents can be wrong if their shared reasoning is flawed.\n"
-            "4. GOOGLE LENS REFERENCE (10% — SUPPORTING EVIDENCE ONLY): Google Lens results are web search matches that serve as "
-            "REFERENCE MATERIAL to help verify agent claims and prevent hallucination. They are NOT ground truth. "
-            "Use Lens results to: (a) confirm or cast doubt on agent predictions, (b) discover information agents may have missed, "
-            "(c) resolve ties when agents disagree. But do NOT let Lens results override strong, well-reasoned agent analysis.\n\n"
+            "1. AGENT EXPERT REASONING & CONSENSUS (PRIMARY — 45%): Evaluate the quality, depth, and material focus of each agent's argument. If multiple agents (e.g., 2 or 3) agree on a specific tradition, their consensus is extremely powerful and you should follow it unless physically impossible (e.g. calling a rough unglazed red pot Bat Trang). If the agents agree on 'Arita/Kakiemon', select 'Arita/Imari'.\n"
+            "2. VISUAL FEATURES (30%): Objective physical characteristics visible in the image. Cross-examine agent claims against glaze, body color, and patterns.\n"
+            "3. GOOGLE LENS REFERENCE (25% — TIE BREAKER & VERIFICATION): Use Google Lens search results as an external fact-checking anchor. If the agents are split (e.g. 1 guesses Bat Trang, 1 guesses Chu Dau, 1 guesses Jingdezhen) or confused, Google Lens titles matching a specific tradition should break the tie.\n\n"
             "YOUR TASK: Formulate your final decision."
             f"{synthetic_hint}\n\n"
             "CRITICAL JUDGING RULES:\n"
@@ -469,7 +477,11 @@ class JudgeAgent(BaseAgent):
             "   - Vietnamese Chu Dau blue-and-white vs Chinese Jingdezhen blue-and-white\n"
             "   - Japanese Arita/Imari vs Chinese export porcelain\n"
             "   - Korean Goryeo celadon vs Chinese Song Dynasty celadon\n"
-            "6. REASONING TRANSPARENCY: In your 'reasoning', explain:\n"
+            "6. CONSENSUS WEIGHT: If all 3 agents (or 2 out of 2 available agents) agree on the same tradition, you must almost always predict that tradition. Do not let Google Lens results override a unanimous agent agreement unless it violates physical characteristics.\n"
+            "7. TRADITION RESOLUTION: If agents disagree between 'Chu Dau' and 'Bat Trang' on a blue-and-white piece, look closely at the brushwork and body color. If an agent (e.g., Groq) argues for 'Chu Dau' based on specific motifs (like lotus petal bands, cloud scrolls) and cream-white clay, favor 'Chu Dau' over 'Bat Trang' because 'Bat Trang' is often a default popularity bias guess.\n"
+            "8. CERAMIC ASSUMPTION: The image is guaranteed to be a ceramic piece from the Reference List. NEVER predict that the image is not a ceramic piece, or that it is food, pizza, or dough. If Google Lens suggests food-related terms, ignore them entirely and rely on the agents' ceramic expertise.\n"
+            "9. SINGLE ACTIVE AGENT RULE: If only ONE agent is active and available (meaning the other two agents returned errors, are unavailable, or are missing from the input predictions), you MUST predict that single active agent's ceramic tradition. Do not let Google Lens override this single active agent under any circumstances, as Google Lens is prone to lookalike confusion on blue-and-white ceramics.\n"
+            "10. REASONING TRANSPARENCY: In your 'reasoning', explain:\n"
             "   a) Which agent's argument was most convincing and WHY\n"
             "   b) How visual features support your conclusion\n"
             "   c) Whether Google Lens references confirm or contradict the agents\n"

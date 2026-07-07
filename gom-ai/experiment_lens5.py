@@ -72,8 +72,11 @@ def load_lens_dataset(dataset_id: str, limit: int = 5) -> list[dict]:
                     "metadata": row,
                 }
             )
-    # Chọn đúng 5 dòng gốm đại diện cho Phương án 2 (3 Việt Nam + 2 Quốc tế)
-    target_traditions = ["Bat Trang", "Bien Hoa", "Bau Truc", "Delftware", "Meissen"]
+    # Chọn đúng 10 dòng gốm đại diện (5 Việt Nam + 5 Quốc tế)
+    target_traditions = [
+        "Bat Trang", "Bien Hoa", "Phu Lang", "Chu Dau", "Bau Truc",
+        "Delftware", "Meissen", "Arita Imari", "Iznik", "Goryeo Celadon"
+    ]
     selected_items = []
     
     for tradition in target_traditions:
@@ -111,6 +114,12 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
 
     vision = VisionAgent()
     engine = DebateEngine()
+    
+    # Set disable_fallback = True to prevent cross-model fallbacks during benchmark
+    engine.gpt.disable_fallback = True
+    engine.grok.disable_fallback = True
+    engine.gemini.disable_fallback = True
+    engine.judge.disable_fallback = True
 
     consecutive_quota_failures = 0
     MAX_QUOTA_FAILURES = 2  # Stop after 2 consecutive all-quota-error images
@@ -242,7 +251,7 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
 
 async def main() -> None:
     for dataset_id in ("dataset1_video_lens5", "dataset2_ai_lens5"):
-        await run_lens_dataset(dataset_id, 5)
+        await run_lens_dataset(dataset_id, 10)
 
 
 if __name__ == "__main__":
