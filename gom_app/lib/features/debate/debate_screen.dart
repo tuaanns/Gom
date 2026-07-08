@@ -1184,6 +1184,15 @@ class DebateScreenState extends State<DebateScreen> {
   }
 
   Widget _buildLensSourcesSection() {
+    final isLensMode = debateData?['isLensMode'] == true;
+    final finalApp = isLensMode ? debateData! : (debateData?['final_report'] ?? {});
+    final String rawPrediction = finalApp['final_prediction']?.toString() ?? '';
+    final bool isNonPottery = rawPrediction.toLowerCase().contains('không phải gốm') ||
+        rawPrediction.toLowerCase().contains('non-pottery') ||
+        (debateData?['is_pottery'] == false);
+
+    if (isNonPottery) return const SizedBox.shrink();
+
     final List<dynamic> sources = debateData?['lens_results'] ?? [];
     if (sources.isEmpty) return const SizedBox.shrink();
 

@@ -296,6 +296,10 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
     final createdAt = data['created_at']?.toString() ?? '';
     final predictionId = data['id']?.toString() ?? '';
 
+    final bool isNonPottery = prediction.toLowerCase().contains('không phải gốm') ||
+        prediction.toLowerCase().contains('non-pottery') ||
+        (_resultJson['is_pottery'] == false);
+
     return Scaffold(
       backgroundColor: AppTheme.scaffoldBg,
       appBar: AppBar(
@@ -348,7 +352,7 @@ class _HistoryDetailScreenState extends State<HistoryDetailScreen> {
             if (_agents.isNotEmpty) _buildAgentPredictions(context),
 
             // --- Lens Sources ---
-            if (_lensSources.isNotEmpty) _buildLensSources(context),
+            if (!isNonPottery && _lensSources.isNotEmpty) _buildLensSources(context),
           ],
         ),
       ),
