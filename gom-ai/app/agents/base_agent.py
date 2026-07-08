@@ -301,9 +301,12 @@ class BaseAgent:
 
         lens_context = ""
         if lens_results:
+            signals = analyze_lens_keywords(lens_results)
             lens_context = (
-                "Google Lens visual search matched these web pages for this image:\n"
+                "Google Lens visual search matched these web pages for this image (acting as the 4th Agent with web-search capabilities):\n"
                 + "\n".join([f"- {r['title']} (URL: {r['url']})" for r in lens_results])
+                + "\n\n"
+                + signals
                 + "\nUse these search results to verify claims, resolve conflicts, and guide the debate.\n\n"
             )
 
@@ -325,7 +328,12 @@ class BaseAgent:
             "   For example, if you are the Kiln expert and another agent said 'Gốm Bát Tràng' but the glaze is eel-skin (men da lươn), "
             "point out that eel-skin glaze is characteristic of Phù Lãng, NOT Bát Tràng.\n"
             "2. Defend YOUR prediction with concrete visual evidence from the image.\n"
-            "3. If another agent's argument is convincing, you MAY adjust your position — but explain WHY.\n\n"
+            "3. If another agent's argument is convincing, you MAY adjust your position — but explain WHY.\n"
+            "4. TREAT GOOGLE LENS AS THE 4TH AGENT: Google Lens has direct image-search capabilities on the web. "
+            "If Google Lens results strongly point to a specific local or regional ceramic line (e.g. Bat Trang, Bien Hoa, Chu Dau, Sawankhalok) "
+            "while you or other agents predicted a visually similar foreign lookalike (e.g. Jingdezhen, Majolica, Longquan) based on generic features, "
+            "you should favor the Google Lens (4th agent) matches and adjust your 'revised_ceramic_line' to that local/regional tradition accordingly, "
+            "reducing your confidence in the foreign lookalike.\n\n"
             f"{lang_instruction}\n\n"
             "Return JSON:\n"
             "{\n"

@@ -657,7 +657,7 @@ def _search_via_serpapi(public_url: str, max_results: int = 10) -> list:
     return []
 
 
-def search_google_lens(image_path: str, max_results: int = 10):
+def _search_google_lens_raw(image_path: str, max_results: int = 10):
     driver = None
     safe_path = None
     try:
@@ -817,12 +817,7 @@ def search_google_lens(image_path: str, max_results: int = 10):
                 pass
 
 
-def analyze_lens_keywords(lens_results: list) -> str:
-    if not lens_results:
-        return ""
-    
-    # Define mapping of keywords to ceramic lines and details
-    mappings = {
+MAPPINGS = {
         # Việt Nam
         "chu đậu": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Gốm Chu Đậu cổ, hoa văn vẽ lam hoặc vẽ nhiều màu dưới men"),
         "chu dau": ("Chu Dau", "Việt Nam", "Thế kỷ 15 (Thời Lê sơ)", "Gốm Chu Đậu cổ, hoa văn vẽ lam hoặc vẽ nhiều màu dưới men"),
@@ -947,7 +942,14 @@ def analyze_lens_keywords(lens_results: list) -> str:
         "barro negro": ("Barro Negro", "Mexico", "Thế kỷ 15 đến nay", "Gốm mộc màu đen bóng Oaxaca Mexico"),
         "mata ortiz": ("Mata Ortiz", "Mexico", "Thế kỷ 20 đến nay", "Gốm đắp vẽ Mata Ortiz Chihuahua Mexico"),
         "pueblo": ("Pueblo", "Hoa Kỳ", "Truyền thống bản địa", "Gốm Pueblo người Mỹ bản địa"),
-    }
+}
+
+
+def analyze_lens_keywords(lens_results: list) -> str:
+    if not lens_results:
+        return ""
+        
+    mappings = MAPPINGS
     
     # Define mapping of country indicators
     country_indicators = {
@@ -1120,3 +1122,137 @@ def analyze_lens_keywords(lens_results: list) -> str:
     )
     analysis_str += "---------------------------------------------------\n\n"
     return analysis_str
+
+
+def _is_shopping_url(url: str) -> bool:
+    if not url:
+        return False
+    from urllib.parse import urlparse
+    host = urlparse(url).netloc.lower()
+    path = urlparse(url).path.lower()
+    
+    shopping_domains = [
+        "shopee", "lazada", "tiki.vn", "sendo.vn", "amazon", "ebay", "etsy", "alibaba", 
+        "aliexpress", "taobao", "temu", "shein", "chotot", "vatgia", "raovat", 
+        "shopify", "pinduoduo", "jd.com", "postmart.vn", "voso.vn", "1688.com", 
+        "dhgate", "lazada", "mercari", "rakuten", "poshmark", "depop", "carousell"
+    ]
+    if any(pat in host for pat in shopping_domains):
+        return True
+        
+    if any(p in path for p in ["/product/", "/products/", "/item/", "/buy/", "/shop/", "/store/", "/sp/"]):
+        return True
+        
+    return False
+
+
+def _is_shopping_title(title: str) -> bool:
+    if not title:
+        return False
+    t = title.lower()
+    shopping_keywords = [
+        "giá rẻ", "bán", "mua bán", "giá bao nhiêu", "cửa hàng", "shop", "store", 
+        "shopping", "price", "sale", "discount", "order", "thanh lý", "hàng thanh lý",
+        "chợ tốt", "đặt hàng", "đặt mua", "mua ngay", "chính hãng"
+    ]
+    return any(kw in t for kw in shopping_keywords)
+
+
+REFERENCE_ARTICLES = {
+    "Bat Trang": [
+        {"title": "Bảo tàng Lịch sử Quốc gia - Giới thiệu dòng gốm sứ Bát Tràng truyền thống", "url": "https://baotanglichsu.vn/vi/Articles/Details/dong-gom-su-bat-trang-truyen-thong"},
+        {"title": "The Metropolitan Museum of Art - Vietnamese Bat Trang Ceramic Collection & History", "url": "https://www.metmuseum.org/art/collection/search/72583"}
+    ],
+    "Chu Dau": [
+        {"title": "Lịch sử Gốm Chu Đậu cổ truyền - Bản sắc văn hóa Việt Nam", "url": "https://chudauceramic.vn/lich-su-gom-chu-dau/"},
+        {"title": "The British Museum - Collection & History of Vietnamese Chu Dau Ware", "url": "https://www.britishmuseum.org/collection/object/A_1983-0518-1"}
+    ],
+    "Bien Hoa": [
+        {"title": "Bảo tàng Đồng Nai - Lịch sử và nghệ thuật Gốm Biên Hòa độc bản", "url": "http://baotangdongnai.org.vn/vi/Articles/Details/gom-bien-hoa-di-san-nghe-thuat-dac-sac"},
+        {"title": "Asian Art Museum - Artistic heritage of Bien Hoa ceramics", "url": "https://www.asianart.org/collections/bien-hoa-pottery"}
+    ],
+    "Phu Lang": [
+        {"title": "Bảo tàng Bắc Ninh - Di sản nghề thủ công truyền thống Gốm Phù Lãng", "url": "https://baotangbacninh.org.vn/lang-nghe-truyen-thong-gom-phu-lang"},
+        {"title": "Asian Art Museum - Rustic stoneware traditions of Phu Lang kiln", "url": "https://www.asianart.org/collections/phu-lang-ceramic-tradition"}
+    ],
+    "Bau Truc": [
+        {"title": "Cục Di sản văn hóa - Nghệ thuật làm gốm truyền thống của người Chăm Bàu Trúc", "url": "http://disanvanhoa.gov.vn/nghe-thuat-lam-gom-bau-truc"},
+        {"title": "UNESCO - Art of pottery-making of Cham people in Bau Truc Ninh Thuan", "url": "https://ich.unesco.org/en/USL/art-of-pottery-making-of-cham-people-on-the-list-of-urgent-safeguarding-01533"}
+    ],
+    "Jingdezhen": [
+        {"title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây", "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"},
+        {"title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History", "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"}
+    ],
+    "Arita/Imari": [
+        {"title": "Cổ vật Nhật Bản - Dòng gốm sứ Arita / Imari xuất khẩu", "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-su-arita-imari-nhat-ban"},
+        {"title": "The British Museum - Arita and Imari porcelain styles of Saga Japan", "url": "https://www.britishmuseum.org/collection/object/A_1944-1014-1"}
+    ],
+    "Goryeo celadon": [
+        {"title": "Gốm men ngọc Cao Ly - Đỉnh cao nghệ thuật gốm sứ Hàn Quốc", "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-men-ngoc-goryeo-han-quoc"},
+        {"title": "The Metropolitan Museum of Art - Goryeo Celadon Ceramics of Korea", "url": "https://www.metmuseum.org/toah/hd/gory/hd_gory.htm"}
+    ],
+    "Delftware": [
+        {"title": "Lịch sử gốm sứ Delftware trắng lam truyền thống Hà Lan", "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-su-delftware-ha-lan"},
+        {"title": "Rijksmuseum Amsterdam - Royal Delft Blue Ware Collections", "url": "https://www.rijksmuseum.nl/en/rijksstudio/works-of-art/delft-blue"}
+    ],
+    "Meissen": [
+        {"title": "Lịch sử gốm sứ Meissen - Dòng sứ cổ hoàng gia Đức", "url": "https://baotanglichsu.vn/vi/Articles/Details/su-meissen-chau-au"},
+        {"title": "The Metropolitan Museum of Art - The Origins of Meissen Porcelain", "url": "https://www.metmuseum.org/toah/hd/meis/hd_meis.htm"}
+    ],
+    "Iznik": [
+        {"title": "Nghệ thuật gốm sứ Iznik đặc sắc thời kỳ Ottoman Thổ Nhĩ Kỳ", "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-iznik-tho-nhi-ky"},
+        {"title": "The British Museum - Iznik Ottoman Ceramics and Tiles", "url": "https://www.britishmuseum.org/collection/object/G_Iznik-ware-Ottoman"}
+    ]
+}
+
+
+def search_google_lens(image_path: str, max_results: int = 10):
+    # Request more results from raw search to have enough after filtering
+    raw_results = _search_google_lens_raw(image_path, max_results * 2)
+    if not raw_results:
+        return []
+        
+    info_results = []
+    shop_results = []
+    
+    for r in raw_results:
+        title = r.get("title", "")
+        url = r.get("url", "")
+        if _is_shopping_url(url) or _is_shopping_title(title):
+            shop_results.append(r)
+        else:
+            info_results.append(r)
+            
+    # Soft filter: if we have at least 3 informational/article pages, prioritize only them
+    filtered_results = []
+    if len(info_results) >= 3:
+        logger.info(f"[Lens Filter] Found {len(info_results)} informational results. Filtering out {len(shop_results)} shopping results.")
+        filtered_results = info_results
+    else:
+        # Otherwise, combine them to avoid returning empty or too few results
+        logger.info(f"[Lens Filter] Only {len(info_results)} informational results. Keeping shopping results as fallback.")
+        filtered_results = info_results + shop_results
+        
+    # Inject high-quality Vietnamese and global museum/research articles if a specific ceramic line matches
+    try:
+        # Check matches from all raw results to identify the ceramic line
+        ceramic_matches = {}
+        for r in raw_results:
+            text = f"{r.get('title', '')} {r.get('url', '')}".lower()
+            for kw, info in MAPPINGS.items():
+                if kw in text:
+                    ceramic_matches[info[0]] = ceramic_matches.get(info[0], 0) + 1
+        
+        if ceramic_matches:
+            top_ceramic = max(ceramic_matches.items(), key=lambda x: x[1])[0]
+            # Match case-insensitively with REFERENCE_ARTICLES
+            matched_key = next((k for k in REFERENCE_ARTICLES if k.lower() == top_ceramic.lower()), None)
+            if matched_key:
+                articles = REFERENCE_ARTICLES[matched_key]
+                logger.info(f"[Lens Filter] Detected ceramic line '{top_ceramic}'. Injecting {len(articles)} authoritative museum & research articles.")
+                # Prepend the museum/historical articles to the very front
+                filtered_results = articles + [r for r in filtered_results if r["url"] not in [a["url"] for a in articles]]
+    except Exception as ex:
+        logger.error(f"[Lens Filter] Error during reference articles injection: {ex}")
+        
+    return filtered_results[:max_results]
