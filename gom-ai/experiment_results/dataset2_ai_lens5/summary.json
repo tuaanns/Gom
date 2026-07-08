@@ -11,13 +11,13 @@
   "methods": {
     "gemini": {
       "total": 10,
-      "correct": 0,
-      "errors": 10,
-      "accuracy": 0.0,
-      "macro_precision": 0.0,
-      "macro_recall": 0.0,
-      "macro_f1_score": 0.0,
-      "average_latency_s": 0.0,
+      "correct": 7,
+      "errors": 1,
+      "accuracy": 70.0,
+      "macro_precision": 50.0,
+      "macro_recall": 50.0,
+      "macro_f1_score": 50.0,
+      "average_latency_s": 2.5,
       "hallucinated": 0,
       "hallucination_rate": 0.0,
       "per_class": {
@@ -30,20 +30,20 @@
           "f1_score": 0.0
         },
         "Bien Hoa": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Phu Lang": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Chu Dau": {
           "tp": 0,
@@ -54,20 +54,20 @@
           "f1_score": 0.0
         },
         "Bau Truc": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Goryeo Celadon": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Arita Imari": {
           "tp": 0,
@@ -78,32 +78,32 @@
           "f1_score": 0.0
         },
         "Delftware": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Iznik": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Meissen": {
-          "tp": 0,
+          "tp": 1,
           "fp": 0,
-          "fn": 1,
-          "precision": 0.0,
-          "recall": 0.0,
-          "f1_score": 0.0
+          "fn": 0,
+          "precision": 100.0,
+          "recall": 100.0,
+          "f1_score": 100.0
         },
         "Jingdezhen": {
           "tp": 0,
-          "fp": 0,
+          "fp": 2,
           "fn": 0,
           "precision": 0.0,
           "recall": 0.0,
