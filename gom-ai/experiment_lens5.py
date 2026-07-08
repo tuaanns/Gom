@@ -234,7 +234,7 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
 
 
 async def main() -> None:
-    for dataset_id in ("dataset1_video_lens5",):
+    for dataset_id in ("dataset2_ai_lens5",):
         await run_lens_dataset(dataset_id, 100)
 
 

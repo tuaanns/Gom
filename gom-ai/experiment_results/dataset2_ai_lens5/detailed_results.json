@@ -1,0 +1,2412 @@
+[
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 1,
+    "filename": "images/01_bat_trang/001_01_bat_trang_01_vase.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:24:01",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 79334,
+    "input_resized_bytes": 38394,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 20.376,
+    "lens_status": {
+      "attempted": true,
+      "count": 10,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 10,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "Vase H. 12.6\" Vases | Bernardaud Porcelain",
+        "url": "https://www.bernardaud.com/en/us/vases/collection-braquenie-vase-h-32-cm"
+      },
+      {
+        "title": "A vase with a pink background and floral design 66081395 ...",
+        "url": "https://www.vecteezy.com/photo/66081395-a-vase-with-a-pink-background-and-floral-design"
+      },
+      {
+        "title": "ANDREA BY SADEK CERAMIC VASE, JAPANESE, GREEN AND PINK ...",
+        "url": "https://www.worthpoint.com/worthopedia/andrea-sadek-ceramic-vase-japanese-458072186"
+      },
+      {
+        "title": "Lưu trữ Lọ Hoa Bát Tràng Vẽ Tay - Gốm Sứ Thanh Lương",
+        "url": "https://gomsuthanhluong.com/danh-muc/lo-hoa-bat-trang/lo-hoa-bat-trang-ve-tay/"
+      },
+      {
+        "title": "Ceramic",
+        "url": "https://www.koch.co.th/collections/vases-ceramic"
+      },
+      {
+        "title": "🌸SOLD OUT🌸 I pulled together a pretty vignette for you to ...",
+        "url": "https://www.instagram.com/p/DXpCXHxjWoG/"
+      },
+      {
+        "title": "Purchase Chinese Rose Medallion Porcelain Fish Tail Vase 14 ...",
+        "url": "https://www.orientalfurnishings.com/chinese-rose-medallion-porcelain-fish-tail-vase-14-h/"
+      },
+      {
+        "title": "Pink Chinoiserie Vase",
+        "url": "https://shop.colonialwilliamsburg.com/pink-chinoiserie-vase/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Deruta",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a modern Majolica style characterized by a tin-glaze finish, vibrant colors, and floral motifs, which aligns closely with the production techniques and aesthetic of Deruta ceramics. The overglaze painting technique and the specific color palette (including soft pinks and vibrant reds) are typical of contemporary Italian ceramics. The shape and decorative elements suggest a blend of traditional and modern influences, common in 20th-century ceramics. The absence of visible firing marks and the smooth, glossy surface further indicate a modern manufacturing process, likely involving slip-casting or wheel-throwing rather than hand-coiling. The decorative style also reflects European interior design trends, which were prominent in the 20th century.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 5.228
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a thick, satin-like glaze, which is reminiscent of Majolica ware. The glaze type is tin-glaze, and its characteristics, such as the absence of crackle or rạn nứt, point towards a modern, industrial production. The body color is trắng ngà (ivory-white), and the shape of the piece, with its ovoid body, narrow neck, and flared mouth, is typical of Vietnamese ceramics. The foot ring is round and flat, with a decorative brown glaze border. The firing marks are not visible due to the complete coverage of the glaze. The style of the piece, with its floral and bird motifs, is consistent with the Bien Hoa ceramic line, which is known for its unique blend of Asian and Western decorative elements.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 1.464
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 45.70812351s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '45s'}]}}",
+        "latency_s": 12.512
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The 'Kiln Signatures & Morphology Expert' provided a compelling argument for the Bien Hoa ceramic line, noting the thick, satin-like tin-glaze and the specific shape and decorative motifs that align with Bien Hoa's style. The visual features, such as the floral and bird motifs and the specific glaze type, support this conclusion. Although the 'Ceramic History' agent suggested Deruta from Italy, the evidence of modern Majolica style with Asian motifs aligns more closely with Bien Hoa. Google Lens signals did not strongly contradict this, as the detected signals were more generic and did not provide a strong match for any specific foreign tradition. The synthesis of the visual evidence and expert reasoning leads to a confident prediction of Bien Hoa.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 20.376
+      }
+    },
+    "total_time_s": 20.418
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 2,
+    "filename": "images/01_bat_trang/002_01_bat_trang_02_plate.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:24:36",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 111996,
+    "input_resized_bytes": 56651,
+    "vision_time_s": 3.722,
+    "acis_pipeline_time_s": 28.096,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Cổ vật Nhật Bản - Dòng gốm sứ Arita / Imari xuất khẩu",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-su-arita-imari-nhat-ban"
+      },
+      {
+        "title": "The British Museum - Arita and Imari porcelain styles of Saga Japan",
+        "url": "https://www.britishmuseum.org/collection/object/A_1944-1014-1"
+      },
+      {
+        "title": "Blue and Gold Imari Bowl | Nancy's Empty Nest",
+        "url": "https://www.nancysemptynest.com/product-page/beautiful-blue-imari-bowl"
+      },
+      {
+        "title": "Woodland Accents Salad Plate 8 Inch, Mallard Duck",
+        "url": "https://www.spode.com/woodland-accents-salad-plate-8-inch-mallard-duck"
+      },
+      {
+        "title": "Time flies when you're surrounded by beauty! Herend fine ...",
+        "url": "https://www.instagram.com/p/DQBNiuGiIpE/"
+      },
+      {
+        "title": "Blue Bird Teapot & Lid by Haldon | Replacements, Ltd.",
+        "url": "https://www.replacements.com/china-haldon-blue-bird-teapot-lid/p/2259831"
+      },
+      {
+        "title": "Vintage Aynsley Pembroke Bone China Dinner Plate: Bird ...",
+        "url": "https://hensfeathers.com/listing/4500378832/vintage-aynsley-pembroke-bone-china"
+      },
+      {
+        "title": "Set of 12 Antique German Porcelain \"Presentation\" Set of ...",
+        "url": "https://www.1stdibs.com/furniture/dining-entertaining/porcelain/set-of-12-antique-german-porcelain-presentation-set-of-bird-plates-circa-1890/id-f_48448942/"
+      },
+      {
+        "title": "Aynsley – My House of Vintage, LLC",
+        "url": "https://myhouseofvintage.com/collections/aynsley"
+      },
+      {
+        "title": "Iconic Tableware, Gifts, Homeware & Fragrances | Spode",
+        "url": "https://www.spode.com/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits a smooth, glossy surface typical of Bien Hoa ceramics, characterized by its vibrant pastel color palette and floral motifs. The polychrome overglaze painting technique aligns with the decorative styles emerging in the 20th century, influenced by both local traditions and Western aesthetics. The round plate shape with a slightly raised rim and the absence of visible firing marks suggest a production method consistent with mass manufacturing techniques of the era. The specific floral patterns, including peonies and daffodils, reflect a blend of Vietnamese and Western design elements, which is a hallmark of Bien Hoa ceramics during this period.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.328
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a smooth cream/ivory-white glaze, which is characteristic of Chu Dau ceramics. The glaze type, described as 'tin-glaze hoặc men trong phủ trên xương sứ', suggests a high-quality porcelain body. The presence of polychrome overglaze painting with a variety of colors, including xanh dương nhạt, hồng pastel, đỏ sẫm, vàng chanh, and xanh lá nhạt, is also consistent with Chu Dau's decorative style. The body color, described as 'trắng ngà', further supports this identification. Although the firing marks and foot ring are not visible, the overall morphology of the piece, including its shape and size, is consistent with Chu Dau ceramics. The style, which blends traditional Asian motifs with Western influences, is also typical of Chu Dau's chinoiserie style.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.039
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 7.432818954s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '7s'}]}}",
+        "latency_s": 16.107
+      },
+      "acis": {
+        "raw_prediction": "Arita/Imari",
+        "predicted_label": "Arita Imari",
+        "confidence": 0.85,
+        "evidence": "The visual features of the ceramic piece, such as the polychrome overglaze painting, the color palette, and the chinoiserie style, align closely with the characteristics of Arita/Imari porcelain. The Google Lens results strongly support this identification, with multiple matches for 'Arita/Imari' and consistent geographic signals pointing to Japan. The agents' predictions of Vietnamese ceramics like Bien Hoa and Chu Dau were less convincing due to the lack of specific Vietnamese stylistic elements and the stronger alignment with Japanese export ware styles. The Google Lens results provided a decisive factor in confirming the origin and style of the piece as Arita/Imari, which is known for its export ware characteristics and decorative style that blends Asian motifs with Western influences.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 31.818
+      }
+    },
+    "total_time_s": 31.822
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 3,
+    "filename": "images/01_bat_trang/003_01_bat_trang_03_bowl.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:25:23",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 66840,
+    "input_resized_bytes": 31488,
+    "vision_time_s": 3.617,
+    "acis_pipeline_time_s": 16.846,
+    "lens_status": {
+      "attempted": true,
+      "count": 9,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 9,
+    "lens_results": [
+      {
+        "title": "Etokfoks 10 Inch Ceramic Decorative Bowl Vintage Green ...",
+        "url": "https://www.target.com/p/etokfoks-10-inch-ceramic-decorative-bowl-vintage-green-crackle-glaze-pedestal-fruit-bowl-entryway-key-holder-deep-centerpiece-1-piece/-/A-1010474903"
+      },
+      {
+        "title": "Chinese Rose 9\" Round Vegetable Bowl by James Kent (England ...",
+        "url": "https://www.replacements.com/china-james-kent-england-chinese-rose-9-round-vegetable-bowl/p/34465421"
+      },
+      {
+        "title": "Brown Floral Serving Bowl | Hobby Lobby | 6414718",
+        "url": "https://www.hobbylobby.com/fall-thanksgiving/fall-kitchen-tableware/fall-thanksgiving-serveware/brown-floral-serving-bowl/p/81284614"
+      },
+      {
+        "title": "Bowls – Ace The Space",
+        "url": "https://www.acethespacee.com/collections/bowlful-wonders-a-collection-of-exquisite-bowls"
+      },
+      {
+        "title": "Villeroy & Boch China (161) Pieces Botanica Service for ...",
+        "url": "https://www.lelandlittle.com/items/409703/villeroy-boch-china-161-pieces-i-botanica-i-service-for-fourteen/"
+      },
+      {
+        "title": "Wedgwood Florentine Verde Rice Bowl (10.5cm) | Harrods AZ",
+        "url": "https://www.harrods.com/en-az/p/wedgwood-florentine-verde-rice-bowl-105cm-000000000007492341"
+      },
+      {
+        "title": "Eastern Flowers Cranberry Bowl by Wedgwood | Replacements, Ltd.",
+        "url": "https://www.replacements.com/china-wedgwood-eastern-flowers-cranberry-bowl/p/7843751"
+      },
+      {
+        "title": "HOMEGOODS! I found all of these beautiful bowls for just ...",
+        "url": "https://www.facebook.com/100087575105977/posts/homegoods-i-found-all-of-these-beautiful-bowls-for-just-1299/925204090408753/"
+      },
+      {
+        "title": "FLORAL EARTHENWARE BOWL - Blue | ZARA United States",
+        "url": "https://www.zara.com/us/en/floral-earthenware-bowl-p42460211.html"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a light cream background with floral patterns in pastel pink, coral red, light green, and dark brown, which aligns with the color palette typical of Bien Hoa ceramics. The glossy tin-glaze surface and the decorative technique of overglaze enamel with hand-painted borders suggest a modern interpretation of traditional styles, characteristic of the 20th century. The round bowl shape with a flared rim and pedestal base reflects a blend of Eastern and Western influences, indicative of the Chinoiserie style that became popular during this period. The combination of European botanical motifs with Asian forms further supports this classification.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.95
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a smooth cream/ivory-white glaze, which is a characteristic of Chu Dau ceramics. The glaze is glossy and even, with no visible crackle or rạn nứt. The body color is off-white, which is also consistent with Chu Dau. The decoration technique, which involves vẽ trên men (overglaze enamel) and đường viền vẽ tay (hand-painted lines), is also typical of Chu Dau. The presence of hoa mẫu đơn (peony) and cành lá leo (tendrils) motifs, as well as the use of màu hồng phấn (pink) and xanh lá cây nhạt (light green) colors, are also consistent with Chu Dau's style. The absence of cobalt blue glaze and the presence of a pedestal base also support this prediction.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.421
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 21.385518324s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '21s'}]}}",
+        "latency_s": 15.326
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.85,
+        "evidence": "The 'Kiln Signatures & Morphology Expert' provided a compelling argument for the Chu Dau ceramic line, emphasizing the smooth cream/ivory-white glaze and the specific decoration techniques that align with Chu Dau's characteristics. The visual features, such as the glossy glaze and the floral patterns, support this prediction. Although the 'Ceramic History' agent suggested Bien Hoa, the evidence for Chu Dau was more consistent with the visual features described. Google Lens did not provide a definitive match for Bien Hoa, and the signals related to Wedgwood and Chinese origins were not strong enough to override the Chu Dau prediction. The Chu Dau line is known for its modern interpretations of traditional styles, which fits the description of the piece.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 20.463
+      }
+    },
+    "total_time_s": 20.468
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 4,
+    "filename": "images/01_bat_trang/004_01_bat_trang_04_teapot.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:25:59",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 80099,
+    "input_resized_bytes": 37618,
+    "vision_time_s": 3.865,
+    "acis_pipeline_time_s": 22.408,
+    "lens_status": {
+      "attempted": true,
+      "count": 8,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 8,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "LAIFUCAM Accent Plate 2.6 qt. Green Floral Enamel Steel ...",
+        "url": "https://www.homedepot.com/p/LAIFUCAM-Accent-Plate-2-6-qt-Green-Floral-Enamel-Steel-Teapot-Porcelain-Handle-Vintage-Style-Stovetop-Compatible-Tea-Kettle-QE9X1667/341735623"
+      },
+      {
+        "title": "Elegant 5 PCS Chinese Porcelain Tea Pot & Cups Set, Flower ...",
+        "url": "https://www.walmart.com/ip/Exquisite-5-PCS-Flower-Birds-Design-Ceramic-Tea-Pot-Tea-Cups-Set-In-Beautiful-Color-Gift-Box/730509239"
+      },
+      {
+        "title": "Large Teapot in Minton Porcelain Haddon Hall - Aubainmarie.com",
+        "url": "https://www.aubainmarie.com/en/antiques/porcelain/minton-haddon-hall/large-tea-pot-minton-haddon-hall"
+      },
+      {
+        "title": "Emma - The Game Birds Gallon Teapot is the teapot to top all ...",
+        "url": "https://www.facebook.com/EmmaBridgewater/photos/the-game-birds-gallon-teapot-is-the-teapot-to-top-all-teapots-youll-only-have-to/10152338451309945/"
+      },
+      {
+        "title": "Realistic Teapots. White Porcelain Dishes with Cups and Nose ...",
+        "url": "https://www.dreamstime.com/realistic-teapots-white-porcelain-dishes-cups-nose-tea-ceremony-utensil-morning-drink-ceramic-crockery-isolated-image303064688"
+      },
+      {
+        "title": "Tea Drinking Sets - Tea Gifts – bluemoonteas.com",
+        "url": "https://www.bluemoonteas.com/collections/teapots-tea-sets-william-morris-gifts"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The teapot exhibits characteristics typical of Bat Trang ceramics, particularly the fine white porcelain body and the glossy glaze. The decoration style, featuring small birds on branches with peonies or roses, aligns with the botanical motifs seen in Vietnamese ceramics influenced by European designs during the 19th and 20th centuries. The use of overglaze enamel decoration and the absence of crazing are indicative of modern manufacturing techniques, likely produced for decorative purposes in a contemporary context. The shape and design reflect a blend of traditional Vietnamese forms with European aesthetics, suggesting a response to Western tastes during the colonial period.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.398
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The glossy glaze, lack of crazing, and fine, detailed decoration suggest a high-quality ceramic piece. The off-white body color and smooth glaze are consistent with Chu Dau ceramics. The use of overglaze enamel and fine black lines for decoration also aligns with Chu Dau's style. The absence of distinctive features like crackle glaze (men rạn) or high-relief carvings rules out other Vietnamese ceramic lines like Bat Trang and Bien Hoa. The piece's modern era and Europized style are inferred from its clean design and lack of traditional motifs, despite the overall aesthetic being reminiscent of classic Vietnamese ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.515
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 45.176770131s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '45s'}]}}",
+        "latency_s": 16.095
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.75,
+        "evidence": "The 'Kiln Signatures & Morphology Expert' provided a convincing argument for Chu Dau based on the glossy glaze, off-white body color, and fine, detailed decoration with overglaze enamel and fine black lines. These characteristics align well with Chu Dau ceramics, which are known for their smooth cream/ivory-white glaze and elegant motifs. The Google Lens results did not provide a strong match for any specific Vietnamese ceramic line, but the visual features and the expert's reasoning strongly suggest Chu Dau. The 'Ceramic History' agent's prediction of Bat Trang was less convincing due to the lack of typical Bat Trang features like crackle glaze or cobalt underglaze blue. The 'Global Ceramics Expert' was unavailable, leaving the analysis primarily between the two active agents. The synthesis of visual evidence and expert reasoning supports the identification of the piece as Chu Dau.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 26.272
+      }
+    },
+    "total_time_s": 26.277
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 5,
+    "filename": "images/01_bat_trang/005_01_bat_trang_05_storage_jar.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:26:40",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 77042,
+    "input_resized_bytes": 37126,
+    "vision_time_s": 3.649,
+    "acis_pipeline_time_s": 15.912,
+    "lens_status": {
+      "attempted": true,
+      "count": 9,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 9,
+    "lens_results": [
+      {
+        "title": "Red Lantern Oriental Furniture 18 in. Rose Medallion Satsuma ...",
+        "url": "https://www.homedepot.com/p/Red-Lantern-Oriental-Furniture-18-in-Rose-Medallion-Satsuma-Peacock-Porcelain-Temple-Jar-BW-TJAR-RM2/313327655"
+      },
+      {
+        "title": "Home Accessories – Marie Antoinette & co.",
+        "url": "https://marieantoinetteco.com/collections/home-accessories"
+      },
+      {
+        "title": "Prentiss 9\" High Black and White Ceramic Ginger Jar with Lid ...",
+        "url": "https://www.lampsplus.com/p/prentiss-9-inch-high-black-and-white-ceramic-ginger-jar-with-lid__5726h/"
+      },
+      {
+        "title": "Chinoiserie Porcelain Ginger Jar - RENTAL ONLY - Brandon ...",
+        "url": "https://www.brandonthatchers.co.uk/rental/period-furniture/bedroom/chinoiserie-porcelain-ginger-jar-rental-only/"
+      },
+      {
+        "title": "Decorative Traditional Ceramic Ginger Jar with Lid, Flower ...",
+        "url": "https://www.walmart.com/ip/Traditional-Ceramic-Ginger-Jar-Flower-Vase-Porcelain-Storage-Jar-with-Lid-Oriental-Ornament-for-Living-Room-Home-Restaurant-Decor-Collection/1020115579"
+      },
+      {
+        "title": "Keller Guerin",
+        "url": "https://nz.pinterest.com/pin/519813982016014392/"
+      },
+      {
+        "title": "17\" Rustic Jar With Fish Scale Pattern, Brown | One Kings Lane",
+        "url": "https://www.onekingslane.com/p--rustic-jar-with-P111128686"
+      },
+      {
+        "title": "Ginger Jar Vase",
+        "url": "https://www.walmart.com/c/kp/ginger-jar-vase"
+      },
+      {
+        "title": "Blues and greens and pinks and everything in between✨ A ...",
+        "url": "https://www.instagram.com/p/DVrRGTpkYrB/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Bien Hoa ceramics, particularly the use of a thick, satin-like glaze and a color palette that includes cream white, copper green, and gold. The floral and bird motifs are reminiscent of the high-relief and painted decorations found in Bien Hoa pottery, which often blends Asian and Western styles. The modern production techniques, such as the smooth and reflective surface without visible firing marks, suggest industrial manufacturing, consistent with 21st-century production methods. The shape of the ginger jar also aligns with contemporary decorative styles, further supporting this identification.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.016
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a smooth cream/ivory-white glaze, which is characteristic of Chu Dau ceramics. The glaze type, specifically the use of a tin-glaze or clear glaze over a white body, aligns with the traditional techniques of Chu Dau. The absence of crackle glaze or cobalt blue underglaze blue suggests it is not from the Bat Trang line. The body color, being white, and the glaze details, such as the smooth and even application, further support the identification as Chu Dau. The decoration technique, involving overglaze enamels, also fits within the repertoire of Chu Dau's decorative styles, which often feature elegant, thin lines depicting various motifs. The lack of distinctive features like the thick, satin glaze of Bien Hoa or the coarse, reddish-brown clay body of Phu Lang, and the absence of raw, unglazed terracotta characteristic of Bau Truc, helps to rule out these other Vietnamese ceramic lines. The modern era and chinoiserie style with contemporary influences are infer",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.572
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 4.015782903s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '4s'}]}}",
+        "latency_s": 15.951
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The Kiln Signatures & Morphology Expert provided a convincing argument for the Chu Dau ceramic line, citing the smooth cream/ivory-white glaze and the use of overglaze enamels, which align with Chu Dau's known characteristics. The absence of crackle glaze and cobalt blue underglaze blue further supports this identification, differentiating it from Bat Trang and other Vietnamese lines. Google Lens did not provide a definitive match for a specific ceramic line but indicated a general association with contemporary chinoiserie styles, which supports the modern production era suggested by the expert. The Ceramic History agent's suggestion of Bien Hoa was less convincing due to the lack of thick satin-like glaze and high-relief carvings typical of Bien Hoa. The Global Ceramics Expert was unavailable, so their input could not be considered. Overall, the combination of expert reasoning and visual evidence points to Chu Dau as the most likely origin.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 19.562
+      }
+    },
+    "total_time_s": 19.566
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 6,
+    "filename": "images/01_bat_trang/006_01_bat_trang_06_cup.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:27:14",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 68832,
+    "input_resized_bytes": 32836,
+    "vision_time_s": 3.409,
+    "acis_pipeline_time_s": 16.08,
+    "lens_status": {
+      "attempted": true,
+      "count": 10,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 10,
+    "lens_results": [
+      {
+        "title": "Certified International 18 oz. Multi-Colored Ceramic Winters ...",
+        "url": "https://www.homedepot.com/p/Certified-International-18-oz-Multi-Colored-Ceramic-Winters-Forest-Mugs-Set-of-4-38943SET4/331842055"
+      },
+      {
+        "title": "Vintage Aynsley Fine English Bone China Small Serving Bowl ...",
+        "url": "https://www.1stdibs.com/furniture/decorative-objects/bowls-baskets/decorative-bowls/vintage-aynsley-fine-english-bone-china-small-serving-bowl/id-f_41705032/"
+      },
+      {
+        "title": "Aynsley Pembroke Set of 2 Tea Cups and Saucers",
+        "url": "https://safak.com/?product/category/view_more/463235011100"
+      },
+      {
+        "title": "Villeroy & Boch China (161) Pieces Botanica Service for ...",
+        "url": "https://www.lelandlittle.com/items/409703/villeroy-boch-china-161-pieces-i-botanica-i-service-for-fourteen/"
+      },
+      {
+        "title": "Old Fashioned | Villeroy & Boch Botanica kutije sa poklopcem ...",
+        "url": "https://www.instagram.com/p/DZ4p5zZDTFc/"
+      },
+      {
+        "title": "Bico International Bowls for Dining, Serving & Kitchen Prep ...",
+        "url": "https://www.walmart.com/browse/home/bowls/bico-international/4044_623679_3480962/YnJhbmQ6QmljbyBJbnRlcm5hdGlvbmFs"
+      },
+      {
+        "title": "Villeroy & Boch Botanica Service sold at auction on 31st ...",
+        "url": "https://www.bidsquare.com/online-auctions/dovetail-auctions/villeroy-boch-botanica-service-2333577"
+      },
+      {
+        "title": "Wedgwood Florentine Verde Teacup & Saucer, 6.1 oz. | Neiman ...",
+        "url": "https://www.neimanmarcus.com/p/wedgwood-florentine-verde-teacup-saucer-6-1-oz-prod272910157"
+      },
+      {
+        "title": "Famille Rose Bird And Flower Porcelain Cup",
+        "url": "https://www.liveauctioneers.com/price-result/famille-rose-bird-and-flower-porcelain-cup/"
+      },
+      {
+        "title": "Junosol Home - Junosol Home added a new photo.",
+        "url": "https://www.facebook.com/Junosol.Home/photos/122214631628314304/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The piece features a high-gloss white glaze typical of Vietnamese porcelain, specifically from the Bat Trang ceramic line. The overglaze enamel decoration with floral patterns and the use of bright colors align with the modern interpretations of traditional designs. The shape of the piece, resembling a small tea cup with a flared rim, is consistent with both Vietnamese and European influences from the 18th to 19th centuries. The absence of firing marks and the smooth, clean foot ring suggest a mass-produced item, likely made in a contemporary context that draws on historical styles. The color palette and decorative motifs also reflect a blend of local and European artistic traditions, indicative of the trade routes and cultural exchanges in the region.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.394
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a smooth, cream/ivory-white glaze, which is characteristic of Chu Dau ceramics. The glaze type, specifically the use of a tin-glazed or porcelain glaze, and the presence of overglaze enamel decoration, aligns with the traditional techniques used in Chu Dau. The body color, described as trắng ngà (ivory-white), and the wall thickness, which appears to be moderate, also support this identification. Furthermore, the foot ring shape, with a rounded base and a flat, clean edge, is consistent with the morphology of Chu Dau ceramics. The visual clues, including the depiction of natural motifs such as flowers and birds, also point towards a style reminiscent of traditional Vietnamese ceramics, particularly those from the Chu Dau kiln.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.302
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 29.845304566s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '29s'}]}}",
+        "latency_s": 15.541
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.85,
+        "evidence": "The Kiln Signatures & Morphology Expert provided a compelling argument for Chu Dau based on the smooth, cream/ivory-white glaze and the overglaze enamel decoration, which align with traditional Chu Dau techniques. The visual features, such as the depiction of natural motifs and the foot ring shape, further support this identification. Google Lens did not provide a strong match for a specific ceramic line, but the signals related to Vietnamese ceramics and the style hint towards a modern piece with traditional influences. The Ceramic History agent's prediction of Bat Trang was less convincing due to the lack of specific Bat Trang characteristics, such as the typical crackle glaze or cobalt underglaze blue. The Global Ceramics Expert was unavailable, leaving the Kiln Signatures & Morphology Expert's reasoning as the most robust. The synthesis of visual evidence and expert reasoning leads to a confident prediction of Chu Dau.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 19.488
+      }
+    },
+    "total_time_s": 19.494
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 7,
+    "filename": "images/01_bat_trang/007_01_bat_trang_07_incense_burner.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:27:49",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 68414,
+    "input_resized_bytes": 33029,
+    "vision_time_s": 3.655,
+    "acis_pipeline_time_s": 15.364,
+    "lens_status": {
+      "attempted": true,
+      "count": 7,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 7,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "SLLINGLUO 20 Pieces Coffee Set Tea Set with Metal Stand ...",
+        "url": "https://www.walmart.com/ip/SLLINGLUO-20-Pieces-Coffee-Set-Tea-Set-with-Metal-Stand-Vintage-Porcelain-Tea-Cup-Set-Rose-Ceramics-Coffee-Tea-Set-Red/17431319297"
+      },
+      {
+        "title": "Fitz and Floyd English Garden Teapot | Belk",
+        "url": "https://www.belk.com/p/fitz-and-floyd-english-garden-teapot/76016815292800.html"
+      },
+      {
+        "title": "LAIFUCAM Accent Plate 2.6 qt. Green Floral Enamel Steel ...",
+        "url": "https://www.homedepot.com/p/LAIFUCAM-Accent-Plate-2-6-qt-Green-Floral-Enamel-Steel-Teapot-Porcelain-Handle-Vintage-Style-Stovetop-Compatible-Tea-Kettle-QE9X1667/341735623"
+      },
+      {
+        "title": "Elegant 5 PCS Chinese Porcelain Tea Pot & Cups Set, Flower ...",
+        "url": "https://www.walmart.com/ip/Exquisite-5-PCS-Flower-Birds-Design-Ceramic-Tea-Pot-Tea-Cups-Set-In-Beautiful-Color-Gift-Box/730509239"
+      },
+      {
+        "title": "Emma - The Game Birds Gallon Teapot is the teapot to top all ...",
+        "url": "https://www.facebook.com/EmmaBridgewater/photos/the-game-birds-gallon-teapot-is-the-teapot-to-top-all-teapots-youll-only-have-to/10152338451309945/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Bat Trang ceramics, particularly the glossy white glaze and the intricate overglaze enamel decoration featuring floral and bird motifs. The shape of the censer, with its globular body and ornate lid, aligns with modern interpretations of traditional forms. The color palette and decorative style suggest a blend of Chinoiserie influences, which is common in contemporary Vietnamese ceramics aimed at the decorative market. The absence of firing marks and the high-gloss finish indicate a modern production technique, likely involving slip-casting or industrial methods rather than traditional hand-coiling or wheel-throwing.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 9.323
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The glossy white glaze, the presence of underglaze enamel decoration in various colors such as blue, pink, and green, and the smooth cream/ivory-white glaze background are characteristic of Chu Dau ceramics. The body morphology, including the white clay body and the shape of the censer, also aligns with Chu Dau's style. The absence of distinct firing marks and the modern era estimation further support this prediction. However, the combination of traditional motifs with Western decorative elements introduces some uncertainty, hence a confidence level of 0.8.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.902
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 54.97393766s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '54s'}]}}",
+        "latency_s": 15.945
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The most convincing argument came from the 'Kiln Signatures & Morphology Expert', who identified the glossy white glaze, underglaze enamel decoration, and smooth cream/ivory-white glaze background as characteristic of Chu Dau ceramics. The body morphology and the absence of distinct firing marks further support this prediction. The Google Lens results also suggested a connection to Jingdezhen, but given the visual features and the intended origin of the piece as Vietnamese, the Chu Dau prediction aligns well with the visual evidence. The 'Ceramic History' agent also pointed towards a Vietnamese origin, albeit with a different ceramic line. The Google Lens results did not strongly contradict the Chu Dau prediction, and the visual features such as the glossy glaze and decorative motifs are consistent with Chu Dau's style.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 19.019
+      }
+    },
+    "total_time_s": 19.023
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 8,
+    "filename": "images/01_bat_trang/008_01_bat_trang_08_bottle.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:28:23",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 69650,
+    "input_resized_bytes": 32789,
+    "vision_time_s": 2.882,
+    "acis_pipeline_time_s": 18.091,
+    "lens_status": {
+      "attempted": true,
+      "count": 12,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 12,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "Vintage Art Deco Vase, Chinese, Ceramic, Baluster ...",
+        "url": "https://www.1stdibs.com/furniture/decorative-objects/vases-vessels/vases/vintage-art-deco-vase-chinese-ceramic-baluster-polychrome-finish-circa-1940/id-f_34637132/"
+      },
+      {
+        "title": "Lot - CHINESE QING DYNASTY STYLE YUNG CHENG PORCELAIN VASE",
+        "url": "https://www.ogallerie.com/auction-lot/chinese-qing-dynasty-style-yung-cheng-porcelain-v_a5d259aef0"
+      },
+      {
+        "title": "Three Contemporary Chinese Porcelain Vases (Lot 2011 ...",
+        "url": "https://www.lelandlittle.com/items/538967/three-contemporary-chinese-porcelain-vases/"
+      },
+      {
+        "title": "Rare Find Vintage Aynsley Pembroke Globe Vase Bone China ...",
+        "url": "https://www.mycuriohome.com/product-page/rare-find-vintage-aynsley-pembroke-globe-vase-bone-china-gold-trim"
+      },
+      {
+        "title": "Qing Jiaqing Gilt Famille Rose Wrapped Floral Pear Vase",
+        "url": "https://www.liveauctioneers.com/price-result/qing-jiaqing-gilt-famille-rose-wrapped-floral-pear-vase/"
+      },
+      {
+        "title": "Pair of Chinese porcelain baluster vases with birds and ...",
+        "url": "https://www.antiques-delaval.com/en/porcelain-ceramic/18785-pair-of-baluster-vases-chinese-porcelain-birds-peonies-qianlong-late-19th.html"
+      },
+      {
+        "title": "Asian Vases & Planters – Ethnika Antiques",
+        "url": "https://ethnikaantiques.com/collections/vases-planters"
+      },
+      {
+        "title": "A LARGE FAMILLE ROSE 'PEACH AND BAT' VASE, CHINA, REPUBLIC ...",
+        "url": "https://onlineonly.christies.com/s/arts-asia-online/large-famille-rose-peach-bat-vase-65/251642"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of modern Vietnamese porcelain, particularly from the Bat Trang kiln. The use of a high-gloss white glaze and the overglaze enamel decoration with realistic Western-style floral and bird motifs align with contemporary trends in decorative ceramics. The globular shape with a high neck and a rounded foot is also consistent with modern design aesthetics. The absence of traditional firing marks suggests industrial production methods, which are prevalent in the 21st century. The color palette and decoration techniques indicate a blend of local and Western influences, typical of modern Vietnamese ceramics aiming for a broader market appeal.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.147
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece features a smooth, creamy white glaze with overglaze enamel decoration, depicting a realistic image of birds on branches with flowers and leaves. The glaze type, specifically the use of a white glaze with overglaze enamel, is consistent with the characteristics of Chu Dau ceramics. The body color is described as trắng ngà (ivory white), which aligns with the typical clay body color used in Chu Dau ceramics. The absence of distinct firing marks or kiln signatures suggests a modern, industrial production method. The shape of the vase, with its globular body and high, narrow neck, is also consistent with modern Vietnamese ceramic styles. The decoration technique, using overglaze enamel, is a common method used in Chu Dau ceramics to achieve intricate, colorful designs.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.484
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 21.75218107s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '21s'}]}}",
+        "latency_s": 15.208
+      },
+      "acis": {
+        "raw_prediction": "Jingdezhen",
+        "predicted_label": "Jingdezhen",
+        "confidence": 0.9,
+        "evidence": "The visual features strongly indicate a modern Jingdezhen porcelain piece. The high-gloss white glaze, overglaze enamel decoration, and realistic Western-style motifs of birds and flowers are consistent with contemporary Jingdezhen ceramics. Google Lens provided multiple matches for Jingdezhen, reinforcing this conclusion. Despite the agents' suggestions of Vietnamese origins, the visual evidence aligns more closely with Chinese industrial production, particularly from Jingdezhen. The absence of traditional firing marks and the industrial production style further support this assessment.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 20.973
+      }
+    },
+    "total_time_s": 20.976
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 9,
+    "filename": "images/01_bat_trang/009_01_bat_trang_09_figurine.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:28:59",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 74841,
+    "input_resized_bytes": 35113,
+    "vision_time_s": 3.536,
+    "acis_pipeline_time_s": 17.091,
+    "lens_status": {
+      "attempted": true,
+      "count": 11,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 11,
+    "lens_results": [
+      {
+        "title": "Jay Strongwater Shi Foo Dog Chinoiserie Figurine | Neiman Marcus",
+        "url": "https://www.neimanmarcus.com/p/jay-strongwater-shi-foo-dog-chinoiserie-figurine-prod281260233"
+      },
+      {
+        "title": "Vintage Japanese Kutani Shi Shi (Foo Dog) — 1980, Showa Era ...",
+        "url": "https://tansushop.com/vintage-japanese-kutani-shi-shi-foo-dog-1980-showa-era-sku-25m-403-1/"
+      },
+      {
+        "title": "Green Porcelain Tobacco Leaf Pair of Lucky Foo Dogs Figurines",
+        "url": "https://wiigsy.com/?product/review/6406871791100"
+      },
+      {
+        "title": "Jay Strongwater Yin Foo Dog Chinoiserie Figurine | Neiman Marcus",
+        "url": "https://www.neimanmarcus.com/p/jay-strongwater-yin-foo-dog-chinoiserie-figurine-prod281260508"
+      },
+      {
+        "title": "Vintage Japanese Kutani Shi Shi (Foo Dog) — 1980, Showa Era ...",
+        "url": "https://tansushop.com/vintage-japanese-kutani-shi-shi-foo-dog-1980-showa-era-sku-25m-403-1/"
+      },
+      {
+        "title": "44 Foo dog ideas | foo dog, lion dog, foo",
+        "url": "https://www.pinterest.com/lhasamagic/foo-dog/"
+      },
+      {
+        "title": "Danny's Fine Porcelain",
+        "url": "http://dannysporcelain.com/"
+      },
+      {
+        "title": "A Pair of Asian Porcelain Foo Lion Dogs (Lot 2024 ...",
+        "url": "https://www.lelandlittle.com/items/461199/a-pair-of-asian-porcelain-foo-lion-dogs/"
+      },
+      {
+        "title": "At Auction: 2x Foo dog",
+        "url": "https://www.invaluable.com/auction-lot/2x-foo-dog-7175-c-d7748a0605"
+      },
+      {
+        "title": "Staffordshire Dogs | Vintage & Decorative Porcelain Dogs ...",
+        "url": "https://www.houseofmodernvintage.com/collections/staffordshire-dogs"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits characteristics typical of Bat Trang ceramics, particularly the creamy white porcelain body and the clear glossy glaze. The famille rose decoration with motifs such as the Foo Dog and peonies aligns with the decorative styles seen in 20th-century Vietnamese ceramics, which often drew inspiration from Chinese Qing dynasty aesthetics. The absence of firing marks and the smooth, glossy surface further suggest a modern manufacturing technique, likely involving slip-casting or wheel-throwing rather than traditional hand-coiling. The overall form and decoration indicate a piece designed for export, which is common in Bat Trang's production during this era.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.247
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a smooth cream/ivory-white glaze, which is characteristic of Chu Dau ceramics. The glaze is glossy and even, with no visible crackle or rạn nứt. The body of the piece is made of white clay, which is also consistent with Chu Dau. The decoration technique used is vẽ trên men (overglaze enamels), which is typical of Chu Dau ceramics. The presence of a Foo Dog/Guardian Lion pattern with 'famille rose' style flowers and leaves also suggests a Chinese influence, which is consistent with the Qing dynasty style. The foot ring is flat and rectangular, with a brown edge, which is also consistent with Chu Dau ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.888
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 44.951344009s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '44s'}]}}",
+        "latency_s": 15.944
+      },
+      "acis": {
+        "raw_prediction": "Kutani",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The visual features of the pottery, including the clear glossy glaze, the famille rose decoration style, and the Foo Dog pattern, align closely with the characteristics of Kutani ceramics, which are known for their vibrant overglaze enamels and intricate designs. Google Lens results strongly matched the image with 'Kutani' ceramics, indicating a Japanese origin. Despite the agents' suggestions of Vietnamese origins, the specific motifs and glaze techniques are more consistent with Japanese Kutani rather than Vietnamese Bat Trang or Chu Dau. The Google Lens matches provided strong factual evidence that outweighed the agents' consensus, which was prone to lookalike biases.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 20.627
+      }
+    },
+    "total_time_s": 20.632
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 10,
+    "filename": "images/01_bat_trang/010_01_bat_trang_10_lidded_box.jpg",
+    "ground_truth": "Bat Trang",
+    "started_at": "2026-07-08T16:29:35",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 81257,
+    "input_resized_bytes": 39674,
+    "vision_time_s": 4.547,
+    "acis_pipeline_time_s": 26.112,
+    "lens_status": {
+      "attempted": true,
+      "count": 10,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 10,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "Hand-Painted Glazed Ceramic Jewelry Box with Floral Motif ...",
+        "url": "https://www.novica.com/p/hand-painted-glazed-ceramic-jewelry-box-with/472006/"
+      },
+      {
+        "title": "Museum Collections, William Morris Trinket Boxes ...",
+        "url": "https://www.replacements.com/collectibles-museum-collections-william-morris-trinket-boxes/c/582330"
+      },
+      {
+        "title": "Hand-painted Floral Lovebirds Trinket Box | Curiosity Thrift",
+        "url": "https://www.curiositythrift.com/product-page/hand-painted-floral-lovebirds-trinket-box"
+      },
+      {
+        "title": "Insects and Flowers Bone China Joseph Van Kessel Collectible ...",
+        "url": "https://x.com/benjiboyvintage/status/2071556005226324165"
+      },
+      {
+        "title": "Halcyon Days Enamels | Collectibles | British Isles in ...",
+        "url": "https://www.britishislesonline.com/collectibles/trinket-boxes/halcyon-days-enamels/"
+      },
+      {
+        "title": "Alastor enamels trinket box, - Gem",
+        "url": "https://gem.app/search?terms=Alastor enamels trinket box,"
+      },
+      {
+        "title": "Halcyon Days, St Valentine's Day Box | Replacements, Ltd.",
+        "url": "https://www.replacements.com/collectibles-halcyon-days-st-valentines-day-box/c/143382"
+      },
+      {
+        "title": "Four Halcyon Days Enamels Boxes, Floral (Lot 181 - The ...",
+        "url": "https://www.lelandlittle.com/items/173331/four-halcyon-days-enamels-boxes-floral/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits characteristics typical of Bat Trang ceramics, particularly the fine white glaze and the overglaze enamel decoration. The motifs of birds and peonies align with traditional Vietnamese themes, while the modern execution and high-gloss finish suggest a contemporary production technique. The round trinket box shape is common in modern decorative ceramics, and the lack of crazing indicates a high-quality industrial or artisanal production method. The influence of Western styles, particularly in the neoclassical or Chinoiserie aesthetic, is evident in the decoration, which is consistent with the trends seen in Vietnamese ceramics that cater to both local and international markets.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.419
+      },
+      "grok": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a smooth cream/ivory-white glaze, which is characteristic of Chu Dau ceramics. The underglaze blue brushstrokes and the presence of red and green enamels with gold trim also align with the traditional decoration techniques of Chu Dau. The body morphology, including the wall thickness and foot ring shape, suggests a high level of craftsmanship, consistent with the reputation of Chu Dau ceramics. The absence of crazing and the evenness of the glaze application indicate a modern production technique, which is also consistent with the estimated era. The visual clues, such as the flower and bird motif, also support the prediction of Chu Dau ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.966
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 8.084121084s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '8s'}]}}",
+        "latency_s": 17.209
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The most convincing argument was presented by the 'Kiln Signatures & Morphology Expert', who identified the piece as Chu Dau based on the smooth cream/ivory-white glaze and the decoration techniques involving underglaze blue brushstrokes and red/green enamels with gold trim. These characteristics align well with the visual features extracted from the image, such as the overglaze enamel decoration and the bird and flower motif. The Google Lens results did not provide a strong match for Chu Dau but did indicate a connection to Vietnamese ceramics, which supports the agent's reasoning. The 'Ceramic History' agent's prediction of Bat Trang was less convincing due to the lack of specific evidence tying the piece to Bat Trang's typical characteristics. The 'Global Ceramics Expert' was unavailable, so their input could not be considered.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 30.659
+      }
+    },
+    "total_time_s": 30.664
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 11,
+    "filename": "images/02_bien_hoa/011_02_bien_hoa_01_vase.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:30:20",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 73512,
+    "input_resized_bytes": 33226,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 16.232,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Kutani ware Nakata Kingyoku Flower pot Gold Mori Hoso ka-mon ...",
+        "url": "https://manekineko-ai.com/kutani-ware-nakata-kingyoku-flower-pot-gold-mori-hoso-ka-mon-aochibu-japan/"
+      },
+      {
+        "title": "Similar Items to Doulton Slater's Patent Turquoise & White ...",
+        "url": "https://www.rubylane.com/similar/2244005-004825/Doulton-Slater's-Patent-Turquoise-White-Enamel"
+      },
+      {
+        "title": "Lot - Two Rosenthal Porcelain Vases",
+        "url": "https://www.nyeandcompany.com/auction-lot/two-rosenthal-porcelain-vases_27D43F2BE2"
+      },
+      {
+        "title": "Peonies Vase. Golden Lustre | Lladró® USA",
+        "url": "https://www.lladro.com/en_us/peonies-vase-golden-lustre-en-us-01009211.html"
+      },
+      {
+        "title": "Ceramic Vase with Floral Pattern, 9 in",
+        "url": "https://www.popshelf.com/p/ceramic-vase-with-floral-pattern-9-in"
+      },
+      {
+        "title": "Japanese Antique Bronze Cloisonne Decorative Vase or Urn 24\"",
+        "url": "https://www.harpgallery.com/p/japanese-antique-bronze-cloisonne-decorative-vase-or-urn-24/56477"
+      },
+      {
+        "title": "A cloisonne enamel meiping vase, Ming dynasty 1368-1644 ...",
+        "url": "https://www.bukowskis.com/en/auctions/669/1259-a-cloisonne-enamel-meiping-vase-ming-dynasty-1368-1644"
+      },
+      {
+        "title": "A Chinese robin's egg glazed vase with relief design of gilt ...",
+        "url": "https://www.coronariauctions.com/en/auction-summer-2023-asian-european-and-islamic-arts/12239-a-chinese-robins-egg-glazed-vase-with-relief-design-of--gilt-dragons-and-lotus-flowers-qianlong-mark-20th-c"
+      },
+      {
+        "title": "A CHINESE CLOISONNE ENAMEL 'LOTUS' BALUSTER ...",
+        "url": "https://onlineonly.christies.com/s/five-private-collections/chinese-cloisonne-enamel-lotus-baluster-vase-119/156670"
+      },
+      {
+        "title": "What gives this glaze its delicate, speckled blue? In 19th ...",
+        "url": "https://www.instagram.com/reel/DOqJPeyEU_8/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits characteristics typical of Bien Hoa ceramics, particularly the thick Majolica-like satin glaze and the unique color palette of emerald green and olive green, which aligns with the traditional colors used in Bien Hoa pottery. The high-relief decoration and arabesque patterns further support this association, as they blend Asian motifs with Western influences, a hallmark of Bien Hoa style. The estimated era aligns with the contemporary revival of traditional styles, which is consistent with the late 20th to early 21st century production. The shape and decoration techniques suggest a modern interpretation of historical styles, indicative of the Neo-Renaissance or Victorian Majolica Revival influences. The use of earthenware and the specific glaze type also point towards a contemporary production method rather than traditional hand-coiling or wheel-throwing, suggesting a more industrial approach to ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.576
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a Majolica-like glaze with a unique color palette, including emerald green, olive green, and brown hues, which is reminiscent of Bien Hoa ceramics. The glaze type, specifically the use of lead glaze, and the decoration technique, which includes high-relief carvings and arabesque patterns, also align with Bien Hoa's style. The body color, a reddish-brown tone, and the shape of the piece, with a flared mouth, narrow neck, and rounded body, further support this attribution. Although the firing marks are not clearly visible, the overall material characteristics and visual clues point towards a Bien Hoa origin.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 1.482
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 27.233176348s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '27s'}]}}",
+        "latency_s": 12.327
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The most convincing arguments came from the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, both of whom identified the piece as Bien Hoa based on the unique color palette, Majolica-like glaze, and high-relief decoration, which are characteristic of Bien Hoa ceramics. The visual features, including the emerald green and olive green colors, the Majolica glaze, and the arabesque patterns, align well with Bien Hoa's style. Google Lens did not provide a direct match for Bien Hoa, but the lack of strong evidence for any other specific ceramic line, combined with the agents' detailed reasoning, supports the Bien Hoa attribution. The Google Lens signals suggested potential origins in Japan and China, but these did not align as closely with the visual features as the Bien Hoa identification did.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 16.232
+      }
+    },
+    "total_time_s": 16.236
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 12,
+    "filename": "images/02_bien_hoa/012_02_bien_hoa_02_plate.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:30:52",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 111251,
+    "input_resized_bytes": 52485,
+    "vision_time_s": 4.827,
+    "acis_pipeline_time_s": 22.859,
+    "lens_status": {
+      "attempted": true,
+      "count": 11,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 11,
+    "lens_results": [
+      {
+        "title": "Stunning shallow decorative bowl. Embossed metal with an ...",
+        "url": "https://www.facebook.com/groups/1882867268652600/posts/4217710421834928/"
+      },
+      {
+        "title": "Circle ceramic wall art - Floral 4 turquoise tile by GVEGA",
+        "url": "https://gvega.com/tile-shop/circular-tiles/turquoise/ceramic-wall-art-circle-turquoise-suzani-4-30cm-11-8/"
+      },
+      {
+        "title": "Collected from another home, ready for its next story. This ...",
+        "url": "https://www.instagram.com/p/DZK4wSQANNc/"
+      },
+      {
+        "title": "Intricate Blue and Gold Ceramic Bowl Stock Image ...",
+        "url": "https://www.dreamstime.com/intricate-blue-and-gold-ceramic-bowl-this-image-features-a-beautifully-crafted-with-designs-the-is-predominantly-accents-image428656933"
+      },
+      {
+        "title": "Vietri Damask Bowl | Frontgate",
+        "url": "https://www.frontgate.com/vietri-damask-bowl/658669"
+      },
+      {
+        "title": "Willow Embossed Salad Plate - World Market",
+        "url": "https://www.worldmarket.com/p/willow-embossed-salad-plate-124616.html"
+      },
+      {
+        "title": "Circle ceramic wall art - Moroccan 4 turquoise tile by GVEGA",
+        "url": "https://gvega.com/tile-shop/circular-tiles/turquoise/ceramic-wall-art-circle-turquoise-moroccan-4-30cm-11-8/"
+      },
+      {
+        "title": "Italian ceramic Plate | Luxury Wall Plates | Handpainted",
+        "url": "https://derutaitaly.com/ceramic-plate-vario-23-5/"
+      },
+      {
+        "title": "Afoxsos 8 in. Decorative Plate Stand Holder Plastic Picture ...",
+        "url": "https://www.homedepot.com/p/Afoxsos-8-in-Decorative-Plate-Stand-Holder-Plastic-Picture-Easel-Display-Picture-Frame-Stand-White-Gold-2-Pack-SNPH039IN351/331858788"
+      },
+      {
+        "title": "Proantic: Antique 19th Century Chinese Cloisonne Enamel Cup ...",
+        "url": "https://www.proantic.com/en/1476082-antique-19th-century-chinese-cloisonne-enamel-cup-dish-china.html"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits a modern interpretation of traditional Vietnamese ceramics, particularly from the Bien Hoa line, characterized by its thick satin glaze and a unique color palette of teal, crimson, and gold accents. The decorative motifs, including the stylized lotus and scrollwork, suggest a blend of Asian and Western artistic influences, typical of the neoclassical style. The use of a patina-style glaze with crazing effects further aligns with contemporary trends in ceramic art, aiming to evoke a sense of antiquity. The round shape with scalloped edges is also reminiscent of decorative plates from the Bien Hoa tradition, which often feature intricate relief work. Although the piece is modern, it draws heavily from historical styles, particularly those influenced by cross-cultural exchanges in Southeast Asia.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 10.74
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a teal (màu xanh ngọc lục bảo) background with crimson and golden accents, which aligns with the unique color palette of Bien Hoa ceramics. The use of a patina-style glaze with crazing and the combination of relief techniques with hand-painted highlights are also characteristic of Bien Hoa's distinctive style. The absence of clear kiln marks or foot ring visibility does not contradict this assessment, as modern productions might not always display these features prominently. The overall morphology, including the scalloped edge and the central floral motif, supports the attribution to Bien Hoa, considering its blend of Asian and Western decorative elements.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.197
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 51.424922262s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '51s'}]}}",
+        "latency_s": 16.866
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The two active agents, Ceramic History and Kiln Signatures & Morphology Expert, both independently identified the piece as belonging to the Bien Hoa ceramic line from Vietnam. Their reasoning was based on the distinctive color palette of teal, crimson, and gold, the use of a patina-style glaze with crazing, and the combination of relief techniques with hand-painted highlights. These features are characteristic of Bien Hoa ceramics, which often blend Asian and Western decorative elements. Google Lens did not provide a definitive match for a specific ceramic line, but the visual evidence aligns well with the Bien Hoa style, supporting the agents' claims. The consensus between the two agents, backed by consistent visual evidence, makes this prediction strong.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 27.686
+      }
+    },
+    "total_time_s": 27.693
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 13,
+    "filename": "images/02_bien_hoa/013_02_bien_hoa_03_bowl.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:31:34",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 65190,
+    "input_resized_bytes": 30001,
+    "vision_time_s": 3.916,
+    "acis_pipeline_time_s": 22.215,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "Bonhams : A large cloisonné enameled deep bowl Jingtai mark ...",
+        "url": "https://www.bonhams.com/auction/22378/lot/8254/a-large-cloisonne-enameled-deep-bowl-jingtai-mark-qing-dynasty/"
+      },
+      {
+        "title": "A Chinese cloisonné on copper 'lotus' bowl, late Ming ...",
+        "url": "https://www.bukowskis.com/en/auctions/F708/lots/1666028-a-chinese-cloisonne-on-copper-lotus-bowl-late-ming-dynasty-early-qing-dynasty"
+      },
+      {
+        "title": "A CHINESE CLOISONNE ENAMEL TURQUOISE-GROUND BOWL, MING ...",
+        "url": "https://onlineonly.christies.com/s/aristocratic-chateau-cote-dazur/chinese-cloisonne-enamel-turquoise-ground-bowl-83/92162"
+      },
+      {
+        "title": "At Auction: Antique Chinese Enameled Cloisonné Bowl",
+        "url": "https://www.invaluable.com/auction-lot/antique-chinese-enameled-cloisonne-bowl-39-c-65f274c721"
+      },
+      {
+        "title": "Chinese Cloisonne Enamel Bowl, 'lotus'",
+        "url": "https://www.liveauctioneers.com/price-result/chinese-cloisonne-enamel-bowl-lotus/"
+      },
+      {
+        "title": "Lot - LARGE CHINESE FOOTED CLOISONNÉ ENAMEL BOWL Late 19th ...",
+        "url": "https://www.eldreds.com/auction-lot/large-chinese-footed-cloisonne-enamel-bowl-late-1_bb649d3893"
+      },
+      {
+        "title": "Bonhams : A cloisonné enamel 'lotus' bowl Late Ming Dynasty",
+        "url": "https://www.bonhams.com/auction/27168/lot/38/a-cloisonne-enamel-lotus-bowl-late-ming-dynasty/"
+      },
+      {
+        "title": "ColBase",
+        "url": "https://colbase.nich.go.jp/collection_items/tnm/TG-559?locale=en"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Bien Hoa pottery, such as the thick satin glaze with a unique color palette of dark teal, amber brown, and deep green. The high-relief decoration with motifs of chrysanthemums and peonies, along with intricate scrollwork, aligns with the artistic influences of Bien Hoa, which blends traditional Asian aesthetics with Western styles. The use of flambé glaze and the overall form of the bowl suggest a modern interpretation of classical designs, indicative of contemporary Vietnamese ceramics. The estimated era of the 21st century is supported by the modern manufacturing techniques and the absence of crazing, which is common in older pieces. The suspected origin of China is plausible but less likely given the specific visual elements that align closely with Vietnamese traditions.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.927
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a thick, satin glaze with a unique color palette of dark teal, gold/amber brown, and cream-white, which is characteristic of Bien Hoa ceramics. The glaze type, specifically the men hỏa biến (flambé/transmutation glaze), and the presence of relief carvings (đắp nổi) with Asian motifs and Western-style borders, further support this prediction. The body color, a dark brown stoneware, and the foot ring shape also align with Bien Hoa ceramics. Although the image is synthetic and may exhibit lookalike biases, the material evidence points towards a specific ceramic line in Vietnam.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.433
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 9.253521636s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '9s'}]}}",
+        "latency_s": 16.471
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The most convincing arguments came from the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, both of whom identified the piece as Bien Hoa ceramics from Vietnam. Their reasoning was based on the distinctive features of the piece, such as the thick satin glaze with a unique color palette of dark teal, amber brown, and deep green, as well as the high-relief decoration with motifs of chrysanthemums and peonies. These characteristics align with the Bien Hoa tradition, which blends traditional Asian aesthetics with Western styles. Additionally, the use of flambé glaze and the overall form of the bowl suggest a modern interpretation of classical designs, indicative of contemporary Vietnamese ceramics. The Google Lens signals, which suggested a Chinese origin, were considered but did not provide strong enough evidence to override the specific visual features and expert analysis pointing to Bien Hoa. The image's synthetic nature and potential for lookalike biases were also t",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 26.131
+      }
+    },
+    "total_time_s": 26.136
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 14,
+    "filename": "images/02_bien_hoa/014_02_bien_hoa_04_teapot.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:32:15",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 75601,
+    "input_resized_bytes": 35022,
+    "vision_time_s": 3.594,
+    "acis_pipeline_time_s": 17.436,
+    "lens_status": {
+      "attempted": true,
+      "count": 11,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 11,
+    "lens_results": [
+      {
+        "title": "Elegant Teal Teapot with Floral Design 68629690 Stock Photo ...",
+        "url": "https://www.vecteezy.com/photo/68629690-elegant-teal-teapot-with-floral-design"
+      },
+      {
+        "title": "Sold at Auction: Japanese cloisonne teapot",
+        "url": "https://www.invaluable.com/auction-lot/japanese-cloisonne-teapot-315-c-4924fc7a09"
+      },
+      {
+        "title": "Lot 153 - Russian Silver-Gilt and Cloisonné Enamel",
+        "url": "https://doyle.com/auction/lot/lot-153---russian-silver-gilt-and-cloisonn-enamel-partial-tea-service/?lot=1438598&sd=1"
+      },
+      {
+        "title": "Chinese Cloisonne Teapot | Cottone Auctions",
+        "url": "https://www.cottoneauctions.com/lots/40334/chinese-cloisonne-teapot"
+      },
+      {
+        "title": "Fine Kashmir Gilt Bronze Teapot with Enamel, 19th C. (item ...",
+        "url": "https://www.trocadero.com/stores/galeriehafner/items/1183612/Kashmir-Gilt-Bronze-Teapot-Enamel-19th"
+      },
+      {
+        "title": "Transparent or PNG Image of Ancient Tea Pot Stock ...",
+        "url": "https://www.dreamstime.com/transparent-png-image-ancient-tea-pot-transparent-png-image-ancient-tea-pot-image376329493"
+      },
+      {
+        "title": "24K Gilded Teapot - kilnsong.com",
+        "url": "https://kilnsong.com/24k-gilded-teapot/"
+      },
+      {
+        "title": "IntermediateWheel-throw THU 6:30-9:30 PM | muddypantspottery",
+        "url": "https://www.muddypantspottery.com/service-page/intermediatewheel-throw-thu-6-30-9-30-pm-1"
+      },
+      {
+        "title": "Chinese Cloisonne Enamel Teapot sold at auction on 6th March ...",
+        "url": "https://www.bidsquare.com/online-auctions/alex-cooper/chinese-cloisonne-enamel-teapot-2117625"
+      },
+      {
+        "title": "Proantic: 19th Century Cloisonné Bronze Teapot",
+        "url": "https://www.proantic.com/en/1653566-19th-century-cloisonne-bronze-teapot.html"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The analysis of the ceramic piece indicates a modern creation with stylistic elements reminiscent of Bien Hoa ceramics. The color palette of deep teal, turquoise, and earthy brown aligns with Bien Hoa's known use of vibrant glazes. The relief carving technique and the floral motifs, particularly the stylized lotus surrounded by scrolling vines, are characteristic of Bien Hoa's high-relief decoration. The smooth, glossy surface and the depth effect of the glaze suggest an advanced glazing technique that is consistent with modern production methods. The overall shape of the teapot, with its classic form and elegant handle, further supports this identification. While the piece appears to be a contemporary interpretation, it draws heavily from traditional Vietnamese aesthetics, particularly those found in Bien Hoa ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 9.124
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a thick, satin-like glaze with a unique color palette featuring teal, copper green, and cream-white hues, which are characteristic of Bien Hoa ceramics. The high-relief relief carvings and blending of Asian motifs with Western-style borders also align with Bien Hoa's style. The glaze type, specifically the men bóng có hiệu ứng chiều sâu (glazed earthenware), and the absence of crackle glaze or cobalt underglaze blue, further support this prediction. The body color, a deep brown earth tone, and the foot ring shape also match Bien Hoa's typical morphology.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.933
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 28.838369762s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '28s'}]}}",
+        "latency_s": 15.642
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The most convincing arguments came from the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, both identifying the piece as Bien Hoa ceramics. Their reasoning was based on the distinctive color palette, relief carving technique, and glaze type, which align with Bien Hoa's known characteristics. The visual features such as the deep teal color, high-relief floral motifs, and the glaze's depth effect strongly support this identification. Google Lens results did not provide a clear alternative match that contradicted the agents' consensus, thus reinforcing the prediction of Bien Hoa. The synthesis of these expert analyses and the visual evidence leads to a confident conclusion.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 21.029
+      }
+    },
+    "total_time_s": 21.033
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 15,
+    "filename": "images/02_bien_hoa/015_02_bien_hoa_05_storage_jar.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:32:51",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 78818,
+    "input_resized_bytes": 35702,
+    "vision_time_s": 3.799,
+    "acis_pipeline_time_s": 23.589,
+    "lens_status": {
+      "attempted": true,
+      "count": 11,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 11,
+    "lens_results": [
+      {
+        "title": "A CHINESE CLOISONNE ENAMEL JAR AND COVER ...",
+        "url": "https://onlineonly.christies.com/s/five-private-collections/chinese-cloisonne-enamel-jar-cover-121/156675"
+      },
+      {
+        "title": "Brown Floral Ceramic Ginger Jar, 11.5\"",
+        "url": "https://www.athome.com/brown-floral-ceramic-ginger-jar-11.5/125019440.html"
+      },
+      {
+        "title": "Japanese Antique Bronze Cloisonne Decorative Vase or Urn 24\"",
+        "url": "https://www.harpgallery.com/p/japanese-antique-bronze-cloisonne-decorative-vase-or-urn-24/56477"
+      },
+      {
+        "title": "Antique Japanese Cloisonné Vase in Enamel and Bronze for ...",
+        "url": "https://www.pamono.com/antique-japanese-cloisonne-vase-in-enamel-and-bronze"
+      },
+      {
+        "title": "Lot - ASIAN: Pair of cloisonne ginger jars, Chinese, 20th C ...",
+        "url": "https://www.auctionsappraisers.com/auction-lot/asian-pair-of-cloisonne-ginger-jars-chinese-20_c9e486e9c2"
+      },
+      {
+        "title": "Covered Jar - China - Ming dynasty (1368–1644) - The ...",
+        "url": "https://www.metmuseum.org/art/collection/search/46077"
+      },
+      {
+        "title": "Puzzling Chinese Porcelain/Pottery Mark",
+        "url": "https://www.figurines-sculpture.com/puzzling-chinese-porcelainpottery-mark.html"
+      },
+      {
+        "title": "Emerald Green Cloisonne Decorative Cremation Urn",
+        "url": "https://www.urngarden.com/emerald-green-cremation-urn.html"
+      },
+      {
+        "title": "Stunning Vintage JINGFA Cloisonné Set - Handcrafted by the ...",
+        "url": "https://www.instagram.com/p/DTubPHxkeJX/"
+      },
+      {
+        "title": "Emerald Green Small Cloisonne Urn",
+        "url": "https://www.memorials.com/catalog/cremation-urns/cloisonne-urns/emerald-green-cloisonne-cremation-urns/emerald-green-small-cloisonne-urn"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a combination of modern design elements with traditional motifs, particularly the central lotus blossom surrounded by scrolling vines, which is characteristic of Bien Hoa ceramics. The color palette of deep teal, mustard yellow, and terracotta aligns with the unique hues found in Bien Hoa pottery. The polychrome glaze and the relief and incised decoration techniques suggest a modern reinterpretation of traditional styles, likely influenced by historical practices. The smooth surface and lack of firing marks indicate a refined manufacturing process, consistent with modern ceramics. The overall shape of the lidded jar with a bulbous body and short neck also resonates with the forms seen in Bien Hoa ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.95
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a polychrome glaze with a dominant teal/turquoise color, accompanied by mustard yellow, terracotta/brown, and red accents. The glaze type, characterized by its multi-colored and slightly mottled appearance, is reminiscent of Bien Hoa's distinctive Majolica-like satin glaze. The presence of a thick, glossy glaze and the use of relief and incised techniques to create intricate designs also align with Bien Hoa's stylistic tendencies. The body of the piece is made of stoneware, with a terracotta/brown color visible at the edges and foot ring, which is consistent with Bien Hoa's material preferences. The absence of distinct kiln marks or stacking traces suggests a modern firing technique, which further supports the attribution to Bien Hoa. The overall design, featuring a central lotus blossom surrounded by scrolling vines, blends traditional Vietnamese motifs with modern aesthetic sensibilities, consistent with Bien Hoa's contemporary output.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.458
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 52.495329871s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '52s'}]}}",
+        "latency_s": 15.994
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument comes from both the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, who independently identified the piece as Bien Hoa ceramics. Their reasoning is supported by the visual features such as the polychrome glaze, the use of relief and incised decoration techniques, and the specific color palette of teal, mustard yellow, and terracotta, which align with Bien Hoa's distinctive style. The shape and decoration techniques also resonate with Bien Hoa's modern reinterpretation of traditional styles. Google Lens results did not provide a direct match to Bien Hoa but did not contradict the agents' analysis, which further supports the attribution. The visual evidence and the agents' consensus strongly suggest that this is a modern piece inspired by traditional Southeast Asian ceramics, specifically from the Bien Hoa line.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 27.388
+      }
+    },
+    "total_time_s": 27.392
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 16,
+    "filename": "images/02_bien_hoa/016_02_bien_hoa_06_cup.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:33:34",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 71060,
+    "input_resized_bytes": 32174,
+    "vision_time_s": 3.427,
+    "acis_pipeline_time_s": 21.089,
+    "lens_status": {
+      "attempted": true,
+      "count": 10,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 10,
+    "lens_results": [
+      {
+        "title": "An old Satsuma teapot with signed box, beautifully hand ...",
+        "url": "https://www.facebook.com/groups/812950188884859/posts/1796829707163564/"
+      },
+      {
+        "title": "Vesteel Coffee Cups Set of 4, 14oz Ceramic Mugs Set with ...",
+        "url": "https://www.walmart.com/ip/Vesteel-Coffee-Mug-Set-of-4-Jade-Green/17138711890"
+      },
+      {
+        "title": "Vigoro Lillian Medium Blue Glazed Ceramic Planter with ...",
+        "url": "https://www.homedepot.com/p/Vigoro-Lillian-Medium-Blue-Glazed-Ceramic-Planter-with-Attached-Saucer-and-Floral-Decor-12-in-L-x-12-in-W-x-9-in-H-HUCR02386S-12M/330865810"
+      },
+      {
+        "title": "Coffee & Tea – ClayWhispers",
+        "url": "https://www.claywhispers.com/collections/artisan-vessels-coffee-tea-cola-cups"
+      },
+      {
+        "title": "Sold at Auction: An interlocking flower patterned cloisonne ...",
+        "url": "https://www.invaluable.com/auction-lot/an-interlocking-flower-patterned-cloisonne-cup-qi-374-c-06f4915a42"
+      },
+      {
+        "title": "Japanese Tea Cups Made in Japan | Tsukushi",
+        "url": "https://tsukushi-japan.com/blogs/journal/japanese-tea-cups-made-in-japan"
+      },
+      {
+        "title": "Cheerful mug to fend off the winter blahs! Bright white ...",
+        "url": "https://www.instagram.com/p/DRrzpjJDZvg/"
+      },
+      {
+        "title": "Royal Arabesque cups _1 cup - Warehouse",
+        "url": "https://warehouse.sa/en/royal-arabesque-cups-1-cup/p417796144"
+      },
+      {
+        "title": "For the Kitchen- Mugs – Wheeler Ceramics",
+        "url": "https://wheelerceramics.com/collections/for-the-kitchen-mugs"
+      },
+      {
+        "title": "CHINESE WHITE METAL PLAQUE & PLIQUE-A-JOUR CUP ...",
+        "url": "https://auctionet.com/en/3935209-chinese-white-metal-plaque-plique-a-jour-cup"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits a combination of a modern artistic style with a color palette typical of Bien Hoa ceramics, particularly the teal and earth tones. The high-relief decoration and flambe glaze are consistent with the characteristics of Bien Hoa pottery, which often blends traditional Asian motifs with Western influences. The shape and finish suggest a contemporary production method, likely involving controlled industrial techniques rather than traditional hand-coiling or wheel-throwing. The estimated era aligns with the modern production of ceramics in Vietnam, particularly in the context of artistic reinterpretations of historical styles.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.144
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a thick, satin-like glaze with a unique color palette of teal (Xanh petrol), copper green, and red gạch, which is characteristic of Bien Hoa ceramics. The glaze type, specifically the flambe/transmutation glaze with a subtle, mottled effect, is also consistent with Bien Hoa's signature style. The clay body is stoneware, and the foot ring is low and rounded, which is typical of Vietnamese ceramics. The decoration technique, featuring relief carvings with Arabesque and floral motifs, is also reminiscent of Bien Hoa's style. While the Google Lens results may suggest a Chinese origin, the material evidence points towards a Vietnamese ceramic line, specifically Bien Hoa, due to the distinctive glaze and decoration characteristics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.144
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 9.934578217s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '9s'}]}}",
+        "latency_s": 16.188
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The arguments presented by both the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents were convincing due to their detailed analysis of the visual features, such as the teal and earth tones, flambe glaze, and high-relief chrysanthemum pattern, which are characteristic of Bien Hoa ceramics. The Google Lens signals did not provide a strong match for a specific ceramic line, but the visual evidence aligns well with the known characteristics of Bien Hoa ceramics, particularly the modern artistic style with Asian influences. The consensus among the active agents, combined with the visual features, supports the conclusion that this piece is from the Bien Hoa ceramic line.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 24.516
+      }
+    },
+    "total_time_s": 24.52
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 17,
+    "filename": "images/02_bien_hoa/017_02_bien_hoa_07_incense_burner.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:34:13",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 75751,
+    "input_resized_bytes": 34957,
+    "vision_time_s": 3.341,
+    "acis_pipeline_time_s": 15.773,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Antique 18th Century Chinese Cloisonné Incense Burner. | Hart",
+        "url": "https://www.hartantiques.com/Asian-Art/Various/Antique-18th-Century-Chinese-Cloisonne-Incense-Burner"
+      },
+      {
+        "title": "Bonhams : A Chinese cloisonne enamel circular censer and ...",
+        "url": "https://www.bonhams.com/auction/19027/lot/307/a-chinese-cloisonne-enamel-circular-censer-and-cover-19th-century/"
+      },
+      {
+        "title": "Lot - CHINESE CLOISONNE ENAMEL TRIPOD CENSER, 18TH/19TH ...",
+        "url": "https://www.potomackcompany.com/auction-lot/chinese-cloisonne-enamel-tripod-censer-18th-19th_f9747ab8f9"
+      },
+      {
+        "title": "A Chinese cloisonné tripod censer, late Qing dynasty ...",
+        "url": "https://www.bukowskis.com/en/auctions/F707/lots/1644397-a-chinese-cloisonne-tripod-censer-late-qing-dynasty"
+      },
+      {
+        "title": "Sold at Auction: A Lao Tian Li Zhi Republic Period Chinese ...",
+        "url": "https://www.invaluable.com/auction-lot/a-lao-tian-li-zhi-republic-period-chinese-cloison-1185-c-ccf4beb991"
+      },
+      {
+        "title": "Lot - CHINESE GOLD-SPLASHED BRONZE CENSER WITH WOOD COVER",
+        "url": "https://www.ogallerie.com/auction-lot/chinese-gold-splashed-bronze-censer-with-wood-cov_ebe48a891a"
+      },
+      {
+        "title": "Imperial censer | Gazette Drouot",
+        "url": "https://www.gazette-drouot.com/en/article/imperial-censer/77211"
+      },
+      {
+        "title": "Imperial Blue and Red Chinese Temple Cloisonne Enamel ...",
+        "url": "https://www.chinafurnitureonline.com/decor/gifts-3/imperial-blue-and-red-chinese-temple-cloisonne-enamel-incense-burner-ACVBUR-J"
+      },
+      {
+        "title": "Lot - LARGE CHINESE CLOISONNE ENAMEL TRIPOD CENSER, 18TH ...",
+        "url": "https://www.potomackcompany.com/auction-lot/large-chinese-cloisonne-enamel-tripod-censer-18t_b87472ebf5"
+      },
+      {
+        "title": "Chinese Cloisonne Enamel Sensor",
+        "url": "https://www.liveauctioneers.com/price-result/chinese-cloisonne-enamel-sensor/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a high-gloss crackle glaze (men rạn) with a natural color transition between emerald green and brown, which is characteristic of Bien Hoa ceramics. The arabesque wave patterns and geometric designs on the lid suggest a blend of traditional Asian motifs with Western influences, typical of the Bien Hoa style. The use of stoneware and the decorative techniques, including relief carving and incised designs, align with modern interpretations of historical styles, particularly those mimicking ancient Chinese bronzes from the Song and Ming dynasties. The overall shape and foot design further support this classification as a modern piece inspired by historical forms.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.504
+      },
+      "grok": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece features a stoneware body with a glaze that combines men hỏa biến (fire-changing glaze) and men rạn (crackle glaze), which is characteristic of Bat Trang ceramics. The glaze has a high-gloss finish and exhibits a natural, loang lổ (mottled) effect, with a color palette that includes xanh lục bảo đậm (deep green) and nâu cafe cháy (coffee brown). The presence of vết rạn (crackle) under the glaze and the use of đắp nổi (high-relief) and khắc chìm (low-relief) techniques also point towards Bat Trang. The body color, xám nâu (gray-brown), is consistent with Bat Trang stoneware. The shape, a lư hương ba chân (three-legged incense burner), and the decoration, featuring hoa văn cuộn sóng (arabesque) and chạm lộng (high-relief) motifs, are also typical of Bat Trang ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.946
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 30.851733878s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '30s'}]}}",
+        "latency_s": 15.656
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The most convincing argument came from the 'Kiln Signatures & Morphology Expert', who identified the use of stoneware with a glaze combining men hỏa biến and men rạn, typical of Bat Trang ceramics. The visual features, such as the high-gloss finish, natural mottled effect, and the specific color palette, align well with Bat Trang's characteristics. The shape and decorative techniques also support this classification. Google Lens results predominantly matched Chinese cloisonné items, which are not consistent with the stoneware and glaze type observed. Thus, the agent's reasoning was more aligned with the visual evidence, leading to the conclusion that this is a Bat Trang piece.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 19.114
+      }
+    },
+    "total_time_s": 19.12
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 18,
+    "filename": "images/02_bien_hoa/018_02_bien_hoa_08_bottle.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:34:48",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 73583,
+    "input_resized_bytes": 34555,
+    "vision_time_s": 3.383,
+    "acis_pipeline_time_s": 18.022,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Lot - Cloisonne vase. China. 18th century. Bottle form ...",
+        "url": "https://www.tremontauctions.com/auction-lot/cloisonne-vase.-china.-18th-century.-bottle-form._6f74286be7"
+      },
+      {
+        "title": "New to the Ackland: A Chinese Cloisonné Vase - Ackland Art ...",
+        "url": "https://ackland.org/new-to-the-ackland-a-chinese-cloisonne-vase/"
+      },
+      {
+        "title": "A CHINESE CLOISONNE ENAMEL 'LOTUS' BALUSTER VASE, MING ...",
+        "url": "https://onlineonly.christies.com/s/five-private-collections/chinese-cloisonne-enamel-lotus-baluster-vase-119/156670"
+      },
+      {
+        "title": "Vase - China - Qing dynasty (1644–1911) - The Metropolitan ...",
+        "url": "https://www.metmuseum.org/art/collection/search/40714"
+      },
+      {
+        "title": "Lot 345 | ANTIQUE CHINESE CERAMIC CLOISONNE GOURD SHAPED VASE",
+        "url": "https://antiquearena.com/lot/51130"
+      },
+      {
+        "title": "Lot - Modern Chinese Cloisonne Vase",
+        "url": "https://www.nyeandcompany.com/auction-lot/modern-chinese-cloisonne-vase_0eb418db50"
+      },
+      {
+        "title": "A Cloisonné vase, Ming dynasty. - Bukowskis",
+        "url": "https://www.bukowskis.com/en/auctions/559/1448-a-cloisonne-vase-ming-dynasty"
+      },
+      {
+        "title": "Massive Chinese Late Ming-Early Qing Cloisonne Vase (Lot 58 ...",
+        "url": "https://www.lelandlittle.com/items/108485/massive-chinese-late-ming-early-qing-cloisonne-vase/"
+      },
+      {
+        "title": "A Chinese robin's egg glazed vase with relief design of gilt ...",
+        "url": "https://www.coronariauctions.com/en/auction-summer-2023-asian-european-and-islamic-arts/12239-a-chinese-robins-egg-glazed-vase-with-relief-design-of--gilt-dragons-and-lotus-flowers-qianlong-mark-20th-c"
+      },
+      {
+        "title": "Kutani ware Nakata Kingyoku Flower pot Gold Mori Hoso ka-mon ...",
+        "url": "https://manekineko-ai.com/kutani-ware-nakata-kingyoku-flower-pot-gold-mori-hoso-ka-mon-aochibu-japan/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The vase's pear-shaped form and slightly flared mouth are characteristic of modern ceramic designs, particularly those influenced by Western styles. The glossy glaze with a rich color palette of deep petrol blue, dark red, mustard yellow, and gray-green suggests a modern interpretation of traditional Vietnamese ceramics. The use of relief decoration combined with polychrome overglaze aligns with Bien Hoa's style, which often features high-relief carvings and a blend of Asian motifs with Western aesthetics. The surface treatment, including the shadow effects in the relief, indicates a contemporary approach to glazing techniques. The estimated era aligns with the 20th century, reflecting the revival of traditional forms in a modern context.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 10.541
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The glossy glaze with a mix of colors such as xanh petrol đậm (deep petrol blue), đỏ thẫm (dark red), vàng mustard (mustard yellow), and xanh lá xám (grayish green) is reminiscent of the unique color palette found in Bien Hoa ceramics. The use of đắp nổi (relief) technique combined with vẽ trên men (polychrome overglaze) decoration also aligns with Bien Hoa's characteristic blending of Asian motifs with Western style borders. The absence of distinct firing marks and the smooth, glossy glaze suggests a modern, possibly industrial firing process, which is consistent with the modern era of Bien Hoa ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.791
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 56.866129912s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '56s'}]}}",
+        "latency_s": 15.541
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The two active agents, Ceramic History and Kiln Signatures & Morphology Expert, both strongly argue for the Bien Hoa ceramic line, citing the unique color palette and decoration techniques that align with Bien Hoa's style. The visual features, such as the glossy glaze with a mix of deep petrol blue, dark red, mustard yellow, and grayish green, along with the relief decoration, support this identification. Google Lens, while providing some matches for Chinese cloisonné, does not directly contradict the Bien Hoa identification, as the visual features are consistent with both the agents' reasoning and the characteristics of Bien Hoa ceramics. The consensus between the two agents, combined with the visual evidence, provides a strong case for Bien Hoa as the final prediction.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 21.405
+      }
+    },
+    "total_time_s": 21.409
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 19,
+    "filename": "images/02_bien_hoa/019_02_bien_hoa_09_figurine.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:35:24",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 67510,
+    "input_resized_bytes": 31014,
+    "vision_time_s": 3.686,
+    "acis_pipeline_time_s": 18.472,
+    "lens_status": {
+      "attempted": true,
+      "count": 12,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 12,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "Hand Forged Bronze Chinese Imperial Palace Guardian Foo ...",
+        "url": "https://www.chinafurnitureonline.com/decor/bronze-silver/Hand-Forged-Bronze-Chinese-Imperial-Palace-Guardian-Foo-Dogs-ABRFG-01"
+      },
+      {
+        "title": "Antique Chinese Style Temple Guardian Lions Foo Dogs ...",
+        "url": "https://www.instagram.com/p/DOeRHELjw1F/"
+      },
+      {
+        "title": "Chinese Ming Polychromed Cast Iron Fu Dogs (2) sold at ...",
+        "url": "https://www.bidsquare.com/online-auctions/artemis-gallery/chinese-ming-polychromed-cast-iron-fu-dogs-2-1621468"
+      },
+      {
+        "title": "Lot - CHINESE PORCELAIN FIGURE OF A FU DOG In green glaze ...",
+        "url": "https://www.eldreds.com/auction-lot/chinese-porcelain-figure-of-a-fu-dog-in-green-gla_17d426b88a"
+      },
+      {
+        "title": "Lot - Chinese Shiwan Glazed Pottery Buddhist Lion",
+        "url": "https://www.nealauction.com/auction-lot/chinese-shiwan-glazed-pottery-buddhist-lion_6fd4003813"
+      },
+      {
+        "title": "Shishi | All Works | The MFAH Collections",
+        "url": "https://emuseum.mfah.org/objects/25936/shishi"
+      },
+      {
+        "title": "Ebros Resin Sculpture Decorative Bookends: Chinese Forbidden ...",
+        "url": "https://www.walmart.com/ip/Ebros-Chinese-Forbidden-Palace-Guardian-Pair-Fu-Foo-Dogs-Lions-Figurine-Bookends/999382274"
+      },
+      {
+        "title": "Discover 460 Foo dog and japanese stone lion statues ideas ...",
+        "url": "https://www.pinterest.com/aworddancer/foo-dog/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits characteristics typical of Bien Hoa ceramics, such as the use of a high-gloss flambe glaze combined with crackle effects, and a unique color palette of teal and honey-brown. The relief decoration featuring a Foo Dog aligns with traditional Asian motifs, while the rectangular base and unglazed foot ring suggest a modern interpretation of historical styles. The estimated era as modern is supported by the craftsmanship and aesthetic choices that reflect contemporary artistic practices, possibly mimicking older styles. The firing marks and the natural crazing in the glaze further indicate a hand-crafted approach rather than mass production, consistent with the artisanal nature of Bien Hoa ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.465
+      },
+      "grok": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.8,
+        "evidence": "The glaze type is a flambe-style glaze combined with crackle glaze, which is reminiscent of Bien Hoa's unique satin glaze. The color palette, including teal/turquoise and honey-brown, is also consistent with Bien Hoa's characteristic colors. The high-relief relief carvings and incised details are typical of Bien Hoa's decorative techniques. The clay body color, which is a dark brown at the unglazed foot ring, also supports this prediction. The firing marks, including the light scorching at the base, are consistent with modern ceramic production techniques.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.927
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 19.974139905s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '19s'}]}}",
+        "latency_s": 16.08
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The most convincing arguments came from the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, both of whom identified the piece as Bien Hoa ceramics, citing the unique color palette of teal and honey-brown, the flambe-style glaze with crackle effects, and the high-relief decoration. These characteristics align with known features of Bien Hoa ceramics, which are known for their modern interpretations of traditional styles. The Google Lens results did not directly match Bien Hoa but provided context with a strong focus on Chinese origins. However, the visual features and the agents' reasoning strongly support the Bien Hoa identification, especially given the AI generation's tendency to mimic famous traditions. The piece's modern craftsmanship and aesthetic choices further support this conclusion.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 22.158
+      }
+    },
+    "total_time_s": 22.163
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 20,
+    "filename": "images/02_bien_hoa/020_02_bien_hoa_10_lidded_box.jpg",
+    "ground_truth": "Bien Hoa",
+    "started_at": "2026-07-08T16:36:01",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 81513,
+    "input_resized_bytes": 37732,
+    "vision_time_s": 4.703,
+    "acis_pipeline_time_s": 30.224,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "XIXth century chinese enameled \"Cloisonné\" covered bowl at ...",
+        "url": "https://www.1stdibs.com/furniture/asian-art-furniture/antiquities/xixth-century-chinese-enameled-cloisonne-covered-bowl/id-f_40201772/"
+      },
+      {
+        "title": "A CHINESE CLOISONNE ENAMEL AND GILT-BRONZE TWO-TIERED LOBED ...",
+        "url": "https://onlineonly.christies.com/s/five-private-collections/chinese-cloisonne-enamel-gilt-bronze-two-tiered-lobed-box-cover-190/156786"
+      },
+      {
+        "title": "A Chinese cloisonné 'lotus scroll' bowl and cover, 18/19th C ...",
+        "url": "https://www.rm-auctions.com/en/autumn-sale-2024/35542-a-chinese-cloisonne-lotus-scroll-bowl-and-cover-18-19th-c"
+      },
+      {
+        "title": "Lot - Cloisonne box. Japan. Mid 19th C. Round form ...",
+        "url": "https://www.tremontauctions.com/auction-lot/cloisonne-box.-japan.-mid-19th-c.-round-form.-dec_71843fc80a"
+      },
+      {
+        "title": "Chinese Cloisonne Box | Bidsquare",
+        "url": "https://www.bidsquare.com/collection/asian-works-of-art-ceramics-and-pottery-43/chinese-cloisonne-box-3298"
+      },
+      {
+        "title": "Sold at Auction: A CHINESE CLOISONNE ENAMEL CIRCULAR BOX ...",
+        "url": "https://www.invaluable.com/auction-lot/a-chinese-cloisonne-enamel-circular-box-with-cover-470-c-e404a33a72"
+      },
+      {
+        "title": "Russian Silver And Cloisonne Enamel Trinket Box",
+        "url": "https://www.liveauctioneers.com/price-result/russian-silver-and-cloisonne-enamel-trinket-box/"
+      },
+      {
+        "title": "Bonhams : AN IMPORTANT AND VERY RARE CLOISONNÉ ENAMEL AND ...",
+        "url": "https://www.bonhams.com/auction/27315/lot/124/an-important-and-very-rare-cloisonne-enamel-and-gilt-bronze-circular-chun-box-and-cover-qianlong-2/"
+      },
+      {
+        "title": "Chinese Antique Cloisonne Enamel & Copper Jewelry Box, Foxes",
+        "url": "https://www.harpgallery.com/p/chinese-antique-cloisonne-enamel-copper-jewelry-box-foxes/58016"
+      },
+      {
+        "title": "Images for 3524662. A CLOISONNÉ BOX AND COVER. - Auctionet",
+        "url": "https://auctionet.com/3524662-a-cloisonne-box-and-cover/images"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a prominent teal color with brown and cream accents, characteristic of Bien Hoa ceramics. The use of crazing glaze and the combination of relief carving with layered color decoration aligns with the decorative techniques seen in contemporary Vietnamese ceramics, particularly those influenced by traditional styles. The shape of the lidded jar is consistent with modern interpretations of traditional forms. The absence of clear firing marks and the treatment to mimic an antique appearance suggest a contemporary creation rather than an authentic historical piece. The decorative motifs, including stylized lotus and arabesque patterns, reflect the cultural blending typical of Bien Hoa ceramics, which often incorporate both Asian and Western influences.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.911
+      },
+      "grok": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a distinctive glaze typology, characterized by a crazing glaze (men rạn) with a deep, rich teal color, which is a common feature of Bat Trang ceramics. The glaze also shows a high level of craftsmanship, with a subtle blend of brown and yellow hues at the edges of the decorative motifs. The body of the piece is made of stoneware, with a dark brown color visible at the foot ring, which is consistent with the characteristics of Bat Trang ceramics. The decorative technique, which combines relief carving and layered painting, is also reminiscent of Bat Trang's traditional styles. Although the firing marks are not clearly visible, the overall appearance of the piece suggests a high level of skill and attention to detail, which is consistent with the reputation of Bat Trang ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.249
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 42.027521271s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '42s'}]}}",
+        "latency_s": 16.796
+      },
+      "acis": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument came from the 'Ceramic History' agent, who identified the piece as Bien Hoa based on its distinctive color palette and decorative techniques. The teal and brown majolica-like glaze, along with the high-relief carvings and layered color decoration, are characteristic of Bien Hoa ceramics. The Google Lens signals, which predominantly pointed towards Chinese cloisonné, were considered but did not match the specific features of this piece, such as the crazing glaze and the Vietnamese decorative motifs. The 'Kiln Signatures & Morphology Expert' also suggested a Vietnamese origin, specifically Bat Trang, but the evidence of a thick majolica-like glaze and the specific color palette aligns more closely with Bien Hoa. The 'Global Ceramics Expert' was unavailable, leaving the two active agents and the visual evidence to guide the decision.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 34.927
+      }
+    },
+    "total_time_s": 34.931
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 21,
+    "filename": "images/03_phu_lang/021_03_phu_lang_01_vase.jpg",
+    "ground_truth": "Phu Lang",
+    "started_at": "2026-07-08T16:36:51",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 82037,
+    "input_resized_bytes": 35951,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 17.64,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "IRREGULAR CLAY VASE | Zara Home United States of America",
+        "url": "https://www.zarahome.com/us/irregular-clay-vase-l40330046"
+      },
+      {
+        "title": "The Dipylon Amphora will be likely well known to those of ...",
+        "url": "https://www.instagram.com/p/DNht0DJxpkq/"
+      },
+      {
+        "title": "Fine Chinese Ceramics & Works of Art - N09192",
+        "url": "https://www.sothebys.com/en/auctions/2014/fine-chinese-ceramics-works-of-art-n09192.html"
+      },
+      {
+        "title": "Dipylon Amphora Geometric Vase Ancient Greek Pottery Ceramic ...",
+        "url": "https://www.greekartshop.com/dipylon-amphora-geometric-vase-ancient-greek-pottery-ceramic-museum-athens"
+      },
+      {
+        "title": "Lot - Large Shearwater Pottery \"Sea, Earth and Sky\" Vase, ca ...",
+        "url": "https://www.neworleansauction.com/auction-lot/large-shearwater-pottery-sea-earth-and-sky-vas_7f5408fad2"
+      },
+      {
+        "title": "560: PETER VOULKOS, Early rice bottle < Modern Design, 12 ...",
+        "url": "https://www.ragoarts.com/auctions/2020/09/modern-design/560"
+      },
+      {
+        "title": "We're fortunate and grateful to be featuring the work of a ...",
+        "url": "https://www.instagram.com/p/C4Q_9OFvixi/"
+      },
+      {
+        "title": "Antique Chinese 17th Century Ming Dynasty Amber Brown Glazed ...",
+        "url": "https://www.trocadero.com/stores/101antiques/items/1458604/Antique-Chinese-17th-Century-Ming-Dynasty-Amber-Brown-Glazed-Ceramic"
+      },
+      {
+        "title": "Everyday Elegance in Chinese Ceramics | SFO Museum",
+        "url": "https://www.sfomuseum.org/exhibitions/chinese-ceramics/gallery"
+      },
+      {
+        "title": "Sold at Auction: QIANLONG GILT OVER ZIJIN GLAZED AMPHORA VASE",
+        "url": "https://www.invaluable.com/auction-lot/qianlong-gilt-over-zijin-glazed-amphora-vase-32-c-4a843f09ad"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a dark amber-brown glaze with iron glaze characteristics typical of Phu Lang pottery. The geometric patterns, particularly the stylized Vạn and meander motifs, align with traditional Vietnamese folk art. The incised decoration technique combined with light relief suggests a hand-crafted approach, consistent with the rustic nature of Phu Lang ceramics. The firing marks indicate traditional wood firing methods, which are prevalent in Vietnamese pottery. The overall form of the piece, a small gourd-shaped vase, aligns with the functional and decorative pottery styles of the 21st century, drawing inspiration from historical forms. The foot ring and rough unglazed base further support the identification as Phu Lang pottery, which often features a coarse reddish-brown clay body.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.884
+      },
+      "grok": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a unique combination of characteristics that point towards the Phu Lang ceramic line. The glaze type, described as 'men nâu' (iron-glaze), is consistent with the iron-rich clay glaze used in Phu Lang ceramics, which produces a range of amber-brown to dark brown hues. The presence of a foot ring and the overall shape of the piece, resembling a small, rounded vase, are also typical of Phu Lang ceramics. The decoration technique, which involves incised geometric patterns, is another characteristic feature of Phu Lang ceramics. While the piece does not exhibit the typical underglaze blue brushstrokes or red/green enamels of Phu Lang, the overall style and material characteristics are consistent with this ceramic line.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 1.898
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 56.051962105s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '56s'}]}}",
+        "latency_s": 12.835
+      },
+      "acis": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.85,
+        "evidence": "The most convincing argument comes from both the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, who identified the piece as Phu Lang pottery. Their reasoning is supported by the visual features: the amber-brown glaze, geometric patterns, and incised decoration technique, which are characteristic of Phu Lang ceramics. The traditional wood firing marks and the shape of the vase further align with Phu Lang's rustic style. Google Lens did not provide a specific match that contradicted this analysis, and the visual evidence strongly supports the identification as Phu Lang. The consensus among the active agents is strong and consistent with the visual features, leading to a high confidence level.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 17.64
+      }
+    },
+    "total_time_s": 17.644
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 22,
+    "filename": "images/03_phu_lang/022_03_phu_lang_02_plate.jpg",
+    "ground_truth": "Phu Lang",
+    "started_at": "2026-07-08T16:37:24",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 101733,
+    "input_resized_bytes": 44761,
+    "vision_time_s": 3.949,
+    "acis_pipeline_time_s": 20.251,
+    "lens_status": {
+      "attempted": true,
+      "count": 13,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 13,
+    "lens_results": [
+      {
+        "title": "Oriental Furniture Chinese Porcelain Urn Lamp | Wayfair",
+        "url": "https://www.wayfair.com/lighting/pdp/oriental-furniture-chinese-porcelain-urn-lamp-ofn1330.html"
+      },
+      {
+        "title": "Page 3 | Mystery maya gold coin PSD, High Quality Free PSD ...",
+        "url": "https://www.magnific.com/psd/mystery-maya-gold-coin/3"
+      },
+      {
+        "title": "Centerpiece - cachemire| Labirinto | GINORI 1735",
+        "url": "https://www.ginori1735.com/eu/en/centerpiece-cachemire-labirinto-140rg00-fpt110lx0310g00135400"
+      },
+      {
+        "title": "Some good pots for your consideration Still haven't figured ...",
+        "url": "https://www.instagram.com/p/DXA3wmmFBbq/"
+      },
+      {
+        "title": "[Chinese (?) - English] Bought this and I have no idea what it ...",
+        "url": "https://www.reddit.com/r/translator/comments/brf4yt/chinese_english_bought_this_and_i_have_no_idea/"
+      },
+      {
+        "title": "Antic Chinese Coin Gold Hue Filter On Stone Background ...",
+        "url": "https://designsbyfreddyb.com/featured/antic-chinese-coin-gold-hue-filter-on-stone-background-fred-bertheas.html?product=weekender-totebag"
+      },
+      {
+        "title": "What is the age and worth of this iron stone bowl?",
+        "url": "https://www.facebook.com/groups/2961522894103609/posts/4028384357417452/"
+      },
+      {
+        "title": "Vtg Handmade Copper Repousse Aztec Calendar Wall Hanging ...",
+        "url": "https://www.cloudyinn.com/?k=55219459981100"
+      },
+      {
+        "title": "ITALIAN COPPER & WOOD ROUND COFFEE TABLE sold at auction on ...",
+        "url": "https://live.dumoart.com/online-auctions/dumouchelles/italian-copper-wood-round-coffee-table-811688"
+      },
+      {
+        "title": "Handcrafted Palm Wood Bowl with Artistic Carvings, Ø 35 cm",
+        "url": "https://bali-buddha.de/p-en/design-teller-aus-palmenholz-35cm-durchmesser/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bien Hoa",
+        "predicted_label": "Bien Hoa",
+        "confidence": 0.85,
+        "evidence": "The piece exhibits a rich amber-brown glaze typical of Bien Hoa ceramics, with a geometric pattern featuring the character 'Shou' and swastikas, which are common motifs in Asian decorative arts. The use of incised and molded techniques aligns with the high-relief style found in Bien Hoa pottery. The modern craftsmanship suggests a contemporary creation that draws inspiration from historical designs, particularly from the Ming and Qing dynasties. The absence of crazing and the smooth, glossy surface further support this classification as a modern piece rather than an ancient artifact.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.449
+      },
+      "grok": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The glaze type is iron glaze (men sắt) with a brown to amber color, which is consistent with Phu Lang ceramics. The decoration technique of incised and molded patterns also aligns with Phu Lang's traditional methods. The absence of crazing and the presence of a smooth, glossy glaze surface suggest a well-controlled firing process, which is characteristic of Phu Lang kilns. The body color, although not clearly visible, is likely to be a light brown or gray, which is typical of Phu Lang stoneware. The shape and size of the piece, a shallow dish with a rounded rim, are also consistent with Phu Lang's traditional forms.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.207
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 19.802498363s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'model': 'gemini-2.5-flash', 'location': 'global'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '19s'}]}}",
+        "latency_s": 16.425
+      },
+      "acis": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The 'Kiln Signatures & Morphology Expert' provided a convincing argument by linking the glaze type, decoration technique, and body color to Phu Lang ceramics. The iron glaze with a brown to amber color and the incised and molded patterns align well with Phu Lang's traditional methods. The visual evidence of a smooth, glossy glaze surface without crazing supports a well-controlled firing process typical of Phu Lang kilns. Although Google Lens did not provide a direct match to Phu Lang, it did not contradict the agent's analysis, and the visual features are consistent with Phu Lang characteristics. The 'Ceramic History' agent's suggestion of Bien Hoa was less convincing due to the emphasis on high-relief styles and a color palette more typical of Bien Hoa, which was not as evident in the visual features.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 24.2
+      }
+    },
+    "total_time_s": 24.205
+  },
+  {
+    "dataset": "dataset2_ai_lens5",
+    "source_dataset": "dataset2_ai",
+    "id": 23,
+    "filename": "images/03_phu_lang/023_03_phu_lang_03_bowl.jpg",
+    "ground_truth": "Phu Lang",
+    "started_at": "2026-07-08T16:38:03",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 70050,
+    "input_resized_bytes": 31283,
+    "vision_time_s": 6.222,
+    "acis_pipeline_time_s": 19.622,
+    "lens_status": {
+      "attempted": true,
+      "count": 10,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 10,
+    "lens_results": [
+      {
+        "title": "Medium Bowl MB3156 — David Harris Pottery",
+        "url": "https://www.davidharrispottery.com/bowls/p/medium-bowl-mb3156-8rjty"
+      },
+      {
+        "title": "Stoneware bowl | Ceramic Studio",
+        "url": "https://www.dustyroadpottery.com/product-page/stoneware-bowl-1"
+      },
+      {
+        "title": "Barry Brickell | Barry Brickell Bowl | MutualArt",
+        "url": "https://www.mutualart.com/Artwork/Barry-Brickell-Bowl/9367F35CD694F13802DF454A8E921007"
+      },
+      {
+        "title": "Kate Daly - Potter and Owner at Kate Daly Pottery | LinkedIn",
+        "url": "https://www.linkedin.com/in/kate-daly-73930b9"
+      },
+      {
+        "title": "Artist Spotlight: John Post",
+        "url": "https://www.activaproducts.com/john-post"
+      },
+      {
+        "title": "Kaneshige Toyo National Treasure Signed Japanese Bizen ...",
+        "url": "https://www.1stdibs.com/furniture/asian-art-furniture/ceramics/kaneshige-toyo-national-treasure-signed-japanese-bizen-pottery-chawan-tea-bowl/id-f_33877672/"
+      },
+      {
+        "title": "Bowl with carved design - China - Ming dynasty (1368–1644 ...",
+        "url": "https://www.metmuseum.org/art/collection/search/667018"
+      },
+      {
+        "title": "RAY FINCH Winchcombe Pottery - Salt Glazed Stoneware Tea ...",
+        "url": "https://www.worthpoint.com/worthopedia/ray-finch-winchcombe-pottery-salt-1776113224"
+      },
+      {
+        "title": "A MARBLE-GLAZED BOWL AND A GREEN-GLAZED MARBLED STEM DISH ...",
+        "url": "https://onlineonly.christies.com/s/pavilion-online-chinese-art/marble-glazed-bowl-green-glazed-marbled-stem-dish-3089/151512"
+      },
+      {
+        "title": "Clay, Glaze & Decoration | Korean Ceramics in the Freer ...",
+        "url": "https://publications.asia.si.edu/korean-ceramics/objects-kiln.php?cat=Kiln&name=Wakan"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.85,
+        "evidence": "The bowl exhibits characteristics typical of Phu Lang ceramics, including the use of iron-glaze stoneware (men nâu da lươn), which aligns with the traditional rustic pottery forms of this kiln. The geometric band patterns, particularly the Greek key and spiral motifs, suggest a blend of local and possibly external influences, indicative of trade interactions. The low foot ring and the overall shape of the bowl are consistent with the forms produced in Phu Lang. The estimated era aligns with modern interpretations of traditional styles, reflecting a revival of ancient techniques in contemporary ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 10.616
+      },
+      "grok": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The glaze type is iron-glaze stoneware, which is consistent with Phu Lang ceramics. The glaze details show a glossy, deep color with uneven color distribution, particularly in the recessed areas of the geometric patterns. The body color is reddish-brown or dark gray, which aligns with Phu Lang's characteristic coarse clay body. The shape, a small bowl with a low foot ring, and the decoration technique, combining incised and molded relief, also support this prediction. The absence of distinct crazing and the presence of a possible kiln mark at the foot ring further reinforce this analysis.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.428
+      },
+      "gemini": {
+        "raw_prediction": "Unknown",
+        "predicted_label": null,
+        "confidence": 0.0,
+        "evidence": "Agent temporarily unavailable: 429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": "429 RESOURCE_EXHAUSTED. {'error': {'code': 429, 'message': 'You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \\n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-2.5-flash\\nPlease retry in 38.52893452s.', 'status': 'RESOURCE_EXHAUSTED', 'details': [{'@type': 'type.googleapis.com/google.rpc.Help', 'links': [{'description': 'Learn more about Gemini API quotas', 'url': 'https://ai.google.dev/gemini-api/docs/rate-limits'}]}, {'@type': 'type.googleapis.com/google.rpc.QuotaFailure', 'violations': [{'quotaMetric': 'generativelanguage.googleapis.com/generate_content_free_tier_requests', 'quotaId': 'GenerateRequestsPerDayPerProjectPerModel-FreeTier', 'quotaDimensions': {'location': 'global', 'model': 'gemini-2.5-flash'}, 'quotaValue': '20'}]}, {'@type': 'type.googleapis.com/google.rpc.RetryInfo', 'retryDelay': '38s'}]}}",
+        "latency_s": 18.467
+      },
+      "acis": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.85,
+        "evidence": "The most convincing arguments came from the 'Ceramic History' and 'Kiln Signatures & Morphology Expert' agents, both of whom identified the bowl as Phu Lang. They provided detailed reasoning based on the visual features such as the iron-glaze stoneware, geometric band patterns, and the rustic style typical of Phu Lang ceramics. The glaze type and decoration technique align with Phu Lang's characteristic use of iron-rich glaze and incised patterns. Google Lens, acting as the 4th agent, did not provide a specific match for Phu Lang but did indicate signals related to Asian ceramics, which supports the agents' conclusions. The visual evidence, including the glaze type, body color, and decoration technique, is consistent with Phu Lang ceramics, reinforcing the prediction.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 25.845
+      }
+    },
+    "total_time_s": 25.849
+  }
+]
