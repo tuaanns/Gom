@@ -4893,5 +4893,959 @@
       }
     },
     "total_time_s": 39.084
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 48,
+    "filename": "images/05_chu_dau_vietnam/048_05_chu_dau_vietnam_08.jpg",
+    "ground_truth": "Chu Dau",
+    "started_at": "2026-07-08T15:44:33",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 85722,
+    "input_resized_bytes": 35485,
+    "vision_time_s": 3.336,
+    "acis_pipeline_time_s": 26.854,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử Quốc gia - Giới thiệu dòng gốm sứ Bát Tràng truyền thống",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/dong-gom-su-bat-trang-truyen-thong"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Vietnamese Bat Trang Ceramic Collection & History",
+        "url": "https://www.metmuseum.org/art/collection/search/72583"
+      },
+      {
+        "title": "The essence of Chu Dau pottery",
+        "url": "https://vietnam.vnanet.vn/english/tin-tuc/the-essence-of-chu-dau-pottery-229428.html"
+      },
+      {
+        "title": "Essence of Vietnam - 12 Days - Vietnam Local Tour",
+        "url": "https://www.vietnam-tour.biz/tour/essence-of-vietnam-12-days/"
+      },
+      {
+        "title": "Visit the Ancient Village of Bat Trang, Vietnam, Where ...",
+        "url": "https://www.thekitchn.com/pottery-in-vietnam-getting-lost-in-bat-trang-maker-tour-203692"
+      },
+      {
+        "title": "Explore Bat trang village & Ceramics factories with local ...",
+        "url": "https://www.tripadvisor.com/AttractionProductReview-g293924-d17224286-Explore_Bat_trang_village_Ceramics_factories_with_local_guide-Hanoi.html"
+      },
+      {
+        "title": "Hanoi, Vietnam - Jan 2, 2016: Craftsman Painting on Pottery ...",
+        "url": "https://www.dreamstime.com/hanoi-vietnam-jan-craftsman-painting-pottery-big-decoration-vase-bat-trang-ancient-ceramic-village-vi-oldest-best-image111474599"
+      },
+      {
+        "title": "BAT TRANG POTTERY VILLAGE - HANOI, VIETNAM ✨ Just a short ...",
+        "url": "https://www.instagram.com/p/DOsG7p1Duk4/"
+      },
+      {
+        "title": "Chu Dau Pottery - A unique ancient pottery style bringing ...",
+        "url": "https://www.vietnam.vn/en/gom-chu-dau-doc-dao-dong-gom-co-mang-van-hoa-viet-ra-the-gioi"
+      },
+      {
+        "title": "Bat Trang - Totally underrated, but so charming : r/hanoi",
+        "url": "https://www.reddit.com/r/hanoi/comments/1s53ldx/bat_trang_totally_underrated_but_so_charming/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Chu Đậu",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of the Chu Đậu kiln, known for its high-quality porcelain and stoneware. The red-brown underglaze decoration on a white background, along with the lotus and geometric patterns, aligns with the traditional designs from the early Lê period in Vietnam. The shape of the vase, with its elongated neck and bulbous body, is reminiscent of historical forms produced in the Chu Đậu region. The use of underglaze hand-painting and the smooth, slightly creamy white glaze further supports this identification. The estimated era is modern, indicating a revival of these traditional styles rather than an original piece from the historical period.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.13
+      },
+      "grok": {
+        "raw_prediction": "Chu Đậu",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The ceramic piece exhibits a white glaze with a creamy hue, characteristic of high-quality porcelain or stoneware. The underglaze hand-painted decoration, featuring lotus and geometric patterns, is a distinctive trait of Vietnamese ceramics, particularly from the Chu Đậu kiln. The body color is ivory, and the shape, with a tall, slender neck and a bulbous body, is reminiscent of traditional Vietnamese ceramics. The absence of visible firing marks and the overall condition of the piece suggest a modern production, possibly as a revival of ancient styles.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.738
+      },
+      "gemini": {
+        "raw_prediction": "Chu Dau Ceramics (Gốm Chu Đậu)",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents a compelling case for a specific regional ceramic tradition. The dominant color scheme of reddish-brown/brick red decoration on an ivory-white body, applied through an underglaze hand-painting technique, is a key indicator. This particular palette, using iron oxide as the pigment, was notably prevalent in Vietnamese ceramics during the 15th-16th centuries, especially within the Chu Dau tradition. While underglaze iron-brown was also utilized in Thai Sawankhalok and Sukhothai wares, the specific elegance of the vase shape (tall, constricted neck, flared mouth, bulbous/garlic-bulb body, tapering foot) aligns more closely with classic Vietnamese 'bình tỳ bà' (lute vase) or 'bình củ tỏi' (garlic bulb vase) forms. \n\n**Motifs & Cultural Symbolism:** The prominent stylized lotus flowers and leaves are universally significant in Buddhist cultures across Asia, symbolizing purity and enlightenment. However, the rendition here—the full, radiating petals and the specif",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 26.363
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided a comprehensive analysis that aligns closely with the visual features extracted from the image. The expert highlighted the specific reddish-brown underglaze on an ivory body, the stylized lotus and geometric patterns, and the elegant vase shape as hallmarks of the Chu Dau tradition. This reasoning was further supported by the Google Lens results, which matched 'Chu Dau' multiple times, reinforcing the identification of this ceramic line. The consensus among the agents, combined with the strong Google Lens matches, provided a high level of confidence in identifying the piece as a modern recreation of the traditional Chu Dau style. The visual evidence, including the underglaze hand-painted technique and the specific motifs, strongly supports this conclusion.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 30.19
+      }
+    },
+    "total_time_s": 30.197
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 49,
+    "filename": "images/05_chu_dau_vietnam/049_05_chu_dau_vietnam_09.jpg",
+    "ground_truth": "Chu Dau",
+    "started_at": "2026-07-08T15:45:18",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 86796,
+    "input_resized_bytes": 36192,
+    "vision_time_s": 2.839,
+    "acis_pipeline_time_s": 24.533,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Bảo tàng Lịch sử - Sứ Cảnh Đức Trấn và giao lưu văn hóa Đông Tây",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/su-canh-duc-tran-va-co-vat-trung-hoa"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Jingdezhen Porcelain Production & History",
+        "url": "https://www.metmuseum.org/toah/hd/jing/hd_jing.htm"
+      },
+      {
+        "title": "BÌNH TỲ BÀ GỐM CHU ĐẬU | CÔNG TY CỔ PHẦN GỐM CHU ĐẬU",
+        "url": "https://chudauceramic.vn/binh-ty-ba"
+      },
+      {
+        "title": "La céramique au Vietnam decouverte vietnam Agence de voyage ...",
+        "url": "https://vietnamdragontravel.com/la-ceramique-au-vietnam.html"
+      },
+      {
+        "title": "Ceramic products stock image. Image of color, traditional ...",
+        "url": "https://www.dreamstime.com/stock-image-ceramic-products-hai-duong-vietnam-june-on-june-in-chu-dau-hai-duong-vietnam-image32137701"
+      },
+      {
+        "title": "Bình tỳ bà Gốm Chu Đậu",
+        "url": "https://chudauceramic.online/binh-ty-ba-gom-chu-dau"
+      },
+      {
+        "title": "周窦古陶村的独特体验- 新闻- 广宁报纸",
+        "url": "https://chinese.baoquangninh.vn/zhou-dou-gu-tao-cun-de-du-te-ti-yan-3178933.html"
+      },
+      {
+        "title": "Công ty TNHH HiVN",
+        "url": "https://hivn.vn/san-pham/binh-ty-ba-gom-chu-dau"
+      },
+      {
+        "title": "Japanese Contemporary Blue White Porcelain Vase by Master ...",
+        "url": "https://www.1stdibs.com/furniture/decorative-objects/vases-vessels/vases/japanese-contemporary-blue-white-porcelain-vase-master-artist-3/id-f_16826182/"
+      },
+      {
+        "title": "Full Day Bat Trang & Van Giang Village Tour with Cooking ...",
+        "url": "https://www.viator.com/tours/Hanoi/Half-day-explore-Van-Giang-village-with-cooking-class/d351-25712P7"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The baluster vase shape, creamy white body with cobalt blue underglaze decoration, and clear glaze indicate a modern production style that emulates traditional Vietnamese ceramics. The architectural landscape motifs and geometric patterns are characteristic of Bat Trang's contemporary output, which often reflects local culture and heritage while appealing to both domestic and export markets. The absence of crazing and the thick, reflective glaze suggest a modern manufacturing technique, likely involving slip-casting or wheel-throwing rather than hand-coiling. The estimated era aligns with the resurgence of traditional designs in the late 20th century as Vietnam opened up to global trade, particularly in ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 7.215
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The clear glaze over a white slip, the underglaze blue decoration technique, and the creamy white body color are characteristic of Vietnamese ceramics, particularly those from the Bát Tràng kiln. The baluster vase shape, the high neck, and the rounded foot ring also align with traditional Vietnamese ceramic forms. The absence of crazing and the even, thick glaze application suggest a relatively modern production date. The style, with its folk scene decorations and geometric patterns, is reminiscent of traditional Vietnamese ceramics but also shows influence from export porcelain styles.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.172
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Hoa Lam Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents a porcelain baluster vase decorated with underglaze cobalt blue on a creamy white ground. My analysis focuses heavily on the distinct cultural and stylistic elements.\n\n**Motifs & Cultural Symbolism:**\n1.  **Underglaze Cobalt Blue on White Porcelain:** This technique and color scheme is a globally influential tradition, largely originating from China (Yuan, Ming dynasties) and adopted extensively across East and Southeast Asia. Its presence alone does not pinpoint origin, but sets a general regional context.\n2.  **Architectural Landscape (đình làng, nhà cửa):** The most significant cultural marker here is the depiction of a 'đình làng' (Vietnamese communal house) and other traditional houses. The 'đình làng' is an iconic and unique architectural feature of Vietnamese villages, serving as a spiritual, social, and cultural center. Its presence is an unambiguous indicator of Vietnamese cultural representation, differentiating it from generalized East Asian land",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 22.718
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided a comprehensive analysis that aligns well with the visual features and Google Lens signals. The depiction of Vietnamese cultural motifs, such as the 'đình làng', and the creamy white porcelain with cobalt blue underglaze are indicative of Bat Trang ceramics. Google Lens also strongly matched the piece with Bat Trang, reinforcing the expert's conclusion. The consensus among the agents, particularly the Global Ceramics Expert's detailed comparison with other traditions, supports the identification of this piece as Bat Trang. The absence of crazing and the modern manufacturing techniques further confirm the era as late 20th to early 21st century.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 27.372
+      }
+    },
+    "total_time_s": 27.379
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 50,
+    "filename": "images/05_chu_dau_vietnam/050_05_chu_dau_vietnam_10.jpg",
+    "ground_truth": "Chu Dau",
+    "started_at": "2026-07-08T15:46:01",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 66133,
+    "input_resized_bytes": 27370,
+    "vision_time_s": 3.196,
+    "acis_pipeline_time_s": 29.755,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Lịch sử Gốm Chu Đậu cổ truyền - Bản sắc văn hóa Việt Nam",
+        "url": "https://chudauceramic.vn/lich-su-gom-chu-dau/"
+      },
+      {
+        "title": "The British Museum - Collection & History of Vietnamese Chu Dau Ware",
+        "url": "https://www.britishmuseum.org/collection/object/A_1983-0518-1"
+      },
+      {
+        "title": "Firing ceramics using raku takes time! During a session, I ...",
+        "url": "https://www.instagram.com/reel/DKSWzyUzTJv/"
+      },
+      {
+        "title": "Hapro sells Chu Đậu shares to BRG Group",
+        "url": "http://vietnamnews.vn/economy/507720/hapro-sells-chu-dau-shares-to-brg-group.html"
+      },
+      {
+        "title": "Chu Dau pottery – the continuance of Vietnamese cultural ...",
+        "url": "https://en.baophutho.vn/chu-dau-pottery--the-continuance-of-vietnamese-cultural-identities-265.htm"
+      },
+      {
+        "title": "Royal Delft: Delft Blue Factory & Museum in Delft | Pelago",
+        "url": "https://www.pelago.com/en-US/activity/p32xz-royal-delft-delft-blue-factory--museum-delft/"
+      },
+      {
+        "title": "Only about twenty of these unusual 'birdcage' vases are ...",
+        "url": "https://www.instagram.com/p/DQORxa7jcxq/"
+      },
+      {
+        "title": "Exploring Chu Dau Ceramic Village - Preserving Ancient ...",
+        "url": "https://mytour.vn/en/blog/bai-viet/exploring-the-essence-of-chu-dau-ceramic-village-where-ancient-vietnamese-spirit-resides.html"
+      },
+      {
+        "title": "IMG_5173 | Dũng Phượng Hải Dương | Flickr",
+        "url": "https://www.flickr.com/photos/138409465@N08/46668027964/"
+      },
+      {
+        "title": "Chinese Snow Scene Vase by He Xuren, Republic sold at ...",
+        "url": "https://www.bidsquare.com/online-auctions/oakridge-auction-gallery/chinese-snow-scene-vase-by-he-xuren-republic-1887745"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a cream/off-white body color with deep cobalt blue underglaze decoration, characteristic of Bát Tràng ceramics. The use of crackle glaze is a traditional technique in East Asian ceramics, particularly in Vietnamese porcelain. The architectural landscape and geometric patterns suggest a blend of traditional Vietnamese and Chinese influences, indicative of historical trade routes. The shape resembles a tỳ bà vase, common in both historical and contemporary Vietnamese pottery. The modern condition and decorative style suggest it is a contemporary reproduction, mimicking traditional techniques rather than an original artifact.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.396
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The glaze typology indicates a crackle glaze, which is a characteristic feature of traditional Vietnamese ceramics, particularly from the Bát Tràng kiln. The underglaze blue decoration technique and the use of cobalt blue pigment also point towards Vietnamese ceramics. The body morphology, with a cream-white clay color and a middle-sized, elegantly shaped vase, is consistent with Bát Tràng products. The absence of clear kiln signatures or firing marks in the provided image makes it challenging to pinpoint the exact kiln, but the overall material characteristics align with Bát Tràng's style. The style hints at a traditional Vietnamese approach with Chinese influences, which is typical for Bát Tràng ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.524
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Men Rạn Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "This exquisite vase presents a rich tapestry of cultural and stylistic cues that point distinctly towards Vietnamese ceramic traditions. The core aesthetic is defined by its pristine 'trắng ngà' (cream/off-white) porcelain body, adorned with intricate 'cobalt blue' underglaze decoration, a hallmark palette across East and Southeast Asia. However, several critical elements narrow down its origin.\n\n**Motifs & Cultural Symbolism:** The primary motif, 'phong cảnh kiến trúc đình chùa' (landscape featuring communal houses/pagodas) in a 'phong cách tranh thủy mặc truyền thống' (traditional ink wash painting style), is highly significant. The term 'đình chùa' itself is a specific Vietnamese designation for these types of sacred and communal buildings, indicating a local context. The ink wash technique, with its nuanced tonal variations in cobalt blue, reflects the deep influence of classical Chinese landscape painting (shanshui) adapted and internalized into Vietnamese artistic expression. Thi",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 28.581
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive analysis, highlighting the specific cultural and stylistic cues that align with Vietnamese ceramic traditions, particularly the Bat Trang line. The use of crackle glaze, underglaze blue decoration, and the architectural motifs are consistent with Bat Trang's contemporary reproductions of traditional styles. Google Lens, acting as the 4th agent, strongly matched the image with Vietnamese ceramics, specifically Bat Trang, which corroborates the expert's analysis. The other agents also leaned towards Bat Trang, reinforcing the consensus. The visual evidence, including the cream/off-white body color, cobalt blue decoration, and crackle glaze, further supports this conclusion.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 32.951
+      }
+    },
+    "total_time_s": 32.956
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 51,
+    "filename": "images/06_goryeo_south_korea/051_06_goryeo_south_korea_01.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:46:49",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 22021,
+    "input_resized_bytes": 11421,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 28.323,
+    "lens_status": {
+      "attempted": true,
+      "count": 13,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 13,
+    "lens_results": [
+      {
+        "title": "Bonhams : A LONGQUAN CELADON 'CHRYSANTHEMUM' BOWL Song dynasty",
+        "url": "https://www.bonhams.com/auction/24819/lot/8056/a-longquan-celadon-chrysanthemum-bowl-song-dynasty/"
+      },
+      {
+        "title": "Bonhams : A Chinese celadon-glaze vase, meiping",
+        "url": "https://www.bonhams.com/auction/22857/lot/218/a-chinese-celadon-glaze-vase-meiping/"
+      },
+      {
+        "title": "Lot - A Chinese Song Dynasty Style Celadon Vase",
+        "url": "https://www.linkauctiongalleries.com/auction-lot/a-chinese-song-dynasty-style-celadon-vase_09940bba9c"
+      },
+      {
+        "title": "Productpage - Galerie Tjitra",
+        "url": "https://www.tjitra.nl/a-green-lead-glazed-vase-quot-hu-quot-from-the-han-dynasty-206-bc-220-ad-qp-970/view"
+      },
+      {
+        "title": "Notes on Blue | Dai Ichi Arts | Modern & contemporary ...",
+        "url": "https://www.daiichiarts.com/blog/103-notes-on-blue-nakashima-hiroshi-and-celadon-as-legacy/"
+      },
+      {
+        "title": "A CARVED LONGQUAN CELADON VASE, MING DYNASTY, 15TH-16TH ...",
+        "url": "https://onlineonly.christies.com/s/art-china-including-private-english-collections/carved-longquan-celadon-vase-142/66921"
+      },
+      {
+        "title": "Large Art Dusty Green Vase by Nils Thorsson for Royal ...",
+        "url": "https://www.suavisal.com/?i=26600246791100"
+      },
+      {
+        "title": "Chinese Celadon Bottle Vase (Pair) (item #1364054)",
+        "url": "https://www.trocadero.com/stores/asiaofold/items/1364054/Chinese-Celadon-Bottle-Vase-Pair"
+      },
+      {
+        "title": "Royal Sphinx Maastricht Marked Delft Vase Urn Blue White Foo ...",
+        "url": "https://www.collectorsinthehouse.com/en/royal-sphinx-maastricht-marked-delft-vase-urn-blue-white-foo-dog-medium-height"
+      },
+      {
+        "title": "GLANSGRAN vase, light green, 9\" - IKEA",
+        "url": "https://www.ikea.com/us/en/p/glansgran-vase-light-green-70637733/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Thiên Trường",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of celadon ware from the 12th to 14th century, particularly during the Ly and Tran dynasties in Vietnam. The pale celadon glaze, smooth surface with tiny air bubbles, and monochrome decoration align with the traditional celadon techniques of this era. The unglazed rim suggests a specific firing technique that was common in regional kilns. The minimalist design emphasizes the quality of the glaze and form, which is indicative of the aesthetic values during this period. The shape, with a slightly flared mouth and high neck, is consistent with the forms produced in the Thiên Trường kiln, known for its refined celadon wares.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 3.851
+      },
+      "grok": {
+        "raw_prediction": "Yaozhou",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The pale celadon glaze with a subtle blue-green tint, the presence of tiny air bubbles characteristic of traditional celadon glaze, and the absence of noticeable crazing suggest a high-quality celadon ware. The monochrome glaze technique and the simplicity of the design also point towards a traditional Chinese celadon style. The unglazed rim and the firing marks indicate a technique of upside-down firing or hanging firing, which was common in Chinese kilns during the Northern Song Dynasty. The body color, described as ivory or light gray at the mouth rim, and the shape of the vessel, with a flared mouth, a curved shoulder, and a tall, tapered neck, are also consistent with Yaozhou celadon wares from this period.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 1.456
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Hoa Của (Thiên Trường Kilns)",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The visual evidence strongly points to a refined celadon tradition, characterized by its pale celadon glaze with a distinct blue tint, thick and smooth application, and minimalist aesthetic. This emphasis on the purity of form and the depth of the glaze, rather than elaborate decoration, is a hallmark of sophisticated ceramic production across East and Southeast Asia during the 12th-14th centuries.\n\n**1. Motifs & Cultural Symbolism:** The absence of explicit motifs is a critical 'motif' in itself. This minimalist approach signifies a cultural preference for understated elegance and the inherent beauty of the material and glaze. It often reflects Taoist or Zen Buddhist aesthetics, where simplicity and natural forms are revered, allowing the viewer to contemplate the subtle variations in color and texture. In the context of Lý-Trần Vietnam, this aligns with the prevailing court aesthetics and the spiritual landscape of the time, which valued serenity and refined beauty.\n\n**2. Regional Ch",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 23.365
+      },
+      "acis": {
+        "raw_prediction": "Gốm Hoa Của (Thiên Trường Kilns)",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided a comprehensive analysis that aligns with the visual features of the pottery, such as the pale celadon color, minimalist design, and unglazed rim, which are indicative of Vietnamese celadon from the Lý-Trần period. The agent's argument was further supported by the visual evidence of the glaze type and firing marks, which are consistent with the techniques used in the Thiên Trường kilns. Google Lens results predominantly matched Chinese celadon, but the specific characteristics of the piece, such as the unglazed rim, align more closely with Vietnamese production methods. The other agents' suggestions of Chinese origins were less convincing due to the specific firing techniques and stylistic elements that are more characteristic of Vietnamese ceramics.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 28.323
+      }
+    },
+    "total_time_s": 28.325
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 52,
+    "filename": "images/06_goryeo_south_korea/052_06_goryeo_south_korea_02.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:47:32",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 39812,
+    "input_resized_bytes": 21548,
+    "vision_time_s": 3.508,
+    "acis_pipeline_time_s": 43.735,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Day 15 Large Philodendron Leaf Painting - Jaime Haney Art ...",
+        "url": "https://jaimehaney.com/day-15-large-philodendron-leaf-painting/"
+      },
+      {
+        "title": "What's the point of life if not to be extremely passionate ...",
+        "url": "https://www.instagram.com/reel/DaQmfdwBjrf/"
+      },
+      {
+        "title": "The maximalist's dream entryway into a chinoiserie chic ...",
+        "url": "https://www.instagram.com/reel/DPnBFgFDKNz/"
+      },
+      {
+        "title": "Clay Slab Tray Molded from a Styrofoam Form (Part 3) with ...",
+        "url": "https://www.youtube.com/watch?v=7FgwI0SdtYM"
+      },
+      {
+        "title": "Tamara Gonzales - Klaus von Nichtssagend",
+        "url": "https://klausgallery.com/artist/tamara-gonzales/"
+      },
+      {
+        "title": "Moses Eaton Stencil | Historic New England",
+        "url": "https://www.historicnewengland.org/explore/collections-access/gusn/335764"
+      },
+      {
+        "title": "i totally forgot to do this but you can also wipe the paint ...",
+        "url": "https://www.instagram.com/reel/DaVgmuEsn_4/"
+      },
+      {
+        "title": "11 | Posh Inks | Flickr",
+        "url": "https://www.flickr.com/photos/poshinks/6046270625/"
+      },
+      {
+        "title": "When you cut up an old screen and have to do it again ...",
+        "url": "https://www.facebook.com/groups/fjrowners/posts/10163717240035367/"
+      },
+      {
+        "title": "ALT for Living",
+        "url": "https://www.pinterest.com/pin/alt-i-vintage-silk-screens--274438171014121239/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The reddish-brown terracotta body with hand-painted floral leaf patterns suggests a modern interpretation of traditional Vietnamese ceramics, particularly from the Bat Trang kiln, known for its artisanal pottery. The matte finish and direct painting technique indicate a contemporary style that embraces traditional motifs while adapting to modern aesthetics. The surface texture and decoration techniques align with the characteristics of studio pottery in Vietnam, which often blends traditional craftsmanship with modern artistic expressions. The absence of a foot ring and the estimated shape being a decorative piece further support this classification.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 11.864
+      },
+      "grok": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The terracotta color of the body, combined with the matte or unglazed surface and the hand-painted decoration using what appears to be mineral pigments, points towards a specific type of ceramic production. The absence of a clear glaze and the emphasis on the natural texture of the clay body suggest a focus on the material's inherent qualities. The decorative pattern, featuring large, stylized leaf motifs with soft, curving lines and symmetrically arranged veins, is reminiscent of traditional Vietnamese ceramics but with a contemporary twist. The lack of clear kiln marks or foot ring in the provided image limits the ability to pinpoint the exact kiln or production site, but the overall aesthetic and material choices align with the Phu Lang ceramic tradition, known for its earthy tones and natural, unglazed surfaces. The use of mineral pigments for decoration also aligns with traditional Vietnamese ceramic practices. While the exact origin could be debated without more specific kiln mar",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.366
+      },
+      "gemini": {
+        "raw_prediction": "Song An Gốm - Bộ sưu tập Lá Mộc",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The visual evidence presents a ceramic piece characterized by an unglazed or matte terracotta (nâu đất đỏ) body, hand-painted with a prominent, stylized leaf motif in creamy white and subtle reddish-orange (hồng cam nhạt) tones. This aesthetic provides several strong cultural and stylistic clues.\n\n**1. Motifs & Cultural Symbolism:**\nThe central motif is a large, stylized leaf with clearly defined, symmetrical veins. While simplified, it evokes natural forms. In many Asian cultures, leaf motifs, particularly those resembling the Bodhi leaf (Ficus religiosa) or a stylized lotus leaf, carry deep symbolism of enlightenment, purity, growth, and nature's vitality. The simplicity and bold rendering suggest a modern interpretation, focusing on aesthetic form rather than intricate traditional iconography. The earthy color palette further reinforces a connection to nature and organic materials.\n\n**2. Regional Characteristics:**\n*   **Southeast Asia (General):** The use of terracotta or stoneware",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 43.088
+      },
+      "acis": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The Kiln Signatures & Morphology Expert's prediction of Phu Lang was the most convincing due to the emphasis on the terracotta body color, matte or unglazed surface, and hand-painted decoration using mineral pigments, which align with traditional Vietnamese ceramic practices. The visual evidence of a reddish-brown body and large, stylized leaf motifs supports this conclusion. Google Lens did not provide a definitive match to a specific ceramic line, but the references to studio pottery and Southeast Asian origins align with the characteristics of Phu Lang ceramics. The Global Ceramics Expert's suggestion of a contemporary Vietnamese art ceramics collection was also plausible but less specific than the Phu Lang tradition.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 47.242
+      }
+    },
+    "total_time_s": 47.245
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 53,
+    "filename": "images/06_goryeo_south_korea/053_06_goryeo_south_korea_03.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:48:34",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 43467,
+    "input_resized_bytes": 24068,
+    "vision_time_s": 2.501,
+    "acis_pipeline_time_s": 35.315,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Coning and Centering - John Britt -2011 #1 in FREE Online ...",
+        "url": "https://www.youtube.com/watch?v=87c2KiERuyk"
+      },
+      {
+        "title": "Centering Made Simple - Wakefield Handmade",
+        "url": "https://www.wakefieldhandmade.com/blogs/news/centering-made-simple"
+      },
+      {
+        "title": "Lebanese potter maintains ancient craft",
+        "url": "https://english.alarabiya.net/articles/2012/11/16/249956"
+      },
+      {
+        "title": "Gabriel Nichols - Throwing a medium flower pot using wild ...",
+        "url": "https://www.youtube.com/watch?v=95fL1Vddqko"
+      },
+      {
+        "title": "Only real artists know 🔊 Take a class and let us know how ...",
+        "url": "https://www.instagram.com/reel/DaBYGwGhflL/"
+      },
+      {
+        "title": "Pottery Wheel GIFs - Find & Share on GIPHY",
+        "url": "https://giphy.com/explore/pottery-wheel"
+      },
+      {
+        "title": "Corneliu Magopăț, Ceramicist in Marginea, Romania, presented ...",
+        "url": "https://www.homofaber.com/en/artisans/corneliu_magopăț-ceramics-marginea"
+      },
+      {
+        "title": "Just experimenting with clay, enjoying the process, and ...",
+        "url": "https://www.instagram.com/reel/DaXwyRUggXl/"
+      },
+      {
+        "title": "Sagada Pottery & Training Center - All You SHOULD Know ...",
+        "url": "https://www.tripadvisor.com/Attraction_Review-g304053-d12032457-Reviews-Sagada_Pottery_Training_Center-Sagada_Mountain_Province_Cordillera_Region_Luzon.html"
+      },
+      {
+        "title": "Clay Money Bank Making Process: Easy DIY Lifehack | TikTok",
+        "url": "https://www.tiktok.com/@ohdcrafter1/video/7643398095824342302"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The pottery exhibits characteristics typical of contemporary Vietnamese ceramics, particularly from the Bat Trang region, known for its traditional hand-thrown techniques. The absence of glaze and the use of a wheel-thrown method indicate a focus on artisanal craftsmanship rather than mass production. The light gray color and smooth surface suggest a natural clay body, which is common in modern pottery practices. The shape, a small bottle form, aligns with contemporary trends in functional and decorative ceramics. The lack of firing marks indicates that the piece is still in the crafting stage, further supporting its contemporary classification.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.355
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The absence of glaze (gốm mộc) and the natural clay color (xám nhạt) suggest a traditional Vietnamese ceramic style. The surface is smooth and moist, indicating a high water content, which is consistent with hand-built ceramics. The lack of firing marks and the presence of a wheel-thrown shape indicate that the piece is still in the early stages of production. The body morphology, including the wall thickness and shape, is consistent with traditional Vietnamese ceramics. The suspected origin is a small, traditional workshop (xưởng gốm thủ công), which is supported by the material evidence.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 3.704
+      },
+      "gemini": {
+        "raw_prediction": "Shigaraki-yaki (信楽焼)",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The visual evidence showcases an unglazed, wheel-thrown stoneware vessel currently in the process of creation. Its pristine, smooth surface and the complete absence of applied decoration are key indicators. This minimalist approach, which foregrounds the purity of the form and the natural qualities of the clay body, is a hallmark of the Wabi-sabi aesthetic deeply embedded in Japanese culture. The 'neutral grey' body color of the clay is also a significant clue.\n\n**1. Regional Characteristics & Stylistic Analysis (Japanese Shigaraki-yaki):**\nJapanese unglazed stoneware traditions, particularly Shigaraki-yaki (信楽焼) from Shiga Prefecture and Bizen-yaki (備前焼) from Okayama, are renowned for their profound appreciation of natural clay, unadorned forms, and the transformative effects of firing. Shigaraki-yaki, in particular, is celebrated for its light-colored, often greyish-buff stoneware clay, frequently interspersed with visible feldspar inclusions. This 'neutral grey' hue of the clay in t",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 34.136
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The Ceramic History and Kiln Signatures & Morphology Expert agents both convincingly argue for Bat Trang, Vietnam, based on the visual evidence of a light gray, unglazed, wheel-thrown pottery piece. Their reasoning aligns with the characteristics typical of Bat Trang ceramics, known for traditional hand-thrown techniques and natural clay bodies. The Global Ceramics Expert's argument for Shigaraki-yaki, Japan, while detailed, does not align as closely with the visual evidence, particularly given the absence of the specific Japanese aesthetic markers and the geographic signals pointing to Vietnam. Google Lens did not provide a strong counterargument to the Bat Trang prediction, as the geographic signals were not definitive. Thus, the consensus among the two agents and the visual evidence strongly supports Bat Trang.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 37.816
+      }
+    },
+    "total_time_s": 37.819
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 54,
+    "filename": "images/06_goryeo_south_korea/054_06_goryeo_south_korea_04.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:49:27",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 29575,
+    "input_resized_bytes": 15824,
+    "vision_time_s": 2.38,
+    "acis_pipeline_time_s": 28.196,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Gốm men ngọc Cao Ly - Đỉnh cao nghệ thuật gốm sứ Hàn Quốc",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-men-ngoc-goryeo-han-quoc"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Goryeo Celadon Ceramics of Korea",
+        "url": "https://www.metmuseum.org/toah/hd/gory/hd_gory.htm"
+      },
+      {
+        "title": "Reviving traditional Korean celadons (video) | Khan Academy",
+        "url": "https://www.khanacademy.org/partner-content/asian-art-museum/aam-korea-topic/xc4e9b2d5:lesosn-2-the-goryeo-dynasty/v/korean-celadons"
+      },
+      {
+        "title": "Handcarving a sgraffito bowl with a loop tool",
+        "url": "https://www.instagram.com/reel/DZdDb2DSdMk/"
+      },
+      {
+        "title": "How to make intricate designs using Sgraffito - YouTube",
+        "url": "https://www.youtube.com/watch?v=zLeRsjhcnRs"
+      },
+      {
+        "title": "Process — Jennifer Wankoff Ceramics and Judaica",
+        "url": "https://www.jenniferwankoff.com/process"
+      },
+      {
+        "title": "Carving pots is my go to decoration style! Over the years I ...",
+        "url": "https://www.instagram.com/reel/DSRaCGKkZ8D/"
+      },
+      {
+        "title": "Leather Carving for Beginners - Episode 1 - YouTube",
+        "url": "https://www.youtube.com/watch?v=hkcbnXQwPt4"
+      },
+      {
+        "title": "What Is Sgraffito? | Pottery Technique, Tools & Step-by-Step ...",
+        "url": "https://www.lakesidepottery.com/Pages/Pottery-tips/How-to-create-sgraffito-pottery-tutorial.htm"
+      },
+      {
+        "title": "Dreamy Underglaze Painting Technique for Pottery | TikTok",
+        "url": "https://www.tiktok.com/@loonscape/video/7508829375932927239"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.85,
+        "evidence": "The pottery exhibits a light yellow-brown color typical of earthenware from the Bát Tràng region of Vietnam. The absence of glaze and the natural texture of the surface suggest a traditional handcrafting technique, consistent with contemporary practices in this area. The incised decoration featuring stylized lotus patterns and geometric motifs aligns with the aesthetic traditions of Southeast Asian ceramics. The size estimate and the shape of the piece as a large dish or vase further support its classification within the modern era of Bát Tràng ceramics, which often emphasizes traditional designs and methods. The overall characteristics indicate that this piece is likely a product of the ongoing revival of traditional pottery techniques in Vietnam, particularly in Bát Tràng, known for its rich ceramic heritage.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.832
+      },
+      "grok": {
+        "raw_prediction": "Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.8,
+        "evidence": "The unglazed surface with a natural, earthy color and the presence of incised decorations suggest a traditional, handmade ceramic piece. The body color is a light brown-yellow, which is consistent with the use of local clays. The absence of a glaze and the emphasis on the natural texture of the clay body point towards a specific aesthetic preference often associated with Bát Tràng ceramics. The incised pattern of stylized lotus motifs and geometric designs (key fret pattern) is also reminiscent of traditional Vietnamese ceramics. Although the firing marks and foot ring are not visible, the overall morphology and decoration technique align with the characteristics of Bát Tràng ware.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 3.612
+      },
+      "gemini": {
+        "raw_prediction": "Gốm Mộc Bát Tràng",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents an unglazed stoneware piece, characterized by its natural, light yellowish-brown body and a rough, organic surface. The decorative motifs consist of a stylized lotus flower and a geometric key fret (hồi văn) pattern, executed with an incised technique. This combination provides strong cultural and regional markers.\n\n**1. Motifs & Cultural Symbolism:**\n*   **Lotus Flower:** The lotus is a paramount symbol in Buddhist and Hindu cultures across Asia, representing purity, spiritual enlightenment, and beauty. Its stylized depiction here, with soft, organic lines, is highly characteristic of Southeast Asian, particularly Vietnamese, interpretations where it is deeply integrated into religious art and daily aesthetics.\n*   **Key Fret (Hồi Văn):** This geometric pattern, known as 'hồi văn' in Vietnam, has ancient roots in Chinese decorative arts (e.g., on bronze vessels and architecture) and was widely adopted and adapted across East and Southeast Asia. In Vietnam,",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 26.829
+      },
+      "acis": {
+        "raw_prediction": "Bat Trang",
+        "predicted_label": "Bat Trang",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive analysis, detailing the cultural significance of the motifs and the specific characteristics of the pottery. The unglazed stoneware with incised lotus and key fret patterns aligns with traditional Vietnamese aesthetics, particularly from the Bat Trang region. Google Lens did not provide any strong contradictory evidence, and the visual features such as the unglazed surface, color, and decoration technique strongly support the Bat Trang origin. The consensus among the agents, especially the detailed reasoning of the Global Ceramics Expert, aligns with the visual evidence and the known characteristics of Bat Trang ceramics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 30.576
+      }
+    },
+    "total_time_s": 30.578
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 55,
+    "filename": "images/06_goryeo_south_korea/055_06_goryeo_south_korea_05.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:50:13",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 36685,
+    "input_resized_bytes": 20018,
+    "vision_time_s": 3.671,
+    "acis_pipeline_time_s": 36.463,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Motley Crue Finally Hit #1 with Dr. Feelgood - YouTube",
+        "url": "https://www.youtube.com/shorts/Qq5t6Mrjd50"
+      },
+      {
+        "title": "Générique France 3 19/20 1990-1992 - YouTube",
+        "url": "https://www.youtube.com/watch?v=Nc0K_8tkrck"
+      },
+      {
+        "title": "Carl Mauck Buffalo Bills Oline - YouTube",
+        "url": "https://www.youtube.com/watch?v=7_tUe7rm9WU"
+      },
+      {
+        "title": "Dame Darcy Dating 2 - YouTube",
+        "url": "https://www.youtube.com/watch?v=VtsRhGaF8GE"
+      },
+      {
+        "title": "Alberto Fujimori, Peru's former president who died today ...",
+        "url": "https://x.com/DanielDiMartino/status/1834067487232528582"
+      },
+      {
+        "title": "La Muerte — La Muerte - \"Shoot In Your Back\" (Music Video ...",
+        "url": "https://readdork.com/music-videos/la-muerte-la-muerte-shoot-in-your-back-4dsrzsik"
+      },
+      {
+        "title": "318dman new song “I Need Dat” has been going very viral on ...",
+        "url": "https://www.instagram.com/p/DXe5UHNjnul/"
+      },
+      {
+        "title": "What squadron does the F-4 painting depict?",
+        "url": "https://www.facebook.com/groups/657172461027484/posts/7404181632993166/"
+      },
+      {
+        "title": "LOCKSTEP - Dog In The House Of Plenty (official visualizer ...",
+        "url": "https://www.youtube.com/watch?v=zg0EOKtrxg4"
+      },
+      {
+        "title": "Hyperbole Sunset - Mia Edenberg & Benjamin Shielden - YouTube",
+        "url": "https://www.youtube.com/watch?v=3nsaqzHgbu4"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Studio Pottery",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of contemporary studio pottery, particularly the emphasis on surface texture and minimalist design associated with the wabi-sabi aesthetic. The dark charcoal-grey body with opaque white glaze and terracotta orange accents suggests a modern approach to glazing techniques, likely influenced by high-temperature firing methods. The abstract patterns and lack of a defined motif further align with contemporary artistic expressions in ceramics. The use of brushwork and sgraffito-like techniques indicates a hand-crafted approach, typical of studio pottery, which has evolved significantly in the 20th century. The absence of a foot ring and the overall shape of the vase suggest a focus on form rather than function, common in modern artistic ceramics.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 6.856
+      },
+      "grok": {
+        "raw_prediction": "Shoji Hamada",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The dark charcoal-grey body color, combined with the drip glaze and opaque white glaze details, suggests a style reminiscent of Japanese Studio Pottery. The abstract pattern and the use of a sgraffito-like approach also align with this style. The stoneware body and the reduction firing marks further support this prediction. The overall aesthetic, including the emphasis on surface texture and the minimalist approach, is consistent with the works of Shoji Hamada, a renowned Japanese ceramic artist.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 4.97
+      },
+      "gemini": {
+        "raw_prediction": "Contemporary Mashiko-ware (Gendai Mashiko-yaki)",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The visual evidence strongly points to a piece from the contemporary Studio Pottery movement, deeply influenced by Japanese aesthetics. The primary color palette of dark charcoal-grey, opaque white, and a touch of terracotta orange, combined with the raw, textural quality of the glaze application, immediately evokes the Japanese concept of 'wabi-sabi' – finding beauty in imperfection, transience, and natural simplicity.\n\n**Motifs & Cultural Symbolism**: There are no traditional figurative motifs like dragons or specific flora. Instead, the 'motifs' are the textures themselves: the spontaneous drip glaze, the visible brushstrokes, and the sgraffito-like scratches. This artistic choice symbolizes a reverence for the material's inherent qualities, the visible hand of the artisan, and the natural processes of creation and aging. The dark, earthy tones suggest grounding, permanence, and connection to nature, while the stark white provides a dramatic, yet organic, contrast.\n\n**Regional Chara",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 34.874
+      },
+      "acis": {
+        "raw_prediction": "Contemporary Mashiko-ware",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing argument, emphasizing the piece's alignment with contemporary Japanese Studio Pottery, particularly Mashiko-ware. The expert highlighted the wabi-sabi aesthetic and the specific glaze techniques that are characteristic of modern Japanese stoneware. The visual evidence, including the charcoal-grey body, opaque white glaze, and terracotta accents, supports this identification. Although Google Lens did not provide specific ceramic matches, the expert's reasoning aligns well with the visual features and known characteristics of Mashiko-ware. The other agents also leaned towards Japanese Studio Pottery, but the Global Ceramics Expert offered a more detailed analysis, particularly in distinguishing this piece from other similar traditions.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 40.134
+      }
+    },
+    "total_time_s": 40.138
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 56,
+    "filename": "images/06_goryeo_south_korea/056_06_goryeo_south_korea_06.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:51:08",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 29228,
+    "input_resized_bytes": 15432,
+    "vision_time_s": 3.764,
+    "acis_pipeline_time_s": 30.675,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "9 Clay slip decoration ideas | pottery slip, pottery ...",
+        "url": "https://www.pinterest.com/helendohn/clay-slip-decoration/"
+      },
+      {
+        "title": "Preview \"Liquid Metal\" Master Class - YouTube",
+        "url": "https://www.youtube.com/watch?v=2E5iZYs52bM"
+      },
+      {
+        "title": "Decorating Pottery with Colored Slips - MITCH LYONS - YouTube",
+        "url": "https://www.youtube.com/watch?v=nC9xa5nw8m8"
+      },
+      {
+        "title": "Laurel Anne Equine Art",
+        "url": "https://laurelanneequineart.com/"
+      },
+      {
+        "title": "My kinetic brass Roly poly (Wood bug, Wood louse) sculpture ...",
+        "url": "https://www.instagram.com/reel/C7jvskmRlvR/"
+      },
+      {
+        "title": "Explore 300 Mesh Copper Powder | STEEL F/X PATINAS",
+        "url": "https://steelfxpatinas.com/product-tag/300-mesh-copper-powder/"
+      },
+      {
+        "title": "How to fix air bubbles in mod podge?",
+        "url": "https://www.facebook.com/groups/modpodgeofficial/posts/905999124553970/"
+      },
+      {
+        "title": "Phase 3: la pose de la feuille d'or sequin - YouTube",
+        "url": "https://www.youtube.com/watch?v=nZoehdc85Oc"
+      },
+      {
+        "title": "Folk Art — Livingston County Historical Society Museum",
+        "url": "https://www.livingstoncountyhistoricalsociety.com/folk-art"
+      },
+      {
+        "title": "Go confidently in the direction of your dreams.” - Henry ...",
+        "url": "https://www.instagram.com/p/C1hiySgOVAH/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Chu Đậu",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits characteristics typical of Southeast Asian stoneware, particularly from the Chu Đậu kiln, known for its underglaze decoration using iron oxide. The smoky gray color and the matte glaze suggest a traditional firing technique, likely in a wood-fired kiln, which aligns with the production methods of the 14th to 16th centuries. The decorative motifs of stylized circles and birds are consistent with the artistic styles of this period in Vietnam, reflecting both local traditions and influences from regional trade routes. The shape of the vessel, a large jar with a rounded body, is also indicative of the utilitarian forms produced during this era. The signs of wear and aging further support the dating to this historical period.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.317
+      },
+      "grok": {
+        "raw_prediction": "Chu Đậu",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.8,
+        "evidence": "The glaze typology indicates a matte or trodden glaze characteristic of traditional Southeast Asian ceramics, particularly those from Vietnam. The presence of underglaze iron/oxide painting and the primitive style of the decorative motifs suggest a specific regional influence. The clay body color, a gray-brown hue, is consistent with stoneware from this region. The firing marks, including the uneven coloration due to traditional wood firing, and the absence of a visible foot ring, support the identification of this piece as a product of a specific kiln site. The size, shape, and decorative technique are all consistent with known examples from the Chu Đậu kiln site, which was active during the 14th to 16th centuries.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 5.313
+      },
+      "gemini": {
+        "raw_prediction": "Chu Dau Ware (Underglaze Iron-Painted)",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.95,
+        "evidence": "The analysis of the ceramic piece reveals several distinctive cultural and stylistic markers. The use of a smoky grey stoneware body, combined with a matte or ash glaze, is highly characteristic of traditional Southeast Asian kilns, particularly those in Vietnam. The decoration technique, underglaze iron/oxide painting, producing a reddish-brown or iron oxide red-brown color, was a prevalent method in the region before the widespread adoption of cobalt blue, especially during the 14th-16th centuries. This technique is a hallmark of Vietnamese 'hoa nâu' (brown flower) wares or iron-painted ceramics.\n\nMotif analysis shows stylized circular patterns interspersed with bird figures described as 'phoenix or mythical birds' ('chim phượng hoặc chim điểu') drawn in a 'primitive style.' The phoenix (Fenghuang in Chinese, Phượng Hoàng in Vietnamese) is a highly auspicious symbol across East and Southeast Asia, signifying good fortune, high virtue, and renewal. In Vietnamese art, the phoenix often",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 29.374
+      },
+      "acis": {
+        "raw_prediction": "Chu Dau",
+        "predicted_label": "Chu Dau",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing argument, detailing the specific cultural and stylistic markers that align with the Chu Dau kiln. The use of smoky grey stoneware, matte ash glaze, and underglaze iron/oxide painting are hallmarks of Vietnamese ceramics from this era, particularly the Chu Dau kiln. The motifs of stylized circles and birds, described as 'primitive style,' further support this identification. While Google Lens did not provide specific matches, the visual features strongly corroborate the agents' consensus on Chu Dau, particularly given the detailed analysis of regional comparisons. The consensus among agents, supported by the visual evidence, leads to a high confidence level in this prediction.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 34.439
+      }
+    },
+    "total_time_s": 34.442
   }
 ]
