@@ -156,7 +156,8 @@ class PredictionController extends Controller
 
             $prediction->update([
                 'final_prediction' => $isNonPottery ? 'Ảnh không phải gốm/sứ' : 'Lỗi hệ thống AI',
-                'era'              => 'Vui lòng thử lại',
+                'country'          => $isNonPottery ? 'Không áp dụng' : 'Không xác định',
+                'era'              => $isNonPottery ? 'Không áp dụng' : 'Vui lòng thử lại',
                 'result_json'      => $debateResult,
             ]);
 

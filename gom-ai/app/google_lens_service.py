@@ -631,7 +631,7 @@ def _search_via_serpapi(public_url: str, max_results: int = 10) -> list:
             "url": public_url,
             "api_key": serpapi_key
         }
-        resp = requests.get("https://serpapi.com/search.json", params=params, timeout=30)
+        resp = requests.get("https://serpapi.com/search.json", params=params, timeout=90)
         if resp.status_code == 200:
             data = resp.json()
             matches = data.get("visual_matches", [])
@@ -651,10 +651,9 @@ def _search_via_serpapi(public_url: str, max_results: int = 10) -> list:
             logger.info(f"[Lens SerpApi] Successfully fetched {len(results)} matches!")
             return results
         else:
-            logger.warning(f"[Lens SerpApi] Failed ({resp.status_code}): {resp.text[:200]}")
+            raise RuntimeError(f"SerpApi HTTP error {resp.status_code}: {resp.text[:300]}")
     except Exception as e:
-        logger.error(f"[Lens SerpApi] Error: {e}")
-    return []
+        raise RuntimeError(f"SerpApi connection/processing error: {e}")
 
 
 def _search_google_lens_raw(image_path: str, max_results: int = 10):
@@ -693,7 +692,8 @@ def _search_google_lens_raw(image_path: str, max_results: int = 10):
                 if serp_results:
                     logger.info(f"[Lens] ✅ SerpApi Google Lens: {len(serp_results)} kết quả!")
                     return serp_results
-                logger.warning("[Lens] SerpApi không trả về kết quả, thử các phương pháp tiếp theo...")
+                else:
+                    raise RuntimeError("SerpApi returned empty visual matches for this image.")
 
             # === PHƯƠNG PHÁP 1: Browserless /unblock + CDP (ưu tiên) ===
             if os.getenv("BROWSERLESS_TOKEN", "").strip():

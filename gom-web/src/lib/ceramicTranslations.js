@@ -213,6 +213,7 @@ const VI_TO_EN = {
   'Lỗi hệ thống AI': 'AI System Error',
   'Vui lòng thử lại': 'Please try again',
   'Không xác định': 'Unknown',
+  'Không áp dụng': 'Not applicable',
   'Đang phân tích...': 'Analyzing...',
   'Đang phân tích Lens...': 'Analyzing Lens...',
   'Đang xử lý': 'Processing...',

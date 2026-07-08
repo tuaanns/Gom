@@ -12,7 +12,8 @@ import {
   Eye,
   Code2,
   Search,
-  ExternalLink
+  ExternalLink,
+  AlertCircle
 } from 'lucide-react';
 import { Badge } from './Badge';
 import { formatDate } from '../../lib/utils';
@@ -75,6 +76,9 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
   let label = finalReport.final_prediction || prediction.predicted_label || prediction.label || '—';
   let country = finalReport.final_country || prediction.country || '—';
   let era = finalReport.final_era || prediction.era || '—';
+
+  // Detect non-pottery images
+  const isNonPottery = label.includes('không phải gốm') || label.includes('non-pottery') || (result.is_pottery === false);
   
   const isLens = prediction.source_type === 'lens' || result.isLensMode;
 
@@ -186,27 +190,45 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
         {/* Right Column - Details */}
         <div className="space-y-4">
           {/* Prediction Result Card */}
-          <div className="rounded-xl border border-stroke bg-gradient-to-br from-navy/5 to-ceramic/5 p-6 dark:border-dark-stroke dark:from-navy/10 dark:to-ceramic/10">
+          <div className={cn(
+            "rounded-xl border p-6 transition-all",
+            isNonPottery 
+              ? "border-red-500/20 bg-gradient-to-br from-red-500/5 to-red-600/5 dark:border-red-500/30 dark:from-red-500/10 dark:to-red-600/10"
+              : "border-stroke bg-gradient-to-br from-navy/5 to-ceramic/5 dark:border-dark-stroke dark:from-navy/10 dark:to-ceramic/10"
+          )}>
             <div className="mb-2 flex items-center gap-2">
-              <Target size={20} className="text-navy dark:text-ceramic" />
+              {isNonPottery ? (
+                <AlertCircle size={20} className="text-red-500" />
+              ) : (
+                <Target size={20} className="text-navy dark:text-ceramic" />
+              )}
               <span className="text-sm font-medium text-muted dark:text-dark-text-muted">
-                {t('analysis.result.name')}
+                {isNonPottery ? t('analysis.result.status', 'Trạng thái') : t('analysis.result.name')}
               </span>
             </div>
-            <h3 className="text-2xl font-bold text-navy dark:text-ivory">
+            <h3 className={cn(
+              "text-2xl font-bold",
+              isNonPottery ? "text-red-600 dark:text-red-400" : "text-navy dark:text-ivory"
+            )}>
               {translateCeramicTerm(label, lang)}
             </h3>
             <div className="mt-3 flex flex-wrap gap-2">
               {country && country !== '—' && country !== 'Google Lens' && (
-                <div className="flex items-center gap-1.5 rounded-full bg-ceramic/20 px-3 py-1 text-sm dark:bg-ceramic/30">
-                  <MapPin size={14} className="text-ceramic-dark dark:text-ceramic" />
-                  <span className="font-semibold text-ceramic-dark dark:text-ceramic">{translateCeramicTerm(country, lang)}</span>
+                <div className={cn(
+                  "flex items-center gap-1.5 rounded-full px-3 py-1 text-sm",
+                  isNonPottery ? "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400" : "bg-ceramic/20 text-ceramic-dark dark:bg-ceramic/30 dark:text-ceramic"
+                )}>
+                  <MapPin size={14} />
+                  <span className="font-semibold">{translateCeramicTerm(country, lang)}</span>
                 </div>
               )}
               {era && era !== '—' && era !== 'AI Conclusion' && (
-                <div className="flex items-center gap-1.5 rounded-full bg-navy/10 px-3 py-1 text-sm dark:bg-ivory/10">
-                  <Clock size={14} className="text-navy dark:text-ivory" />
-                  <span className="font-semibold text-navy dark:text-ivory">{translateCeramicTerm(era, lang)}</span>
+                <div className={cn(
+                  "flex items-center gap-1.5 rounded-full px-3 py-1 text-sm",
+                  isNonPottery ? "bg-red-500/10 text-red-600 dark:bg-red-500/20 dark:text-red-400" : "bg-navy/10 text-navy dark:bg-ivory/10 dark:text-ivory"
+                )}>
+                  <Clock size={14} />
+                  <span className="font-semibold">{translateCeramicTerm(era, lang)}</span>
                 </div>
               )}
               {isLens && (

@@ -72,23 +72,7 @@ def load_lens_dataset(dataset_id: str, limit: int = 5) -> list[dict]:
                     "metadata": row,
                 }
             )
-    # Chọn đúng 10 dòng gốm đại diện (5 Việt Nam + 5 Quốc tế)
-    target_traditions = [
-        "Bat Trang", "Bien Hoa", "Phu Lang", "Chu Dau", "Bau Truc",
-        "Delftware", "Meissen", "Arita Imari", "Iznik", "Goryeo Celadon"
-    ]
-    selected_items = []
-    
-    for tradition in target_traditions:
-        for item in items:
-            if item["label"] == tradition:
-                selected_items.append(item)
-                break
-                
-    if len(selected_items) < len(target_traditions):
-        print(f"Warning: Could only find {len(selected_items)} out of {len(target_traditions)} target traditions.")
-        
-    return selected_items
+    return items
 
 
 def row_complete(row: dict) -> bool:
@@ -250,8 +234,8 @@ async def run_lens_dataset(dataset_id: str, limit: int = 5) -> None:
 
 
 async def main() -> None:
-    for dataset_id in ("dataset1_video_lens5", "dataset2_ai_lens5"):
-        await run_lens_dataset(dataset_id, 10)
+    for dataset_id in ("dataset1_video_lens5",):
+        await run_lens_dataset(dataset_id, 100)
 
 
 if __name__ == "__main__":
