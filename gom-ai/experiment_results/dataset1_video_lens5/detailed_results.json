@@ -5847,5 +5847,535 @@
       }
     },
     "total_time_s": 34.442
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 57,
+    "filename": "images/06_goryeo_south_korea/057_06_goryeo_south_korea_07.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:51:57",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 26013,
+    "input_resized_bytes": 13108,
+    "vision_time_s": 2.474,
+    "acis_pipeline_time_s": 52.442,
+    "lens_status": {
+      "attempted": true,
+      "count": 14,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 14,
+    "lens_results": [
+      {
+        "title": "Cream Ceramic Round Vase | Hobby Lobby | 2611408",
+        "url": "https://www.hobbylobby.com/floral-wedding/vases-containers/vases/cream-ceramic-round-vase/p/81260791"
+      },
+      {
+        "title": "Pottery Tips: How to Successfully Close and Shape Bottles ...",
+        "url": "https://www.tiktok.com/@ripplepottery/video/7634935770104565022"
+      },
+      {
+        "title": "12\" Distressed Ceramic Vase Natural Cream - Hearth & Hand ...",
+        "url": "https://www.walmart.com/ip/12-Distressed-Ceramic-Vase-Natural-Cream-Hearth-Hand-with-Magnolia-Farmhouse-Style-Tabletop-Decor/10694054984"
+      },
+      {
+        "title": "Low-Fire Clay ∆06-04 | Seattle Pottery Supply",
+        "url": "https://seattlepotterysupply.com/collections/low-fire-clay-cone-06-04"
+      },
+      {
+        "title": "Ceramic Flower Vase - Traditional Japanese Pottery - Ceramic ...",
+        "url": "https://www.catawiki.com/en/l/102732055-ceramic-flower-vase-traditional-japanese-pottery-ceramic-nagami-kouto-japan-1900-2000"
+      },
+      {
+        "title": "Home",
+        "url": "http://doraceramics.com/"
+      },
+      {
+        "title": "1,537 Clay Pot Front View Royalty-Free Images, Stock Photos ...",
+        "url": "https://www.shutterstock.com/search/clay-pot-front-view"
+      },
+      {
+        "title": "Proantic: René-louis Dauchy - Celadon Ceramic Vase",
+        "url": "https://www.proantic.com/en/1492978-rene-louis-dauchy-celadon-ceramic-vase.html"
+      },
+      {
+        "title": "Son Raku",
+        "url": "https://www.instagram.com/popular/son-raku/"
+      },
+      {
+        "title": "ROUND CERAMIC VASE - White | ZARA United States",
+        "url": "https://www.zara.com/us/en/round-ceramic-vase-p49395046.html"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Mino ware",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The ceramic piece exhibits a minimalist design with a spherical shape and a low neck, which is characteristic of contemporary studio pottery. The lack of glaze and the matte surface suggest a focus on natural materials and craftsmanship, aligning with modern Japanese pottery trends. The absence of decoration emphasizes the form, which is a hallmark of minimalist aesthetics. The body color and texture further support a contemporary classification, as traditional ceramics often feature more elaborate glazing and decoration. The potential origin from a studio pottery context aligns with the modern movement in ceramics, particularly in Japan, where such styles are prevalent.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 5.917
+      },
+      "grok": {
+        "raw_prediction": "Bizen",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The glaze type is identified as gốm mộc (unglazed), which is consistent with Bizen ware, a type of Japanese pottery known for its unglazed, natural clay body. The surface texture, described as nhám nhẹ (slightly rough) with vệt ẩm (moisture marks), is also typical of Bizen ware. The absence of glaze and the emphasis on the natural clay body are characteristic of this style. The body color, trắng ngà xỉn (off-white), and the wall thickness are also consistent with Bizen ware. The shape, a spherical vase with a small mouth, is a common form in Bizen pottery. The lack of foot ring and firing marks suggests a contemporary, studio pottery approach.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 3.813
+      },
+      "gemini": {
+        "raw_prediction": "Mugen Touki (夢幻陶器) - Ethereal Pottery Line",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The visual evidence presents an unglazed ceramic vase with a minimalist, spherical form, a low neck, and a small, subtly flared mouth. The surface is described as 'trắng ngà xỉn' (dull off-white) with a 'nhám nhẹ' (slightly rough) texture, and notable 'vệt ẩm hoặc dấu vết của quá trình chế tác thủ công tạo hiệu ứng loang lổ bề mặt do độ ẩm thấm vào cốt đất' (damp streaks or marks from manual crafting, creating a patchy effect due to moisture absorbing into the clay body). The complete absence of patterns or decorative techniques, with an explicit emphasis on the 'hình khối nguyên bản' (original form), is the defining characteristic.\n\n**1. MOTIFS & CULTURAL SYMBOLISM:** The core 'motif' here is the *absence* of decoration, emphasizing the raw material and form. This aligns profoundly with the Japanese aesthetic philosophy of *Wabi-Sabi*, which values beauty found in imperfection, impermanence, and simplicity. The slightly rough, unglazed surface, coupled with the natural 'damp streaks' ",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 50.49
+      },
+      "acis": {
+        "raw_prediction": "Bizen",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The Kiln Signatures & Morphology Expert provided a convincing argument by identifying the unglazed, natural clay body and slightly rough surface texture as characteristic of Bizen ware. This aligns with the visual features of the piece, such as the spherical shape and minimalist design, which are consistent with contemporary Japanese studio pottery. Although the Global Ceramics Expert suggested a broader interpretation with Wabi-Sabi influences, the specific characteristics of the clay and texture strongly point to Bizen. Google Lens signals did not directly contradict this conclusion, and the references to Japanese origins in the Lens results support the prediction. The Ceramic History agent's suggestion of Mino ware was less convincing due to the lack of specific visual evidence supporting that line.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 54.917
+      }
+    },
+    "total_time_s": 54.919
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 58,
+    "filename": "images/06_goryeo_south_korea/058_06_goryeo_south_korea_08.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:53:07",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 33574,
+    "input_resized_bytes": 17677,
+    "vision_time_s": 3.519,
+    "acis_pipeline_time_s": 29.186,
+    "lens_status": {
+      "attempted": true,
+      "count": 12,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 12,
+    "lens_results": [
+      {
+        "title": "Antique Chinese Song Dynasty Celadon Bowl with Incised ...",
+        "url": "https://www.trocadero.com/stores/Senatus/items/1499976/Antique-Chinese-Song-Dynasty-Celadon-Bowl-Incised-Floral-Patterns"
+      },
+      {
+        "title": "Bonhams : A YAOZHOU RELIEF-CARVED FLOWER-PATTERN JAR Five ...",
+        "url": "https://www.bonhams.com/auction/31420/lot/22/a-yaozhou-relief-carved-flower-pattern-jar-five-dynasties-2/"
+      },
+      {
+        "title": "Longquan celadon dish from Northern/Southern Song dynasty",
+        "url": "https://www.facebook.com/groups/903467689720550/posts/8680366002030641/"
+      },
+      {
+        "title": "Bowl with dragons amid waves - China - Five Dynasties (907 ...",
+        "url": "https://www.metmuseum.org/art/collection/search/39649"
+      },
+      {
+        "title": "Bonhams : A large longquan celadon charger Ming dynasty ...",
+        "url": "https://www.bonhams.com/auction/24904/lot/317/a-large-longquan-celadon-charger-ming-dynasty-15th-century/"
+      },
+      {
+        "title": "Chinese Song - Yuan Dynasty Celadon Bowl (item #1435091)",
+        "url": "https://www.trocadero.com/stores/sebastian/items/1435091/Chinese-Song-Yuan-Dynasty-Celadon-Bowl"
+      },
+      {
+        "title": "Longquan celadon - Wikipedia",
+        "url": "https://en.wikipedia.org/wiki/Longquan_celadon"
+      },
+      {
+        "title": "Floral Celadon",
+        "url": "http://martzpots.org/gallery/70s/kilnhaus.htm"
+      },
+      {
+        "title": "Northern Song Longquan Bowl: Free Shipping (item #1509385)",
+        "url": "http://www.abhayaasianantiques.com/items/1509385/Northern-Song-Longquan-Bowl-Free-Shipping"
+      },
+      {
+        "title": "AN EARLY YAOZHOU CELADON BOWL WITH INCISED DECORATION / J.J. ...",
+        "url": "https://www.jjlally.com/exhibitions/song-dynasty-ceramics-the-ronald-w-longsdorf-collection/an-early-yaozhou-celadon-bowl-with-incised-decoration/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Longquan",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The pale celadon glaze, along with the incised floral and geometric patterns, strongly suggests a production style typical of the Longquan kilns during the Southern Song to Yuan dynasties. The high purity of the porcelain body and the specific crazing pattern are characteristic of Longquan celadon, which was highly sought after and influenced trade across East Asia. The shallow bowl shape with flared rim aligns with the aesthetic preferences of the time, emphasizing elegance and refinement. The absence of direct firing marks and the even glaze application indicate a sophisticated glazing technique consistent with advanced kiln practices of the period.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 7.464
+      },
+      "grok": {
+        "raw_prediction": "Longquan",
+        "predicted_label": null,
+        "confidence": 0.8,
+        "evidence": "The pale celadon glaze with a smooth, glossy surface and fine crazing, along with the incised decoration technique, suggests a high-quality celadon ware. The presence of tiny air bubbles under the glaze and the variation in glaze thickness, which creates a sense of depth, are characteristic of Longquan celadon. The clay body's white-gray color and the absence of a visible foot ring are also consistent with Longquan ceramics. The firing marks, although not directly visible, suggest a skilled firing technique, which is typical of Longquan kilns.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 4.609
+      },
+      "gemini": {
+        "raw_prediction": "Longquan Celadon (龍泉窯青瓷)",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The visual evidence strongly points to high-quality Longquan celadon from China. \n\n**1. Motifs & Cultural Symbolism:** The incised stylized floral patterns (potentially lotus or chrysanthemum) and the geometric/stylized cloud motifs are deeply rooted in East Asian iconography. The lotus symbolizes purity and enlightenment, a common Buddhist motif, while chrysanthemums represent longevity and nobility. Cloud motifs often signify good fortune and celestial connections. These are ubiquitous in Chinese art and ceramics, particularly during the Song and Yuan dynasties, reflecting prevailing philosophical and aesthetic values.\n\n**2. Regional Characteristics & Stylistic Analysis:**\n*   **Glaze:** The description of a 'pale celadon/seafoam green' (xanh ngọc nhạt) glaze, with a 'glossy, luscious' (bóng mượt, mọng) surface, 'fine crazing' (rạn nứt li ti dạng mạng lưới), and 'tiny bubbles' (bọt khí nhỏ li ti dưới lớp men) perfectly matches the coveted 'Fenqing' (powder green) or 'Kinuta' (mallet-",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 27.97
+      },
+      "acis": {
+        "raw_prediction": "Longquan",
+        "predicted_label": null,
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing analysis, detailing the specific characteristics of the glaze, decoration technique, and material that align with high-quality Longquan celadon. The pale celadon color, incised floral patterns, and the high purity porcelain body are all indicative of Longquan production. Google Lens, acting as the 4th agent, supported this conclusion with multiple matches for 'Longquan' celadon, reinforcing the analysis provided by the agents. The consensus among the agents, particularly the detailed stylistic and historical context provided by the Global Ceramics Expert, aligns with the visual evidence and Google Lens matches, leading to a high confidence level in the prediction.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 32.705
+      }
+    },
+    "total_time_s": 32.707
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 59,
+    "filename": "images/06_goryeo_south_korea/059_06_goryeo_south_korea_09.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:53:55",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 42410,
+    "input_resized_bytes": 23364,
+    "vision_time_s": 3.15,
+    "acis_pipeline_time_s": 28.684,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Gốm men ngọc Cao Ly - Đỉnh cao nghệ thuật gốm sứ Hàn Quốc",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/gom-men-ngoc-goryeo-han-quoc"
+      },
+      {
+        "title": "The Metropolitan Museum of Art - Goryeo Celadon Ceramics of Korea",
+        "url": "https://www.metmuseum.org/toah/hd/gory/hd_gory.htm"
+      },
+      {
+        "title": "Sold at Auction: 3PCS KOREAN CELADON GLAZED VASES",
+        "url": "https://www.invaluable.com/auction-lot/3pcs-korean-celadon-glazed-vases-415-c-45d49778d1"
+      },
+      {
+        "title": "Korean Vase",
+        "url": "https://www.pinterest.com/ideas/korean-vase/929554536430/"
+      },
+      {
+        "title": "Korean Celadon Vase with Cranes in Flight - Browse or Buy at ...",
+        "url": "https://www.pagodared.com/items/korean-celadon-vase-with-cranes"
+      },
+      {
+        "title": "Sold at Auction: A Group of Three Korean Celadon Glazed ...",
+        "url": "https://www.invaluable.com/auction-lot/a-group-of-three-korean-celadon-glazed-earthenwar-78265-c-997469e840"
+      },
+      {
+        "title": "Chinese celadon porcelain vase with white slip decoration ...",
+        "url": "https://www.antiquesboutique.com/antique-ceramics/chinese-celadon-porcelain-vase-with-white-slip-decoration-19th-century/itm208339"
+      },
+      {
+        "title": "Three Korean celadon-glazed vases and a covered bowl, 20th C ...",
+        "url": "https://www.rm-auctions.com/en/online-only---drouot/41368-three-korean-celadon-glazed-vases-and-a-covered-bowl-20th-c"
+      },
+      {
+        "title": "Lot - KOREAN CELADON VASE",
+        "url": "https://www.districtauction.com/auction-lot/korean-celadon-vase_73c4af4adc"
+      },
+      {
+        "title": "Korean Celadon Vase sold at auction on 22nd June | Bidsquare",
+        "url": "https://www.bidsquare.com/online-auctions/stair-galleries/korean-celadon-vase-4848182"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Goryeo Celadon",
+        "predicted_label": "Goryeo Celadon",
+        "confidence": 0.95,
+        "evidence": "The analysis of the ceramic piece indicates it is a 'maebyeong' vase, characterized by its elegant shape and the use of celadon glaze, which is a hallmark of the Goryeo dynasty. The light gray body color and the high-quality celadon glaze suggest it is from the high-fired stoneware category, typical of Goryeo ceramics. The decorative techniques, including incised and inlaid designs featuring cranes and clouds, align with the artistic styles prevalent during the 12th to 13th centuries in Korea. The absence of crazing and the uniform glaze thickness further support the high-quality production methods of this era. The Goryeo dynasty was known for its sophisticated ceramics, which were highly valued both domestically and in trade with other regions, particularly China and Japan, indicating a significant cultural exchange.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 8.133
+      },
+      "grok": {
+        "raw_prediction": "Goryeo Celadon",
+        "predicted_label": "Goryeo Celadon",
+        "confidence": 0.9,
+        "evidence": "The glaze is a distinctive pale green celadon color with a high gloss, fine texture, and no visible crazing, which is characteristic of Goryeo celadon. The incised and inlaid decoration technique using white clay is also typical of Goryeo ceramics. The clay body is a light gray color, which is consistent with Goryeo stoneware. The shape of the vessel, a maebyeong with a wide shoulder and narrow mouth, is also a classic form of Goryeo ceramics.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.357
+      },
+      "gemini": {
+        "raw_prediction": "Gangjin Celadon (Goryeo Sanggam Celadon)",
+        "predicted_label": "Goryeo Celadon",
+        "confidence": 0.98,
+        "evidence": "The strongest and most definitive evidence for this attribution lies in the distinctive decoration technique: 'khảm (inlay) bằng đất sét trắng (sanggam)'. Sanggam (Korean: 상감) is a unique inlay technique developed and perfected by Goryeo potters during the 12th and 13th centuries, where carved or incised designs are filled with contrasting white (and sometimes black) clay slips before the celadon glaze is applied and fired. This technique is virtually unparalleled in its widespread use and sophistication in other major celadon-producing regions. While incised decoration is common across East and Southeast Asian celadons, the specific use of contrasting slip inlay is the hallmark of Goryeo celadon. \n\n**Motifs & Cultural Symbolism:** The stylized cranes ('chim hạc') and clouds ('mây') are auspicious motifs. In Korean culture, as in broader East Asian traditions, cranes symbolize longevity, purity, nobility, and sometimes immortality or ascension to heaven. Clouds often represent good for",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 25.211
+      },
+      "acis": {
+        "raw_prediction": "Goryeo Celadon",
+        "predicted_label": "Goryeo Celadon",
+        "confidence": 0.98,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing argument, emphasizing the unique 'sanggam' inlay technique, which is a hallmark of Goryeo celadon. This technique, combined with the characteristic crane and cloud motifs, the pale jade-green celadon glaze, and the 'maebyeong' vase shape, strongly indicates Goryeo celadon from the 12th-13th century. Google Lens, acting as the 4th agent, supported this conclusion with multiple matches for 'Goryeo celadon', reinforcing the expert's detailed analysis. The consensus among the agents, alongside the specific visual features and the Lens verification, solidifies the identification of this piece as Goryeo celadon.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 31.834
+      }
+    },
+    "total_time_s": 31.837
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 60,
+    "filename": "images/06_goryeo_south_korea/060_06_goryeo_south_korea_10.jpg",
+    "ground_truth": "Goryeo Celadon",
+    "started_at": "2026-07-08T15:54:42",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 43901,
+    "input_resized_bytes": 24321,
+    "vision_time_s": 3.314,
+    "acis_pipeline_time_s": 42.807,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Dragon and Phoenix\" Longquan Celadon Large Tea Storage Jar",
+        "url": "https://verdanttea.com/longquan-celadon-tea-storage-jar-large-dragon-phoenix"
+      },
+      {
+        "title": "Mid-Century Japanese Celadon Glazed Vase, 1950s-1970s for ...",
+        "url": "https://www.pamono.com/mid-century-japanese-celadon-glazed-vase-1950s-1970s"
+      },
+      {
+        "title": "Two Chinese Porcelain Celadon Vases (Lot 1016 - Holiday ...",
+        "url": "https://www.lelandlittle.com/items/555601/two-chinese-porcelain-celadon-vases/"
+      },
+      {
+        "title": "Bonhams : Instinct & Knowledge: A Life in the Company of ...",
+        "url": "https://www.bonhams.com/auction/31420/instinct-and-knowledge-a-life-in-the-company-of-song-ceramics/"
+      },
+      {
+        "title": "Chinese Celadon Glazed Meiping Form Vase - Capsule Auctions",
+        "url": "https://www.capsuleauctions.com/auction/lots/chinese_celadon_glazed_meiping_form_vase_AprAA_16879"
+      },
+      {
+        "title": "Baan Celadon Thai Lidded Container - antiques - by owner ...",
+        "url": "https://www.craigslist.org/view/d/seattle-baan-celadon-thai-lidded/fjm7Fm7ZWvPYBcVtUdfo71"
+      },
+      {
+        "title": "Chinese Celadon Jar, Qing Dynasty",
+        "url": "https://www.liveauctioneers.com/en-gb/price-result/chinese-celadon-jar-qing-dynasty/"
+      },
+      {
+        "title": "Jar with peony scroll - China - Yuan dynasty (1271–1368 ...",
+        "url": "https://www.metmuseum.org/art/collection/search/51045"
+      },
+      {
+        "title": "Korean Celadon Maebyeong Vase, Flying Cranes and Clouds For ...",
+        "url": "https://www.1stdibs.com/furniture/decorative-objects/vases-vessels/vases/korean-celadon-maebyeong-vase-flying-cranes-clouds/id-f_42575022/"
+      },
+      {
+        "title": "Asian Art — Waddingtons.ca",
+        "url": "https://www.waddingtons.ca/department/asian-art/"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Lò gốm Thiên Hạc",
+        "predicted_label": null,
+        "confidence": 0.85,
+        "evidence": "The pale celadon glaze, characterized by its high transparency and fine bubbles, aligns with traditional Vietnamese celadon from the Ly-Tran dynasties. The lotus petal and scrollwork patterns indicate a strong Buddhist artistic influence, typical of this period. The round shoulder and large jar shape suggest a functional design that was common in the 12th to 14th centuries. The absence of crazing and the smooth surface indicate advanced glazing techniques, likely from a well-established kiln such as Thiên Hạc, known for its celadon production. The decoration technique of incising with possible relief highlights further supports the craftsmanship of this era. The body color suggests a fine porcelain body, consistent with the materials used in this period.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 8.409
+      },
+      "grok": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "The pale celadon glaze with high transparency, tiny air bubbles, and smooth surface without visible crazing suggests a traditional celadon glaze. The incised decoration technique with possible raised or deepened elements to create depth in the glaze, along with the lotus petal and scrollwork motifs, are consistent with the style of Phu Lang ceramics from the Lý-Trần period. The porcelain body, likely white or light gray, and the rounded shoulder of the vessel also align with Phu Lang characteristics.",
+        "is_correct": false,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 4.663
+      },
+      "gemini": {
+        "raw_prediction": "Thiên Hạc Kiln Celadon",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The visual evidence strongly points to a refined celadon ware, characterized by a pale celadon (xanh ngọc nhạt) glaze with high transparency, a glossy surface, and distinctive tiny air bubbles (bọt khí li ti) contributing to its depth and luminosity. The absence of noticeable crazing further suggests a high degree of technical mastery in glaze application and firing.\n\nThe dominant motifs are stylized lotus petals (họa tiết lá sen cách điệu, hoa văn cánh sen) encircling the vessel's shoulder, accompanied by scrollwork or cloud patterns (họa tiết mây hoặc lá cuộn) on the neck. The lotus is a paramount symbol in Buddhist iconography, widely adopted across East and Southeast Asian cultures, representing purity, enlightenment, and rebirth. This strong Buddhist influence, coupled with the elegant and clean incised lines (khắc chìm) where the glaze pools to enhance the design's depth, is characteristic of a 'thanh thoát' (elegant/refined) aesthetic common in celadon production of the broader ",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "latency_s": 35.06
+      },
+      "acis": {
+        "raw_prediction": "Thiên Hạc Kiln Celadon",
+        "predicted_label": null,
+        "confidence": 0.9,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing argument, highlighting the specific characteristics of the celadon glaze, such as its high transparency, pale color, and unique air bubbles, which align with the known qualities of Vietnamese celadon from the Lý-Trần period. The strong Buddhist influence in the motifs and the refined incised decoration technique further support this conclusion. Google Lens did not provide a strong match for a different tradition that would contradict this analysis, and the visual features strongly align with the Vietnamese origin. The consensus among the agents, particularly the Global Ceramics Expert and Ceramic History, supports the identification of this piece as a product of the Thiên Hạc Kiln, known for its sophisticated celadon production during this era.",
+        "is_correct": false,
+        "is_hallucinated": true,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 46.121
+      }
+    },
+    "total_time_s": 46.123
+  },
+  {
+    "dataset": "dataset1_video_lens5",
+    "source_dataset": "dataset1_video",
+    "id": 61,
+    "filename": "images/07_kakiemon_japan/061_07_kakiemon_japan_01.jpg",
+    "ground_truth": "Arita Imari",
+    "started_at": "2026-07-08T15:55:43",
+    "flow": "resize_512_plus_google_lens",
+    "input_original_bytes": 54613,
+    "input_resized_bytes": 22797,
+    "vision_time_s": 0.0,
+    "acis_pipeline_time_s": 30.818,
+    "lens_status": {
+      "attempted": true,
+      "count": 15,
+      "ok": true,
+      "message": "Google Lens returned reference sources"
+    },
+    "lens_result_count": 15,
+    "lens_results": [
+      {
+        "title": "Sourdough pizza just hits different. 🔥 Naturally fermented ...",
+        "url": "https://www.instagram.com/reel/DSpvIMkDYyv/"
+      },
+      {
+        "title": "Sourdough slap-and-fold: sorry, you're doing it wrong - YouTube",
+        "url": "https://www.youtube.com/watch?v=tSJwo2tkTUY"
+      },
+      {
+        "title": "Exciting news! For our cocktail offering at Portobello, we ...",
+        "url": "https://www.instagram.com/p/C766DI4I_45/"
+      },
+      {
+        "title": "Perfect Pizza Dough at Home 100% | Maestro Vito iacopelli",
+        "url": "https://www.facebook.com/maestrovitoiacopell/videos/steal-this-easy-recipe/691906583299979/"
+      },
+      {
+        "title": "Long Fermented Dough: Secrets to Perfect Pizza | TikTok",
+        "url": "https://www.tiktok.com/@dannyboysfamouspizza/video/7491521340042775839"
+      },
+      {
+        "title": "Ashley Jensen, 01/11/24 - Sourdough Bread",
+        "url": "https://kmph.com/great-day/kitchen/ashley-jensen-011124-sourdough-bread"
+      },
+      {
+        "title": "TOKYO STYLE POTATO PIZZA #tokyostylepizza #tokyopizza ...",
+        "url": "https://www.tiktok.com/@notapizzeria/video/7387561430838480171"
+      },
+      {
+        "title": "Seasonal Toppings: Embracing Winter's Produce on Your Pizza ...",
+        "url": "https://www.marinoandthedough.com.au/blog/seasonal-toppings-embracing-winters-produce-on-your-pizza"
+      },
+      {
+        "title": "Sourdough Pizza Dough | Blue Jean Chef - Meredith Laurence",
+        "url": "https://bluejeanchef.com/recipes/sourdough-pizza-dough/"
+      },
+      {
+        "title": "Pizza dough – Andy Cooks",
+        "url": "https://www.andy-cooks.com/blogs/recipes/pizza-dough"
+      }
+    ],
+    "methods": {
+      "chatgpt": {
+        "raw_prediction": "Arita",
+        "predicted_label": "Arita Imari",
+        "confidence": 0.85,
+        "evidence": "The ceramic piece is identified as unglazed, hand-formed porcelain clay, which is characteristic of early Arita production techniques. The lack of glaze and decorative elements suggests it is in the initial stages of production, aligning with traditional methods used in Arita, where artisans often shaped clay by hand before firing. The creamy white color and the visible fingerprints on the surface indicate a handmade process typical of the early Edo period when Arita began to establish itself as a significant center for porcelain production. The estimated era of production from 1616 onwards supports this dating, as Arita's porcelain became prominent during this time. The absence of firing marks and the condition of the piece further confirm its early production stage.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 6.444
+      },
+      "grok": {
+        "raw_prediction": "Arita-yaki",
+        "predicted_label": "Arita Imari",
+        "confidence": 0.8,
+        "evidence": "The absence of glaze and the presence of a rough, un-fired clay surface with visible finger marks suggest an early stage of production. The material is identified as porcelain (kaolin) with a white, opaque body color. The shape is spherical, indicating a hand-building technique. The lack of firing marks and foot ring suggests that this piece has not undergone kiln firing. The style hint of traditional Arita porcelain production aligns with these observations.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 1.21
+      },
+      "gemini": {
+        "raw_prediction": "Arita-yaki (Arita porcelain tradition)",
+        "predicted_label": "Arita Imari",
+        "confidence": 0.95,
+        "evidence": "The visual evidence presents a malleable, unglazed, unfired mass of kaolin clay, indicating an early stage in porcelain production. The light cream/ivory white color and refined texture are characteristic of high-quality porcelain paste. Crucially, the 'estimated era: 1616 to present' is a strong cultural and historical marker. This specific year, 1616, is widely recognized as the start of true hard-paste porcelain production in Japan, notably in the Arita region of Saga Prefecture, following the discovery of kaolin deposits by the Korean potter Yi Sam-pyeong (Ri Sampei).\n\n**1. Motifs & Cultural Symbolism:** At this nascent stage of production, there are no decorative motifs or applied cultural symbols. The object is pure raw material. However, the very act of preparing such a refined porcelain body, particularly from kaolin clay, carries significant cultural weight in East Asian ceramic traditions, symbolizing mastery over materials and processes that were once closely guarded secrets",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "latency_s": 20.783
+      },
+      "acis": {
+        "raw_prediction": "Arita",
+        "predicted_label": "Arita Imari",
+        "confidence": 0.95,
+        "evidence": "The Global Ceramics Expert provided the most comprehensive and convincing argument, emphasizing the historical significance of the year 1616 as the start of Arita porcelain production in Japan. This aligns with the visual evidence of an unfired, unglazed kaolin clay body, characteristic of early Arita production. The agent's detailed comparison with other regional ceramics further solidified the identification. Google Lens did not provide any conflicting matches, reinforcing the agents' consensus on Arita porcelain. The visual features, such as the creamy white color, hand-formed shape, and absence of glaze, are consistent with traditional Arita porcelain crafting methods.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1,
+        "latency_s": 30.818
+      }
+    },
+    "total_time_s": 30.823
   }
 ]

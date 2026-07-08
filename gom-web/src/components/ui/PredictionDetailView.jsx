@@ -405,10 +405,10 @@ const originalText = finalReport?.reasoning || finalReport?.final_reasoning || f
   }, [performTranslation]);
 
   const lensMentioned = /google\s+lens/i.test(originalText || '');
-  const shouldShowLens = (Array.isArray(lensResults) && lensResults.length > 0)
+  const shouldShowLens = !isNonPottery && ((Array.isArray(lensResults) && lensResults.length > 0)
     || !!lensStatus?.attempted
     || lensMentioned
-    || isLens;
+    || isLens);
 
   if (!agentPredictions?.length && !debate?.length && !finalReport?.reasoning && !finalReport?.verdict && !visualFeatures && !lensResults?.length && !shouldShowLens) {
     return null;
@@ -452,7 +452,7 @@ const originalText = finalReport?.reasoning || finalReport?.final_reasoning || f
       )}
 
       {/* Google Lens Sources */}
-      {Array.isArray(lensResults) && lensResults.length > 0 && (
+      {!isNonPottery && Array.isArray(lensResults) && lensResults.length > 0 && (
         <div className="rounded-xl border border-stroke bg-surface p-5 dark:border-dark-stroke dark:bg-dark-surface">
           <h4 className="mb-4 flex items-center gap-2 text-sm font-bold text-navy dark:text-ivory">
             <Search size={16} className="text-ceramic-dark dark:text-ceramic" />
