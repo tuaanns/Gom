@@ -2050,90 +2050,89 @@
       "ok": true,
       "message": "Google Lens returned reference sources"
     },
-    "lens_result_count": 15,
+    "lens_result_count": 10,
     "lens_results": [
       {
-        "title": "Stack of clay pot hi-res stock photography and images - Alamy",
-        "url": "https://www.alamy.com/stock-photo/stack-of-clay-pot.html?pseudoid=0E715B80-9FDA-4045-B5AC-6FFA42E5B2A8"
+        "title": "Bảo tàng Lịch sử Quốc gia - Giới thiệu dòng gốm sứ Bát Tràng truyền thống",
+        "url": "https://baotanglichsu.vn/vi/Articles/Details/dong-gom-su-bat-trang-truyen-thong"
       },
       {
-        "title": "Beauty of clay – Middleeastmasala",
-        "url": "https://middleeastmasala.wordpress.com/2015/05/26/beauty-of-clay-pots/"
-      },
-      {
-        "title": "Earthenware Handcrafted Clay Pot Pakistan Traditional Stock ...",
-        "url": "https://www.shutterstock.com/video/clip-3475807201-earthenware-handcrafted-clay-pot-pakistan-traditional-pakistani"
+        "title": "The Metropolitan Museum of Art - Vietnamese Bat Trang Ceramic Collection & History",
+        "url": "https://www.metmuseum.org/art/collection/search/72583"
       },
       {
         "title": "Clay Pots for Cooking Kitchen,Garden,Birds and Home ...",
         "url": "https://www.youtube.com/watch?v=HOzjk1KlXo4"
       },
       {
-        "title": "Traditional Omani Souq Nizwa Sultanate Of Oman Stock Photo ...",
-        "url": "https://www.istockphoto.com/photo/traditional-omani-souq-nizwa-sultanate-of-oman-gm1289547945-385187226"
+        "title": "Earthenware Handcrafted Clay Pot Pakistan Traditional Stock ...",
+        "url": "https://www.shutterstock.com/video/clip-3475807201-earthenware-handcrafted-clay-pot-pakistan-traditional-pakistani"
       },
       {
-        "title": "Home of gwaai tiles and flower pots all for sell at better ...",
-        "url": "https://www.facebook.com/100070310516480/posts/291443433209338/"
+        "title": "Matti k Bartan/Different type of mud pots/Clay Cooking Pots ...",
+        "url": "https://www.youtube.com/watch?v=XKs2ezuyrSg"
       },
       {
-        "title": "Pottery pots hi-res stock photography and images - Alamy",
-        "url": "https://www.alamy.com/stock-photo/pottery-pots.html?pseudoid=0E715B80-9FDA-4045-B5AC-6FFA42E5B2A8"
+        "title": "Beauty of clay – Middleeastmasala",
+        "url": "https://middleeastmasala.wordpress.com/2015/05/26/beauty-of-clay-pots/"
       },
       {
         "title": "Discover the elegance of the season with Omal by Komal's ...",
         "url": "https://www.instagram.com/reel/C42vmYmsb0s/"
       },
       {
-        "title": "NIZWA BAHLA JIBREEN | Muscat Nature Tours",
-        "url": "https://www.muscatnature.com/courses/nizwa-bahla-jibreen"
+        "title": "Home of gwaai tiles and flower pots all for sell at better ...",
+        "url": "https://www.facebook.com/100070310516480/posts/291443433209338/"
       },
       {
-        "title": "IMG_8757 | Gulraiz Ghouri | Flickr",
-        "url": "https://www.flickr.com/photos/24420263@N06/49865671466/"
+        "title": "Pottery Different Handicrafts Nizwa Market Nizwa Stock Photo ...",
+        "url": "https://www.shutterstock.com/image-photo/pottery-different-handicrafts-nizwa-market-oman-131036771"
+      },
+      {
+        "title": "Mandarin Oriental, Muscat | Fine Hotels + Resorts | Amex Travel",
+        "url": "https://www.americanexpress.com/en-us/travel/discover/property/Oman/Muscat/Mandarin-Oriental-Muscat"
       }
     ],
     "methods": {
       "chatgpt": {
-        "raw_prediction": "Bat Trang",
-        "predicted_label": "Bat Trang",
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
         "confidence": 0.85,
-        "evidence": "The pottery exhibits characteristics typical of contemporary Vietnamese ceramics, particularly from Bat Trang, known for its terracotta and earthenware products. The use of natural clay colors (reddish-brown, light cream, gray-brown, and milky white) and the absence of a glossy glaze suggest a focus on traditional methods. The geometric patterns and relief decorations align with folk art styles, which are prevalent in modern Vietnamese ceramics. The handmade nature of the pieces, as indicated by the variety of shapes and the visible firing marks, further supports this assessment. The estimated era aligns with the current trends in Vietnamese pottery, which emphasize both functionality and aesthetic appeal in home and garden decor.",
-        "is_correct": false,
+        "evidence": "Mẫu gốm này có màu sắc nâu đỏ, nâu xám và trắng sữa, phù hợp với đặc trưng của gốm Phu Lang. Kỹ thuật trang trí chạm lộng và đắp nổi, cùng với bề mặt gốm mộc không men, cho thấy sự tập trung vào tính ứng dụng và trang trí nội thất. Họa tiết hình học và hoa văn chạm lộng cũng là những yếu tố điển hình của gốm Phu Lang. Kích thước đa dạng và tình trạng nguyên vẹn cho thấy đây là sản phẩm mới, sản xuất trong khoảng 10-20 năm gần đây.",
+        "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 3.922
+        "latency_s": 8.532
       },
       "grok": {
-        "raw_prediction": "Bát Tràng",
-        "predicted_label": "Bat Trang",
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
         "confidence": 0.8,
-        "evidence": "The glaze type is characterized as unglazed or lightly glazed, which is consistent with traditional Vietnamese folk ceramics. The presence of natural terracotta color and the use of white or contrasting colors for decoration also align with Bát Tràng ceramics. The kiln marks, including fire clouds and uneven firing, suggest a traditional wood-fired kiln. The body morphology, with its terracotta color and relatively thick walls, also supports this attribution. The foot ring shape and the presence of a flat, unglazed base are consistent with Bát Tràng ceramics.",
-        "is_correct": false,
+        "evidence": "Dựa trên phân tích các đặc trưng vật liệu, mẫu gốm này có lớp men mộc không bóng, bề mặt có độ nhám tự nhiên của đất nung, và một số chi tiết được tô điểm bằng sơn trắng hoặc màu tương phản nhẹ. Các họa tiết hình học cắt tỉa, hoa văn chạm lộng, và họa tiết trang trí được đắp nổi hoặc vẽ cách điệu cũng phù hợp với phong cách gốm Phu Lang. Ngoài ra, màu sắc của cốt đất nâu đỏ, nâu xám đặc trưng của đất sét nung ở nhiệt độ thấp đến trung bình cũng tương đồng với đặc điểm của gốm Phu Lang. Các dấu vết nung trong lò củi truyền thống và bề mặt có độ không đồng nhất cao cũng hỗ trợ cho giả thuyết này.",
+        "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "latency_s": 1.694
+        "latency_s": 1.708
       },
       "gemini": {
-        "raw_prediction": "Gốm Hương Sa (Hương Sa Ceramics)",
-        "predicted_label": null,
-        "confidence": 0.95,
-        "evidence": "My analysis is anchored in the robust evidence of material, technique, and aesthetic. The pottery exhibits a distinct unglazed (gốm mộc) or lightly matte surface on terracotta and coarse earthenware, characterized by earthy red-brown and gray-brown body colors. This material choice and firing method, evidenced by 'fire clouds' and inconsistent surface texture, are hallmarks of traditional, often wood-fired, kilns common in Southeast Asian village production.\n\n**Motifs & Cultural Symbolism:** The prominent use of geometric cut-outs, particularly diamond shapes, and openwork floral patterns (chạm lộng) is significant. While geometric patterns are universal, their application in conjunction with relief (đắp nổi) and hand-painted stylized motifs on an unglazed surface is highly indicative. In Vietnamese culture, simplified floral motifs, abstract patterns, and auspicious symbols (though not overtly depicted here) are frequently integrated into everyday and decorative ceramics. The diamond ",
-        "is_correct": false,
-        "is_hallucinated": true,
-        "error": null,
-        "latency_s": 21.822
-      },
-      "acis": {
-        "raw_prediction": "Bat Trang",
-        "predicted_label": "Bat Trang",
-        "confidence": 0.9,
-        "evidence": "The Global Ceramics Expert provided the most comprehensive analysis, highlighting specific characteristics such as the unglazed or lightly matte surface, the use of terracotta and coarse earthenware, and the distinctive decoration techniques like openwork and relief. These features align closely with Bat Trang ceramics, known for their rustic aesthetic and traditional methods. The Google Lens results did not contradict this assessment, and the visual features extracted from the image strongly support the Bat Trang attribution, particularly the color, glaze type, and decoration techniques. The consensus among the agents, coupled with the visual evidence, supports a high confidence level in this prediction.",
-        "is_correct": false,
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.8,
+        "evidence": "Dựa trên các đặc trưng về màu sắc, lớp men, họa tiết và cốt đất, mẫu hiện vật này có nhiều điểm tương đồng với dòng gốm Phu Lang. Màu sắc nâu đỏ đất nung, vàng kem nhạt, nâu xám trầm, trắng sữa và lớp men mờ nhẹ là những đặc điểm điển hình của gốm Phu Lang. Họa tiết hình học cắt tỉa, hoa văn chạm lộng và các họa tiết trang trí được đắp nổi hoặc vẽ cách điệu cũng là những yếu tố thường thấy trong gốm Phu Lang. Ngoài ra, cốt đất nâu đỏ, nâu xám đặc trưng của đất sét nung ở nhiệt độ thấp đến trung bình cũng là một điểm tương đồng. Phong cách gốm thủ công dân gian, tập trung vào tính ứng dụng và trang trí nội thất sân vườn cũng phù hợp với đặc điểm của gốm Phu Lang.",
+        "is_correct": true,
         "is_hallucinated": false,
         "error": null,
-        "iterations": 1,
-        "latency_s": 27.172
+        "latency_s": 7.053
+      },
+      "acis": {
+        "raw_prediction": "Phu Lang",
+        "predicted_label": "Phu Lang",
+        "confidence": 0.85,
+        "evidence": "Các đặc trưng về màu sắc nâu đỏ, nâu xám và trắng sữa, cùng với kỹ thuật trang trí chạm lộng và đắp nổi, phù hợp với dòng gốm Phu Lang. Cả ba chuyên gia đều nhất trí rằng mẫu gốm này có nhiều điểm tương đồng với gốm Phu Lang, và các đặc điểm như bề mặt gốm mộc không bóng, họa tiết hình học cắt tỉa, và dấu vết nung trong lò củi truyền thống đều hỗ trợ cho kết luận này. Google Lens cũng không đưa ra kết quả nào mâu thuẫn với nhận định này, mà chỉ cung cấp thông tin về gốm Bát Tràng, nhưng không đủ mạnh để thay đổi phán quyết.",
+        "is_correct": true,
+        "is_hallucinated": false,
+        "error": null,
+        "iterations": 1
       }
     },
     "total_time_s": 27.176

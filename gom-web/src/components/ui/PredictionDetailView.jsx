@@ -73,12 +73,12 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
   const result = prediction.result || prediction.result_json || prediction;
   const finalReport = { ...(result.final_report || result) };
   
-  let label = finalReport.final_prediction || prediction.predicted_label || prediction.label || '—';
-  let country = finalReport.final_country || prediction.country || '—';
-  let era = finalReport.final_era || prediction.era || '—';
+  let label = String(finalReport.final_prediction || prediction.predicted_label || prediction.label || '—');
+  let country = String(finalReport.final_country || prediction.country || '—');
+  let era = String(finalReport.final_era || prediction.era || '—');
 
   // Detect non-pottery images
-  const isNonPottery = label.includes('không phải gốm') || label.includes('non-pottery') || (result.is_pottery === false);
+  const isNonPottery = (typeof label === 'string' && (label.includes('không phải gốm') || label.includes('non-pottery'))) || (result.is_pottery === false);
   
   const isLens = prediction.source_type === 'lens' || result.isLensMode;
 
