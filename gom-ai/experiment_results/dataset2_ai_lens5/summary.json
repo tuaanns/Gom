@@ -12,7 +12,7 @@
     "gemini": {
       "total": 10,
       "correct": 7,
-      "errors": 1,
+      "errors": 0,
       "accuracy": 70.0,
       "macro_precision": 50.0,
       "macro_recall": 50.0,
@@ -103,7 +103,7 @@
         },
         "Jingdezhen": {
           "tp": 0,
-          "fp": 2,
+          "fp": 3,
           "fn": 0,
           "precision": 0.0,
           "recall": 0.0,

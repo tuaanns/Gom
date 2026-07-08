@@ -103,7 +103,7 @@ SIMULATED_PREDICTIONS = {
         "confidence": 0.85,
         "evidence": "Sứ Meissen Đức..."
     },
-    "images/07_kakiemon/061_07_kakiemon_01_vase.jpg": {
+    "images/07_arita/061_07_arita_01_vase.jpg": {
         "prediction": {"ceramic_line": "Arita Imari", "country": "Nhật Bản", "era": "Thế kỷ 17", "style": "Imari"},
         "confidence": 0.80,
         "evidence": "Sứ Arita Imari Nhật Bản..."
