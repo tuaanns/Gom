@@ -323,6 +323,7 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
         isLens={isLens}
         lensResults={lensResults}
         lensStatus={lensStatus}
+        isNonPottery={isNonPottery}
       />
     </div>
   );
@@ -332,7 +333,7 @@ export const PredictionDetailView = ({ prediction, imageUrl, showUserInfo = true
 const translationCache = new Map();
 
 // AI Result Sections Component
-const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeatures, result, showDebugInfo, isLens, lensResults, lensStatus }) => {
+const AIResultSections = ({ agentPredictions, debate, finalReport, visualFeatures, result, showDebugInfo, isLens, lensResults, lensStatus, isNonPottery }) => {
   const { t, i18n } = useTranslation();
   const lang = i18n.language;
   const [translatedText, setTranslatedText] = React.useState(null);
