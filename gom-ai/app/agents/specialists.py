@@ -117,7 +117,7 @@ class GrokAgent(BaseAgent):
                 "Very methodical and evidence-driven, focuses exclusively on physical material characteristics visible in the image."
             ),
             provider="groq",
-            model_id="llama-3.3-70b-versatile",
+            model_id="llama-3.1-8b-instant",
         )
 
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi", is_synthetic: bool = False, target_country: str = None) -> dict:
@@ -200,7 +200,7 @@ class GeminiAgent(BaseAgent):
             name="Chuyên Gia Gốm Toàn Cầu",
             personality="A specialist in worldwide ceramics, spanning Asian (Vietnamese, Chinese, Japanese), European (Meissen, Delftware, Wedgwood), and Middle Eastern styles. Understands symbolism, global trade routes, local clays, and regional kiln signatures across different continents.",
             provider="google",
-            model_id="gemini-2.5-flash",
+            model_id="gemini-1.5-flash-8b",
         )
 
     async def predict(self, visual_features: dict, lens_results: list = None, lang: str = "vi", is_synthetic: bool = False, target_country: str = None) -> dict:

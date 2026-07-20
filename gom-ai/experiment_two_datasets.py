@@ -62,16 +62,16 @@ CANONICAL_LABELS = [
 ]
 
 ALIASES = {
-    "Bat Trang": ["bat trang", "gom bat trang", "bat trang ceramics"],
-    "Bien Hoa": ["bien hoa", "gom bien hoa", "bien hoa ceramics"],
-    "Phu Lang": ["phu lang", "gom phu lang", "phu lang ceramics"],
-    "Chu Dau": ["chu dau", "gom chu dau", "chu dau ceramics"],
-    "Bau Truc": ["bau truc", "gom bau truc", "bau truc ceramics"],
-    "Goryeo Celadon": ["goryeo", "goryeo celadon", "korean celadon", "celadon goryeo"],
-    "Arita Imari": ["arita", "imari", "kakiemon", "arita imari", "arita kakiemon"],
-    "Delftware": ["delft", "delftware", "delft blue", "royal delft"],
-    "Iznik": ["iznik", "iznik pottery", "iznik ware"],
-    "Meissen": ["meissen", "meissen porcelain"],
+    "Bat Trang": ["bat trang", "gom bat trang", "bat trang ceramics", "men ran bat trang", "men lam bat trang", "bat trang porcelain"],
+    "Bien Hoa": ["bien hoa", "gom bien hoa", "bien hoa ceramics", "bien hoa majolica", "men xanh bien hoa", "men bien hoa", "tro bien hoa"],
+    "Phu Lang": ["phu lang", "gom phu lang", "phu lang ceramics", "men da luon", "men sat phu lang", "gom nau phu lang"],
+    "Chu Dau": ["chu dau", "gom chu dau", "chu dau ceramics", "chu dau porcelain", "ve lam chu dau"],
+    "Bau Truc": ["bau truc", "gom bau truc", "bau truc ceramics", "dat nung bau truc", "bau truc terracotta", "gom cham bau truc"],
+    "Goryeo Celadon": ["goryeo", "goryeo celadon", "korean celadon", "celadon goryeo", "men ngoc goryeo", "men ngoc han quoc", "goryeo ware"],
+    "Arita Imari": ["arita", "imari", "kakiemon", "arita imari", "arita kakiemon", "japanese imari", "gom arita"],
+    "Delftware": ["delft", "delftware", "delft blue", "royal delft", "gom delft", "ha lan delft"],
+    "Iznik": ["iznik", "iznik pottery", "iznik ware", "iznik ceramic", "tho nhy ky iznik"],
+    "Meissen": ["meissen", "meissen porcelain", "meissen duc", "su meissen"],
     "Jingdezhen": ["jingdezhen", "canh duc tran", "jingdezhen porcelain", "famille rose", "fencai", "famille verte"],
     "Aynsley Pembroke": ["aynsley", "aynsley pembroke", "pembroke"],
     "Noritake": ["noritake", "noritake floral"],
@@ -168,23 +168,11 @@ async def get_visual_features(
     cache: dict,
     cache_path: Path,
 ) -> dict:
-    key = image["filename"]
-    cached = cache.get(key)
-    if isinstance(cached, list):
-        cached = next((item for item in cached if isinstance(item, dict)), None)
-        if cached is not None:
-            cache[key] = cached
-            save_json(cache_path, cache)
-    if key in FORCE_VISION_FILENAMES:
-        cached = None
-    if isinstance(cached, dict) and "error" not in cached:
-        return cached
+    # Always perform live visual feature analysis without reading cache
     image_bytes = Path(image["path"]).read_bytes()
     features = await vision.analyze(image_bytes)
     if isinstance(features, list):
         features = next((item for item in features if isinstance(item, dict)), {})
-    cache[key] = features
-    save_json(cache_path, cache)
     return features
 
 
