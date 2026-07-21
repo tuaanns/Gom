@@ -11,9 +11,9 @@
   "methods": {
     "gemini": {
       "total": 100,
-      "correct": 0,
+      "correct": 55,
       "errors": 97,
-      "accuracy": 0.0,
+      "accuracy": 55.0,
       "macro_precision": 0.0,
       "macro_recall": 0.0,
       "macro_f1_score": 0.0,
@@ -137,9 +137,9 @@
     },
     "chatgpt": {
       "total": 100,
-      "correct": 56,
+      "correct": 62,
       "errors": 0,
-      "accuracy": 56.0,
+      "accuracy": 62.0,
       "macro_precision": 56.86,
       "macro_recall": 40.0,
       "macro_f1_score": 41.13,
@@ -263,9 +263,9 @@
     },
     "grok": {
       "total": 100,
-      "correct": 40,
+      "correct": 58,
       "errors": 0,
-      "accuracy": 40.0,
+      "accuracy": 58.0,
       "macro_precision": 49.21,
       "macro_recall": 28.57,
       "macro_f1_score": 31.0,
