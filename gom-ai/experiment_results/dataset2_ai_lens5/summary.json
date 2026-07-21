@@ -1,0 +1,25 @@
+{
+  "dataset_size": 100,
+  "methods": {
+    "chatgpt": {
+      "total": 100,
+      "correct": 64,
+      "accuracy": 64.0
+    },
+    "gemini": {
+      "total": 100,
+      "correct": 56,
+      "accuracy": 56.0
+    },
+    "grok": {
+      "total": 100,
+      "correct": 59,
+      "accuracy": 59.0
+    },
+    "acis": {
+      "total": 100,
+      "correct": 92,
+      "accuracy": 92.0
+    }
+  }
+}
