@@ -102,15 +102,27 @@ class PaymentController extends Controller
 
         if ($paymentMethod === 'vnpay') {
             $vnp_Url = env('VNP_URL', "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html");
-            $vnp_Returnurl = env('VNP_RETURN_URL', "http://localhost:3000/payment/vnpay-return");
+            $defaultReturnUrl = "https://thearchivistai.vercel.app/payment/vnpay-return";
+            $origin = $request->header('origin') ?: $request->header('referer');
+            if ($origin) {
+                $parsedOrigin = parse_url($origin);
+                if (!empty($parsedOrigin['host'])) {
+                    $scheme = $parsedOrigin['scheme'] ?? 'https';
+                    $port = !empty($parsedOrigin['port']) ? ':' . $parsedOrigin['port'] : '';
+                    if (str_contains($parsedOrigin['host'], 'vercel.app') || str_contains($parsedOrigin['host'], 'thearchivist')) {
+                        $defaultReturnUrl = $scheme . '://' . $parsedOrigin['host'] . $port . '/payment/vnpay-return';
+                    }
+                }
+            }
+            $vnp_Returnurl = env('VNP_RETURN_URL', $defaultReturnUrl);
             
             $via = $request->input('via');
             if ($via === 'app') {
                 $connector = str_contains($vnp_Returnurl, '?') ? '&' : '?';
                 $vnp_Returnurl .= $connector . 'via=app';
             }
-            $vnp_TmnCode = env('VNP_TMN_CODE', "2QXGZSTR");
-            $vnp_HashSecret = env('VNP_HASH_SECRET', "NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW");
+            $vnp_TmnCode = env('VNP_TMN_CODE', "P0IBQBGY");
+            $vnp_HashSecret = env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
             
             $vnp_TxnRef = $payment->id;
             $vnp_OrderInfo = "GOM NAP TOKEN " . $hexId;
@@ -300,7 +312,7 @@ class PaymentController extends Controller
             }
         }
         
-        $vnp_HashSecret = env('VNP_HASH_SECRET', "NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW");
+        $vnp_HashSecret = env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
         
         if ($secureHash === $vnp_SecureHash) {
@@ -353,7 +365,7 @@ class PaymentController extends Controller
                 }
             }
             
-            $vnp_HashSecret = env('VNP_HASH_SECRET', "NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW");
+            $vnp_HashSecret = env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
             $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
             
             if ($secureHash === $vnp_SecureHash) {
