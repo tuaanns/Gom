@@ -114,15 +114,21 @@ class PaymentController extends Controller
                     }
                 }
             }
-            $vnp_Returnurl = env('VNP_RETURN_URL', $defaultReturnUrl);
+            $vnp_Returnurl = \App\Models\Setting::getByKey('vnp_return_url') ?: env('VNP_RETURN_URL', $defaultReturnUrl);
             
             $via = $request->input('via');
             if ($via === 'app') {
                 $connector = str_contains($vnp_Returnurl, '?') ? '&' : '?';
                 $vnp_Returnurl .= $connector . 'via=app';
             }
-            $vnp_TmnCode = env('VNP_TMN_CODE', "P0IBQBGY");
-            $vnp_HashSecret = env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
+            $vnp_TmnCode = \App\Models\Setting::getByKey('vnp_tmn_code') ?: env('VNP_TMN_CODE', "P0IBQBGY");
+            if ($vnp_TmnCode === 'MS44J0V3' || $vnp_TmnCode === '2QXGZSTR') {
+                $vnp_TmnCode = "P0IBQBGY";
+            }
+            $vnp_HashSecret = \App\Models\Setting::getByKey('vnp_hash_secret') ?: env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
+            if ($vnp_HashSecret === 'UGDYN8NTP5PKHBXX78CM4NLQ1FW5RX3B' || $vnp_HashSecret === 'NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW') {
+                $vnp_HashSecret = "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW";
+            }
             
             $vnp_TxnRef = $payment->id;
             $vnp_OrderInfo = "GOM NAP TOKEN " . $hexId;
@@ -312,7 +318,10 @@ class PaymentController extends Controller
             }
         }
         
-        $vnp_HashSecret = env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
+        $vnp_HashSecret = \App\Models\Setting::getByKey('vnp_hash_secret') ?: env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
+        if ($vnp_HashSecret === 'UGDYN8NTP5PKHBXX78CM4NLQ1FW5RX3B' || $vnp_HashSecret === 'NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW') {
+            $vnp_HashSecret = "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW";
+        }
         $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
         
         if ($secureHash === $vnp_SecureHash) {
@@ -365,7 +374,10 @@ class PaymentController extends Controller
                 }
             }
             
-            $vnp_HashSecret = env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
+            $vnp_HashSecret = \App\Models\Setting::getByKey('vnp_hash_secret') ?: env('VNP_HASH_SECRET', "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW");
+            if ($vnp_HashSecret === 'UGDYN8NTP5PKHBXX78CM4NLQ1FW5RX3B' || $vnp_HashSecret === 'NDWSHBWWGIPHGLQOQEYVNJVUNWLEQYQW') {
+                $vnp_HashSecret = "HOZGTXIEUOVTLZZNSCSGXJUWDPBEVXNW";
+            }
             $secureHash = hash_hmac('sha512', $hashData, $vnp_HashSecret);
             
             if ($secureHash === $vnp_SecureHash) {
